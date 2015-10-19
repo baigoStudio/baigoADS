@@ -1,0 +1,55 @@
+{
+	"name": "弹出窗",
+	"plugin": "admsPopup",
+	"selector": "#admsPopup",
+	"ispercent": "enable",
+	"type": "media",
+	"note": "本脚本需要 jQuery 支持",
+	"opts": [
+		{
+			"field": "loading",
+			"label": "载入消息",
+			"value": "正在载入广告 ..."
+		},
+		{
+			"field": "position",
+			"label": "位置（可选 left-top、right-top、left-bottom、right-bottom）",
+			"value": "right-bottom"
+		},
+		{
+			"field": "top",
+			"label": "上边距（定位为 left-top、right-top 时有效）",
+			"value": "0"
+		},
+		{
+			"field": "bottom",
+			"label": "下边距（定位为 left-bottom、right-bottom 时有效）",
+			"value": "0"
+		},
+		{
+			"field": "left",
+			"label": "左边距（定位为 left-top、left-bottom 时有效）",
+			"value": "0"
+		},
+		{
+			"field": "right",
+			"label": "右边距（定位为 right-top、right-bottom 时有效）",
+			"value": "0"
+		},
+		{
+			"field": "remain",
+			"label": "停留时间（毫秒）",
+			"value": "10000"
+		},
+		{
+			"field": "speed",
+			"label": "展开收起速度（可选 slow、normal、fast 或 毫秒）",
+			"value": "slow"
+		},
+		{
+			"field": "close",
+			"label": "关闭文本",
+			"value": "&times; 关闭"
+		}
+	]
+}

@@ -1,0 +1,3 @@
+.floatChild { position: fixed; overflow: hidden; }
+.floatChild .btn_close a { background: #ccc; padding: 3px 5px; color: #666; text-decoration: none!important; }
+.floatChild .btn_close a:hover { background: #666; color: #ccc; }

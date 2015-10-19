@@ -1,0 +1,11 @@
+.global { max-width: 600px!important; margin: 40px auto; }
+label.control-label > span { color: #c30; margin-left: 10px; }
+
+.panel_adms { border-color: #ff95c3; }
+.panel_adms > .panel-heading {
+  color: #333;
+  background-color: #ffe6f1;
+  border-color: #ff95c3;
+}
+
+.text_md { height: 200px!important; }

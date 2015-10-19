@@ -1,0 +1,5 @@
+.throughChild { width: 100%; background: rgba(0, 0, 0, .8); text-align: center; position: fixed; overflow: hidden; }
+
+.throughChild .btn_close { position: absolute; }
+.throughChild .btn_close a { display: block; background: #ccc; padding: 3px 5px; color: #333; text-decoration: none!important; }
+.throughChild .btn_close a:hover { background: #666; color: #ccc; }

@@ -1,0 +1,25 @@
+{
+	"name": "巨幕",
+	"plugin": "admsJumbotron",
+	"selector": "#admsJumbotron",
+	"ispercent": "enable",
+	"type": "media",
+	"note": "本脚本需要 jQuery 支持",
+	"opts": [
+		{
+			"field": "loading",
+			"label": "载入消息",
+			"value": "正在载入广告 ..."
+		},
+		{
+			"field": "remain",
+			"label": "停留时间（毫秒）",
+			"value": "5000"
+		},
+		{
+			"field": "speed",
+			"label": "收起速度（可选 slow、normal、fast 或 毫秒）",
+			"value": "slow"
+		}
+	]
+}

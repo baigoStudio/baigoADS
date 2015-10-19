@@ -1,0 +1,5 @@
+.popupChild { position: fixed; overflow: hidden; display: none; }
+
+.popupChild .btn_close { position: absolute; }
+.popupChild .btn_close a { display: block; background: #ccc; padding: 3px 5px; color: #666; text-decoration: none!important; }
+.popupChild .btn_close a:hover { background: #666; color: #ccc; }

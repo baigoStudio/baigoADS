@@ -1,0 +1,4 @@
+.coupletChild { position: absolute; overflow: hidden; }
+.coupletChild.right { text-align: right; }
+.coupletChild .btn_close a { background: #ccc; padding: 3px 5px; color: #666; text-decoration: none!important; border: none; }
+.coupletChild .btn_close a:hover { background: #666; color: #ccc; }
