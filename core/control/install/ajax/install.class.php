@@ -132,7 +132,7 @@ class AJAX_INSTALL {
 			$this->obj_ajax->halt_alert($_arr_return["alert"]);
 		}
 
-		$this->obj_ajax->halt_alert("y030407");
+		$this->obj_ajax->halt_alert("y030409");
 	}
 
 
