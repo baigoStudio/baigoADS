@@ -9,7 +9,7 @@ if(!defined("IN_BAIGO")) {
 	exit("Access Denied");
 }
 
-include_once(BG_PATH_CLASS . "tpl_admin.class.php");
+include_once(BG_PATH_CLASS . "tpl.class.php");
 include_once(BG_PATH_MODEL . "media.class.php");
 
 /*-------------用户类-------------*/

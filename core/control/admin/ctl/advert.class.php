@@ -9,7 +9,7 @@ if(!defined("IN_BAIGO")) {
 	exit("Access Denied");
 }
 
-include_once(BG_PATH_CLASS . "tpl_admin.class.php"); //载入模板类
+include_once(BG_PATH_CLASS . "tpl.class.php"); //载入模板类
 include_once(BG_PATH_MODEL . "advert.class.php"); //载入管理帐号模型
 include_once(BG_PATH_MODEL . "posi.class.php");
 include_once(BG_PATH_MODEL . "media.class.php");

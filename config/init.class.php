@@ -44,7 +44,6 @@ class CLASS_INIT {
 			"BG_PATH_TPL"             => array("BG_PATH_ROOT . BG_NAME_TPL . \"/\"", "const"),
 			"BG_PATH_MEDIA"           => array("BG_PATH_ROOT . BG_NAME_MEDIA . \"/\"", "const"),
 			"BG_PATH_SSO"             => array("BG_PATH_ROOT . BG_NAME_SSO . \"/\"", "const"),
-			"BG_PATH_API"             => array("BG_PATH_ROOT . BG_NAME_API . \"/\"", "const"),
 			"BG_PATH_STATIC"          => array("BG_PATH_ROOT . BG_NAME_STATIC . \"/\"", "const"),
 			"BG_PATH_CORE"            => array("BG_PATH_ROOT . BG_NAME_CORE . \"/\"", "const"),
 			"BG_PATH_MODULE"          => array("BG_PATH_CORE . BG_NAME_MODULE . \"/\"", "const"),

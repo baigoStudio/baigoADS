@@ -10,7 +10,7 @@ if(!defined("IN_BAIGO")) {
 }
 
 include_once(BG_PATH_FUNC . "http.func.php"); //载入 http
-include_once(BG_PATH_CLASS . "tpl_admin.class.php"); //载入模板类
+include_once(BG_PATH_CLASS . "tpl.class.php"); //载入模板类
 include_once(BG_PATH_CLASS . "sso.class.php");
 
 /*-------------管理员控制器-------------*/
