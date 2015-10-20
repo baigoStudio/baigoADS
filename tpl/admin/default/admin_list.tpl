@@ -26,6 +26,12 @@
 					</a>
 				</li>
 				<li>
+					<a href="{$smarty.const.BG_URL_ADMIN}ctl.php?mod=admin&act_get=auth">
+						<span class="glyphicon glyphicon-ok-sign"></span>
+						{$lang.href.auth}
+					</a>
+				</li>
+				<li>
 					<a href="{$smarty.const.BG_URL_HELP}ctl.php?mod=admin&act_get=admin" target="_blank">
 						<span class="glyphicon glyphicon-question-sign"></span>
 						{$lang.href.help}

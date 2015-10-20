@@ -72,6 +72,10 @@ switch ($GLOBALS["act_post"]) {
 
 	default:
 		switch ($GLOBALS["act_get"]) {
+			case "chkname":
+				$ajax_install->ajax_chkname();
+			break;
+
 			case "chkauth":
 				$ajax_install->ajax_chkauth();
 			break;

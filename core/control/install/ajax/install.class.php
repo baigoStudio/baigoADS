@@ -177,34 +177,56 @@ class AJAX_INSTALL {
 			$this->obj_ajax->halt_alert($_arr_adminSubmit["alert"]);
 		}
 
-		$_arr_adminPass = validateStr(fn_post("admin_pass"), 1, 0);
-		switch ($_arr_adminPass["status"]) {
-			case "too_short":
-				$this->obj_ajax->halt_alert("x020205");
-			break;
+		$_arr_adminInput = $this->input_admin();
 
-			case "ok":
-				$_str_adminPass = $_arr_adminPass["str"];
-			break;
+		if ($_arr_adminInput["alert"] != "ok") {
+			$this->obj_ajax->halt_alert($_arr_adminInput["alert"]);
 		}
 
-		$_arr_adminPassConfirm = validateStr(fn_post("admin_pass_confirm"), 1, 0);
-		switch ($_arr_adminPassConfirm["status"]) {
-			case "too_short":
-				$this->obj_ajax->halt_alert("x020211");
-			break;
+		$_obj_sso = new CLASS_SSO();
 
-			case "ok":
-				$_str_adminPassConfirm = $_arr_adminPassConfirm["str"];
-			break;
+		$_arr_ssoReg = $_obj_sso->sso_reg($_arr_adminSubmit["admin_name"], $this->adminSubmit["admin_pass"], $_arr_adminSubmit["admin_mail"], $_arr_adminSubmit["admin_nick"]);
+		if ($_arr_ssoReg["alert"] != "y010101") {
+			$this->obj_ajax->halt_alert($_arr_ssoReg["alert"]);
 		}
 
-		if ($_str_adminPass != $_str_adminPassConfirm) {
-			$this->obj_ajax->halt_alert("x020206");
-		}
-
+		$_mdl_admin->mdl_submit($_arr_ssoReg["user_id"]);
 
 		$this->obj_ajax->halt_alert("y030407");
+	}
+
+
+	function ajax_auth() {
+		$this->check_db();
+
+		include_once(BG_PATH_MODEL . "admin.class.php"); //载入管理帐号模型
+		$_mdl_admin  = new MODEL_ADMIN(); //设置管理组模型
+
+		$_arr_adminSubmit = $_mdl_admin->input_submit();
+		if ($_arr_adminSubmit["alert"] != "ok") {
+			$this->obj_ajax->halt_alert($_arr_adminSubmit["alert"]);
+		}
+
+		$_obj_sso = new CLASS_SSO();
+
+		$_arr_ssoGet = $_obj_sso->sso_get($_arr_adminSubmit["admin_name"], "user_name");
+		if ($_arr_ssoGet["alert"] != "y010102") {
+			if ($_arr_ssoGet["alert"] == "x010102") {
+				$this->obj_ajax->halt_alert("x020205");
+			} else {
+				$this->obj_ajax->halt_alert($_arr_ssoGet["alert"]);
+			}
+		} else {
+			//检验用户是否存在
+			$_arr_adminRow = $this->mdl_admin->mdl_read($_arr_ssoGet["user_id"]);
+			if ($_arr_adminRow["alert"] == "y020102") {
+				$this->obj_ajax->halt_alert("x020214");
+			}
+		}
+
+		$_mdl_admin->mdl_submit($_arr_ssoGet["user_id"]);
+
+		$this->obj_ajax->halt_alert("y030409");
 	}
 
 
@@ -275,6 +297,65 @@ class AJAX_INSTALL {
 		}
 
 		$this->obj_ajax->halt_alert("y030411");
+	}
+
+
+	function ajax_chkname() {
+		$this->check_db();
+
+		include_once(BG_PATH_MODEL . "admin.class.php"); //载入管理帐号模型
+		$_mdl_admin   = new MODEL_ADMIN(); //设置管理组模型
+		$_obj_sso     = new CLASS_SSO();
+
+		$_str_adminName   = fn_getSafe(fn_get("admin_name"), "txt", "");
+		$_arr_ssoGet      = $_obj_sso->sso_get($_str_adminName, "user_name");
+
+		if ($_arr_ssoGet["alert"] == "y010102") {
+			$_arr_adminRow = $_mdl_admin->mdl_read($_arr_ssoGet["user_id"]);
+			if ($_arr_adminRow["alert"] == "y020102") {
+				$this->obj_ajax->halt_re("x020214");
+			} else {
+				$this->obj_ajax->halt_re("x020204");
+			}
+		}
+
+		$arr_re = array(
+			"re" => "ok"
+		);
+
+		exit(json_encode($arr_re));
+	}
+
+
+	function ajax_chkauth() {
+		$this->check_db();
+
+		include_once(BG_PATH_MODEL . "admin.class.php"); //载入管理帐号模型
+		$_mdl_admin   = new MODEL_ADMIN(); //设置管理组模型
+		$_obj_sso     = new CLASS_SSO();
+
+		$_str_adminName   = fn_getSafe(fn_get("admin_name"), "txt", "");
+		$_arr_ssoGet      = $_obj_sso->sso_get($_str_adminName, "user_name");
+
+		if ($_arr_ssoGet["alert"] == "y010102") {
+			//检验用户是否存在
+			$_arr_adminRow = $_mdl_admin->mdl_read($_arr_ssoGet["user_id"]);
+			if ($_arr_adminRow["alert"] == "y020102") {
+				$this->obj_ajax->halt_re("x020214");
+			}
+		} else {
+			if ($_arr_ssoGet["alert"] == "x010102") {
+				$this->obj_ajax->halt_re("x020205");
+			} else {
+				$this->obj_ajax->halt_re($_arr_ssoGet["alert"]);
+			}
+		}
+
+		$arr_re = array(
+			"re" => "ok"
+		);
+
+		exit(json_encode($arr_re));
 	}
 
 
@@ -372,6 +453,27 @@ class AJAX_INSTALL {
 		$this->adminSubmit["alert"]       = "ok";
 
 		return $this->adminSubmit;
+	}
+
+
+	private function input_auth() {
+		$_arr_adminPass = validateStr(fn_post("admin_pass"), 1, 0);
+		switch ($_arr_adminPass["status"]) {
+			case "too_short":
+				return array(
+					"alert" => "x020210",
+				);
+				exit;
+			break;
+
+			case "ok":
+				$this->adminAuth["admin_pass"] = $_arr_adminPass["str"];
+			break;
+		}
+
+		$this->adminAuth["alert"]         = "ok";
+
+		return $this->adminAuth;
 	}
 
 

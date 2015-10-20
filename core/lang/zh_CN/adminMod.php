@@ -100,6 +100,11 @@ return array(
 				"mod"       => "admin",
 				"act_get"   => "form",
 			),
+			"auth" => array(
+				"title"     => "授权为管理员",
+				"mod"       => "admin",
+				"act_get"   => "auth",
+			),
 		),
 		"allow" => array(
 			"browse" => "浏览",

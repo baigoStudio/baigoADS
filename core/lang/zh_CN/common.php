@@ -27,6 +27,7 @@ return array(
 		"show"            => "查看",
 		"profile"         => "管理员个人信息",
 		"pass"            => "修改密码",
+		"auth"            => "授权", //授权
 
 		"upgrade"         => "baigo ADMS 升级程序",
 		"upgradeDbtable"  => "升级数据库",
@@ -58,6 +59,7 @@ return array(
 		"preview"         => "预览",
 		"upload"          => "上传",
 		"select"          => "选择",
+		"auth"            => "授权", //授权
 
 		"advertMan"       => "管理广告",
 		"posiPreview"     => "预览 / 获取代码",
@@ -66,6 +68,9 @@ return array(
 		"statYear"        => "年统计",
 		"statMonth"       => "月统计",
 		"statDay"         => "日统计",
+
+		"adminAdd"        => "创建管理员", //授权
+		"adminAuth"       => "授权为管理员", //授权
 
 		"ssoAuto"         => "SSO 自动部署", //尾页
 		"ssoUpgrade"      => "SSO 升级", //尾页
@@ -96,7 +101,7 @@ return array(
 		"note"            => "备注",
 		"nick"            => "昵称",
 		"allow"           => "权限",
-		"modOnly"         => "（需修改时输入）",
+		"modOnly"         => "需修改时输入",
 		"submitting"      => "正在提交 ...",
 		"size"            => "尺寸",
 		"width"           => "宽度",
@@ -249,6 +254,8 @@ return array(
 		"installSso"      => "baigo ADMS 的用户以及后台登录需要 baigo SSO 支持，baigo SSO 的部署方式，请查看 <a href=\"http://www.baigo.net/sso/\" target=\"_blank\">baigo SSO 官方网站</a>。如果您的网站没有部署 baigo SSO，请点击 <mark>SSO 自动部署</mark>。",
 		"upgradeSso"      => "baigo ADMS 的用户以及后台登录需要 baigo SSO 支持，baigo SSO 的部署方式，请查看 <a href=\"http://www.baigo.net/sso/\" target=\"_blank\">baigo SSO 官方网站</a>。baigo SSO 的升级与 baigo ADMS 的升级并无直接关联，如果您要检查 baigo SSO 是否可升级，请点击 <mark>SSO 升级</mark>。",
 		"installSsoAdmin" => "本操作将同时为 baigo ADMS 与 baigo SSO 创建管理员，拥有所有的管理权限。请牢记用户名与密码。",
+		"installAdmin"    => "本操作将向 baigo SSO 注册新用户，并自动将新注册的用户授权为超级管理员，拥有所有的管理权限。如果您之前已经部署有 baigo SSO，并且不想注册新用户，只希望使用原有的 baigo SSO 用户作为管理员，请点击 <mark>授权为管理员</mark>。",
+		"installAuth"     => "本操作将用您输入的 baigo SSO 用户作为管理员，拥有所有的管理权限。您必须输入该用户的用户名和密码才能进行授权。如果您要创建新的管理员请点击 <mark>创建管理员</mark>。",
 		"posiCodeNote"    => "该代码用于显示广告，请根据实际情况灵活运用。建议将示例代码中的 <mark>广告样式</mark> 放置在网页的 <code>head</code> 之间，<mark>显示容器</mark> 放置在网页显示广告的位置，其余部分放置在网页的 <code>body</code> 末尾。",
 	),
 

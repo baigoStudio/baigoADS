@@ -117,7 +117,17 @@ class AJAX_ADMIN {
 
 		$_arr_ssoGet = $this->obj_sso->sso_get($_arr_adminSubmit["admin_name"], "user_name");
 		if ($_arr_ssoGet["alert"] != "y010102") {
-			$this->obj_ajax->halt_alert($_arr_ssoGet["alert"]);
+			if ($_arr_ssoGet["alert"] == "x010102") {
+				$this->obj_ajax->halt_alert("x020205");
+			} else {
+				$this->obj_ajax->halt_alert($_arr_ssoGet["alert"]);
+			}
+		} else {
+			//检验用户是否存在
+			$_arr_adminRow = $this->mdl_admin->mdl_read($_arr_ssoGet["user_id"]);
+			if ($_arr_adminRow["alert"] == "y020102") {
+				$this->obj_ajax->halt_alert("x020214");
+			}
 		}
 
 		$_arr_adminRow = $this->mdl_admin->mdl_submit($_arr_ssoGet["user_id"]);
@@ -179,6 +189,7 @@ class AJAX_ADMIN {
 		$this->obj_ajax->halt_alert($_arr_adminRow["alert"]);
 	}
 
+
 	/**
 	 * ajax_chkname function.
 	 *
@@ -195,7 +206,7 @@ class AJAX_ADMIN {
 				//检验用户是否存在
 				$_arr_adminRow = $this->mdl_admin->mdl_read($_arr_ssoGet["user_id"]);
 				if ($_arr_adminRow["alert"] == "y020102") {
-					$this->obj_ajax->halt_re("x020206");
+					$this->obj_ajax->halt_re("x020214");
 				} else {
 					$this->obj_ajax->halt_re("x020204");
 				}
@@ -226,7 +237,7 @@ class AJAX_ADMIN {
 			//检验用户是否存在
 			$_arr_adminRow = $this->mdl_admin->mdl_read($_arr_ssoGet["user_id"]);
 			if ($_arr_adminRow["alert"] == "y020102") {
-				$this->obj_ajax->halt_re("x020206");
+				$this->obj_ajax->halt_re("x020214");
 			}
 		}
 

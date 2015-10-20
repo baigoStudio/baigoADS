@@ -224,6 +224,30 @@ class CONTROL_INSTALL {
 		);
 	}
 
+
+	function ctl_auth() {
+		if ($this->errCount > 0) {
+			return array(
+				"alert" => "x030417",
+			);
+			exit;
+		}
+
+		if (!$this->check_db()) {
+			return array(
+				"alert" => "x030404",
+			);
+			exit;
+		}
+
+		$this->obj_tpl->tplDisplay("install_auth.tpl", $this->tplData);
+
+		return array(
+			"alert" => "y030404",
+		);
+	}
+
+
 	/**
 	 * ctl_admin function.
 	 *

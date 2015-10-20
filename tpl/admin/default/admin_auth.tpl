@@ -1,16 +1,8 @@
 {* admin_form.tpl 管理员编辑界面 *}
-{if $tplData.adminRow.admin_id == 0}
-	{$title_sub    = $lang.page.add}
-	{$str_sub      = "form"}
-{else}
-	{$title_sub    = $lang.page.edit}
-	{$str_sub      = "list"}
-{/if}
-
 {$cfg = [
-	title          => "{$adminMod.admin.main.title} - {$title_sub}",
+	title          => "{$adminMod.admin.main.title} - {$lang.page.auth}",
 	menu_active    => "admin",
-	sub_active     => $str_sub,
+	sub_active     => "auth",
 	baigoCheckall  => "true",
 	baigoValidator => "true",
 	baigoSubmit    => "true",
@@ -21,7 +13,7 @@
 {include "{$smarty.const.BG_PATH_TPL}admin/default/include/admin_head.tpl" cfg=$cfg}
 
 	<li><a href="{$smarty.const.BG_URL_ADMIN}ctl.php?mod=admin&act_get=list">{$adminMod.admin.main.title}</a></li>
-	<li>{$title_sub}</li>
+	<li>{$lang.page.auth}</li>
 
 	{include "{$smarty.const.BG_PATH_TPL}admin/default/include/admin_left.tpl" cfg=$cfg}
 
@@ -42,47 +34,25 @@
 		</ul>
 	</div>
 
-	<form name="admin_form" id="admin_form" autocomplete="off">
+	<form name="admin_form" id="admin_form">
 		<input type="hidden" name="token_session" class="token_session" value="{$common.token_session}">
-		<input type="hidden" name="act_post" value="submit">
-		<input type="hidden" name="admin_id" id="admin_id" value="{$tplData.adminRow.admin_id}">
+		<input type="hidden" name="act_post" value="auth">
 
 		<div class="row">
 			<div class="col-md-9">
 				<div class="panel panel-default">
 					<div class="panel-body">
-						{if $tplData.adminRow.admin_id > 0}
-							<div class="form-group">
-								<label class="control-label">{$lang.label.username}</label>
-								<input type="text" name="admin_name" id="admin_name" value="{$tplData.adminRow.admin_name}" class="form-control" readonly>
+						<div class="form-group">
+							<div id="group_admin_name">
+								<label class="control-label">{$lang.label.username}<span id="msg_admin_name">*</span></label>
+								<input type="text" name="admin_name" id="admin_name" class="validate form-control">
 							</div>
-
-							<div class="form-group">
-								<div id="group_admin_pass">
-									<label class="control-label">{$lang.label.password}</label>
-									<input type="text" name="admin_pass" id="admin_pass" class="form-control" placeholder="{$lang.label.modOnly}">
-								</div>
-							</div>
-						{else}
-							<div class="form-group">
-								<div id="group_admin_name">
-									<label class="control-label">{$lang.label.username}<span id="msg_admin_name">*</span></label>
-									<input type="text" name="admin_name" id="admin_name" class="validate form-control">
-								</div>
-							</div>
-
-							<div class="form-group">
-								<div id="group_admin_pass">
-									<label class="control-label">{$lang.label.password}<span id="msg_admin_pass">*</span></label>
-									<input type="text" name="admin_pass" id="admin_pass" class="validate form-control">
-								</div>
-							</div>
-						{/if}
+						</div>
 
 						<div class="form-group">
 							<div id="group_admin_nick">
 								<label class="control-label">{$lang.label.nick}<span id="msg_admin_nick"></span></label>
-								<input type="text" name="admin_nick" id="admin_nick" value="{$tplData.ssoRow.user_nick}" class="validate form-control">
+								<input type="text" name="admin_nick" id="admin_nick" class="validate form-control">
 							</div>
 						</div>
 
@@ -106,7 +76,7 @@
 										</label>
 										{foreach $value_m.allow as $key_s=>$value_s}
 											<label for="allow_{$key_m}_{$key_s}" class="checkbox-inline">
-												<input type="checkbox" name="admin_allow[{$key_m}][{$key_s}]" value="1" id="allow_{$key_m}_{$key_s}" class="allow_{$key_m}" {if isset($tplData.adminRow.admin_allow[$key_m][$key_s])}checked{/if}>
+												<input type="checkbox" name="admin_allow[{$key_m}][{$key_s}]" value="1" id="allow_{$key_m}_{$key_s}" class="allow_{$key_m}">
 												{$value_s}
 											</label>
 										{/foreach}
@@ -118,7 +88,7 @@
 						<div class="form-group">
 							<div id="group_admin_note">
 								<label class="control-label">{$lang.label.note}<span id="msg_admin_note"></span></label>
-								<input type="text" name="admin_note" id="admin_note" value="{$tplData.adminRow.admin_note}" class="validate form-control">
+								<input type="text" name="admin_note" id="admin_note" class="validate form-control">
 							</div>
 						</div>
 
@@ -131,19 +101,12 @@
 
 			<div class="col-md-3">
 				<div class="well">
-					{if $tplData.adminRow.admin_id > 0}
-						<div class="form-group">
-							<label class="control-label">{$lang.label.id}</label>
-							<p class="form-control-static">{$tplData.adminRow.admin_id}</p>
-						</div>
-					{/if}
-
 					<label class="control-label">{$lang.label.status}<span id="msg_admin_status">*</span></label>
 					<div class="form-group">
 						{foreach $status.admin as $key=>$value}
 							<div class="radio_baigo">
 								<label for="admin_status_{$key}">
-									<input type="radio" name="admin_status" id="admin_status_{$key}" value="{$key}" class="validate" {if $tplData.adminRow.admin_status == $key}checked{/if} group="admin_status">
+									<input type="radio" name="admin_status" id="admin_status_{$key}" {if $tplData.adminRow.admin_status == $key}checked{/if} value="{$key}" class="validate" group="admin_status">
 									{$value}
 								</label>
 							</div>
@@ -154,13 +117,13 @@
 					<div class="form-group">
 						<div class="checkbox_baigo">
 							<label for="admin_allow_info">
-								<input type="checkbox" name="admin_allow[info]" id="admin_allow_info" value="1" {if isset($tplData.adminRow.admin_allow.info)}checked{/if}>
+								<input type="checkbox" name="admin_allow[info]" id="admin_allow_info" value="1">
 								{$lang.label.profileInfo}
 							</label>
 						</div>
 						<div class="checkbox_baigo">
 							<label for="admin_allow_pass">
-								<input type="checkbox" name="admin_allow[pass]" id="admin_allow_pass" value="1" {if isset($tplData.adminRow.admin_allow.pass)}checked{/if}>
+								<input type="checkbox" name="admin_allow[pass]" id="admin_allow_pass" value="1">
 								{$lang.label.profilePass}
 							</label>
 						</div>
@@ -179,12 +142,7 @@
 			length: { min: 1, max: 30 },
 			validate: { type: "ajax", format: "strDigit", group: "group_admin_name" },
 			msg: { id: "msg_admin_name", too_short: "{$alert.x020201}", too_long: "{$alert.x020202}", format_err: "{$alert.x020203}" },
-			ajax: { url: "{$smarty.const.BG_URL_ADMIN}ajax.php?mod=admin&act_get=chkname", key: "admin_name", type: "str", attach_selectors: ["#admin_id"], attach_keys: ["admin_id"] }
-		},
-		admin_pass: {
-			length: { min: 1, max: 0 },
-			validate: { type: "str", format: "text", group: "group_admin_pass" },
-			msg: { id: "msg_admin_pass", too_short: "{$alert.x020205}" }
+			ajax: { url: "{$smarty.const.BG_URL_ADMIN}ajax.php?mod=admin&act_get=chkauth", key: "admin_name", type: "str", attach_selectors: ["#admin_id"], attach_keys: ["admin_id"] }
 		},
 		admin_nick: {
 			length: { min: 0, max: 30 },
