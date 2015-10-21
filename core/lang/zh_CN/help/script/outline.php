@@ -5,7 +5,7 @@ return "<h3>概述</h3>
 	</p>
 
 	<p>
-		广告脚本存放于 ./static/advert/ 目录，开发者开发的脚本请存放在此，一个脚本一个目录，所有目录、文件名必须使用英文名，目录下必须有三个文件 script.js 为脚本文件、config.json 为配置文件、style.css 为样式文件，推荐加入 readme.txt 文件，方便使用者。
+		广告脚本存放于 ./script/ 目录，开发者开发的脚本请存放在此，一个脚本一个目录，所有目录、文件名必须使用英文名，目录下必须有三个文件 script.js 为脚本文件、config.json 为配置文件、style.css 为样式文件，推荐加入 readme.txt 文件，方便使用者。
 	</p>
 
 	<p>

@@ -138,13 +138,13 @@ class CONTROL_POSI {
 			);
 		}
 
-		$_arr_scriptRows = $this->obj_dir->list_dir(BG_PATH_STATIC . "advert/");
+		$_arr_scriptRows = $this->obj_dir->list_dir(BG_PATH_SCRIPT);
 
 		foreach ($_arr_scriptRows as $_key=>$_value) {
 			if ($_value["type"] == "file") {
 				unset($_arr_scriptRows[$_key]);
 			} else {
-				$_str_config = file_get_contents(BG_PATH_STATIC . "advert/" . $_value["name"] . "/config.json");
+				$_str_config = file_get_contents(BG_PATH_SCRIPT . $_value["name"] . "/config.json");
 				$_arr_scriptRows[$_key]["config"] = fn_jsonDecode($_str_config, "no");
 			}
 		}

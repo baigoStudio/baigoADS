@@ -39,6 +39,7 @@ class CLASS_INIT {
 			"BG_NAME_INSTALL"        => array("install", "str"),
 			"BG_NAME_API"            => array("api", "str"),
 			"BG_NAME_STATIC"         => array("static", "str"),
+			"BG_NAME_SCRIPT"         => array("script", "str"),
 			"BG_PATH_ROOT"           => array("str_replace(\"\\\\\", \"/\", substr(dirname(__FILE__), 0, strrpos(dirname(__FILE__), BG_NAME_CONFIG)))", "const"),
 			"BG_PATH_CONFIG"         => array("BG_PATH_ROOT . BG_NAME_CONFIG . \"/\"", "const"),
 			"BG_PATH_CACHE"          => array("BG_PATH_ROOT . BG_NAME_CACHE . \"/\"", "const"),
@@ -46,7 +47,7 @@ class CLASS_INIT {
 			"BG_PATH_COMPILE"        => array("BG_PATH_TPL . BG_NAME_COMPILE . \"/\"", "const"),
 			"BG_PATH_MEDIA"          => array("BG_PATH_ROOT . BG_NAME_MEDIA . \"/\"", "const"),
 			"BG_PATH_SSO"            => array("BG_PATH_ROOT . BG_NAME_SSO . \"/\"", "const"),
-			"BG_PATH_STATIC"         => array("BG_PATH_ROOT . BG_NAME_STATIC . \"/\"", "const"),
+			"BG_PATH_SCRIPT"         => array("BG_PATH_ROOT . BG_NAME_SCRIPT . \"/\"", "const"),
 			"BG_PATH_CORE"           => array("BG_PATH_ROOT . BG_NAME_CORE . \"/\"", "const"),
 			"BG_PATH_MODULE"         => array("BG_PATH_CORE . BG_NAME_MODULE . \"/\"", "const"),
 			"BG_PATH_CONTROL"        => array("BG_PATH_CORE . BG_NAME_CONTROL . \"/\"", "const"),
@@ -65,6 +66,7 @@ class CLASS_INIT {
 			"BG_URL_INSTALL"         => array("BG_URL_ROOT . BG_NAME_INSTALL . \"/\"", "const"),
 			"BG_URL_API"             => array("BG_URL_ROOT . BG_NAME_API . \"/\"", "const"),
 			"BG_URL_STATIC"          => array("BG_URL_ROOT . BG_NAME_STATIC . \"/\"", "const"),
+			"BG_URL_SCRIPT"          => array("BG_URL_ROOT . BG_NAME_SCRIPT . \"/\"", "const"),
 		);
 	}
 

@@ -32,11 +32,6 @@
 		</div>
 
 		<div class="form-group">
-			<label class="control-label">{$lang.label.password}<span id="msg_admin_pass">*</span></label>
-			<input type="password" name="admin_pass" id="admin_pass" class="validate form-control input-lg">
-		</div>
-
-		<div class="form-group">
 			<div class="btn-group">
 				<button type="button" id="go_next" class="btn btn-primary btn-lg">{$lang.btn.submit}</button>
 				{include "{$smarty.const.BG_PATH_TPL}install/default/include/install_drop.tpl" cfg=$cfg}
@@ -53,11 +48,6 @@
 			validate: { type: "ajax", format: "strDigit" },
 			msg: { id: "msg_admin_name", too_short: "{$alert.x020201}", too_long: "{$alert.x020202}", format_err: "{$alert.x020203}", ajaxIng: "{$alert.x030401}", ajax_err: "{$alert.x030402}" },
 			ajax: { url: "{$smarty.const.BG_URL_INSTALL}ajax.php?mod=install&act_get=chkauth", key: "admin_name", type: "str" }
-		},
-		admin_pass: {
-			length: { min: 1, max: 0 },
-			validate: { type: "str", format: "text" },
-			msg: { id: "msg_admin_pass", too_short: "{$alert.x020205}" }
 		}
 	};
 	var opts_submit_form = {

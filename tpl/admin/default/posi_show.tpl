@@ -77,7 +77,7 @@
 		&lt;title&gt;advert&lt;/title&gt;
 
 		&lt;!-- {$lang.label.posiCodeNote1} begin --&gt;
-		&lt;link href=&quot;{$smarty.const.BG_SITE_URL}{$smarty.const.BG_URL_STATIC}advert/{$tplData.posiRow.posi_script}/style.css&quot; type=&quot;text/css&quot; rel=&quot;stylesheet&quot;&gt;
+		&lt;link href=&quot;{$smarty.const.BG_SITE_URL}{$smarty.const.BG_URL_SCRIPT}{$tplData.posiRow.posi_script}/style.css&quot; type=&quot;text/css&quot; rel=&quot;stylesheet&quot;&gt;
 		&lt;!-- {$lang.label.posiCodeNote1} end --&gt;
 
 	&lt;/head&gt;

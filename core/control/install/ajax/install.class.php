@@ -218,7 +218,7 @@ class AJAX_INSTALL {
 			}
 		} else {
 			//检验用户是否存在
-			$_arr_adminRow = $this->mdl_admin->mdl_read($_arr_ssoGet["user_id"]);
+			$_arr_adminRow = $_mdl_admin->mdl_read($_arr_ssoGet["user_id"]);
 			if ($_arr_adminRow["alert"] == "y020102") {
 				$this->obj_ajax->halt_alert("x020214");
 			}

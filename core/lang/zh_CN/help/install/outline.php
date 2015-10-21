@@ -62,6 +62,11 @@ return "<h3>概述</h3>
 						<td>静态文件目录，主要用于保存图片、CSS、JavaScript 等静态文件。</td>
 					</tr>
 					<tr>
+						<td class=\"nowrap\">script</td>
+						<td class=\"nowrap\">广告脚本文件</td>
+						<td>广告脚本文件</td>
+					</tr>
+					<tr>
 						<td class=\"nowrap\">tpl</td>
 						<td class=\"nowrap\">模板文件</td>
 						<td>模板文件目录，所有向浏览者展示的界面，均通过保存在此的模板文件实现。</td>

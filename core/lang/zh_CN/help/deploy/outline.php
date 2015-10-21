@@ -72,6 +72,11 @@ return "<h3>概述</h3>
 						<td class=\"nowrap\">静态文件</td>
 						<td>/web/wwwroot</td>
 					</tr>
+					<tr>
+						<td class=\"nowrap\">script</td>
+						<td class=\"nowrap\">广告脚本文件</td>
+						<td>/web/wwwroot</td>
+					</tr>
 				</tbody>
 			</table>
 		</div>
