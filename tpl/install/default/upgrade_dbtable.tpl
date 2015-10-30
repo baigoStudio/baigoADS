@@ -32,7 +32,7 @@
 		ajax_url: "{$smarty.const.BG_URL_INSTALL}ajax.php?mod=upgrade",
 		btn_text: "{$lang.btn.stepNext}",
 		btn_close: "{$lang.btn.close}",
-		btn_url: "{$smarty.const.BG_URL_INSTALL}ctl.php?mod=upgrade&act_get=base"
+		btn_url: "{$smarty.const.BG_URL_INSTALL}ctl.php?mod=upgrade&act_get=over"
 	};
 
 	$(document).ready(function(){
