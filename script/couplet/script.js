@@ -1,11 +1,11 @@
 /*
-v0.0.9 jQuery baigoADMS 对联 插件
-(c) 2013 baigo studio - http://www.baigo.net/adms/
+v0.0.9 jQuery baigoADS 对联 插件
+(c) 2013 baigo studio - http://www.baigo.net/ads/
 License: http://www.opensource.org/licenses/mit-license.php
 */
 
 (function($){
-	$.fn.admsCouplet = function(options) {
+	$.fn.adsCouplet = function(options) {
 
     	var thisObj = $(this); //定义当前对象
 		var _parent_id = thisObj.attr("id");

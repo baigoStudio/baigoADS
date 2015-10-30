@@ -197,7 +197,7 @@ class CLASS_NOTICE {
 	function chk_install() {
 		if (file_exists(BG_PATH_CONFIG . "is_install.php")) { //验证是否已经安装
 			include_once(BG_PATH_CONFIG . "is_install.php");
-			if (!defined("BG_INSTALL_PUB") || PRD_ADMS_PUB > BG_INSTALL_PUB) {
+			if (!defined("BG_INSTALL_PUB") || PRD_ADS_PUB > BG_INSTALL_PUB) {
 				$_arr_return = array(
 					"alert" => "x030416"
 				);

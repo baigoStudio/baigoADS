@@ -67,9 +67,6 @@ class CONTROL_ADVERT {
 	}
 
 
-	/*============列出管理员界面============
-	无返回
-	*/
 	function ctl_list() {
 		$_num_posiId  = fn_getSafe(fn_get("posi_id"), "int", 0);
 

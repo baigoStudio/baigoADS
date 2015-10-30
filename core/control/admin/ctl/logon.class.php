@@ -61,7 +61,7 @@ class CONTROL_LOGON {
 
 		$_arr_sync = array();
 
-		if(defined("BG_SSO_SYNLOGON") && BG_SSO_SYNLOGON == "on") {
+		if(defined("BG_SSO_SYNC") && BG_SSO_SYNC == "on") {
 			$_arr_sync = $this->obj_sso->sso_sync_login($_arr_ssoLogin["user_id"]);
 		}
 

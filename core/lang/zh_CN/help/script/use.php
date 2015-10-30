@@ -27,7 +27,7 @@ return "<h3>使用</h3>
 		&lt;!-- 网页其他内容 --&gt;
 
 		&lt;!-- 显示容器 begin --&gt;
-		&lt;div id=&quot;admsBanner_1&quot;&gt;&lt;/div&gt;
+		&lt;div id=&quot;adsBanner_1&quot;&gt;&lt;/div&gt;
 		&lt;!-- 此部分为必须项，ID 或者 CLASS 请与初始化时的选择器相对应，您还可以根据实际情况，添加样式控制 --&gt;
 
 
@@ -42,7 +42,7 @@ return "<h3>使用</h3>
 				..., //您还可以根据脚本自行添加选项
 				data_url: &quot;http://www.domain.com/advert.php?mod=advert&amp;act_get=list&amp;posi_id=2&quot; //广告数据，此为必须项
 			}
-			$(&quot;#admsBanner_1&quot;).admsBanner(_opts_ad_1); //初始化脚本对象，此处的选择器请与显示容器的 ID 或者 CLASS 相对应
+			$(&quot;#adsBanner_1&quot;).adsBanner(_opts_ad_1); //初始化脚本对象，此处的选择器请与显示容器的 ID 或者 CLASS 相对应
 		});
 		&lt;/script&gt;
 		&lt;!-- 此部分为必须项 --&gt;

@@ -57,6 +57,18 @@
 										</ul>
 									</dd>
 								{/foreach}
+
+								<dt>{$lang.label.opt}</dt>
+    							<dd>
+    								<ul class="list-inline">
+        								{foreach $opt as $key_s=>$value_s}
+        									<li>
+        										<span class="glyphicon glyphicon-{if isset($tplData.adminLogged.admin_allow.opt[$key_s])}ok-circle text-success{else}remove-circle text-danger{/if}"></span>
+        										{$value_s.title}
+        									</li>
+        								{/foreach}
+    								</ul>
+    							</dd>
 							</dl>
 						</div>
 					</div>

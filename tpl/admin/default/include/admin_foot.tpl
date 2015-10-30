@@ -1,7 +1,7 @@
 			</div>
 			<div class="col-md-2 col-md-pull-10">
-				<div class="panel panel-default panel_adms">
-					<div class="list-group list_group_adms">
+				<div class="panel panel-default panel_ads">
+					<div class="list-group list_group_ads">
 						{foreach $adminMod as $key_m=>$value_m}
 							<a href="{$smarty.const.BG_URL_ADMIN}ctl.php?mod={$value_m.main.mod}" class="list-group-item {if $cfg.menu_active == $key_m}active{/if}">
 								<i class="glyphicon glyphicon-{$value_m.main.icon}"></i>
@@ -23,21 +23,19 @@
 	<footer class="page_foot">
 		<div class="pull-left foot_logo">
 			{if $config.ui == "default"}
-				<a href="{$smarty.const.PRD_ADMS_URL}" target="_blank">{$smarty.const.PRD_ADMS_POWERED} {$smarty.const.PRD_ADMS_NAME} {$smarty.const.PRD_ADMS_VER}</a>
+				<a href="{$smarty.const.PRD_ADS_URL}" target="_blank">{$smarty.const.PRD_ADS_POWERED} {$smarty.const.PRD_ADS_NAME} {$smarty.const.PRD_ADS_VER}</a>
 			{else}
-				<a href="#">{$config.ui} ADMS</a>
+				<a href="#">{$config.ui} ADS</a>
 			{/if}
 		</div>
 		<div class="pull-right foot_power">
-			{$smarty.const.PRD_ADMS_POWERED}
+			{$smarty.const.PRD_ADS_POWERED}
 			{if $config.ui == "default"}
-				<a href="{$smarty.const.PRD_ADMS_URL}" target="_blank">{$smarty.const.PRD_ADMS_NAME}</a>
+				<a href="{$smarty.const.PRD_ADS_URL}" target="_blank">{$smarty.const.PRD_ADS_NAME}</a>
 			{else}
-				{$config.ui} ADMS
+				{$config.ui} ADS
 			{/if}
-			{$smarty.const.PRD_ADMS_VER}
+			{$smarty.const.PRD_ADS_VER}
 		</div>
 		<div class="clearfix"></div>
 	</footer>
-
-</body>

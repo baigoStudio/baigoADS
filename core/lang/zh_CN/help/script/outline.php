@@ -18,30 +18,30 @@ return "<h3>概述</h3>
 			<table class=\"table\">
 				<thead>
 					<tr>
-						<th class=\"nowrap\">文件</th>
-						<th class=\"nowrap\">用途</th>
+						<th class=\"text-nowrap\">文件</th>
+						<th class=\"text-nowrap\">用途</th>
 						<th>说明</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<td class=\"nowrap\">config.json</td>
-						<td class=\"nowrap\">配置文件</td>
+						<td class=\"text-nowrap\">config.json</td>
+						<td class=\"text-nowrap\">配置文件</td>
 						<td>配置文件，JSON 格式。</td>
 					</tr>
 					<tr>
-						<td class=\"nowrap\">script.js</td>
-						<td class=\"nowrap\">脚本文件</td>
+						<td class=\"text-nowrap\">script.js</td>
+						<td class=\"text-nowrap\">脚本文件</td>
 						<td>脚本文件，Javascript 格式。</td>
 					</tr>
 					<tr>
-						<td class=\"nowrap\">style.css</td>
-						<td class=\"nowrap\">样式文件</td>
+						<td class=\"text-nowrap\">style.css</td>
+						<td class=\"text-nowrap\">样式文件</td>
 						<td>样式文件，css 格式。</td>
 					</tr>
 					<tr>
-						<td class=\"nowrap\">readme.txt</td>
-						<td class=\"nowrap\">使用说明</td>
+						<td class=\"text-nowrap\">readme.txt</td>
+						<td class=\"text-nowrap\">使用说明</td>
 						<td>使用说明，文本格式。</td>
 					</tr>
 				</tbody>

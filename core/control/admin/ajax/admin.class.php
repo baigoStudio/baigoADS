@@ -63,6 +63,7 @@ class AJAX_ADMIN {
 
 			$_str_adminPass  = fn_post("admin_pass");
 			$_arr_ssoEdit    = $this->obj_sso->sso_edit($_arr_adminSubmit["admin_name"], "", $_str_adminPass, $_arr_adminSubmit["admin_mail"], $_arr_adminSubmit["admin_nick"]);
+
 			$_num_adminId    = $_arr_adminSubmit["admin_id"];
 		} else {
 			if (!isset($this->adminLogged["admin_allow"]["admin"]["add"])) {

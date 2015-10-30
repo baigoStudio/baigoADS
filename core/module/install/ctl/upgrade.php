@@ -9,12 +9,8 @@ if(!defined("IN_BAIGO")) {
 	exit("Access Denied");
 }
 
-if (file_exists(BG_PATH_CONFIG . "is_install.php")) {
-	include_once(BG_PATH_CONFIG . "is_install.php"); //载入栏目控制器
-	if (defined("BG_INSTALL_PUB") && PRD_ADMS_PUB <= BG_INSTALL_PUB) {
-		header("Location: " . BG_URL_INSTALL . "ctl.php?mod=alert&act_get=show&alert=x030403");
-		exit;
-	}
+if (!file_exists(BG_PATH_CONFIG . "is_install.php")) {
+	header("Location: " . BG_URL_INSTALL . "ctl.php?mod=install");
 }
 
 if (isset($_GET["ssid"])) {
@@ -34,41 +30,9 @@ $GLOBALS["obj_base"]    = new CLASS_BASE(); //初始化基类
 $ctl_upgrade            = new CONTROL_UPGRADE(); //初始化商家
 
 switch ($GLOBALS["act_get"]) {
-	case "sso":
-		$arr_upgradeRow = $ctl_upgrade->ctl_sso();
-		if ($arr_upgradeRow["alert"] != "y030404") {
-			header("Location: " . BG_URL_INSTALL . "ctl.php?mod=alert&act_get=show&alert=" . $arr_upgradeRow["alert"]);
-			exit;
-		}
-	break;
-
-	case "upload":
-		$arr_upgradeRow = $ctl_upgrade->ctl_upload();
-		if ($arr_upgradeRow["alert"] != "y030404") {
-			header("Location: " . BG_URL_INSTALL . "ctl.php?mod=alert&act_get=show&alert=" . $arr_upgradeRow["alert"]);
-			exit;
-		}
-	break;
-
-	case "base":
-		$arr_upgradeRow = $ctl_upgrade->ctl_base();
-		if ($arr_upgradeRow["alert"] != "y030404") {
-			header("Location: " . BG_URL_INSTALL . "ctl.php?mod=alert&act_get=show&alert=" . $arr_upgradeRow["alert"]);
-			exit;
-		}
-	break;
-
 	case "over":
 		$arr_upgradeRow = $ctl_upgrade->ctl_over();
 		if ($arr_upgradeRow["alert"] != "y030404") {
-			header("Location: " . BG_URL_INSTALL . "ctl.php?mod=alert&act_get=show&alert=" . $arr_upgradeRow["alert"]);
-			exit;
-		}
-	break;
-
-	case "dbconfig":
-		$arr_upgradeRow = $ctl_upgrade->ctl_dbconfig();
-		if ($arr_upgradeRow["alert"] != "y030403") {
 			header("Location: " . BG_URL_INSTALL . "ctl.php?mod=alert&act_get=show&alert=" . $arr_upgradeRow["alert"]);
 			exit;
 		}
@@ -81,6 +45,18 @@ switch ($GLOBALS["act_get"]) {
 			exit;
 		}
 	break;
+
+	case "dbconfig":
+	case "base":
+	case "upload":
+	case "sso":
+		$arr_upgradeRow = $ctl_upgrade->ctl_form();
+		if ($arr_upgradeRow["alert"] != "y030404") {
+			header("Location: " . BG_URL_INSTALL . "ctl.php?mod=alert&act_get=show&alert=" . $arr_upgradeRow["alert"]);
+			exit;
+		}
+	break;
+
 
 	default:
 		$arr_upgradeRow = $ctl_upgrade->ctl_ext();

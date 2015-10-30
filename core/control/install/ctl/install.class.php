@@ -24,7 +24,6 @@ class CONTROL_INSTALL {
 
 
 	function ctl_ext() {
-
 		$this->obj_tpl->tplDisplay("install_ext.tpl", $this->tplData);
 
 		return array(
@@ -33,13 +32,7 @@ class CONTROL_INSTALL {
 	}
 
 
-	/**
-	 * install_1 function.
-	 *
-	 * @access public
-	 * @return void
-	 */
-	function ctl_dbconfig() {
+	function ctl_form() {
 		if ($this->errCount > 0) {
 			return array(
 				"alert" => "x030417",
@@ -47,10 +40,17 @@ class CONTROL_INSTALL {
 			exit;
 		}
 
-		$this->obj_tpl->tplDisplay("install_dbconfig.tpl", $this->tplData);
+		if (!$this->check_db()) {
+			return array(
+				"alert" => "x030404",
+			);
+			exit;
+		}
+
+		$this->obj_tpl->tplDisplay("install_form.tpl", $this->tplData);
 
 		return array(
-			"alert" => "y030403",
+			"alert" => "y030404",
 		);
 	}
 
@@ -84,87 +84,6 @@ class CONTROL_INSTALL {
 	}
 
 
-	/**
-	 * install_3 function.
-	 *
-	 * @access public
-	 * @return void
-	 */
-	function ctl_base() {
-		if ($this->errCount > 0) {
-			return array(
-				"alert" => "x030417",
-			);
-			exit;
-		}
-
-		if (!$this->check_db()) {
-			return array(
-				"alert" => "x030404",
-			);
-			exit;
-		}
-
-		$this->obj_tpl->tplDisplay("install_base.tpl", $this->tplData);
-
-		return array(
-			"alert" => "y030404",
-		);
-	}
-
-
-	/**
-	 * install_4 function.
-	 *
-	 * @access public
-	 * @return void
-	 */
-	function ctl_upload() {
-		if ($this->errCount > 0) {
-			return array(
-				"alert" => "x030417",
-			);
-			exit;
-		}
-
-		if (!$this->check_db()) {
-			return array(
-				"alert" => "x030404",
-			);
-			exit;
-		}
-
-		$this->obj_tpl->tplDisplay("install_upload.tpl", $this->tplData);
-
-		return array(
-			"alert" => "y030404",
-		);
-	}
-
-
-	function ctl_sso() {
-		if ($this->errCount > 0) {
-			return array(
-				"alert" => "x030417",
-			);
-			exit;
-		}
-
-		if (!$this->check_db()) {
-			return array(
-				"alert" => "x030404",
-			);
-			exit;
-		}
-
-		$this->obj_tpl->tplDisplay("install_sso.tpl", $this->tplData);
-
-		return array(
-			"alert" => "y030404",
-		);
-	}
-
-
 	function ctl_ssoAuto() {
 		if ($this->errCount > 0) {
 			return array(
@@ -183,6 +102,13 @@ class CONTROL_INSTALL {
 		if (!file_exists(BG_PATH_SSO . "api/api.php")) {
 			return array(
 				"alert" => "x030420",
+			);
+			exit;
+		}
+
+		if (file_exists(BG_PATH_SSO . "config/is_install.php")) {
+			return array(
+				"alert" => "x030408",
 			);
 			exit;
 		}
@@ -213,6 +139,13 @@ class CONTROL_INSTALL {
 		if (!file_exists(BG_PATH_SSO . "api/api.php")) {
 			return array(
 				"alert" => "x030421",
+			);
+			exit;
+		}
+
+		if (file_exists(BG_PATH_SSO . "config/is_install.php")) {
+			return array(
+				"alert" => "x030408",
 			);
 			exit;
 		}
@@ -347,9 +280,26 @@ class CONTROL_INSTALL {
 			}
 		}
 
+		$_act_get = fn_getSafe($GLOBALS["act_get"], "txt", "base");
+
 		$this->tplData = array(
 			"errCount"   => $this->errCount,
 			"extRow"     => $_arr_extRow,
+			"act_get"    => $_act_get,
+			"act_next"   => $this->install_next($_act_get),
 		);
+	}
+
+	private function install_next($act_get) {
+		$_arr_optKeys = array_keys($this->obj_tpl->opt);
+		$_index       = array_search($act_get, $_arr_optKeys);
+		$_arr_opt     = array_slice($this->obj_tpl->opt, $_index + 1, 1);
+        if ($_arr_opt) {
+    		$_key = key($_arr_opt);
+        } else {
+    		$_key = "dbtable";
+        }
+
+		return $_key;
 	}
 }

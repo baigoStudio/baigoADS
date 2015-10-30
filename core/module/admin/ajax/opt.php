@@ -15,19 +15,7 @@ include_once(BG_PATH_CONTROL . "admin/ajax/opt.class.php"); //载入设置 ajax 
 $ajax_opt = new AJAX_OPT(); //初始化设置对象
 
 switch ($GLOBALS["act_post"]) {
-	case "upload":
-		$ajax_opt->ajax_upload(); //注册
-	break;
-
-	case "sso":
-		$ajax_opt->ajax_sso(); //邮件发送设置
-	break;
-
-	case "base":
-		$ajax_opt->ajax_base(); //基本
-	break;
-
-	case "db":
-		$ajax_opt->ajax_db(); //数据库
+	default:
+		$ajax_opt->ajax_submit();
 	break;
 }

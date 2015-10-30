@@ -20,7 +20,6 @@ class CLASS_SYNC {
 	function __construct() { //构造函数
 		$this->obj_base   = $GLOBALS["obj_base"]; //获取界面类型
 		$this->config     = $this->obj_base->config;
-		$this->log        = include_once(BG_PATH_LANG . $this->config["lang"] . "/log.php"); //载入日志内容
 	}
 
 

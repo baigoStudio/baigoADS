@@ -1,7 +1,7 @@
 {
 	"name": "弹出窗",
-	"plugin": "admsPopup",
-	"selector": "#admsPopup",
+	"plugin": "adsPopup",
+	"selector": "#adsPopup",
 	"ispercent": "enable",
 	"type": "media",
 	"note": "本脚本需要 jQuery 支持",

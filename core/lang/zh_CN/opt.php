@@ -432,151 +432,214 @@ $_arr_timeZone = array(
 
 return array(
 	"base" => array(
-		"BG_SITE_NAME" => array(
-			"label"      => "名称",
-			"type"       => "str",
-			"format"     => "text",
-			"min"        => 1,
-			"default"    => "baigo ADMS",
-		),
-		"BG_SITE_DOMAIN" => array(
-			"label"      => "域名",
-			"type"       => "str",
-			"format"     => "text",
-			"min"        => 1,
-			"default"    => $_SERVER["SERVER_NAME"],
-		),
-		"BG_SITE_URL" => array(
-			"label"      => "首页 URL ",
-			"type"       => "str",
-			"format"     => "url",
-			"min"        => 1,
-			"default"    => "http://" . $_SERVER["SERVER_NAME"],
-			"note"       => "末尾请勿加 /",
-		),
-		"BG_SITE_PERPAGE" => array(
-			"label"      => "每页显示数",
-			"type"       => "str",
-			"format"     => "int",
-			"min"        => 1,
-			"default"    => 30,
-		),
-		"BG_SITE_TIMEZONE" => array(
-			"label"      => "时区",
-			"type"       => "select",
-			"min"        => 1,
-			"option"     => $_arr_timeZone,
-			"default"    => "Asia/Shanghai",
-		),
-		"BG_SITE_DATE" => array(
-			"label"  => "日期格式",
-			"type"   => "select",
-			"min"    => 1,
-			"option" => array(
-				"Y-m-d"     => date("Y-m-d"),
-				"y-m-d"     => date("y-m-d"),
-				"M. d, Y"   => date("M. d, Y"),
-			),
-			"default" => "Y-m-d",
-		),
-		"BG_SITE_DATESHORT" => array(
-			"label"  => "短日期格式",
-			"type"   => "select",
-			"min"    => 1,
-			"option" => array(
-				"m-d"   => date("m-d"),
-				"m-d"   => date("m-d"),
-				"M. d"  => date("M. d"),
-			),
-			"default" => "Y-m-d",
-		),
-		"BG_SITE_TIME" => array(
-			"label"  => "时间格式",
-			"type"   => "select",
-			"min"    => 1,
-			"option" => array(
-				"H:i"       => date("H:i"),
-				"h:i A"     => date("h:i A"),
-				"H:i:s"     => date("H:i:s"),
-				"h:i:s A"   => date("h:i:s A"),
-			),
-			"default" => "H:i:s",
-		),
-		"BG_SITE_TIMESHORT" => array(
-			"label"  => "短时间格式",
-			"type"   => "select",
-			"min"    => 1,
-			"option" => array(
-				"H:i"   => date("H:i"),
-				"h:i A" => date("h:i A"),
-			),
-			"default" => "H:i",
+		"title"   => "基本设置",
+		"list"    => array(
+    		"BG_SITE_NAME" => array(
+    			"label"      => "名称",
+    			"type"       => "str",
+    			"format"     => "text",
+    			"min"        => 1,
+    			"default"    => "baigo ADS",
+    		),
+    		"BG_SITE_DOMAIN" => array(
+    			"label"      => "域名",
+    			"type"       => "str",
+    			"format"     => "text",
+    			"min"        => 1,
+    			"default"    => $_SERVER["SERVER_NAME"],
+    		),
+    		"BG_SITE_URL" => array(
+    			"label"      => "首页 URL ",
+    			"type"       => "str",
+    			"format"     => "url",
+    			"min"        => 1,
+    			"default"    => "http://" . $_SERVER["SERVER_NAME"],
+    			"note"       => "末尾请勿加 /",
+    		),
+    		"BG_SITE_PERPAGE" => array(
+    			"label"      => "每页显示数",
+    			"type"       => "str",
+    			"format"     => "int",
+    			"min"        => 1,
+    			"default"    => 30,
+    		),
+    		"BG_SITE_TIMEZONE" => array(
+    			"label"      => "时区",
+    			"type"       => "select",
+    			"min"        => 1,
+    			"option"     => $_arr_timeZone,
+    			"default"    => "Asia/Shanghai",
+    		),
+    		"BG_SITE_DATE" => array(
+    			"label"  => "日期格式",
+    			"type"   => "select",
+    			"min"    => 1,
+    			"option" => array(
+    				"Y-m-d"     => date("Y-m-d"),
+    				"y-m-d"     => date("y-m-d"),
+    				"M. d, Y"   => date("M. d, Y"),
+    			),
+    			"default" => "Y-m-d",
+    		),
+    		"BG_SITE_DATESHORT" => array(
+    			"label"  => "短日期格式",
+    			"type"   => "select",
+    			"min"    => 1,
+    			"option" => array(
+    				"m-d"   => date("m-d"),
+    				"m-d"   => date("m-d"),
+    				"M. d"  => date("M. d"),
+    			),
+    			"default" => "Y-m-d",
+    		),
+    		"BG_SITE_TIME" => array(
+    			"label"  => "时间格式",
+    			"type"   => "select",
+    			"min"    => 1,
+    			"option" => array(
+    				"H:i"       => date("H:i"),
+    				"h:i A"     => date("h:i A"),
+    				"H:i:s"     => date("H:i:s"),
+    				"h:i:s A"   => date("h:i:s A"),
+    			),
+    			"default" => "H:i:s",
+    		),
+    		"BG_SITE_TIMESHORT" => array(
+    			"label"  => "短时间格式",
+    			"type"   => "select",
+    			"min"    => 1,
+    			"option" => array(
+    				"H:i"   => date("H:i"),
+    				"h:i A" => date("h:i A"),
+    			),
+    			"default" => "H:i",
+    		),
 		),
 	),
+	"dbconfig" => array(
+		"title"   => "数据库设置",
+		"list"    => array(
+            "BG_DB_HOST" => array(
+    			"label"      => "数据库服务器",
+    			"type"       => "str",
+    			"format"     => "text",
+    			"min"        => 1,
+    			"default"    => "localhost",
+    		),
+            "BG_DB_PORT" => array(
+    			"label"      => "服务器端口",
+    			"type"       => "str",
+    			"format"     => "int",
+    			"min"        => 1,
+    			"default"    => 3306,
+    		),
+            "BG_DB_NAME" => array(
+    			"label"      => "数据库名称",
+    			"type"       => "str",
+    			"format"     => "text",
+    			"min"        => 1,
+    			"default"    => "baigo_ads",
+    		),
+            "BG_DB_USER" => array(
+    			"label"      => "用户名",
+    			"type"       => "str",
+    			"format"     => "text",
+    			"min"        => 1,
+    			"default"    => "baigo_ads",
+    		),
+            "BG_DB_PASS" => array(
+    			"label"      => "密码",
+    			"type"       => "str",
+    			"format"     => "text",
+    			"min"        => 1,
+    			"default"    => "******",
+    		),
+            "BG_DB_CHARSET" => array(
+    			"label"      => "数据编码",
+    			"type"       => "str",
+    			"format"     => "text",
+    			"min"        => 1,
+    			"default"    => "utf8",
+    		),
+            "BG_DB_TABLE" => array(
+    			"label"      => "数据表前缀",
+    			"type"       => "str",
+    			"format"     => "text",
+    			"min"        => 1,
+    			"default"    => "ads_",
+    		),
+		),
+    ),
 	"upload" => array(
-		"BG_UPLOAD_SIZE" => array(
-			"label"      => "允许上传大小",
-			"type"       => "str",
-			"format"     => "int",
-			"min"        => 1,
-			"default"    => 200,
-			"note"       => "单位请查看下一项",
-		),
-		"BG_UPLOAD_UNIT" => array(
-			"label"      => "允许上传单位",
-			"type"       => "select",
-			"format"     => "txt",
-			"min"        => 1,
-			"default"    => "KB",
-			"option" => array(
-				"KB"    => "KB",
-				"MB"    => "MB",
-			),
-		),
-		"BG_UPLOAD_COUNT" => array(
-			"label"      => "允许同时上传数",
-			"type"       => "str",
-			"format"     => "int",
-			"min"        => 1,
-			"default"    => 10,
+		"title"   => "上传设置",
+		"list"    => array(
+    		"BG_UPLOAD_SIZE" => array(
+    			"label"      => "允许上传大小",
+    			"type"       => "str",
+    			"format"     => "int",
+    			"min"        => 1,
+    			"default"    => 200,
+    			"note"       => "单位请查看下一项",
+    		),
+    		"BG_UPLOAD_UNIT" => array(
+    			"label"      => "允许上传单位",
+    			"type"       => "select",
+    			"format"     => "txt",
+    			"min"        => 1,
+    			"default"    => "KB",
+    			"option" => array(
+    				"KB"    => "KB",
+    				"MB"    => "MB",
+    			),
+    		),
+    		"BG_UPLOAD_COUNT" => array(
+    			"label"      => "允许同时上传数",
+    			"type"       => "str",
+    			"format"     => "int",
+    			"min"        => 1,
+    			"default"    => 10,
+    		),
 		),
 	),
 	"sso" => array(
-		"BG_SSO_URL" => array(
-			"label"      => "API 接口 URL",
-			"type"       => "str",
-			"format"     => "url",
-			"min"        => 1,
-			"default"    => "",
-			"note"       => "必须以 http:// 开始", //跳转至
-		),
-		"BG_SSO_APPID" => array(
-			"label"      => "APP ID",
-			"type"       => "str",
-			"format"     => "int",
-			"min"        => 1,
-			"default"    => "",
-		),
-		"BG_SSO_APPKEY" => array(
-			"label"      => "APP KEY",
-			"type"       => "str",
-			"format"     => "text",
-			"min"        => 1,
-			"default"    => "",
-		),
-		"BG_SSO_SYNLOGON" => array(
-			"label"      => "同步登录",
-			"type"       => "radio",
-			"min"        => 1,
-			"default"    => "off",
-			"option" => array(
-				"on"    => array(
-					"value"    => "开启"
-				),
-				"off"   => array(
-					"value"    => "关闭"
-				),
-			),
+		"title"   => "SSO 设置",
+		"list"    => array(
+    		"BG_SSO_URL" => array(
+    			"label"      => "API 接口 URL",
+    			"type"       => "str",
+    			"format"     => "url",
+    			"min"        => 1,
+    			"default"    => "",
+    			"note"       => "必须以 http:// 开始", //跳转至
+    		),
+    		"BG_SSO_APPID" => array(
+    			"label"      => "APP ID",
+    			"type"       => "str",
+    			"format"     => "int",
+    			"min"        => 1,
+    			"default"    => "",
+    		),
+    		"BG_SSO_APPKEY" => array(
+    			"label"      => "APP KEY",
+    			"type"       => "str",
+    			"format"     => "text",
+    			"min"        => 1,
+    			"default"    => "",
+    		),
+    		"BG_SSO_SYNC" => array(
+    			"label"      => "同步登录",
+    			"type"       => "radio",
+    			"min"        => 1,
+    			"default"    => "off",
+    			"option" => array(
+    				"on"    => array(
+    					"value"    => "开启"
+    				),
+    				"off"   => array(
+    					"value"    => "关闭"
+    				),
+    			),
+    		),
 		),
 	),
 );

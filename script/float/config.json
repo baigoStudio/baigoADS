@@ -1,7 +1,7 @@
 {
 	"name": "浮动",
-	"plugin": "admsFloat",
-	"selector": "#admsFloat",
+	"plugin": "adsFloat",
+	"selector": "#adsFloat",
 	"ispercent": "enable",
 	"type": "media",
 	"note": "本脚本需要 jQuery 支持",

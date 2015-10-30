@@ -31,19 +31,28 @@ class AJAX_INSTALL {
 	}
 
 
-	/**
-	 * install_1_do function.
-	 *
-	 * @access public
-	 * @return void
-	 */
-	function ajax_dbconfig() {
-		$_arr_dbconfig = $this->mdl_opt->input_dbconfig();
-		if ($_arr_dbconfig["alert"] != "ok") {
-			$this->obj_ajax->halt_alert($_arr_dbconfig["alert"]);
+	function ajax_submit() {
+		$_act_post    = fn_getSafe($GLOBALS["act_post"], "txt", "base");
+
+		$this->check_db();
+
+		$_num_countSrc = 0;
+
+		foreach ($this->obj_ajax->opt[$_act_post]["list"] as $_key=>$_value) {
+			if ($_value["min"] > 0) {
+				$_num_countSrc++;
+			}
 		}
 
-		$_arr_return = $this->mdl_opt->mdl_dbconfig();
+		$_arr_const = $this->mdl_opt->input_const($_act_post);
+
+		$_num_countInput = count(array_filter($_arr_const));
+
+		if ($_num_countInput < $_num_countSrc) {
+			$this->obj_ajax->halt_alert("x030212");
+		}
+
+		$_arr_return = $this->mdl_opt->mdl_const($_act_post);
 
 		if ($_arr_return["alert"] != "y060101") {
 			$this->obj_ajax->halt_alert($_arr_return["alert"]);
@@ -63,105 +72,6 @@ class AJAX_INSTALL {
 		$this->table_stat();
 
 		$this->obj_ajax->halt_alert("y030103");
-	}
-
-
-	/**
-	 * install_2_do function.
-	 *
-	 * @access public
-	 * @return void
-	 */
-	function ajax_base() {
-		$this->check_db();
-
-		$_num_countSrc = 0;
-
-		foreach ($this->obj_ajax->opt["base"] as $_key=>$_value) {
-			if ($_value["min"] > 0) {
-				$_num_countSrc++;
-			}
-		}
-
-		$_arr_const = $this->mdl_opt->input_const("base");
-
-		$_num_countInput = count(array_filter($_arr_const));
-
-		if ($_num_countInput < $_num_countSrc) {
-			$this->obj_ajax->halt_alert("x030212");
-		}
-
-		$_arr_return = $this->mdl_opt->mdl_const("base");
-
-		if ($_arr_return["alert"] != "y060101") {
-			$this->obj_ajax->halt_alert($_arr_return["alert"]);
-		}
-
-		$this->obj_ajax->halt_alert("y030405");
-	}
-
-
-	/**
-	 * install_3_do function.
-	 *
-	 * @access public
-	 * @return void
-	 */
-	function ajax_upload() {
-		$this->check_db();
-
-		$_num_countSrc = 0;
-
-		foreach ($this->obj_ajax->opt["upload"] as $_key=>$_value) {
-			if ($_value["min"] > 0) {
-				$_num_countSrc++;
-			}
-		}
-
-		$_arr_const = $this->mdl_opt->input_const("upload");
-
-		$_num_countInput = count(array_filter($_arr_const));
-
-		if ($_num_countInput < $_num_countSrc) {
-			$this->obj_ajax->halt_alert("x030212");
-		}
-
-		$_arr_return = $this->mdl_opt->mdl_const("upload");
-
-		if ($_arr_return["alert"] != "y060101") {
-			$this->obj_ajax->halt_alert($_arr_return["alert"]);
-		}
-
-		$this->obj_ajax->halt_alert("y030409");
-	}
-
-
-	function ajax_sso() {
-		$this->check_db();
-
-		$_num_countSrc = 0;
-
-		foreach ($this->obj_ajax->opt["sso"] as $_key=>$_value) {
-			if ($_value["min"] > 0) {
-				$_num_countSrc++;
-			}
-		}
-
-		$_arr_const = $this->mdl_opt->input_const("sso");
-
-		$_num_countInput = count(array_filter($_arr_const));
-
-		if ($_num_countInput < $_num_countSrc) {
-			$this->obj_ajax->halt_alert("x030212");
-		}
-
-		$_arr_return = $this->mdl_opt->mdl_const("sso");
-
-		if ($_arr_return["alert"] != "y060101") {
-			$this->obj_ajax->halt_alert($_arr_return["alert"]);
-		}
-
-		$this->obj_ajax->halt_alert("y030408");
 	}
 
 
@@ -192,7 +102,7 @@ class AJAX_INSTALL {
 
 		$_mdl_admin->mdl_submit($_arr_ssoReg["user_id"]);
 
-		$this->obj_ajax->halt_alert("y030407");
+		$this->obj_ajax->halt_alert("y030409");
 	}
 
 
@@ -237,6 +147,10 @@ class AJAX_INSTALL {
 			$this->obj_ajax->halt_alert("x030420");
 		}
 
+		if (file_exists(BG_PATH_SSO . "config/is_install.php")) {
+			$this->obj_ajax->halt_alert("x030408");
+		}
+
 		$_obj_sso = new CLASS_SSO();
 
 		$_arr_return = $_obj_sso->sso_install();
@@ -253,6 +167,10 @@ class AJAX_INSTALL {
 
 		if (!file_exists(BG_PATH_SSO . "api/api.php")) {
 			$this->obj_ajax->halt_alert("x030420");
+		}
+
+		if (file_exists(BG_PATH_SSO . "config/is_install.php")) {
+			$this->obj_ajax->halt_alert("x030408");
 		}
 
 		include_once(BG_PATH_MODEL . "admin.class.php"); //载入管理帐号模型

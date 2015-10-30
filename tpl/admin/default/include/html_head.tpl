@@ -34,3 +34,5 @@
 		<link href="{$smarty.const.BG_URL_STATIC}js/prism/prism.css" type="text/css" rel="stylesheet">
 	{/if}
 </head>
+
+<body>

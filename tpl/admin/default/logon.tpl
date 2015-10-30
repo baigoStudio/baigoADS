@@ -20,7 +20,7 @@
 
 		<h3>{$smarty.const.BG_SITE_NAME}</h3>
 
-		<div class="panel panel-default panel_adms">
+		<div class="panel panel-default panel_ads">
 			<div class="panel-heading">
 				<h4>
 					{$lang.page.adminLogon}
@@ -81,19 +81,19 @@
 
 			<div class="panel-footer">
 				<div class="pull-left">
-					{$smarty.const.PRD_ADMS_POWERED}
+					{$smarty.const.PRD_ADS_POWERED}
 					{if $config.ui == "default"}
-						<a href="{$smarty.const.PRD_ADMS_URL}" target="_blank">{$smarty.const.PRD_ADMS_NAME}</a>
+						<a href="{$smarty.const.PRD_ADS_URL}" target="_blank">{$smarty.const.PRD_ADS_NAME}</a>
 					{else}
-						{$config.ui} ADMS
+						{$config.ui} ADS
 					{/if}
-					{$smarty.const.PRD_ADMS_VER}
+					{$smarty.const.PRD_ADS_VER}
 				</div>
 				<div class="pull-right foot_logo">
 					{if $config.ui == "default"}
-						<a href="{$smarty.const.PRD_ADMS_URL}" target="_blank">{$smarty.const.PRD_ADMS_POWERED} {$smarty.const.PRD_ADMS_NAME} {$smarty.const.PRD_ADMS_VER}</a>
+						<a href="{$smarty.const.PRD_ADS_URL}" target="_blank">{$smarty.const.PRD_ADS_POWERED} {$smarty.const.PRD_ADS_NAME} {$smarty.const.PRD_ADS_VER}</a>
 					{else}
-						<a href="#">{$config.ui} ADMS</a>
+						<a href="#">{$config.ui} ADS</a>
 					{/if}
 				</div>
 				<div class="clearfix"></div>
@@ -101,8 +101,6 @@
 		</div>
 
 	</div>
-
-</body>
 
 	<script type="text/javascript">
 	var opts_validator_form = {
@@ -147,4 +145,5 @@
 	<script src="{$smarty.const.BG_URL_STATIC}js/reloadImg.js" type="text/javascript"></script>
 	<script src="{$smarty.const.BG_URL_STATIC}js/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 
+</body>
 </html>

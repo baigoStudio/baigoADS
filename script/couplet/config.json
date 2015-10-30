@@ -1,7 +1,7 @@
 {
 	"name": "对联",
-	"plugin": "admsCouplet",
-	"selector": "#admsCouplet",
+	"plugin": "adsCouplet",
+	"selector": "#adsCouplet",
 	"ispercent": "enable",
 	"type": "media",
 	"note": "本脚本需要 jQuery 支持",

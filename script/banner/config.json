@@ -1,7 +1,7 @@
 {
 	"name": "Banner",
-	"plugin": "admsBanner",
-	"selector": "#admsBanner",
+	"plugin": "adsBanner",
+	"selector": "#adsBanner",
 	"ispercent": "enable",
 	"type": "media",
 	"note": "本脚本需要 jQuery 支持",

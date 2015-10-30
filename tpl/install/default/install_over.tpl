@@ -6,7 +6,7 @@
 ]}
 {include "{$smarty.const.BG_PATH_TPL}install/default/include/install_head.tpl" cfg=$cfg}
 
-	<form name="install_form_dbtable" id="install_form_dbtable">
+	<form name="install_form_over" id="install_form_over">
 		<input type="hidden" name="token_session" class="token_session" value="{$common.token_session}">
 		<input type="hidden" name="act_post" value="over">
 
@@ -37,11 +37,11 @@
 	};
 
 	$(document).ready(function(){
-		var obj_submit_form = $("#install_form_dbtable").baigoSubmit(opts_submit_form);
+		var obj_submit_form = $("#install_form_over").baigoSubmit(opts_submit_form);
 		$("#go_next").click(function(){
 			obj_submit_form.formSubmit();
 		});
 	})
 	</script>
 
-</html>
+{include "{$smarty.const.BG_PATH_TPL}install/default/include/html_foot.tpl" cfg=$cfg}

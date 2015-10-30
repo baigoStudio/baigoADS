@@ -3,9 +3,9 @@
 ！！！！警告！！！！
 以下为系统文件，请勿修改
 /*-------------------------版本-------------------------*/
-define("PRD_ADMS_POWERED", "Powered by");
-define("PRD_ADMS_NAME", "baigo ADMS");
-define("PRD_ADMS_URL", "http://www.baigo.net/adms/");
-define("PRD_ADMS_VER", "1.0 beta1");
-define("PRD_ADMS_PUB", 20150816);
+define("PRD_ADS_POWERED", "Powered by");
+define("PRD_ADS_NAME", "baigo ADS");
+define("PRD_ADS_URL", "http://www.baigo.net/ads/");
+define("PRD_ADS_VER", "1.0 beta2");
+define("PRD_ADS_PUB", 20151030);
 

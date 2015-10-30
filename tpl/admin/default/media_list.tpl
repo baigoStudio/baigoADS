@@ -154,15 +154,15 @@
 						<table class="table table-striped table-hover">
 							<thead>
 								<tr>
-									<th class="td_mn">
+									<th class="text-nowrap td_mn">
 										<label for="chk_all" class="checkbox-inline">
 											<input type="checkbox" name="chk_all" id="chk_all" class="first">
 											{$lang.label.all}
 										</label>
 									</th>
-									<th class="td_mn">{$lang.label.id}</th>
+									<th class="text-nowrap td_mn">{$lang.label.id}</th>
 									<th>{$lang.label.mediaInfo}</th>
-									<th class="td_md">{$lang.label.status} / {$lang.label.admin}</th>
+									<th class="text-nowrap td_md">{$lang.label.status} / {$lang.label.admin}</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -173,8 +173,8 @@
 										{$_css_status = "default"}
 									{/if}
 									<tr>
-										<td class="td_mn"><input type="checkbox" name="media_id[]" value="{$value.media_id}" id="media_id_{$value.media_id}" group="media_id" class="chk_all validate"></td>
-										<td class="td_mn">{$value.media_id}</td>
+										<td class="text-nowrap td_mn"><input type="checkbox" name="media_id[]" value="{$value.media_id}" id="media_id_{$value.media_id}" group="media_id" class="chk_all validate"></td>
+										<td class="text-nowrap td_mn">{$value.media_id}</td>
 										<td>
 											<ul class="list-unstyled">
 												<li>
@@ -199,7 +199,7 @@
 												<li>{$_num_mediaSize|string_format:"%.2f"} {$_str_mediaUnit}</li>
 											</ul>
 										</td>
-										<td class="td_md">
+										<td class="text-nowrap td_md">
 											<ul class="list-unstyled">
 												<li class="label_baigo">
 													<span class="label label-{$_css_status}">{$lang.label[$value.media_box]}</span>

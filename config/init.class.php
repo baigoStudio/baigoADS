@@ -105,7 +105,7 @@ class CLASS_INIT {
 			}
 
 			$_str_config .= "include_once(BG_PATH_INC . \"version.inc.php\");" . PHP_EOL;
-			$_str_config .= "include_once(BG_PATH_CONFIG . \"config_db.inc.php\");" . PHP_EOL;
+			$_str_config .= "include_once(BG_PATH_CONFIG . \"opt_dbconfig.inc.php\");" . PHP_EOL;
 			$_str_config .= "include_once(BG_PATH_CONFIG . \"opt_base.inc.php\");" . PHP_EOL;
 			$_str_config .= "include_once(BG_PATH_CONFIG . \"opt_sso.inc.php\");" . PHP_EOL;
 			$_str_config .= "include_once(BG_PATH_CONFIG . \"opt_upload.inc.php\");" . PHP_EOL;

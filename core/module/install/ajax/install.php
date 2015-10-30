@@ -42,24 +42,8 @@ switch ($GLOBALS["act_post"]) {
 		$ajax_install->ajax_ssoAdmin();
 	break;
 
-	case "upload":
-		$ajax_install->ajax_upload();
-	break;
-
-	case "sso":
-		$ajax_install->ajax_sso();
-	break;
-
-	case "base":
-		$ajax_install->ajax_base();
-	break;
-
 	case "over":
 		$ajax_install->ajax_over();
-	break;
-
-	case "auto":
-		$ajax_install->ajax_auto();
 	break;
 
 	case "dbtable":
@@ -67,7 +51,10 @@ switch ($GLOBALS["act_post"]) {
 	break;
 
 	case "dbconfig":
-		$ajax_install->ajax_dbconfig();
+	case "base":
+	case "upload":
+	case "sso":
+		$ajax_install->ajax_submit();
 	break;
 
 	default:

@@ -1,7 +1,7 @@
 {
 	"name": "定位",
-	"plugin": "admsFixed",
-	"selector": "#admsFixed",
+	"plugin": "adsFixed",
+	"selector": "#adsFixed",
 	"ispercent": "enable",
 	"type": "media",
 	"note": "本脚本需要 jQuery 支持",

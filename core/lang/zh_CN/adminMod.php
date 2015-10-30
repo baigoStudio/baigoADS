@@ -113,39 +113,4 @@ return array(
 			"del"    => "删除",
 		),
 	),
-	"opt" => array(
-		"main" => array(
-			"title"  => "系统设置",
-			"mod"    => "opt",
-			"icon"   => "cog",
-		),
-		"sub" => array(
-			"base" => array(
-				"title"     => "基本设置",
-				"mod"       => "opt",
-				"act_get"   => "base",
-			),
-			"db" => array(
-				"title"     => "数据库设置",
-				"mod"       => "opt",
-				"act_get"   => "db",
-			),
-			"upload" => array(
-				"title"     => "上传设置",
-				"mod"       => "opt",
-				"act_get"   => "upload",
-			),
-			"sso" => array(
-				"title"     => "SSO 设置",
-				"mod"       => "opt",
-				"act_get"   => "sso",
-			),
-		),
-		"allow" => array(
-			"base"   => "基本设置",
-			"db"     => "数据库设置",
-			"upload" => "上传设置",
-			"sso"    => "SSO 设置",
-		),
-	),
 );

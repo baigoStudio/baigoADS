@@ -440,7 +440,7 @@ class CLASS_SSO {
 
 		$_arr_ssoData = array(
 			"act_post"   => "over",
-			"app_name"   => "baigo ADMS",
+			"app_name"   => "baigo ADS",
 			"app_notice" => BG_SITE_URL . BG_URL_API . "api.php?mod=notice",
 		);
 		$_arr_get     = fn_http(BG_SITE_URL . BG_URL_SSO . "api/api.php?mod=install", $_arr_ssoData, "post"); //提交
@@ -460,7 +460,7 @@ class CLASS_SSO {
 		$_str_content .= "define(\"BG_SSO_URL\", \"" . $_arr_result["sso_url"] . "\");" . PHP_EOL;
 		$_str_content .= "define(\"BG_SSO_APPID\", " . $_arr_result["app_id"] . ");" . PHP_EOL;
 		$_str_content .= "define(\"BG_SSO_APPKEY\", \"" . $_arr_result["app_key"] . "\");" . PHP_EOL;
-		$_str_content .= "define(\"BG_SSO_SYNLOGON\", \"on\");" . PHP_EOL;
+		$_str_content .= "define(\"BG_SSO_SYNC\", \"on\");" . PHP_EOL;
 
 		$_num_size = file_put_contents(BG_PATH_CONFIG . "opt_sso.inc.php", $_str_content);
 

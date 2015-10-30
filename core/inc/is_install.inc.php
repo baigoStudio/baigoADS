@@ -13,7 +13,7 @@ if(!defined("IN_BAIGO")) {
 
 if (file_exists(BG_PATH_CONFIG . "is_install.php")) { //验证是否已经安装
 	include_once(BG_PATH_CONFIG . "is_install.php");
-	if (!defined("BG_INSTALL_PUB") || PRD_ADMS_PUB > BG_INSTALL_PUB) {
+	if (!defined("BG_INSTALL_PUB") || PRD_ADS_PUB > BG_INSTALL_PUB) {
 		header("Location: " . BG_URL_INSTALL . "ctl.php?mod=upgrade");
 		exit;
 	}

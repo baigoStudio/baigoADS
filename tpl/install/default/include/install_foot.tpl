@@ -5,13 +5,13 @@
 			<div class="panel-footer">
 				<div class="pull-left">
 					{if $config.ui == "default"}
-						<a href="{$smarty.const.PRD_ADMS_URL}" target="_blank">{$smarty.const.PRD_ADMS_POWERED} {$smarty.const.PRD_ADMS_NAME}</a>
+						<a href="{$smarty.const.PRD_ADS_URL}" target="_blank">{$smarty.const.PRD_ADS_POWERED} {$smarty.const.PRD_ADS_NAME}</a>
 					{else}
-						{$config.ui} ADMS
+						{$config.ui} ADS
 					{/if}
 				</div>
 				<div class="pull-right">
-					<a href="{$smarty.const.BG_URL_HELP}ctl.php?mod={$cfg.mod_help}&act_get={$cfg.act_help}" target="_blank">
+					<a href="{$smarty.const.BG_URL_HELP}ctl.php?mod={$cfg.mod_help}&act_get={$tplData.act_get}" target="_blank">
 						<span class="glyphicon glyphicon-question-sign"></span>
 						{$lang.href.help}
 					</a>
@@ -21,4 +21,3 @@
 		</div>
 	</div>
 
-</body>

@@ -11,12 +11,9 @@
 
 	<!--bootstrap-->
 	<link href="{$smarty.const.BG_URL_STATIC}js/bootstrap/css/bootstrap.min.css" type="text/css" rel="stylesheet">
-	<script src="{$smarty.const.BG_URL_STATIC}js/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-
 	<link href="{$smarty.const.BG_URL_STATIC}js/prism/prism.css" type="text/css" rel="stylesheet">
-	<script src="{$smarty.const.BG_URL_STATIC}js/prism/prism.min.js" type="text/javascript"></script>
-
 	<link href="{$smarty.const.BG_URL_STATIC}help/{$config.ui}/css/help.css" type="text/css" rel="stylesheet">
+
 </head>
 
 <body>
@@ -31,7 +28,7 @@
 					<span class="icon-bar"></span>
 				</button>
 				<a class="navbar-brand" href="./">
-					<img alt="baigo ADMS" src="{$smarty.const.BG_URL_STATIC}admin/{$config.ui}/image/admin_logo.png">
+					<img alt="baigo ADS" src="{$smarty.const.BG_URL_STATIC}admin/{$config.ui}/image/admin_logo.png">
 				</a>
 			</div>
 			<nav class="collapse navbar-collapse bs-navbar-collapse">
@@ -72,7 +69,7 @@
 							<table class="table">
 								<thead>
 									<tr>
-										<th class="nowrap">代码</th>
+										<th class="text-nowrap">代码</th>
 										<th>具体描述</th>
 									</tr>
 								</thead>
@@ -90,7 +87,7 @@
 				{/if}
 			</div>
 			<div class="col-md-2">
-				<ul class="nav nav-pills nav-stacked nav_adms">
+				<ul class="nav nav-pills nav-stacked nav_ads">
 					{foreach $tplData.config.menu as $key=>$value}
 						<li{if $tplData.act_get == $key} class="active"{/if}><a href="{$smarty.const.BG_URL_HELP}ctl.php?mod={$tplData.mod}&act_get={$key}">{$value}</a></li>
 					{/foreach}
@@ -106,12 +103,16 @@
 				<li><a href="http://www.baigo.net/" target="_blank">baigo Studio</a></li>
 				<li><a href="http://www.baigo.net/cms/" target="_blank">baigo CMS</a></li>
 				<li><a href="http://www.baigo.net/sso/" target="_blank">baigo SSO</a></li>
-				<li><a href="http://www.baigo.net/adms/" target="_blank">baigo ADMS</a></li>
+				<li><a href="http://www.baigo.net/ads/" target="_blank">baigo ADS</a></li>
 			{else}
-				<li>{$config.ui} ADMS</li>
+				<li>{$config.ui} ADS</li>
 			{/if}
 		</ul>
 	</footer>
+
+	<!--bootstrap-->
+	<script src="{$smarty.const.BG_URL_STATIC}js/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+	<script src="{$smarty.const.BG_URL_STATIC}js/prism/prism.min.js" type="text/javascript"></script>
 
 </body>
 </html>

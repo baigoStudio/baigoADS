@@ -1,11 +1,11 @@
 /*
-v0.0.9 jQuery baigoADMS 通屏 插件
-(c) 2013 baigo studio - http://www.baigo.net/adms/
+v0.0.9 jQuery baigoADS 通屏 插件
+(c) 2013 baigo studio - http://www.baigo.net/ads/
 License: http://www.opensource.org/licenses/mit-license.php
 */
 
 (function($){
-	$.fn.admsThrough = function(options) {
+	$.fn.adsThrough = function(options) {
 
     	var thisObj = $(this); //定义当前对象
 		var _parent_id = thisObj.attr("id");

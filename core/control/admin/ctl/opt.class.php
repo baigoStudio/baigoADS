@@ -31,84 +31,22 @@ class CONTROL_OPT {
 	}
 
 
-	/**
-	 * ctl_sso function.
-	 *
-	 * @access public
-	 * @return void
-	 */
-	function ctl_upload() {
-		if (!isset($this->adminLogged["admin_allow"]["opt"]["upload"])) {
-			return array(
-				"alert" => "x060302",
-			);
-			exit;
-		}
+	function ctl_form() {
+		$_act_get    = fn_getSafe($GLOBALS["act_get"], "txt", "base");
 
-		$this->obj_tpl->tplDisplay("opt_upload.tpl", $this->tplData);
-
-		return array(
-			"alert" => "y060302",
-		);
-	}
-
-
-	function ctl_sso() {
-		if (!isset($this->adminLogged["admin_allow"]["opt"]["sso"])) {
-			return array(
-				"alert" => "x060303",
-			);
-			exit;
-		}
-
-		$this->obj_tpl->tplDisplay("opt_sso.tpl", $this->tplData);
-
-		return array(
-			"alert" => "y060303",
-		);
-	}
-
-
-	/**
-	 * ctl_base function.
-	 *
-	 * @access public
-	 * @return void
-	 */
-	function ctl_base() {
-		if (!isset($this->adminLogged["admin_allow"]["opt"]["base"])) {
+		if (!isset($this->adminLogged["admin_allow"]["opt"][$_act_get])) {
 			return array(
 				"alert" => "x060301",
 			);
 			exit;
 		}
 
-		$this->obj_tpl->tplDisplay("opt_base.tpl", $this->tplData);
+		$this->tplData["act_get"] = $_act_get;
+
+		$this->obj_tpl->tplDisplay("opt_form.tpl", $this->tplData);
 
 		return array(
 			"alert" => "y060301",
-		);
-	}
-
-
-	/**
-	 * ctl_db function.
-	 *
-	 * @access public
-	 * @return void
-	 */
-	function ctl_db() {
-		if (!isset($this->adminLogged["admin_allow"]["opt"]["db"])) {
-			return array(
-				"alert" => "x060306",
-			);
-			exit;
-		}
-
-		$this->obj_tpl->tplDisplay("opt_db.tpl", $this->tplData);
-
-		return array(
-			"alert" => "y060306",
 		);
 	}
 }

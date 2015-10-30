@@ -71,15 +71,15 @@
 				<table class="table table-striped table-hover">
 					<thead>
 						<tr>
-							<th class="td_mn">
+							<th class="text-nowrap td_mn">
 								<label for="chk_all" class="checkbox-inline">
 									<input type="checkbox" name="chk_all" id="chk_all" class="first">
 									{$lang.label.all}
 								</label>
 							</th>
-							<th class="td_mn">{$lang.label.id}</th>
+							<th class="text-nowrap td_mn">{$lang.label.id}</th>
 							<th>{$lang.label.admin}</th>
-							<th class="td_sm">{$lang.label.status} / {$lang.label.note}</th>
+							<th class="text-nowrap td_sm">{$lang.label.status} / {$lang.label.note}</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -90,8 +90,8 @@
 								{$_css_status = "danger"}
 							{/if}
 							<tr>
-								<td class="td_mn"><input type="checkbox" name="admin_id[]" value="{$value.admin_id}" id="admin_id_{$value.admin_id}" group="admin_id" class="validate chk_all"></td>
-								<td class="td_mn">{$value.admin_id}</td>
+								<td class="text-nowrap td_mn"><input type="checkbox" name="admin_id[]" value="{$value.admin_id}" id="admin_id_{$value.admin_id}" group="admin_id" class="validate chk_all"></td>
+								<td class="text-nowrap td_mn">{$value.admin_id}</td>
 								<td>
 									<ul class="list-unstyled">
 										<li>
@@ -112,7 +112,7 @@
 										</li>
 									</ul>
 								</td>
-								<td class="td_sm">
+								<td class="text-nowrap td_sm">
 									<ul class="list-unstyled">
 										<li class="label_baigo">
 											<span class="label label-{$_css_status}">{$status.admin[$value.admin_status]}</span>

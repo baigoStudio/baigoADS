@@ -1,7 +1,7 @@
 {
 	"name": "通屏",
-	"plugin": "admsThrough",
-	"selector": "#admsThrough",
+	"plugin": "adsThrough",
+	"selector": "#adsThrough",
 	"ispercent": "enable",
 	"type": "media",
 	"note": "本脚本需要 jQuery 支持",

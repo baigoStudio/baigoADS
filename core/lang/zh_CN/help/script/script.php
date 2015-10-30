@@ -13,7 +13,7 @@ return "<h3>脚本</h3>
 	<h4>脚本文件示例</h4>
 	<p>
 <pre><code class=\"language-javascript\">(function($){
-	$.fn.admsBanner = function(options) { //定义插件名
+	$.fn.adsBanner = function(options) { //定义插件名
 
     	var thisObj = $(this);
 		var _parent_id = thisObj.attr(&quot;id&quot;); //获取选择器的 ID

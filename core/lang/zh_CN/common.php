@@ -13,7 +13,7 @@ if(!defined("IN_BAIGO")) {
 return array(
 	/*------站点------*/
 	"site"             => array(
-		"name"            => "baigo ADMS",
+		"name"            => "baigo ADS",
 	),
 
 	/*------页面标题------*/
@@ -28,21 +28,18 @@ return array(
 		"profile"         => "管理员个人信息",
 		"pass"            => "修改密码",
 		"auth"            => "授权", //授权
+        "opt"             => "系统设置",
 
-		"upgrade"         => "baigo ADMS 升级程序",
-		"upgradeDbtable"  => "升级数据库",
+		"upgrade"         => "baigo ADS 升级程序",
+		"upgradeDbtable"     => "升级数据库",
 		"upgradeOver"     => "完成升级",
 
-		"install"         => "baigo ADMS 安装程序",
+		"install"         => "baigo ADS 安装程序",
 		"installExt"      => "服务器环境检查",
-		"installDbconfig" => "数据库设置",
-		"installDbtable"  => "创建数据表",
-		"installBase"     => "基本设置",
-		"installUpload"   => "上传设置",
-		"installSso"      => "SSO 设置",
+		"installDbtable"     => "创建数据表",
+
 		"installSsoAuto"  => "SSO 自动部署",
 		"installAdmin"    => "创建管理员",
-		"installAuto"     => "SSO 自动部署",
 		"installOver"     => "完成安装",
 	),
 
@@ -76,6 +73,9 @@ return array(
 		"ssoUpgrade"      => "SSO 升级", //尾页
 
 		"passModi"        => "修改密码",
+		"infoModi"        => "个人信息",
+
+        "opt"             => "系统设置",
 		"show"            => "查看",
 		"noticeTest"      => "通知接口测试",
 
@@ -108,6 +108,7 @@ return array(
 		"height"          => "高度",
 		"px"              => "px",
 		"expired"         => "完毕",
+        "opt"             => "系统设置",
 
 		"year"            => "年", //年
 		"month"           => "月", //月
@@ -169,15 +170,6 @@ return array(
 		"uploading"       => "正在上传 ...",
 		"uploadSucc"      => "上传成功",
 
-		"dbHost"          => "数据库服务器",
-		"dbPort"          => "服务器端口",
-		"dbName"          => "数据库名称",
-		"dbUser"          => "数据库用户名",
-		"dbPass"          => "数据库密码",
-		"dbCharset"       => "数据库字符编码",
-		"dbTable"         => "数据表名前缀",
-		"dbDebug"         => "数据库调试模式",
-
 		"user"            => "用户",
 		"admin"           => "管理员",
 
@@ -193,7 +185,6 @@ return array(
 
 		"installOver"     => "还差最后一步，完成安装",
 		"installDbtable"  => "即将创建数据表",
-		"installAuto"     => "即将执行自动部署第二步",
 	),
 
 	/*------选择项------*/
@@ -251,9 +242,9 @@ return array(
 	"text" => array(
 		"extErr"          => "服务器环境检查未通过，请检查上述扩展库是否已经正确安装。",
 		"extOk"           => "服务器环境检查通过，可以继续安装。",
-		"installSso"      => "baigo ADMS 的用户以及后台登录需要 baigo SSO 支持，baigo SSO 的部署方式，请查看 <a href=\"http://www.baigo.net/sso/\" target=\"_blank\">baigo SSO 官方网站</a>。如果您的网站没有部署 baigo SSO，请点击 <mark>SSO 自动部署</mark>。",
-		"upgradeSso"      => "baigo ADMS 的用户以及后台登录需要 baigo SSO 支持，baigo SSO 的部署方式，请查看 <a href=\"http://www.baigo.net/sso/\" target=\"_blank\">baigo SSO 官方网站</a>。baigo SSO 的升级与 baigo ADMS 的升级并无直接关联，如果您要检查 baigo SSO 是否可升级，请点击 <mark>SSO 升级</mark>。",
-		"installSsoAdmin" => "本操作将同时为 baigo ADMS 与 baigo SSO 创建管理员，拥有所有的管理权限。请牢记用户名与密码。",
+		"installSso"      => "baigo ADS 的用户以及后台登录需要 baigo SSO 支持，baigo SSO 的部署方式，请查看 <a href=\"http://www.baigo.net/sso/\" target=\"_blank\">baigo SSO 官方网站</a>。如果您的网站没有部署 baigo SSO，请点击 <mark>SSO 自动部署</mark>。",
+		"upgradeSso"      => "baigo ADS 的用户以及后台登录需要 baigo SSO 支持，baigo SSO 的部署方式，请查看 <a href=\"http://www.baigo.net/sso/\" target=\"_blank\">baigo SSO 官方网站</a>。baigo SSO 的升级与 baigo ADS 的升级并无直接关联，如果您要检查 baigo SSO 是否可升级，请点击 <mark>SSO 升级</mark>。",
+		"installSsoAdmin" => "本操作将同时为 baigo ADS 与 baigo SSO 创建管理员，拥有所有的管理权限。请牢记用户名与密码。",
 		"installAdmin"    => "本操作将向 baigo SSO 注册新用户，并自动将新注册的用户授权为超级管理员，拥有所有的管理权限。如果您之前已经部署有 baigo SSO，并且不想注册新用户，只希望使用原有的 baigo SSO 用户作为管理员，请点击 <mark>授权为管理员</mark>。",
 		"installAuth"     => "本操作将用您输入的 baigo SSO 用户作为管理员，拥有所有的管理权限。您必须输入该用户的用户名和密码才能进行授权。如果您要创建新的管理员请点击 <mark>创建管理员</mark>。",
 		"posiCodeNote"    => "该代码用于显示广告，请根据实际情况灵活运用。建议将示例代码中的 <mark>广告样式</mark> 放置在网页的 <code>head</code> 之间，<mark>显示容器</mark> 放置在网页显示广告的位置，其余部分放置在网页的 <code>body</code> 末尾。",

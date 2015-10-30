@@ -75,18 +75,18 @@
 				<table class="table table-striped table-hover">
 					<thead>
 						<tr>
-							<th class="td_mn">
+							<th class="text-nowrap td_mn">
 								<label for="chk_all" class="checkbox-inline">
 									<input type="checkbox" name="chk_all" id="chk_all" class="first">
 									{$lang.label.all}
 								</label>
 							</th>
-							<th class="td_mn">{$lang.label.id}</th>
+							<th class="text-nowrap td_mn">{$lang.label.id}</th>
 							<th>{$lang.label.advertName}</th>
-							<th class="td_bg">{$lang.label.advertShow} / {$lang.label.advertHit}</th>
-							<th class="td_bg">{$lang.label.posi} / {$lang.label.advertPercent}</th>
-							<th class="td_bg">{$lang.label.advertBegin} / {$lang.label.advertPutType}</th>
-							<th class="td_md">{$lang.label.status} / {$lang.label.note}</th>
+							<th class="text-nowrap td_bg">{$lang.label.advertShow} / {$lang.label.advertHit}</th>
+							<th class="text-nowrap td_bg">{$lang.label.posi} / {$lang.label.advertPercent}</th>
+							<th class="text-nowrap td_bg">{$lang.label.advertBegin} / {$lang.label.advertPutType}</th>
+							<th class="text-nowrap td_md">{$lang.label.status} / {$lang.label.note}</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -104,8 +104,8 @@
 								{/if}
 							{/if}
 							<tr>
-								<td class="td_mn"><input type="checkbox" name="advert_id[]" value="{$value.advert_id}" id="advert_id_{$value.advert_id}" group="advert_id" class="validate chk_all"></td>
-								<td class="td_mn">{$value.advert_id}</td>
+								<td class="text-nowrap td_mn"><input type="checkbox" name="advert_id[]" value="{$value.advert_id}" id="advert_id_{$value.advert_id}" group="advert_id" class="validate chk_all"></td>
+								<td class="text-nowrap td_mn">{$value.advert_id}</td>
 								<td>
 									<ul class="list-unstyled">
 										<li>{$value.advert_name}</li>
@@ -124,7 +124,7 @@
 										</li>
 									</ul>
 								</td>
-								<td class="td_bg">
+								<td class="text-nowrap td_bg">
 									<ul class="list-unstyled">
 										<li>
 											{$value.advert_count_show}
@@ -134,7 +134,7 @@
 										</li>
 									</ul>
 								</td>
-								<td class="td_bg">
+								<td class="text-nowrap td_bg">
 									<ul class="list-unstyled">
 										<li>
 											{if isset($value.posiRow.posi_name)}
@@ -148,7 +148,7 @@
 										</li>
 									</ul>
 								</td>
-								<td class="td_bg">
+								<td class="text-nowrap td_bg">
 									<ul class="list-unstyled">
 										<li>
 											{$value.advert_begin|date_format:"{$smarty.const.BG_SITE_DATE} {$smarty.const.BG_SITE_TIMESHORT}"}
@@ -163,7 +163,7 @@
 										</li>
 									</ul>
 								</td>
-								<td class="td_md">
+								<td class="text-nowrap td_md">
 									<ul class="list-unstyled">
 										<li class="label_baigo">
 											<span class="label label-{$_css_status}">{$_str_status}</span>

@@ -9,53 +9,53 @@ return "<h3>配置</h3>
 			<table class=\"table\">
 				<thead>
 					<tr>
-						<th class=\"nowrap\">键名</th>
-						<th class=\"nowrap\">类型</th>
-						<th class=\"nowrap\">说明</th>
+						<th class=\"text-nowrap\">键名</th>
+						<th class=\"text-nowrap\">类型</th>
+						<th class=\"text-nowrap\">说明</th>
 						<th>备注</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<td class=\"nowrap\">name</td>
-						<td class=\"nowrap\">string</td>
-						<td class=\"nowrap\">脚本名</td>
+						<td class=\"text-nowrap\">name</td>
+						<td class=\"text-nowrap\">string</td>
+						<td class=\"text-nowrap\">脚本名</td>
 						<td>创建（编辑）广告位时，选择脚本，会将此参数填入广告位名称。</td>
 					</tr>
 					<tr>
-						<td class=\"nowrap\">plugin</td>
-						<td class=\"nowrap\">string</td>
-						<td class=\"nowrap\">插件名</td>
+						<td class=\"text-nowrap\">plugin</td>
+						<td class=\"text-nowrap\">string</td>
+						<td class=\"text-nowrap\">插件名</td>
 						<td>创建（编辑）广告位时，选择脚本，会将此参数填入插件名。</td>
 					</tr>
 					<tr>
-						<td class=\"nowrap\">selector</td>
-						<td class=\"nowrap\">string</td>
-						<td class=\"nowrap\">默认选择器</td>
+						<td class=\"text-nowrap\">selector</td>
+						<td class=\"text-nowrap\">string</td>
+						<td class=\"text-nowrap\">默认选择器</td>
 						<td>创建（编辑）广告位时，选择脚本，会将此参数填入默认选择器。</td>
 					</tr>
 					<tr>
-						<td class=\"nowrap\">ispercent</td>
-						<td class=\"nowrap\">string</td>
-						<td class=\"nowrap\">是否允许几率展现</td>
+						<td class=\"text-nowrap\">ispercent</td>
+						<td class=\"text-nowrap\">string</td>
+						<td class=\"text-nowrap\">是否允许几率展现</td>
 						<td>enable 或 disable，创建（编辑）广告位时，选择脚本，会自动选择允许几率展现。</td>
 					</tr>
 					<tr>
-						<td class=\"nowrap\">type</td>
-						<td class=\"nowrap\">string</td>
-						<td class=\"nowrap\">广告内容</td>
+						<td class=\"text-nowrap\">type</td>
+						<td class=\"text-nowrap\">string</td>
+						<td class=\"text-nowrap\">广告内容</td>
 						<td>media 或 text，创建（编辑）广告位时，选择脚本，会自动选择广告内容。</td>
 					</tr>
 					<tr>
-						<td class=\"nowrap\">note</td>
-						<td class=\"nowrap\">string</td>
-						<td class=\"nowrap\">备注</td>
+						<td class=\"text-nowrap\">note</td>
+						<td class=\"text-nowrap\">string</td>
+						<td class=\"text-nowrap\">备注</td>
 						<td>创建（编辑）广告位时，选择脚本，会自动显示本参数。</td>
 					</tr>
 					<tr>
-						<td class=\"nowrap\">opts</td>
-						<td class=\"nowrap\">array</td>
-						<td class=\"nowrap\">选项，多维数组</td>
+						<td class=\"text-nowrap\">opts</td>
+						<td class=\"text-nowrap\">array</td>
+						<td class=\"text-nowrap\">选项，多维数组</td>
 						<td>查看 <a href=\"#opts\">opts</a> 对象。</td>
 					</tr>
 				</tbody>
@@ -77,29 +77,29 @@ return "<h3>配置</h3>
 			<table class=\"table\">
 				<thead>
 					<tr>
-						<th class=\"nowrap\">键名</th>
-						<th class=\"nowrap\">类型</th>
-						<th class=\"nowrap\">说明</th>
+						<th class=\"text-nowrap\">键名</th>
+						<th class=\"text-nowrap\">类型</th>
+						<th class=\"text-nowrap\">说明</th>
 						<th>备注</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<td class=\"nowrap\">field</td>
-						<td class=\"nowrap\">string</td>
-						<td class=\"nowrap\">选项名</td>
+						<td class=\"text-nowrap\">field</td>
+						<td class=\"text-nowrap\">string</td>
+						<td class=\"text-nowrap\">选项名</td>
 						<td>表单子健，在生成广告代码时，此对象为选项键名。</td>
 					</tr>
 					<tr>
-						<td class=\"nowrap\">label</td>
-						<td class=\"nowrap\">string</td>
-						<td class=\"nowrap\">说明文字</td>
+						<td class=\"text-nowrap\">label</td>
+						<td class=\"text-nowrap\">string</td>
+						<td class=\"text-nowrap\">说明文字</td>
 						<td>表单说明，在生成广告代码时，此对象为备注。</td>
 					</tr>
 					<tr>
-						<td class=\"nowrap\">value</td>
-						<td class=\"nowrap\">string</td>
-						<td class=\"nowrap\">默认值</td>
+						<td class=\"text-nowrap\">value</td>
+						<td class=\"text-nowrap\">string</td>
+						<td class=\"text-nowrap\">默认值</td>
 						<td>填入表单，在生成广告代码时，此对象为选项键值。</td>
 					</tr>
 				</tbody>
@@ -113,8 +113,8 @@ return "<h3>配置</h3>
 	<p>
 <pre><code class=\"language-javascript\">{
 	&quot;name&quot;: &quot;Banner&quot;, //脚本名
-	&quot;plugin&quot;: &quot;admsBanner&quot;, //插件名
-	&quot;selector&quot;: &quot;#admsBanner&quot;, //默认选择器
+	&quot;plugin&quot;: &quot;adsBanner&quot;, //插件名
+	&quot;selector&quot;: &quot;#adsBanner&quot;, //默认选择器
 	&quot;ispercent&quot;: &quot;enable&quot;, //是否允许几率展现（enable 或 disable）
 	&quot;type&quot;: &quot;media&quot;, //广告内容（media 或 text）
 	&quot;note&quot;: &quot;本脚本需要 jQuery 支持&quot;, //备注说明

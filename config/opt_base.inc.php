@@ -1,5 +1,5 @@
 <?php
-define("BG_SITE_NAME", "baigo ADMS");
+define("BG_SITE_NAME", "baigo ADS");
 define("BG_SITE_DOMAIN", "www.baigo.net");
 define("BG_SITE_URL", "http://www.baigo.net");
 define("BG_SITE_PERPAGE", 30);

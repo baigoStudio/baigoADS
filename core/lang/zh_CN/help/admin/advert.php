@@ -19,43 +19,43 @@ return "<h3>所有广告</h3>
 	<div class=\"panel panel-default\">
 		<div class=\"panel-heading\">填写说明</div>
 		<div class=\"panel-body\">
-			<h4 class=\"text_adms\">广告名称</h4>
+			<h4 class=\"text_ads\">广告名称</h4>
 			<p>广告的名称。</p>
 
-			<h4 class=\"text_adms\">链接地址</h4>
+			<h4 class=\"text_ads\">链接地址</h4>
 			<p>点击广告将跳转至该地址。</p>
 
-			<h4 class=\"text_adms\">广告内容</h4>
+			<h4 class=\"text_ads\">广告内容</h4>
 			<p>广告、信息或产品的具体内容，点击“选取或上传”，可以上传图片、图片，或者把已上传的图片、图片选取到广告内容中。</p>
 
-			<h4 class=\"text_adms\">广告位</h4>
+			<h4 class=\"text_ads\">广告位</h4>
 			<p>选择广告投放至某个广告位。</p>
 
-			<h4 class=\"text_adms\">图片</h4>
+			<h4 class=\"text_ads\">图片</h4>
 			<p>选取图片，如广告位规定的广告内容为图片，则出现本选项。</p>
 
-			<h4 class=\"text_adms\">文字内容</h4>
+			<h4 class=\"text_ads\">文字内容</h4>
 			<p>如广告位规定的广告内容为文字，则出现本选项。</p>
 
-			<h4 class=\"text_adms\">生效时间</h4>
+			<h4 class=\"text_ads\">生效时间</h4>
 			<p>广告的生效时间，默认为当前时间，即立刻生效。</p>
 
-			<h4 class=\"text_adms\">状态</h4>
+			<h4 class=\"text_ads\">状态</h4>
 			<p>可选启用、禁用或待审。<mark>根据用户的权限不同，表单会有所变化</mark>。</p>
 
-			<h4 class=\"text_adms\">投放类型</h4>
+			<h4 class=\"text_ads\">投放类型</h4>
 			<p>可选 按日期（在指定日期结束）、按展示数（到达展示数量后结束）、按点击数（到达点击数量后结束）、无限制、替补广告（广告位上无广告时显示）。</p>
 
-			<h4 class=\"text_adms\">结束时间</h4>
+			<h4 class=\"text_ads\">结束时间</h4>
 			<p>投放类型“按日期”时显示。</p>
 
-			<h4 class=\"text_adms\">展示数不超过</h4>
+			<h4 class=\"text_ads\">展示数不超过</h4>
 			<p>投放类型“按展示数”时显示。</p>
 
-			<h4 class=\"text_adms\">点击数不超过</h4>
+			<h4 class=\"text_ads\">点击数不超过</h4>
 			<p>投放类型“按点击数”时显示。</p>
 
-			<h4 class=\"text_adms\">展现几率</h4>
+			<h4 class=\"text_ads\">展现几率</h4>
 			<p>展现几率是指广告按照百分比的几率进行展示。</p>
 		</div>
 	</div>

@@ -1,6 +1,6 @@
 <?php
 define("IN_BAIGO", 1);
-define("BG_DEBUG_SYS", 1);
+define("BG_DEBUG_SYS", 0);
 define("BG_DEBUG_DB", 0);
 define("BG_SWITCH_LANG", 0);
 define("BG_SWITCH_UI", 0);
@@ -58,7 +58,7 @@ define("BG_URL_API", BG_URL_ROOT . BG_NAME_API . "/");
 define("BG_URL_STATIC", BG_URL_ROOT . BG_NAME_STATIC . "/");
 define("BG_URL_SCRIPT", BG_URL_ROOT . BG_NAME_SCRIPT . "/");
 include_once(BG_PATH_INC . "version.inc.php");
-include_once(BG_PATH_CONFIG . "config_db.inc.php");
+include_once(BG_PATH_CONFIG . "opt_db.inc.php");
 include_once(BG_PATH_CONFIG . "opt_base.inc.php");
 include_once(BG_PATH_CONFIG . "opt_sso.inc.php");
 include_once(BG_PATH_CONFIG . "opt_upload.inc.php");

@@ -28,8 +28,6 @@
 
 	</div>
 
-</body>
-
 	<script type="text/javascript">
 	$(document).ready(function(){
 		{if $tplData.sync.urls}
@@ -39,7 +37,7 @@
 					data: "",
 					dataType: "json", //数据格式为json
 					async: false, //设置为同步
-					success: function(){ //读取返回结果
+					complete: function(){ //读取返回结果
 						{if $value@last}
 							window.location.href = "{$tplData.forward}";
 						{/if}
@@ -52,4 +50,5 @@
 	});
 	</script>
 
+</body>
 </html>

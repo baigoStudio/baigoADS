@@ -10,24 +10,19 @@ if(!defined("IN_BAIGO")) {
 }
 
 include_once(BG_PATH_CLASS . "ajax.class.php"); //载入 AJAX 基类
-include_once(BG_PATH_MODEL . "log.class.php"); //载入管理帐号模型
 
 /*-------------管理员控制器-------------*/
 class AJAX_PROFILE {
 
 	private $adminLogged;
 	private $obj_ajax;
-	private $log;
 	private $mdl_admin;
-	private $mdl_log;
 
 	function __construct() { //构造函数
 		$this->adminLogged    = $GLOBALS["adminLogged"]; //已登录商家信息
 		$this->obj_ajax       = new CLASS_AJAX(); //初始化 AJAX 基对象
 		$this->obj_ajax->chk_install(); //获取界面类型
-		$this->log            = $this->obj_ajax->log; //初始化 AJAX 基对象
 		$this->mdl_admin      = new MODEL_ADMIN(); //设置管理组模型
-		$this->mdl_log        = new MODEL_LOG(); //设置管理员模型
 
 		if ($this->adminLogged["alert"] != "y020102") { //未登录，抛出错误信息
 			$this->obj_ajax->halt_alert($this->adminLogged["alert"]);
@@ -42,7 +37,7 @@ class AJAX_PROFILE {
 	 * @return void
 	 */
 	function ajax_info() {
-		if (isset($this->adminLogged["admin_allow"]["info"]) {
+		if (isset($this->adminLogged["admin_allow"]["info"])) {
 			$this->obj_ajax->halt_alert("x020108");
 		}
 

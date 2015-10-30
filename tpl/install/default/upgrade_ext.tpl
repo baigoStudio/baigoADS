@@ -1,4 +1,4 @@
-{* upgrade_dbconfig.tpl 登录界面 *}
+{* upgrade_db.tpl 登录界面 *}
 {$cfg = [
 	sub_title  => $lang.page.installExt,
 	mod_help   => "upgrade",
@@ -37,4 +37,4 @@
 		{/if}
 
 {include "{$smarty.const.BG_PATH_TPL}install/default/include/install_foot.tpl" cfg=$cfg}
-</html>
+{include "{$smarty.const.BG_PATH_TPL}install/default/include/html_foot.tpl" cfg=$cfg}

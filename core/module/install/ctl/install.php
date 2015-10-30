@@ -11,7 +11,7 @@ if(!defined("IN_BAIGO")) {
 
 if (file_exists(BG_PATH_CONFIG . "is_install.php")) {
 	include_once(BG_PATH_CONFIG . "is_install.php");
-	if (defined("BG_INSTALL_PUB") && PRD_ADMS_PUB > BG_INSTALL_PUB) {
+	if (defined("BG_INSTALL_PUB") && PRD_ADS_PUB > BG_INSTALL_PUB) {
 		header("Location: " . BG_URL_INSTALL . "ctl.php?mod=upgrade");
 	} else {
 		header("Location: " . BG_URL_INSTALL . "ctl.php?mod=alert&act_get=show&alert=x030403");
@@ -52,30 +52,6 @@ switch ($GLOBALS["act_get"]) {
 		}
 	break;
 
-	case "upload":
-		$arr_installRow = $ctl_install->ctl_upload();
-		if ($arr_installRow["alert"] != "y030404") {
-			header("Location: " . BG_URL_INSTALL . "ctl.php?mod=alert&act_get=show&alert=" . $arr_installRow["alert"]);
-			exit;
-		}
-	break;
-
-	case "sso":
-		$arr_installRow = $ctl_install->ctl_sso();
-		if ($arr_installRow["alert"] != "y030404") {
-			header("Location: " . BG_URL_INSTALL . "ctl.php?mod=alert&act_get=show&alert=" . $arr_installRow["alert"]);
-			exit;
-		}
-	break;
-
-	case "base":
-		$arr_installRow = $ctl_install->ctl_base();
-		if ($arr_installRow["alert"] != "y030404") {
-			header("Location: " . BG_URL_INSTALL . "ctl.php?mod=alert&act_get=show&alert=" . $arr_installRow["alert"]);
-			exit;
-		}
-	break;
-
 	case "dbtable":
 		$arr_installRow = $ctl_install->ctl_dbtable();
 		if ($arr_installRow["alert"] != "y030404") {
@@ -109,8 +85,11 @@ switch ($GLOBALS["act_get"]) {
 	break;
 
 	case "dbconfig":
-		$arr_installRow = $ctl_install->ctl_dbconfig();
-		if ($arr_installRow["alert"] != "y030403") {
+	case "base":
+	case "upload":
+	case "sso":
+		$arr_installRow = $ctl_install->ctl_form();
+		if ($arr_installRow["alert"] != "y030404") {
 			header("Location: " . BG_URL_INSTALL . "ctl.php?mod=alert&act_get=show&alert=" . $arr_installRow["alert"]);
 			exit;
 		}

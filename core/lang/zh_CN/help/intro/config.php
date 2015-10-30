@@ -1,6 +1,6 @@
 <?php
 return array(
-	"title"    => "baigo ADMS",
+	"title"    => "baigo ADS",
 	"active"   => "intro",
 	"menu"     => array(
 		"outline" => "简介",

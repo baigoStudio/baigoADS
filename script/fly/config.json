@@ -1,7 +1,7 @@
 {
 	"name": "飘动",
-	"plugin": "admsFly",
-	"selector": "#admsFly",
+	"plugin": "adsFly",
+	"selector": "#adsFly",
 	"ispercent": "enable",
 	"type": "media",
 	"note": "本脚本需要 jQuery 支持",

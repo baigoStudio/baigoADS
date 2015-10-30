@@ -17,32 +17,8 @@ include_once(BG_PATH_CONTROL . "admin/ctl/opt.class.php"); //载入设置控制�
 $ctl_opt = new CONTROL_OPT(); //初始化设置对象
 
 switch ($GLOBALS["act_get"]) {
-	case "upload": //注册
-		$arr_optRow = $ctl_opt->ctl_upload();
-		if ($arr_optRow["alert"] != "y060302") {
-			header("Location: " . BG_URL_ADMIN . "ctl.php?mod=alert&act_get=show&alert=" . $arr_optRow["alert"]);
-			exit;
-		}
-	break;
-
-	case "sso": //注册
-		$arr_optRow = $ctl_opt->ctl_sso();
-		if ($arr_optRow["alert"] != "y060303") {
-			header("Location: " . BG_URL_ADMIN . "ctl.php?mod=alert&act_get=show&alert=" . $arr_optRow["alert"]);
-			exit;
-		}
-	break;
-
-	case "db": //数据库
-		$arr_optRow = $ctl_opt->ctl_db();
-		if ($arr_optRow["alert"] != "y060306") {
-			header("Location: " . BG_URL_ADMIN . "ctl.php?mod=alert&act_get=show&alert=" . $arr_optRow["alert"]);
-			exit;
-		}
-	break;
-
 	default: //基本
-		$arr_optRow = $ctl_opt->ctl_base();
+		$arr_optRow = $ctl_opt->ctl_form();
 		if ($arr_optRow["alert"] != "y060301") {
 			header("Location: " . BG_URL_ADMIN . "ctl.php?mod=alert&act_get=show&alert=" . $arr_optRow["alert"]);
 			exit;

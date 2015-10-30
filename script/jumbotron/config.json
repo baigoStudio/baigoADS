@@ -1,7 +1,7 @@
 {
 	"name": "巨幕",
-	"plugin": "admsJumbotron",
-	"selector": "#admsJumbotron",
+	"plugin": "adsJumbotron",
+	"selector": "#adsJumbotron",
 	"ispercent": "enable",
 	"type": "media",
 	"note": "本脚本需要 jQuery 支持",

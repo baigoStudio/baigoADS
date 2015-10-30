@@ -1,7 +1,7 @@
 {
 	"name": "卷帘",
-	"plugin": "admsCurtain",
-	"selector": "#admsCurtain",
+	"plugin": "adsCurtain",
+	"selector": "#adsCurtain",
 	"ispercent": "enable",
 	"type": "media",
 	"note": "本脚本需要 jQuery 支持",

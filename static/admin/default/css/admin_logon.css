@@ -2,8 +2,8 @@ body { background: #eee; }
 .global { max-width: 500px!important; margin: 40px auto; }
 label > span { color: #c30; margin-left: 10px; }
 
-.panel_adms { border-color: #ff95c3; }
-.panel_adms > .panel-heading {
+.panel_ads { border-color: #ff95c3; }
+.panel_ads > .panel-heading {
   color: #333;
   background-color: #ffe6f1;
   border-color: #ff95c3;
