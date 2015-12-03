@@ -39,7 +39,7 @@
 				<input type="hidden" name="act_get" value="list">
 
 				<div class="form-group">
-					<select name="posi_id" class="form-control">
+					<select name="posi_id" class="form-control input-sm">
 						<option value="">{$lang.option.allPosi}</option>
 						{foreach $tplData.posiRows as $key=>$value}
 							<option {if $tplData.search.posi_id == $value.posi_id}selected{/if} value="{$value.posi_id}">{$value.posi_name}</option>
@@ -55,12 +55,14 @@
 					</select>
 				</div>
 				<div class="form-group">
-					<input type="text" name="key" value="{$tplData.search.key}" placeholder="{$lang.label.key}" class="form-control input-sm">
-				</div>
-				<div class="form-group">
-					<button type="submit" class="btn btn-default btn-sm">
-						<span class="glyphicon glyphicon-search"></span>
-					</button>
+                    <div class="input-group">
+    					<input type="text" name="key" value="{$tplData.search.key}" placeholder="{$lang.label.key}" class="form-control input-sm">
+    					<span class="input-group-btn">
+        					<button type="submit" class="btn btn-default btn-sm">
+        						<span class="glyphicon glyphicon-search"></span>
+        					</button>
+    					</span>
+                    </div>
 				</div>
 			</form>
 		</div>

@@ -1,5 +1,5 @@
 {
-	"name": "弹出窗",
+	"name": "弹窗",
 	"plugin": "adsPopup",
 	"selector": "#adsPopup",
 	"ispercent": "enable",

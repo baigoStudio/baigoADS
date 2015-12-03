@@ -59,12 +59,10 @@ class CONTROL_MEDIA {
 			exit;
 		}
 
-		$_num_articleId   = fn_getSafe(fn_get("article_id"), "int", 0);
 		$_arr_yearRows    = $this->mdl_media->mdl_year(100);
 		$_arr_extRows     = $this->mdl_media->mdl_ext();
 
 		$_arr_tpl = array(
-			"article_id" => $_num_articleId,
 			"yearRows"   => $_arr_yearRows,
 			"extRows"    => $_arr_extRows,
 		);

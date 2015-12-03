@@ -173,7 +173,7 @@ class MODEL_MEDIA {
 	 * @param int $num_adminId (default: 0)
 	 * @return void
 	 */
-	function mdl_list($num_no, $num_except = 0, $str_key = "", $str_year = "", $str_month = "", $str_ext = "", $num_adminId = 0, $str_box = "normal", $num_begin = 0, $num_end = 0) {
+	function mdl_list($num_no, $num_except = 0, $str_key = "", $str_year = "", $str_month = "", $str_ext = "", $num_adminId = 0, $str_box = "normal", $arr_mediaIds = false, $num_begin = 0, $num_end = 0) {
 		$_arr_mediaSelect = array(
 			"media_id",
 			"media_name",
@@ -211,6 +211,11 @@ class MODEL_MEDIA {
 			$_str_sqlWhere .= " AND media_box='" . $str_box . "'";
 		}
 
+		if ($arr_mediaIds) {
+			$_str_mediaIds  = implode(",", $arr_mediaIds);
+			$_str_sqlWhere  .= " AND media_id IN (" . $_str_mediaIds . ")";
+		}
+
 		if ($num_begin > 0) {
 			$_str_sqlWhere .= " AND media_id>" . $num_begin;
 		}
@@ -239,7 +244,11 @@ class MODEL_MEDIA {
 	 * @param int $num_adminId (default: 0)
 	 * @return void
 	 */
-	function mdl_del($num_adminId = 0) {
+	function mdl_del($num_adminId = 0, $arr_mediaIds = false) {
+		if ($arr_mediaIds) {
+			$this->mediaIds["media_ids"] = $arr_mediaIds;
+		}
+
 		$_str_mediaIds = implode(",", $this->mediaIds["media_ids"]);
 
 		$_str_sqlWhere = "media_id IN (" . $_str_mediaIds . ")";
@@ -273,7 +282,7 @@ class MODEL_MEDIA {
 	 * @param int $num_adminId (default: 0)
 	 * @return void
 	 */
-	function mdl_count($str_key = "", $str_year = "", $str_month = "", $str_ext = "", $num_adminId = 0, $str_box = "normal", $num_begin = 0, $num_end = 0) {
+	function mdl_count($str_key = "", $str_year = "", $str_month = "", $str_ext = "", $num_adminId = 0, $str_box = "normal", $arr_mediaIds = false, $num_begin = 0, $num_end = 0) {
 		$_str_sqlWhere = "1=1";
 
 		if ($str_key) {
@@ -298,6 +307,11 @@ class MODEL_MEDIA {
 
 		if ($str_box) {
 			$_str_sqlWhere .= " AND media_box='" . $str_box . "'";
+		}
+
+		if ($arr_mediaIds) {
+			$_str_mediaIds  = implode(",", $arr_mediaIds);
+			$_str_sqlWhere  .= " AND media_id IN (" . $_str_mediaIds . ")";
 		}
 
 		if ($num_begin > 0) {
@@ -362,95 +376,18 @@ class MODEL_MEDIA {
 			$_str_chk   = $_str_mediaUrl;
 		}
 
-		$_arr_articleSelect = array(
-			"article_id",
+		$_arr_advertSelect = array(
+			"advert_id",
 		);
 
-		$_str_sqlWhere    = "article_media_id=" . $num_mediaId;
+		$_str_sqlWhere    = "advert_media_id=" . $num_mediaId;
 		//print_r($_str_sqlWhere . "<br>");
-		$_arr_articleRows = $this->obj_db->select(BG_DB_TABLE . "article", $_arr_articleSelect, $_str_sqlWhere, "", "article_id ASC", 1, 0);
+		$_arr_advertRows = $this->obj_db->select(BG_DB_TABLE . "advert", $_arr_advertSelect, $_str_sqlWhere, "", "advert_id ASC", 1, 0);
 
-		//print_r($_arr_articleRows);
-		if (isset($_arr_articleRows[0])) {
+		//print_r($_arr_advertRows);
+		if (isset($_arr_advertRows[0])) {
 			return array(
-				"media_id" => $num_mediaId,
-				"alert" => "y070406",
-			);
-			exit;
-		}
-
-		$_str_sqlWhere    = "article_excerpt LIKE '%" . $_str_chk . "%'";
-		//print_r($_str_sqlWhere . "<br>");
-		$_arr_articleRows = $this->obj_db->select(BG_DB_TABLE . "article", $_arr_articleSelect, $_str_sqlWhere, "", "article_id ASC", 1, 0);
-
-		//print_r($_arr_articleRows);
-		if (isset($_arr_articleRows[0])) {
-			return array(
-				"media_id" => $num_mediaId,
-				"alert" => "y070406",
-			);
-			exit;
-		}
-
-		$_str_sqlWhere    = "article_content LIKE '%" . $_str_chk . "%'";
-		//print_r($_str_sqlWhere . "<br>");
-		$_arr_articleRows = $this->obj_db->select(BG_DB_TABLE . "article_content", $_arr_articleSelect, $_str_sqlWhere, "", "article_id ASC", 1, 0);
-
-		//print_r($_arr_articleRows);
-		if (isset($_arr_articleRows[0])) {
-			return array(
-				"media_id" => $num_mediaId,
-				"alert" => "y070406",
-			);
-			exit;
-		}
-
-		$_arr_cateSelect = array(
-			"cate_id",
-		);
-
-		$_str_sqlWhere    = "cate_content LIKE '%" . $_str_chk . "%'";
-		//print_r($_str_sqlWhere . "<br>");
-		$_arr_cateRows = $this->obj_db->select(BG_DB_TABLE . "cate", $_arr_cateSelect, $_str_sqlWhere, "", "cate_id ASC", 1, 0);
-
-		//print_r($_arr_cateRows);
-		if (isset($_arr_cateRows[0])) {
-			return array(
-				"media_id" => $num_mediaId,
-				"alert" => "y070406",
-			);
-			exit;
-		}
-
-		$_arr_specSelect = array(
-			"spec_id",
-		);
-
-		$_str_sqlWhere    = "spec_content LIKE '%" . $_str_chk . "%'";
-		//print_r($_str_sqlWhere . "<br>");
-		$_arr_specRows = $this->obj_db->select(BG_DB_TABLE . "spec", $_arr_specSelect, $_str_sqlWhere, "", "spec_id ASC", 1, 0);
-
-		//print_r($_arr_specRows);
-		if (isset($_arr_specRows[0])) {
-			return array(
-				"media_id" => $num_mediaId,
-				"alert"     => "y070406",
-			);
-			exit;
-		}
-
-		$_arr_customSelect = array(
-			"value_id",
-		);
-
-		$_str_sqlWhere   = "value_custom_value=" . $num_mediaId;
-		//print_r($_str_sqlWhere . "<br>");
-		$_arr_customRows = $this->obj_db->select(BG_DB_TABLE . "custom_value", $_arr_customSelect, $_str_sqlWhere, "", "value_id ASC", 1, 0);
-
-		//print_r($_arr_customRows);
-		if (isset($_arr_customRows[0])) {
-			return array(
-				"media_id" => $num_mediaId,
+				"media_id"  => $num_mediaId,
 				"alert"     => "y070406",
 			);
 			exit;

@@ -1,8 +1,7 @@
 {* upgrade_over.tpl 登录界面 *}
 {$cfg = [
 	sub_title => $lang.page.upgradeOver,
-	mod_help   => "upgrade",
-	act_help   => "over"
+	mod_help   => "upgrade"
 ]}
 {include "{$smarty.const.BG_PATH_TPL}install/default/include/upgrade_head.tpl" cfg=$cfg}
 

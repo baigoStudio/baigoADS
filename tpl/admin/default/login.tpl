@@ -30,11 +30,12 @@
 
 	<script type="text/javascript">
 	$(document).ready(function(){
-		{if $tplData.sync.urls}
-			{foreach $tplData.sync.urls as $key=>$value}
+		{if $tplData.sync.urlRows}
+			{foreach $tplData.sync.urlRows as $key=>$value}
 				$.ajax({
-					url: "{$value}", //url
-					data: "",
+					url: "{$value.url}", //url
+					data: "{$value.data}",
+					type: "post",
 					dataType: "json", //数据格式为json
 					async: false, //设置为同步
 					complete: function(){ //读取返回结果

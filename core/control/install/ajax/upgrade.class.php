@@ -21,10 +21,24 @@ class AJAX_UPGRADE {
 		$this->obj_ajax       = new CLASS_AJAX(); //初始化 AJAX 基对象
 
 		if (!file_exists(BG_PATH_CONFIG . "is_install.php")) {
-			$this->obj_ajax->halt_alert("x030405");
+			$this->obj_ajax->halt_alert("x030403");
 		}
 		$this->upgrade_init();
 		$this->mdl_opt = new MODEL_OPT();
+	}
+
+	function ajax_dbconfig() {
+		$this->check_db();
+
+		$_arr_dbconfigSubmit = $this->mdl_opt->input_dbconfig();
+
+		if ($_arr_dbconfigSubmit["alert"] != "ok") {
+			$this->obj_ajax->halt_alert($_arr_dbconfigSubmit["alert"]);
+		}
+
+		$_arr_return = $this->mdl_opt->mdl_dbconfig();
+
+		$this->obj_ajax->halt_alert($_arr_return["alert"]);
 	}
 
 
@@ -59,19 +73,6 @@ class AJAX_UPGRADE {
 	}
 
 
-	function ajax_dbtable() {
-		$this->check_db();
-
-		/*$this->table_admin();
-		$this->table_advert();
-		$this->table_media();
-		$this->table_posi();
-		$this->table_stat();*/
-
-		$this->obj_ajax->halt_alert("y030113");
-	}
-
-
 	function ajax_over() {
 		$this->check_db();
 
@@ -83,32 +84,6 @@ class AJAX_UPGRADE {
 
 		$this->obj_ajax->halt_alert("y030412");
 	}
-
-
-	private function table_admin() {
-
-	}
-
-
-	private function table_advert() {
-
-	}
-
-
-	private function table_media() {
-
-	}
-
-
-	private function table_posi() {
-
-	}
-
-
-	private function table_stat() {
-
-	}
-
 
 	private function check_db() {
 		if (!fn_token("chk")) { //令牌

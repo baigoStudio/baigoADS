@@ -33,8 +33,8 @@ return "<h3>概述</h3>
 						<td>/web</td>
 					</tr>
 					<tr>
-						<td class=\"text-nowrap\">advert.php</td>
-						<td class=\"text-nowrap\">广告显示入口文件</td>
+						<td class=\"text-nowrap\">advert</td>
+						<td class=\"text-nowrap\">广告显示入口</td>
 						<td>/web/wwwroot</td>
 					</tr>
 					<tr>

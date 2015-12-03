@@ -1,7 +1,7 @@
 <?php
 return "<h3>数据库设置</h3>
 	<p>
-		<img src=\"{images}db.jpg\" class=\"img-responsive\">
+		<img src=\"{images}dbconfig.jpg\" class=\"img-responsive\">
 	</p>
 
 	<div class=\"panel panel-default\">

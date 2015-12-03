@@ -9,7 +9,9 @@ if(!defined("IN_BAIGO")) {
 	exit("Access Denied");
 }
 
-include_once(BG_PATH_INC . "common_admin_ctl.inc.php"); //管理员通用
+include_once(BG_PATH_FUNC . "include.func.php");
+fn_include(true, true, "Content-Type: text/html; charset=utf-8", true, "ctl", true);
+
 include_once(BG_PATH_INC . "is_install.inc.php"); //验证是否已登录
 include_once(BG_PATH_INC . "is_admin.inc.php"); //验证是否已登录
 include_once(BG_PATH_CONTROL . "admin/ctl/opt.class.php"); //载入设置控制器
@@ -17,7 +19,15 @@ include_once(BG_PATH_CONTROL . "admin/ctl/opt.class.php"); //载入设置控制�
 $ctl_opt = new CONTROL_OPT(); //初始化设置对象
 
 switch ($GLOBALS["act_get"]) {
-	default: //基本
+	case "dbconfig":
+		$arr_optRow = $ctl_opt->ctl_dbconfig();
+		if ($arr_optRow["alert"] != "y060306") {
+			header("Location: " . BG_URL_ADMIN . "ctl.php?mod=alert&act_get=show&alert=" . $arr_optRow["alert"]);
+			exit;
+		}
+	break;
+
+	default:
 		$arr_optRow = $ctl_opt->ctl_form();
 		if ($arr_optRow["alert"] != "y060301") {
 			header("Location: " . BG_URL_ADMIN . "ctl.php?mod=alert&act_get=show&alert=" . $arr_optRow["alert"]);

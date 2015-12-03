@@ -9,6 +9,11 @@
 		<input type="hidden" name="token_session" class="token_session" value="{$common.token_session}">
 		<input type="hidden" name="act_post" value="{$tplData.act_get}">
 
+		{if $tplData.act_get == "sso"}
+    		<p>{$lang.text.upgradeSso}</p>
+    		<p><a href="{$smarty.const.BG_URL_SSO}install/ctl.php?mod=upgrade" target="_blank" class="btn btn-info">{$lang.href.ssoUpgrade}</a></p>
+		{/if}
+
 		{foreach $opt[$tplData.act_get].list as $key=>$value}
     		{if $smarty.const[$key]}
     			{$_this_value = $smarty.const[$key]}

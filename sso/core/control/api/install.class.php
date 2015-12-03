@@ -34,28 +34,44 @@ class API_INSTALL {
 	}
 
 
-	/**
-	 * ajax_submit function.
-	 *
-	 * @access public
-	 * @return void
-	 */
 	function api_dbconfig() {
-		$_arr_dbconfig = $this->mdl_opt->input_dbconfig();
-
-		if ($_arr_dbconfig["alert"] != "ok") {
-			$this->obj_api->halt_re($_arr_dbconfig);
+		$_arr_dbconfigSubmit = $this->mdl_opt->input_dbconfig();
+		if ($_arr_dbconfigSubmit["alert"] != "ok") {
+    		$this->obj_api->halt_re($_arr_dbconfigSubmit["alert"]);
 		}
 
 		$_arr_return = $this->mdl_opt->mdl_dbconfig();
 
-		if ($_arr_return["alert"] != "y040101") {
-			$this->obj_api->halt_re($_arr_return);
+		$this->obj_api->halt_re($_arr_return);
+	}
+
+
+	function api_submit() {
+    	$_act_post = fn_getSafe($GLOBALS["act_post"], "txt", "base");
+
+		$this->check_db();
+
+		$_num_countSrc = 0;
+
+		foreach ($this->obj_api->opt[$_act_post]["list"] as $_key=>$_value) {
+			if ($_value["min"] > 0) {
+				$_num_countSrc++;
+			}
 		}
 
-		$_arr_return = array(
-			"alert" => "y030404"
-		);
+		$_arr_const = $this->mdl_opt->input_const($_act_post);
+
+		$_num_countInput = count(array_filter($_arr_const));
+
+		if ($_num_countInput < $_num_countSrc) {
+			$_arr_return = array(
+    			"alert" => "x030212"
+    		);
+    		$this->obj_api->halt_re($_arr_return);
+		}
+
+		$_arr_return = $this->mdl_opt->mdl_const($_act_post);
+
 		$this->obj_api->halt_re($_arr_return);
 	}
 
@@ -72,28 +88,6 @@ class API_INSTALL {
 
 		$_arr_return = array(
 			"alert"          => "y030103"
-		);
-		$this->obj_api->halt_re($_arr_return);
-	}
-
-
-	function api_base() {
-		$this->check_db();
-
-		foreach ($this->obj_api->opt["base"] as $_key=>$_value) {
-			$_arr_const["base"][$_key] = $_value["default"];
-		}
-
-		$this->mdl_opt->arr_const = $_arr_const;
-
-		$_arr_return = $this->mdl_opt->mdl_const("base");
-
-		if ($_arr_return["alert"] != "y040101") {
-			$this->obj_api->halt_re($_arr_return);
-		}
-
-		$_arr_return = array(
-			"alert" => "y030405"
 		);
 		$this->obj_api->halt_re($_arr_return);
 	}
@@ -125,7 +119,7 @@ class API_INSTALL {
 
 		$_arr_return = $this->mdl_opt->mdl_over();
 
-		if ($_arr_return["alert"] != "y040101") {
+		if ($_arr_return["alert"] != "y030405") {
 			$this->obj_api->halt_re($_arr_return);
 		}
 
@@ -138,32 +132,32 @@ class API_INSTALL {
 	private function table_admin() {
 		include_once(BG_PATH_MODEL . "admin.class.php"); //载入管理帐号模型
 		$_mdl_admin       = new MODEL_ADMIN();
-		$_arr_adminRow    = $_mdl_admin->mdl_create_table();
+		$_arr_adminTable  = $_mdl_admin->mdl_create_table();
 
-		if ($_arr_adminRow["alert"] != "y020105") {
-			$this->obj_api->halt_re($_arr_adminRow);
+		if ($_arr_adminTable["alert"] != "y020105") {
+			$this->obj_api->halt_re($_arr_adminTable);
 		}
 	}
 
 
 	private function table_user() {
 		include_once(BG_PATH_MODEL . "user.class.php"); //载入管理帐号模型
-		$_mdl_user    = new MODEL_USER();
-		$_arr_userRow = $_mdl_user->mdl_create_table();
+		$_mdl_user        = new MODEL_USER();
+		$_arr_userTable   = $_mdl_user->mdl_create_table();
 
-		if ($_arr_userRow["alert"] != "y010105") {
-			$this->obj_api->halt_re($_arr_userRow);
+		if ($_arr_userTable["alert"] != "y010105") {
+			$this->obj_api->halt_re($_arr_userTable);
 		}
 	}
 
 
 	private function table_app() {
 		include_once(BG_PATH_MODEL . "app.class.php"); //载入管理帐号模型
-		$_mdl_app     = new MODEL_APP();
-		$_arr_appRow  = $_mdl_app->mdl_create_table();
+		$_mdl_app         = new MODEL_APP();
+		$_arr_appTable    = $_mdl_app->mdl_create_table();
 
-		if ($_arr_appRow["alert"] != "y050105") {
-			$this->obj_api->halt_re($_arr_appRow);
+		if ($_arr_appTable["alert"] != "y050105") {
+			$this->obj_api->halt_re($_arr_appTable);
 		}
 	}
 
@@ -171,46 +165,46 @@ class API_INSTALL {
 	private function table_app_belong() {
 		include_once(BG_PATH_MODEL . "appBelong.class.php"); //载入管理帐号模型
 		$_mdl_appBelong       = new MODEL_APP_BELONG();
-		$_arr_appBelongRow    = $_mdl_appBelong->mdl_create_table();
+		$_arr_appBelongTable  = $_mdl_appBelong->mdl_create_table();
 
-		if ($_arr_appBelongRow["alert"] != "y070105") {
-			$this->obj_api->halt_re($_arr_appBelongRow);
+		if ($_arr_appBelongTable["alert"] != "y070105") {
+			$this->obj_api->halt_re($_arr_appBelongTable);
 		}
 	}
 
 
 	private function table_log() {
 		include_once(BG_PATH_MODEL . "log.class.php"); //载入管理帐号模型
-		$_mdl_log     = new MODEL_LOG();
-		$_arr_logRow  = $_mdl_log->mdl_create_table();
+		$_mdl_log         = new MODEL_LOG();
+		$_arr_logTable    = $_mdl_log->mdl_create_table();
 
-		if ($_arr_logRow["alert"] != "y060105") {
-			$this->obj_api->halt_re($_arr_logRow);
+		if ($_arr_logTable["alert"] != "y060105") {
+			$this->obj_api->halt_re($_arr_logTable);
 		}
 	}
 
 
 	private function view_user() {
 		include_once(BG_PATH_MODEL . "user.class.php"); //载入管理帐号模型
-		$_mdl_user    = new MODEL_USER();
-		$_arr_user    = $_mdl_user->mdl_create_view();
+		$_mdl_user        = new MODEL_USER();
+		$_arr_userView    = $_mdl_user->mdl_create_view();
 
-		if ($_arr_user["alert"] != "y010108") {
-			$this->obj_api->halt_re($_arr_user);
+		if ($_arr_userView["alert"] != "y010108") {
+			$this->obj_api->halt_re($_arr_userView);
 		}
 	}
 
 	private function record_app() {
 		include_once(BG_PATH_MODEL . "app.class.php"); //载入管理帐号模型
 		$_mdl_app     = new MODEL_APP();
+		$_arr_appRow  = $_mdl_app->api_add();
 
-		$_arr_appAdd  = $_mdl_app->api_add();
-
-		if ($_arr_appAdd["alert"] != "ok") {
-			$this->obj_api->halt_re($_arr_appAdd);
+		if ($_arr_appRow["alert"] != "ok") {
+			$this->obj_api->halt_re($_arr_appRow);
 		}
 
 		$this->appRecord = $_mdl_app->mdl_submit();
+
 		if ($this->appRecord["alert"] != "y050101") {
 			$this->obj_api->halt_re($this->appRecord);
 		}

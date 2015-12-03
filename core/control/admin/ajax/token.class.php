@@ -29,7 +29,7 @@ class AJAX_TOKEN {
 	 * @return void
 	 */
 	function ajax_make() {
-		if ($this->adminLogged["alert"] == "y020102") { //未登录，抛出错误信息
+		if ($this->adminLogged["alert"] == "y020102") {
 			$_str_token  = fn_token(); //生成口令
 			$_str_alert  = "y030102";
 			$_str_msg    = "ok";

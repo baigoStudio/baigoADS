@@ -1,4 +1,4 @@
-{* install_db.tpl 登录界面 *}
+{* install_ext.tpl 登录界面 *}
 {$cfg = [
 	sub_title  => $lang.page.installExt,
 	mod_help   => "install"

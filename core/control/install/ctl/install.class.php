@@ -32,7 +32,7 @@ class CONTROL_INSTALL {
 	}
 
 
-	function ctl_form() {
+	function ctl_dbconfig() {
 		if ($this->errCount > 0) {
 			return array(
 				"alert" => "x030417",
@@ -40,14 +40,7 @@ class CONTROL_INSTALL {
 			exit;
 		}
 
-		if (!$this->check_db()) {
-			return array(
-				"alert" => "x030404",
-			);
-			exit;
-		}
-
-		$this->obj_tpl->tplDisplay("install_form.tpl", $this->tplData);
+		$this->obj_tpl->tplDisplay("install_dbconfig.tpl", $this->tplData);
 
 		return array(
 			"alert" => "y030404",
@@ -76,10 +69,39 @@ class CONTROL_INSTALL {
 			exit;
 		}
 
+		$this->table_admin();
+		$this->table_advert();
+		$this->table_media();
+		$this->table_posi();
+		$this->table_stat();
+
 		$this->obj_tpl->tplDisplay("install_dbtable.tpl", $this->tplData);
 
 		return array(
 			"alert" => "y030404",
+		);
+	}
+
+
+	function ctl_form() {
+		if ($this->errCount > 0) {
+			return array(
+				"alert" => "x030417",
+			);
+			exit;
+		}
+
+		if (!$this->check_db()) {
+			return array(
+				"alert" => "x030404",
+			);
+			exit;
+		}
+
+		$this->obj_tpl->tplDisplay("install_form.tpl", $this->tplData);
+
+		return array(
+			"alert" => "y030405",
 		);
 	}
 
@@ -116,7 +138,7 @@ class CONTROL_INSTALL {
 		$this->obj_tpl->tplDisplay("install_ssoAuto.tpl", $this->tplData);
 
 		return array(
-			"alert" => "y030404",
+			"alert" => "y030405",
 		);
 	}
 
@@ -153,7 +175,7 @@ class CONTROL_INSTALL {
 		$this->obj_tpl->tplDisplay("install_ssoAdmin.tpl", $this->tplData);
 
 		return array(
-			"alert" => "y030404",
+			"alert" => "y030405",
 		);
 	}
 
@@ -176,7 +198,7 @@ class CONTROL_INSTALL {
 		$this->obj_tpl->tplDisplay("install_auth.tpl", $this->tplData);
 
 		return array(
-			"alert" => "y030404",
+			"alert" => "y030405",
 		);
 	}
 
@@ -205,7 +227,7 @@ class CONTROL_INSTALL {
 		$this->obj_tpl->tplDisplay("install_admin.tpl", $this->tplData);
 
 		return array(
-			"alert" => "y030404",
+			"alert" => "y030405",
 		);
 	}
 
@@ -228,7 +250,7 @@ class CONTROL_INSTALL {
 		$this->obj_tpl->tplDisplay("install_over.tpl", $this->tplData);
 
 		return array(
-			"alert" => "y030404",
+			"alert" => "y030405",
 		);
 	}
 
@@ -290,6 +312,7 @@ class CONTROL_INSTALL {
 		);
 	}
 
+
 	private function install_next($act_get) {
 		$_arr_optKeys = array_keys($this->obj_tpl->opt);
 		$_index       = array_search($act_get, $_arr_optKeys);
@@ -297,9 +320,69 @@ class CONTROL_INSTALL {
         if ($_arr_opt) {
     		$_key = key($_arr_opt);
         } else {
-    		$_key = "dbtable";
+    		$_key = "admin";
         }
 
 		return $_key;
+	}
+
+
+	private function table_admin() {
+		include_once(BG_PATH_MODEL . "admin.class.php"); //载入管理帐号模型
+		$_mdl_admin       = new MODEL_ADMIN();
+		$_arr_adminTable  = $_mdl_admin->mdl_create_table();
+
+		$this->tplData["db_alert"]["admin_table"] = array(
+    		"alert"   => $_arr_adminTable["alert"],
+    		"status"  => substr($_arr_adminTable["alert"], 0, 1),
+		);
+	}
+
+
+	private function table_advert() {
+		include_once(BG_PATH_MODEL . "advert.class.php"); //载入管理帐号模型
+		$_mdl_advert      = new MODEL_ADVERT();
+		$_arr_advertTable = $_mdl_advert->mdl_create_table();
+
+		$this->tplData["db_alert"]["advert_table"] = array(
+    		"alert"   => $_arr_advertTable["alert"],
+    		"status"  => substr($_arr_advertTable["alert"], 0, 1),
+		);
+	}
+
+
+	private function table_media() {
+		include_once(BG_PATH_MODEL . "media.class.php"); //载入管理帐号模型
+		$_mdl_media       = new MODEL_MEDIA();
+		$_arr_mediaTable  = $_mdl_media->mdl_create_table();
+
+		$this->tplData["db_alert"]["media_table"] = array(
+    		"alert"   => $_arr_mediaTable["alert"],
+    		"status"  => substr($_arr_mediaTable["alert"], 0, 1),
+		);
+	}
+
+
+	private function table_posi() {
+		include_once(BG_PATH_MODEL . "posi.class.php"); //载入管理帐号模型
+		$_mdl_posi        = new MODEL_POSI();
+		$_arr_posiTable   = $_mdl_posi->mdl_create_table();
+
+		$this->tplData["db_alert"]["posi_table"] = array(
+    		"alert"   => $_arr_posiTable["alert"],
+    		"status"  => substr($_arr_posiTable["alert"], 0, 1),
+		);
+	}
+
+
+	private function table_stat() {
+		include_once(BG_PATH_MODEL . "stat.class.php"); //载入管理帐号模型
+		$_mdl_stat        = new MODEL_STAT();
+		$_arr_statTable   = $_mdl_stat->mdl_create_table();
+
+		$this->tplData["db_alert"]["stat_table"] = array(
+    		"alert"   => $_arr_statTable["alert"],
+    		"status"  => substr($_arr_statTable["alert"], 0, 1),
+		);
 	}
 }

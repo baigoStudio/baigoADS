@@ -18,6 +18,7 @@ class CLASS_BASE {
 		$this->getUi(); //获取界面类型
 		$this->getLang(); //获取当前语言
 		$this->setTimezone(); //设置时区
+		setlocale(LC_ALL, $this->config["lang"] . ".UTF-8"); //设置区域格式,主要针对 csv 处理
 	}
 
 	/*============设置语言============
@@ -25,7 +26,7 @@ class CLASS_BASE {
 	*/
 	function getLang() {
 		//print_r("test");
-		if (BG_SWITCH_LANG == true) { //语言开关为开
+		if (BG_SWITCH_LANG == 1) { //语言开关为开
 			$str_lang = fn_getSafe(fn_get("lang"), "txt", "");
 
 			if ($str_lang) { //查询串指定
@@ -47,12 +48,10 @@ class CLASS_BASE {
 					}
 				//}
 			}
-
 		} else { //语言开关为关
 			$_str_return = BG_DEFAULT_LANG; //默认语言
 		}
 
-		//setcookie("cookie_lang", $_str_return); //客户端是英文
 		$this->config["lang"] = $_str_return;
 
 	}
@@ -61,8 +60,7 @@ class CLASS_BASE {
 	返回字符串 界面类型
 	*/
 	function getUi() {
-
-		if (BG_SWITCH_UI == true) { //界面开关为开
+		if (BG_SWITCH_UI == 1) { //界面开关为开
 			$str_ui = fn_getSafe(fn_get("ui"), "txt", "");
 
 			if ($str_ui) { //查询串指定
@@ -77,7 +75,6 @@ class CLASS_BASE {
 		} else { //界面开关为关
 			$_str_return = BG_DEFAULT_UI; //默认界面
 		}
-		//setcookie("cookie_ui", $_str_return); //客户端是移动设备
 		$this->config["ui"] = $_str_return;
 	}
 

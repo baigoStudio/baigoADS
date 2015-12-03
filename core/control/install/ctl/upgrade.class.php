@@ -32,6 +32,22 @@ class CONTROL_UPGRADE {
 	}
 
 
+	function ctl_dbconfig() {
+		if ($this->errCount > 0) {
+			return array(
+				"alert" => "x030414",
+			);
+			exit;
+		}
+
+		$this->obj_tpl->tplDisplay("upgrade_dbconfig.tpl", $this->tplData);
+
+		return array(
+			"alert" => "y030404",
+		);
+	}
+
+
 	function ctl_form() {
 		if ($this->errCount > 0) {
 			return array(
@@ -50,7 +66,7 @@ class CONTROL_UPGRADE {
 		$this->obj_tpl->tplDisplay("upgrade_form.tpl", $this->tplData);
 
 		return array(
-			"alert" => "y030404",
+			"alert" => "y030405",
 		);
 	}
 
@@ -75,6 +91,12 @@ class CONTROL_UPGRADE {
 			);
 			exit;
 		}
+
+		$this->table_admin();
+		$this->table_advert();
+		$this->table_media();
+		$this->table_posi();
+		$this->table_stat();
 
 		$this->obj_tpl->tplDisplay("upgrade_dbtable.tpl", $this->tplData);
 
@@ -102,7 +124,7 @@ class CONTROL_UPGRADE {
 		$this->obj_tpl->tplDisplay("upgrade_over.tpl", $this->tplData);
 
 		return array(
-			"alert" => "y030404",
+			"alert" => "y030405",
 		);
 	}
 
@@ -171,9 +193,49 @@ class CONTROL_UPGRADE {
         if ($_arr_opt) {
     		$_key = key($_arr_opt);
         } else {
-    		$_key = "dbtable";
+    		$_key = "over";
         }
 
 		return $_key;
+	}
+
+
+	private function table_admin() {
+		$this->tplData["db_alert"]["admin_table"] = array(
+    		"alert"   => "y020111",
+    		"status"  => "y",
+		);
+	}
+
+
+	private function table_advert() {
+		$this->tplData["db_alert"]["advert_table"] = array(
+    		"alert"   => "y080111",
+    		"status"  => "y",
+		);
+	}
+
+
+	private function table_media() {
+		$this->tplData["db_alert"]["media_table"] = array(
+    		"alert"   => "y070111",
+    		"status"  => "y",
+		);
+	}
+
+
+	private function table_posi() {
+		$this->tplData["db_alert"]["posi_table"] = array(
+    		"alert"   => "y040111",
+    		"status"  => "y",
+		);
+	}
+
+
+	private function table_stat() {
+		$this->tplData["db_alert"]["stat_table"] = array(
+    		"alert"   => "y090111",
+    		"status"  => "y",
+		);
 	}
 }

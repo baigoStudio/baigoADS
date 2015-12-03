@@ -3,7 +3,7 @@
 ！！！！警告！！！！
 以下为系统文件，请勿修改
 -----------------------------------------------------------------*/
-$arr_mod = array("notice", "sync");
+$arr_mod = array("notice", "sync", "advert");
 
 if (isset($_GET["mod"])) {
 	$mod = $_GET["mod"];
@@ -21,7 +21,7 @@ include_once($base . "config/init.class.php");
 
 $obj_init = new CLASS_INIT();
 
-$obj_init->config_gen(true);
+$obj_init->config_gen();
 
 include_once($obj_init->str_pathRoot . "config/config.inc.php"); //载入配置
 

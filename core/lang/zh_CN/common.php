@@ -18,29 +18,31 @@ return array(
 
 	/*------页面标题------*/
 	"page"             => array(
-		"admin"           => "管理后台",
-		"adminLogon"      => "管理后台登录",
-		"alert"           => "提示信息",
-		"edit"            => "编辑",
-		"add"             => "创建",
-		"detail"          => "详情",
-		"show"            => "查看",
-		"profile"         => "管理员个人信息",
-		"pass"            => "修改密码",
-		"auth"            => "授权", //授权
-        "opt"             => "系统设置",
+        "admin"             => "管理后台",
+        "adminLogon"        => "管理后台登录",
+        "alert"             => "提示信息",
+        "edit"              => "编辑",
+        "add"               => "创建",
+        "detail"            => "详情",
+        "show"              => "查看",
+        "profile"           => "管理员个人信息",
+        "pass"              => "修改密码",
+        "auth"              => "授权", //授权
+        "opt"               => "系统设置",
 
-		"upgrade"         => "baigo ADS 升级程序",
-		"upgradeDbtable"     => "升级数据库",
-		"upgradeOver"     => "完成升级",
+        "install"           => "baigo ADS 安装程序",
+        "installExt"        => "服务器环境检查",
+        "installDbConfig"   => "数据库设置",
+        "installDbTable"    => "创建数据表",
 
-		"install"         => "baigo ADS 安装程序",
-		"installExt"      => "服务器环境检查",
-		"installDbtable"     => "创建数据表",
+        "installSsoAuto"    => "SSO 自动部署",
+        "installAdmin"      => "创建管理员",
+        "installOver"       => "完成安装",
 
-		"installSsoAuto"  => "SSO 自动部署",
-		"installAdmin"    => "创建管理员",
-		"installOver"     => "完成安装",
+        "upgrade"           => "baigo ADS 升级程序",
+        "upgradeDbTable"    => "升级数据库",
+        "upgradeOver"       => "完成升级",
+
 	),
 
 	/*------链接文字------*/
@@ -121,6 +123,14 @@ return array(
 		"normal"          => "正常", //草稿
 		"recycle"         => "回收站", //回收站
 
+        "dbHost"          => "数据库服务器",
+        "dbPort"          => "服务器端口",
+        "dbName"          => "数据库名称",
+        "dbUser"          => "用户名",
+        "dbPass"          => "密码",
+        "dbCharset"       => "字符编码",
+        "dbTable"         => "数据表前缀",
+
 		"loging"          => "正在登录 ...",
 		"installSso"      => "即将执行自动部署第一步",
 
@@ -169,6 +179,7 @@ return array(
 
 		"uploading"       => "正在上传 ...",
 		"uploadSucc"      => "上传成功",
+		"uploadOver"      => "上传完毕",
 
 		"user"            => "用户",
 		"admin"           => "管理员",
@@ -180,11 +191,11 @@ return array(
 		"passConfirm"     => "确认密码", //密码
 
 		"upgrade"         => "正在进行升级安装",
-		"upgradeDbtable"  => "即将升级数据库",
+		"upgradeDbTable"  => "即将升级数据库",
 		"upgradeOver"     => "还差最后一步，完成升级",
 
 		"installOver"     => "还差最后一步，完成安装",
-		"installDbtable"  => "即将创建数据表",
+		"installDbTable"  => "即将创建数据表",
 	),
 
 	/*------选择项------*/

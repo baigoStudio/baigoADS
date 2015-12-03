@@ -516,60 +516,6 @@ return array(
     		),
 		),
 	),
-	"dbconfig" => array(
-		"title"   => "数据库设置",
-		"list"    => array(
-            "BG_DB_HOST" => array(
-    			"label"      => "数据库服务器",
-    			"type"       => "str",
-    			"format"     => "text",
-    			"min"        => 1,
-    			"default"    => "localhost",
-    		),
-            "BG_DB_PORT" => array(
-    			"label"      => "服务器端口",
-    			"type"       => "str",
-    			"format"     => "int",
-    			"min"        => 1,
-    			"default"    => 3306,
-    		),
-            "BG_DB_NAME" => array(
-    			"label"      => "数据库名称",
-    			"type"       => "str",
-    			"format"     => "text",
-    			"min"        => 1,
-    			"default"    => "baigo_ads",
-    		),
-            "BG_DB_USER" => array(
-    			"label"      => "用户名",
-    			"type"       => "str",
-    			"format"     => "text",
-    			"min"        => 1,
-    			"default"    => "baigo_ads",
-    		),
-            "BG_DB_PASS" => array(
-    			"label"      => "密码",
-    			"type"       => "str",
-    			"format"     => "text",
-    			"min"        => 1,
-    			"default"    => "******",
-    		),
-            "BG_DB_CHARSET" => array(
-    			"label"      => "数据编码",
-    			"type"       => "str",
-    			"format"     => "text",
-    			"min"        => 1,
-    			"default"    => "utf8",
-    		),
-            "BG_DB_TABLE" => array(
-    			"label"      => "数据表前缀",
-    			"type"       => "str",
-    			"format"     => "text",
-    			"min"        => 1,
-    			"default"    => "ads_",
-    		),
-		),
-    ),
 	"upload" => array(
 		"title"   => "上传设置",
 		"list"    => array(

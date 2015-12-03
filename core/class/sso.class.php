@@ -53,19 +53,18 @@ class CLASS_SSO {
 	 */
 	function sso_decode($str_code, $str_key) {
 		$_arr_sso = array(
-			"act_get"    => "decode", //方法
+			"act_post"   => "decode", //方法
 			"code"       => $str_code, //加密串
 			"key"        => $str_key, //解码秘钥
 		);
 
 		if (isset($this->appInstall)) { //仅在安装时使用
 			$_arr_ssoData     = array_merge($this->appInstall, $_arr_sso); //合并数组
-			$_arr_get         = fn_http($this->appInstall["sso_url"] . "?mod=code", $_arr_ssoData, "get"); //提交
+			$_arr_get         = fn_http($this->appInstall["sso_url"] . "?mod=code", $_arr_ssoData, "post"); //提交
 		} else {
 			$_arr_ssoData     = array_merge($this->arr_data, $_arr_sso); //合并数组
-			$_arr_get         = fn_http(BG_SSO_URL . "?mod=code", $_arr_ssoData, "get"); //提交
+			$_arr_get         = fn_http(BG_SSO_URL . "?mod=code", $_arr_ssoData, "post"); //提交
 		}
-
 
 		return fn_jsonDecode($_arr_get["ret"], "decode");
 	}
@@ -169,7 +168,6 @@ class CLASS_SSO {
 	function sso_login($str_userName, $str_userPass) {
 		$_arr_sso = array(
 			"act_post"   => "login",
-			"user_by"    => "user_name",
 			"user_name"  => $str_userName,
 			"user_pass"  => md5($str_userPass),
 		);
@@ -222,9 +220,11 @@ class CLASS_SSO {
 
 		$_arr_get             = fn_http(BG_SSO_URL . "?mod=sync", $_arr_ssoData, "get"); //提交
 		$_arr_result          = $this->result_process($_arr_get);
-		if ($_arr_result["urls"]) {
-			foreach ($_arr_result["urls"] as $_key=>$_value) {
-				$_arr_result["urls"][$_key]  = base64_decode(urldecode($_value));
+
+		if ($_arr_result["urlRows"]) {
+			foreach ($_arr_result["urlRows"] as $_key=>$_value) {
+				$_arr_result["urlRows"][$_key]["url"]   = urldecode($_value["url"]);
+				$_arr_result["urlRows"][$_key]["data"]  = urldecode($_value["data"]);
 			}
 		}
 
@@ -237,15 +237,13 @@ class CLASS_SSO {
 	 *
 	 * @access public
 	 * @param mixed $str_user ID（或用户名）
-	 * @param string $str_by (default: "user_id") 用何种方式读取（默认用ID）
+	 * @param string $str_userBy (default: "user_id") 用何种方式读取（默认用ID）
 	 * @return 解码后数组 用户信息
 	 */
-	function sso_get($str_user, $str_by = "user_id") {
+	function sso_get($str_user, $str_userBy = "user_id") {
 		$_arr_sso = array(
 			"act_get"    => "get",
-			"user_by"    => $str_by,
-			"user_id"    => $str_user,
-			"user_name"  => $str_user,
+			$str_userBy  => $str_user,
 		);
 
 		$_arr_ssoData = array_merge($this->arr_data, $_arr_sso);
@@ -286,7 +284,6 @@ class CLASS_SSO {
 
 		$_arr_sso = array(
 			"act_post"           => "edit",
-			"user_by"            => $str_userBy,
 			$str_userBy          => $str_userName,
 			"user_check_pass"    => $str_checkPass,
 			"user_pass"          => md5($str_userPass),
@@ -389,18 +386,6 @@ class CLASS_SSO {
 			exit;
 		}
 
-
-		$_arr_ssoData = array(
-			"act_post"   => "base",
-		);
-		$_arr_get     = fn_http(BG_SITE_URL . BG_URL_SSO . "api/api.php?mod=install", $_arr_ssoData, "post"); //提交
-		$_arr_result  = $this->result_process($_arr_get);
-		if ($_arr_result["alert"] != "y030405") {
-			return $_arr_result;
-			exit;
-		}
-
-
 		$_arr_ssoData = array(
 			"act_post"   => "dbtable",
 		);
@@ -492,7 +477,7 @@ class CLASS_SSO {
 			exit;
 		}
 
-		$_arr_result = json_decode($arr_get["ret"], true);
+		$_arr_result = fn_jsonDecode($arr_get["ret"], "no");
 		if (!isset($_arr_result["alert"])) {
 			$_arr_result = array(
 				"alert" => "x030110"
@@ -501,7 +486,7 @@ class CLASS_SSO {
 			exit;
 		}
 
-		if (!isset($_arr_result["prd_sso_pub"]) || $_arr_result["prd_sso_pub"] < 20150923) {
+		if (!isset($_arr_result["prd_sso_pub"]) || $_arr_result["prd_sso_pub"] < 20151116) {
 			$_arr_result = array(
 				"alert" => "x030114"
 			);

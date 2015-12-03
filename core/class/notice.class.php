@@ -99,9 +99,28 @@ class CLASS_NOTICE {
 	 * @param bool $chk_token (default: false)
 	 * @return void
 	 */
-	function notice_get($str_method = "get", $chk_token = false) {
+	function notice_input($str_method = "get", $chk_token = false) {
 
-		$_arr_time = validateStr(fn_get("time"), 1, 0);
+        switch ($str_method) {
+            case "post":
+                $_str_time      = fn_post("time");
+                $_str_random    = fn_post("random");
+                $_str_signature = fn_post("signature");
+                $_str_code      = fn_post("code");
+                $_str_key       = fn_post("key");
+            break;
+
+            default:
+                $_str_time      = fn_get("time");
+                $_str_random    = fn_get("random");
+                $_str_signature = fn_get("signature");
+                $_str_code      = fn_get("code");
+                $_str_key       = fn_get("key");
+            break;
+        }
+
+
+		$_arr_time = validateStr($_str_time, 1, 0);
 		switch ($_arr_time["status"]) {
 			case "too_short":
 				return array(
@@ -115,7 +134,7 @@ class CLASS_NOTICE {
 			break;
 		}
 
-		$_arr_random = validateStr(fn_get("random"), 1, 0);
+		$_arr_random = validateStr($_str_random, 1, 0);
 		switch ($_arr_random["status"]) {
 			case "too_short":
 				return array(
@@ -129,7 +148,7 @@ class CLASS_NOTICE {
 			break;
 		}
 
-		$_arr_signature = validateStr(fn_get("signature"), 1, 0);
+		$_arr_signature = validateStr($_str_signature, 1, 0);
 		switch ($_arr_signature["status"]) {
 			case "too_short":
 				return array(
@@ -143,7 +162,7 @@ class CLASS_NOTICE {
 			break;
 		}
 
-		$_arr_code = validateStr(fn_get("code"), 1, 0);
+		$_arr_code = validateStr($_str_code, 1, 0);
 		switch ($_arr_code["status"]) {
 			case "too_short":
 				return array(
@@ -157,7 +176,7 @@ class CLASS_NOTICE {
 			break;
 		}
 
-		$_arr_key = validateStr(fn_get("key"), 1, 0);
+		$_arr_key = validateStr($_str_key, 1, 0);
 		switch ($_arr_key["status"]) {
 			case "too_short":
 				return array(

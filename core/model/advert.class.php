@@ -247,7 +247,7 @@ class MODEL_ADVERT {
 			exit;
 		}
 
-		$_arr_advertRow["advert_href"]    = BG_SITE_URL . BG_URL_ROOT . "advert.php?mod=advert&act_get=url&advert_id=" . $_arr_advertRow["advert_id"];
+		$_arr_advertRow["advert_href"]    = BG_SITE_URL . BG_URL_ADVERT . "ctl.php?mod=advert&act_get=url&advert_id=" . $_arr_advertRow["advert_id"];
 		$_arr_advertRow["alert"]          = "y080102";
 
 		return $_arr_advertRow;
@@ -303,12 +303,12 @@ class MODEL_ADVERT {
 			"advert_begin",
 		);
 
-		$_str_sqlWhere = "advert_status='enable' AND ((advert_put_type='date' AND advert_put_opt>=" . time() . ") OR (advert_put_type='show' AND advert_count_show<=advert_put_opt) OR (advert_put_type='hit' AND advert_count_hit<=advert_put_opt) OR advert_put_type='subs') AND advert_posi_id=" . $num_posi;
+		$_str_sqlWhere = "advert_status='enable' AND ((advert_put_type='date' AND advert_put_opt>=" . time() . ") OR (advert_put_type='show' AND advert_count_show<=advert_put_opt) OR (advert_put_type='hit' AND advert_count_hit<=advert_put_opt) OR advert_put_type='none' OR advert_put_type='subs') AND advert_posi_id=" . $num_posi;
 
 		$_arr_advertRows = $this->obj_db->select(BG_DB_TABLE . "advert", $_arr_advertSelect, $_str_sqlWhere, "", "advert_id DESC", 1000, 0); //查询数据
 
 		foreach ($_arr_advertRows as $_key=>$_value) {
-			$_arr_advertRows[$_key]["advert_href"]    = BG_SITE_URL . BG_URL_ROOT . "advert.php?mod=advert&act_get=url&advert_id=" . $_value["advert_id"];
+			$_arr_advertRows[$_key]["advert_href"]    = BG_SITE_URL . BG_URL_ADVERT . "ctl.php?mod=advert&act_get=url&advert_id=" . $_value["advert_id"];
 		}
 
 		return $_arr_advertRows;

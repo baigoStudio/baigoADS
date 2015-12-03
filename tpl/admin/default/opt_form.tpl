@@ -2,7 +2,6 @@
 {$cfg = [
 	title          => "{$lang.page.opt} - {$opt[$tplData.act_get].title}",
 	menu_active    => "opt",
-	sub_active     => $tplData.act_get,
 	baigoValidator => "true",
 	baigoSubmit    => "true",
 	tokenReload    => "true",
@@ -42,8 +41,8 @@
             		{/if}
 
             		<div class="form-group">
-            			<div id="group_{$key}">
-            				<label for="opt_{$tplData.act_get}_{$key}" class="control-label">{$value.label}<span id="msg_{$key}">{if $value.min > 0}*{/if}</span></label>
+            			<div id="group_{$tplData.act_get}_{$key}">
+            				<label for="opt_{$tplData.act_get}_{$key}" class="control-label">{$value.label}<span id="msg_{$tplData.act_get}_{$key}">{if $value.min > 0}*{/if}</span></label>
 
             				{if $value.type == "select"}
             					<select name="opt[{$tplData.act_get}][{$key}]" id="opt_{$tplData.act_get}_{$key}" class="validate form-control">
@@ -97,8 +96,8 @@
 			{/if}
 			"opt_{$tplData.act_get}_{$key}": {
 				length: { min: {$value.min}, max: 900 },
-				validate: { type: "{$value.type}", {if isset($value.format)}format: "{$value.format}", {/if}group: "group_{$key}" },
-				msg: { id: "msg_{$key}", {$str_msg_min}: "{$alert.x060201}{$value.label}", {$str_msg_max}: "{$value.label}{$alert.x060202}", format_err: "{$value.label}{$alert.x060203}" }
+				validate: { type: "{$value.type}", {if isset($value.format)}format: "{$value.format}", {/if}group: "group_{$tplData.act_get}_{$key}" },
+				msg: { id: "msg_{$tplData.act_get}_{$key}", {$str_msg_min}: "{$alert.x060201}{$value.label}", {$str_msg_max}: "{$value.label}{$alert.x060202}", format_err: "{$value.label}{$alert.x060203}" }
 			}{if !$value@last},{/if}
 		{/foreach}
 	};

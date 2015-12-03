@@ -17,9 +17,9 @@ return "<h3>概述</h3>
 				</thead>
 				<tbody>
 					<tr>
-						<td class=\"text-nowrap\">advert.php</td>
-						<td class=\"text-nowrap\">广告显示入口文件</td>
-						<td>广告显示的入口文件，所有显示广告、广告跳转等功能，均通过此文件实现。</td>
+						<td class=\"text-nowrap\">advert</td>
+						<td class=\"text-nowrap\">广告显示入口</td>
+						<td>广告显示的入口，所有显示广告、广告跳转等功能，均通过此目录实现。</td>
 					</tr>
 					<tr>
 						<td class=\"text-nowrap\">admin</td>

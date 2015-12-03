@@ -86,11 +86,11 @@
 					alert(result.msg);
 				}
 			});
-			setTimeout("tokenReload();", 300000);
+			setTimeout("tokenReload();", 60000);
 		}
 
 		$(document).ready(function(){
-			setTimeout("tokenReload();", 300000);
+			setTimeout("tokenReload();", 60000);
 		});
 		</script>
 	{/if}

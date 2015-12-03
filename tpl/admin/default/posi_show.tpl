@@ -52,7 +52,7 @@
 					<div class="form-group">
 						<label class="control-label static_label">{$lang.label.dataUrl}</label>
 						<div class="form-control-static">
-							{$smarty.const.BG_SITE_URL}{$smarty.const.BG_URL_ROOT}advert.php?mod=advert&amp;act_get=list&amp;posi_id={$tplData.posiRow.posi_id}
+							{$smarty.const.BG_SITE_URL}{$smarty.const.BG_URL_API}api.php?mod=advert&amp;act_get=list&amp;posi_id={$tplData.posiRow.posi_id}
 						</div>
 					</div>
 
@@ -96,7 +96,7 @@
 				{$value.field}: &quot;{$value.value}&quot;,//{$value.label}
 {/foreach}
 {/if}
-				data_url: &quot;{$smarty.const.BG_SITE_URL}{$smarty.const.BG_URL_ROOT}advert.php?mod=advert&amp;act_get=list&amp;posi_id={$tplData.posiRow.posi_id}&quot
+				data_url: &quot;{$smarty.const.BG_SITE_URL}{$smarty.const.BG_URL_API}api.php?mod=advert&amp;act_get=list&amp;posi_id={$tplData.posiRow.posi_id}&quot
 			}
 			$(&quot;{$tplData.posiRow.posi_selector}_{$tplData.posiRow.posi_id}&quot;).{$tplData.posiRow.posi_plugin}(_opts_ad_{$tplData.posiRow.posi_id});
 		});
@@ -104,7 +104,7 @@
 		&lt;!-- {$lang.label.posiCodeNote3} end --&gt;
 
 		&lt;!-- {$lang.label.posiCodeNote4} begin --&gt;
-		&lt;script src=&quot;{$smarty.const.BG_SITE_URL}{$smarty.const.BG_URL_STATIC}advert/{$tplData.posiRow.posi_script}/script.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+		&lt;script src=&quot;{$smarty.const.BG_SITE_URL}{$smarty.const.BG_URL_SCRIPT}{$tplData.posiRow.posi_script}/script.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
 		&lt;!-- {$lang.label.posiCodeNote4} end --&gt;
 
 	&lt;/body&gt;

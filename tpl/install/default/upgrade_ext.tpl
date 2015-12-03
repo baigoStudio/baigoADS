@@ -1,8 +1,7 @@
-{* upgrade_db.tpl 登录界面 *}
+{* upgrade_ext.tpl 登录界面 *}
 {$cfg = [
 	sub_title  => $lang.page.installExt,
-	mod_help   => "upgrade",
-	act_help   => "ext"
+	mod_help   => "upgrade"
 ]}
 
 {include "{$smarty.const.BG_PATH_TPL}install/default/include/upgrade_head.tpl" cfg=$cfg}

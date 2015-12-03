@@ -1,5 +1,5 @@
 /*
-v0.0.9 jQuery baigoADS 卷帘 插件
+v0.0.9 jQuery baigoADS 弹窗 插件
 (c) 2013 baigo studio - http://www.baigo.net/ads/
 License: http://www.opensource.org/licenses/mit-license.php
 */

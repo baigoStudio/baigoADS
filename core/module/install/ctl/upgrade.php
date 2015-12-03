@@ -11,27 +11,24 @@ if(!defined("IN_BAIGO")) {
 
 if (!file_exists(BG_PATH_CONFIG . "is_install.php")) {
 	header("Location: " . BG_URL_INSTALL . "ctl.php?mod=install");
+} else {
+    include_once(BG_PATH_CONFIG . "is_install.php");
+    if (defined("BG_INSTALL_PUB") && PRD_ADS_PUB <= BG_INSTALL_PUB) {
+        header("Location: " . BG_URL_INSTALL . "ctl.php?mod=alert&act_get=show&alert=x030403");
+    }
 }
 
-if (isset($_GET["ssid"])) {
-	session_id($_GET["ssid"]); //将当前的SessionId设置成客户端传递回来的SessionId
-}
+include_once(BG_PATH_FUNC . "include.func.php");
+fn_include(true, true);
 
-session_start(); //开启session
-$GLOBALS["ssid"] = session_id();
-
-header("Content-Type: text/html; charset=utf-8");
-include_once(BG_PATH_INC . "common_global.inc.php"); //载入通用
 include_once(BG_PATH_CLASS . "mysqli.class.php"); //载入数据库类
-include_once(BG_PATH_CLASS . "base.class.php"); //载入基类
 include_once(BG_PATH_CONTROL . "install/ctl/upgrade.class.php"); //载入栏目控制器
 
-$GLOBALS["obj_base"]    = new CLASS_BASE(); //初始化基类
-$ctl_upgrade            = new CONTROL_UPGRADE(); //初始化商家
+$ctl_upgrade = new CONTROL_UPGRADE(); //初始化商家
 
 switch ($GLOBALS["act_get"]) {
-	case "over":
-		$arr_upgradeRow = $ctl_upgrade->ctl_over();
+	case "dbconfig":
+		$arr_upgradeRow = $ctl_upgrade->ctl_dbconfig();
 		if ($arr_upgradeRow["alert"] != "y030404") {
 			header("Location: " . BG_URL_INSTALL . "ctl.php?mod=alert&act_get=show&alert=" . $arr_upgradeRow["alert"]);
 			exit;
@@ -46,17 +43,23 @@ switch ($GLOBALS["act_get"]) {
 		}
 	break;
 
-	case "dbconfig":
 	case "base":
 	case "upload":
 	case "sso":
 		$arr_upgradeRow = $ctl_upgrade->ctl_form();
-		if ($arr_upgradeRow["alert"] != "y030404") {
+		if ($arr_upgradeRow["alert"] != "y030405") {
 			header("Location: " . BG_URL_INSTALL . "ctl.php?mod=alert&act_get=show&alert=" . $arr_upgradeRow["alert"]);
 			exit;
 		}
 	break;
 
+	case "over":
+		$arr_upgradeRow = $ctl_upgrade->ctl_over();
+		if ($arr_upgradeRow["alert"] != "y030405") {
+			header("Location: " . BG_URL_INSTALL . "ctl.php?mod=alert&act_get=show&alert=" . $arr_upgradeRow["alert"]);
+			exit;
+		}
+	break;
 
 	default:
 		$arr_upgradeRow = $ctl_upgrade->ctl_ext();

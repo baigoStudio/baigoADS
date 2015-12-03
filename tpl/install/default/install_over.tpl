@@ -1,8 +1,7 @@
 {* install_1.tpl 登录界面 *}
 {$cfg = [
 	sub_title => $lang.page.installOver,
-	mod_help   => "install",
-	act_help   => "over"
+	mod_help   => "install"
 ]}
 {include "{$smarty.const.BG_PATH_TPL}install/default/include/install_head.tpl" cfg=$cfg}
 

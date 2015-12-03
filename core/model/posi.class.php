@@ -70,7 +70,7 @@ class MODEL_POSI {
 		$_str_outList    .= "return array(" . PHP_EOL;
 
 		foreach ($_arr_posiRows as $_key=>$_value) {
-			$_str_outId  = "<?php" . PHP_EOL;
+			$_str_outId = "<?php" . PHP_EOL;
 			$_str_outId .= "return array(" . PHP_EOL;
 				$_str_outId .= "\"posi_id\" => " . $_value["posi_id"] . "," . PHP_EOL;
 				$_str_outId .= "\"posi_name\" => \"" . $_value["posi_name"] . "\"," . PHP_EOL;
@@ -85,13 +85,13 @@ class MODEL_POSI {
 				$_str_outId .= "\"alert\" => \"y040102\"," . PHP_EOL;
 			$_str_outId .= ");";
 
-			$_num_size = file_put_contents(BG_PATH_CACHE . "posi_" . $_value["posi_id"] . ".php", $_str_outId);
+			$_num_size = file_put_contents(BG_PATH_CACHE . "sys/posi_" . $_value["posi_id"] . ".php", $_str_outId);
 
 			if (!$_num_size) {
 				$_str_alert = "x040110";
 			}
 
-			$_str_outList   .= $_value["posi_id"] . " => array(" . PHP_EOL;
+			$_str_outList .= $_value["posi_id"] . " => array(" . PHP_EOL;
 				$_str_outList  .= "\"posi_id\" => " . $_value["posi_id"] . "," . PHP_EOL;
 				$_str_outList  .= "\"posi_name\" => \"" . $_value["posi_name"] . "\"," . PHP_EOL;
 				$_str_outList  .= "\"posi_count\" => " . $_value["posi_count"] . "," . PHP_EOL;
@@ -103,12 +103,12 @@ class MODEL_POSI {
 				$_str_outList  .= "\"posi_selector\" => \"" . $_value["posi_selector"] . "\"," . PHP_EOL;
 				$_str_outList  .= "\"posi_is_percent\" => \"" . $_value["posi_is_percent"] . "\"," . PHP_EOL;
 				$_str_outList  .= "\"alert\" => \"y040102\"," . PHP_EOL;
-			$_str_outList   .= ")," . PHP_EOL;
+			$_str_outList .= ")," . PHP_EOL;
 		}
 
 		$_str_outList.= ");";
 
-		$_num_size    = file_put_contents(BG_PATH_CACHE . "posi_list.php", $_str_outList);
+		$_num_size    = file_put_contents(BG_PATH_CACHE . "sys/posi_list.php", $_str_outList);
 
 		if (!$_num_size) {
 			$_str_alert = "x040110";
@@ -116,8 +116,8 @@ class MODEL_POSI {
 
 		if ($arr_posiDels) {
 			foreach ($arr_posiDels as $_key=>$_value) {
-				if (file_exists(BG_PATH_CACHE . "posi_" . $_value . ".php")) {
-					unlink(BG_PATH_CACHE . "posi_" . $_value . ".php");
+				if (file_exists(BG_PATH_CACHE . "sys/posi_" . $_value . ".php")) {
+					unlink(BG_PATH_CACHE . "sys/posi_" . $_value . ".php");
 				}
 			}
 		}

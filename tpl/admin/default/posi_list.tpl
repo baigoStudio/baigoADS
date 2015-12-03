@@ -38,9 +38,9 @@
 				<input type="hidden" name="mod" value="posi">
 				<input type="hidden" name="act_get" value="list">
 				<div class="form-group">
-					<div class="input-posi">
+					<div class="input-group">
 						<input type="text" name="key" value="{$tplData.search.key}" placeholder="{$lang.label.key}" class="form-control input-sm">
-						<span class="input-posi-btn">
+						<span class="input-group-btn">
 							<button type="submit" class="btn btn-default btn-sm">
 								<span class="glyphicon glyphicon-search"></span>
 							</button>
