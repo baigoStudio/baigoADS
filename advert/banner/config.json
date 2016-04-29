@@ -1,0 +1,15 @@
+{
+    "name": "Banner",
+    "plugin": "adsBanner",
+    "selector": "#adsBanner",
+    "ispercent": "enable",
+    "type": "media",
+    "note": "本脚本需要 jQuery 支持",
+    "opts": [
+        {
+            "field": "loading",
+            "label": "载入消息",
+            "value": "正在载入广告 ..."
+        }
+    ]
+}

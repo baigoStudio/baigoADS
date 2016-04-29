@@ -6,6 +6,6 @@
 define("PRD_ADS_POWERED", "Powered by");
 define("PRD_ADS_NAME", "baigo ADS");
 define("PRD_ADS_URL", "http://www.baigo.net/ads/");
-define("PRD_ADS_VER", "1.0");
-define("PRD_ADS_PUB", 20151203);
+define("PRD_ADS_VER", "1.0.1");
+define("PRD_ADS_PUB", 20160429);
 

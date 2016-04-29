@@ -7,6 +7,8 @@
 
 .label_ads { background: #96224c; }
 
+.alert_overflow { overflow: hidden; }
+
 .page_baigo .pagination { margin: 0 0 15px 0; }
 .list_group_ads .active { background: #96224c; border-color: #96224c; }
 .list_group_ads .active:hover { background: #96224c; border-color: #96224c; }
@@ -16,6 +18,8 @@
 
 .sub_active { background: #ffe6f1 !important; color: #96224c !important; }
 .sub_active:hover { background: #ddd !important; }
+
+.tooltip_baigo { max-width: 500px !important; }
 
 .page_foot { background: #ffe6f1; height: 40px; }
 .foot_logo > a { margin-left: 15px; display: block; width: 150px; height: 0px; padding-top: 40px; overflow: hidden; background: url(../image/admin_foot.png); }
@@ -31,7 +35,6 @@
 .text_md { height: 200px !important; }
 
 .static_label { color: #999; font-weight: normal; }
-.static_input { font-size: 20px; }
 
 .list_padding { margin: 0 25px; }
 
@@ -88,7 +91,7 @@ label.control-label > span { color: #c30; margin-left: 10px; }
 .label_baigo .label { font-size: 12px; }
 
 .list_dl dd {
-	margin-bottom: 10px;
+    margin-bottom: 10px;
 }
 
 .panel_dashed { border-style: dashed; }

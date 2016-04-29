@@ -6,21 +6,21 @@
 
 //不能非法包含或直接执行
 if(!defined("IN_BAIGO")) {
-	exit("Access Denied");
+    exit("Access Denied");
 }
 
 /*-------------文章类-------------*/
-class NOTICE_NOTICE {
+class API_NOTICE {
 
-	/**
-	 * notice_list function.
-	 *
-	 * @access public
-	 * @return void
-	 */
-	function notice_test() {
-		$_str_echostr     = fn_get("echostr");
+    /**
+     * api_list function.
+     *
+     * @access public
+     * @return void
+     */
+    function api_test() {
+        $_str_echostr     = fn_get("echostr");
 
-		echo $_str_echostr;
-	}
+        echo $_str_echostr;
+    }
 }

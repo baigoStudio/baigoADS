@@ -6,11 +6,15 @@
 
 //不能非法包含或直接执行
 if(!defined("IN_BAIGO")) {
-	exit("Access Denied");
+    exit("Access Denied");
 }
 
-include_once(BG_PATH_FUNC . "include.func.php");
-fn_include(true);
+include_once(BG_PATH_FUNC . "init.func.php");
+$arr_set = array(
+    "base"          => true,
+    "header"        => "Content-Type: text/html; charset=utf-8",
+);
+fn_init($arr_set);
 
 include_once(BG_PATH_CONTROL . "help/help.class.php"); //载入文章类
 

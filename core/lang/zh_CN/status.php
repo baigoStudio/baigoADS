@@ -6,34 +6,34 @@
 
 //不能非法包含或直接执行
 if(!defined("IN_BAIGO")) {
-	exit("Access Denied");
+    exit("Access Denied");
 }
 
 /*-------------------------状态-------------------------*/
 return array(
-	"admin" => array(
-		"enable"  => "启用", //生效
-		"disable" => "禁用", //禁用
-	),
+    "admin" => array(
+        "enable"  => "启用", //生效
+        "disable" => "禁用", //禁用
+    ),
 
-	"posi" => array(
-		"enable"  => "启用", //生效
-		"disable" => "禁用", //禁用
-	),
+    "posi" => array(
+        "enable"  => "启用", //生效
+        "disable" => "禁用", //禁用
+    ),
 
-	"advert" => array(
-		"enable"  => "启用", //生效
-		"disable" => "禁用", //禁用
-		"wait"    => "待审", //待审
-	),
+    "advert" => array(
+        "enable"  => "启用", //生效
+        "disable" => "禁用", //禁用
+        "wait"    => "待审", //待审
+    ),
 
-	"isPercent" => array(
-		"enable"  => "允许", //生效
-		"disable" => "禁止", //禁用
-	),
+    "isPercent" => array(
+        "enable"  => "允许", //生效
+        "disable" => "禁止", //禁用
+    ),
 
-	"ext" => array(
-		"installed"   => "已安装",
-		"uninstall"   => "未安装",
-	),
+    "ext" => array(
+        "installed"   => "已安装",
+        "uninstall"   => "未安装",
+    ),
 );
