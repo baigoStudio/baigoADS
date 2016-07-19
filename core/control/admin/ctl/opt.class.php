@@ -49,7 +49,7 @@ class CONTROL_OPT {
 
 
     function ctl_form() {
-        $_act_get    = fn_getSafe($GLOBALS["act_get"], "txt", "base");
+        $_act_get    = fn_getSafe(fn_get("act_get"), "txt", "base");
 
         if (!isset($this->adminLogged["admin_allow"]["opt"][$_act_get])) {
             return array(

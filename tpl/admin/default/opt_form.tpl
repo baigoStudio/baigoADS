@@ -119,7 +119,7 @@
                 obj_submit_form.formSubmit();
             }
         });
-    })
+    });
     </script>
 
 {include "{$smarty.const.BG_PATH_TPL}admin/default/include/html_foot.tpl" cfg=$cfg}

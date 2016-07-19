@@ -283,7 +283,7 @@ class CONTROL_INSTALL {
             }
         }
 
-        $_act_get = fn_getSafe($GLOBALS["act_get"], "txt", "ext");
+        $_act_get = fn_getSafe(fn_get("act_get"), "txt", "ext");
 
         $this->tplData = array(
             "errCount"   => $this->errCount,

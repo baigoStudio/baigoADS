@@ -86,6 +86,7 @@
 
     var opts_submit_form = {
         ajax_url: "{$smarty.const.BG_URL_INSTALL}ajax.php?mod=upgrade",
+        text_submitting: "{$lang.label.submitting}",
         btn_text: "{$lang.btn.stepNext}",
         btn_close: "{$lang.btn.close}",
         btn_url: "{$smarty.const.BG_URL_INSTALL}ctl.php?mod=upgrade&act_get={$tplData.act_next}"
@@ -99,7 +100,7 @@
                 obj_submit_form.formSubmit();
             }
         });
-    })
+    });
     </script>
 
 {include "{$smarty.const.BG_PATH_TPL}install/default/include/html_foot.tpl" cfg=$cfg}

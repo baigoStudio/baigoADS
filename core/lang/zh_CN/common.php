@@ -105,13 +105,12 @@ return array(
         "allow"           => "权限",
         "modOnly"         => "需修改时输入",
         "submitting"      => "正在提交 ...",
-        "size"            => "尺寸",
-        "width"           => "宽度",
-        "height"          => "高度",
-        "px"              => "px",
         "expired"         => "完毕",
         "opt"             => "系统设置",
         "mail"            => "邮箱",
+
+        "size"            => "尺寸",
+        "sizeNote"        => "单位可选 px 或 ％，填入 auto 为自动调节。",
 
         "year"            => "年", //年
         "month"           => "月", //月

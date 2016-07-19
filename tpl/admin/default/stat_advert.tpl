@@ -114,7 +114,7 @@
             <label class="control-label static_label">{$lang.label.advert}</label>
             <p class="form-control-static">
                 {if $tplData.advertRow.posiRow.posi_type == "media" && $tplData.advertRow.advert_media_id > 0 && $tplData.advertRow.mediaRow.alert == "y070102"}
-                    <img src="{$tplData.advertRow.mediaRow.media_url}" width="{$tplData.advertRow.posiRow.posi_width}" height="{$tplData.advertRow.posiRow.posi_height}">
+                    <img src="{$tplData.advertRow.mediaRow.media_url}" width="100%">
                 {else}
                     {$tplData.advertRow.advert_content}
                 {/if}
@@ -159,13 +159,6 @@
                             {$tplData.advertRow.posiRow.posi_name}
                             [
                                 {$type.posi[$tplData.advertRow.posiRow.posi_type]}
-                                {if $tplData.advertRow.posiRow.posi_type == "media"}
-                                    /
-                                    {$lang.label.width}
-                                    {$tplData.advertRow.posiRow.posi_width}{$lang.label.px}
-                                    {$lang.label.height}
-                                    {$tplData.advertRow.posiRow.posi_height}{$lang.label.px}
-                                {/if}
                             ]
                         </p>
                     </div>

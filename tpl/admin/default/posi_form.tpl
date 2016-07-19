@@ -158,7 +158,7 @@
                             {foreach $type.posi as $key=>$value}
                                 <div class="radio_baigo">
                                     <label for="posi_type_{$key}">
-                                        <input type="radio" name="posi_type" id="posi_type_{$key}" value="{$key}" data-validate class="posi_type" {if $tplData.posiRow.posi_type == $key}checked{/if} data-validate="posi_type">
+                                        <input type="radio" name="posi_type" id="posi_type_{$key}" value="{$key}" data-validate="posi_type" {if $tplData.posiRow.posi_type == $key}checked{/if} data-validate="posi_type">
                                         {$value}
                                     </label>
                                 </div>
@@ -166,30 +166,8 @@
                         </div>
                     </div>
 
-                    <div id="group_posi_size">
-                        <div id="group_posi_width">
-                            <div class="form-group">
-                                <label class="control-label">{$lang.label.width}<span id="msg_posi_width"></span></label>
-                                <div class="input-group">
-                                    <input type="text" name="posi_width" id="posi_width" value="{$tplData.posiRow.posi_width}" data-validate class="form-control">
-                                    <span class="input-group-addon">{$lang.label.px}</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div id="group_posi_height">
-                            <div class="form-group">
-                                <label class="control-label">{$lang.label.height}<span id="msg_posi_height"></span></label>
-                                <div class="input-group">
-                                    <input type="text" name="posi_height" id="posi_height" value="{$tplData.posiRow.posi_height}" data-validate class="form-control">
-                                    <span class="input-group-addon">{$lang.label.px}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div id="group_posi_count">
-                        <div class="form-group">
+                    <div class="form-group">
+                        <div id="group_posi_count">
                             <label class="control-label">{$lang.label.posiCount}<span id="msg_posi_count">*</span></label>
                             <input type="text" name="posi_count" id="posi_count" value="{$tplData.posiRow.posi_count}" data-validate class="form-control">
                         </div>
@@ -220,16 +198,6 @@
             len: { min: 1, max: 0 },
             validate: { selector: "[name='posi_type']", type: "radio", group: "#group_posi_type" },
             msg: { selector: "#msg_posi_type", too_few: "{$alert.x040209}" }
-        },
-        posi_width: {
-            len: { min: 1, max: 4 },
-            validate: { type: "str", format: "text", group: "#group_posi_width" },
-            msg: { selector: "#msg_posi_width", too_short: "{$alert.x040210}", too_long: "{$alert.x040211}" }
-        },
-        posi_height: {
-            len: { min: 1, max: 4 },
-            validate: { type: "str", format: "text", group: "#group_posi_height" },
-            msg: { selector: "#msg_posi_height", too_short: "{$alert.x040212}", too_long: "{$alert.x040213}" }
         },
         posi_script: {
             len: { min: 1, max: 0 },
@@ -271,14 +239,6 @@
         btn_url: "{$cfg.str_url}"
     };
 
-    function posi_type(_posi_type) {
-        if (_posi_type == "text") {
-            $("#group_posi_size").hide();
-        } else {
-            $("#group_posi_size").show();
-        }
-    }
-
     function posi_script(_script_index) {
         var _result = script_json[_script_index].config;
 
@@ -287,7 +247,6 @@
         $("#posi_selector").val(_result.selector);
         $("#posi_is_percent_" + _result.ispercent).prop("checked", "checked");
         $("#posi_type_" + _result.type).prop("checked", "checked");
-        posi_type(_result.type);
         $("#posi_script_note").text(_result.note);
         $("#group_posi_opts").empty();
         if (typeof _result.opts != "undefined" && _result.opts) {
@@ -305,7 +264,6 @@
     }
 
     $(document).ready(function(){
-        posi_type("{$tplData.posiRow.posi_type}");
         var obj_validate_form = $("#posi_form").baigoValidator(opts_validator_form);
         var obj_submit_form   = $("#posi_form").baigoSubmit(opts_submit_form);
         $("#go_form").click(function(){
@@ -313,17 +271,13 @@
                 obj_submit_form.formSubmit();
             }
         });
-        $(".posi_type").click(function(){
-            var _posi_type = $(this).val();
-            posi_type(_posi_type);
-        });
         $("#posi_script").change(function(){
             var _script_index = $("#posi_script option:selected").attr("data-index");
             if (_script_index) {
                 posi_script(_script_index);
             }
         });
-    })
+    });
     </script>
 
 {include "{$smarty.const.BG_PATH_TPL}admin/default/include/html_foot.tpl" cfg=$cfg}

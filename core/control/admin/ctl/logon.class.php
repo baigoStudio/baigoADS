@@ -64,7 +64,7 @@ class CONTROL_LOGON {
 
         $_arr_tplData = array(
             "admin_id"   => $_arr_ssoLogin["user_id"],
-            "forward"    => base64_decode($_arr_adminLogin["forward"]),
+            "forward"    => urldecode(base64_decode($_arr_adminLogin["forward"])),
             "sync"       => $_arr_sync,
         );
 

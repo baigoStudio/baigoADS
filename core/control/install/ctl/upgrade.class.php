@@ -169,7 +169,7 @@ class CONTROL_UPGRADE {
             }
         }
 
-        $_act_get = fn_getSafe($GLOBALS["act_get"], "txt", "ext");
+        $_act_get = fn_getSafe(fn_get("act_get"), "txt", "ext");
 
         $this->tplData = array(
             "errCount"   => $this->errCount,
@@ -219,9 +219,13 @@ class CONTROL_UPGRADE {
 
 
     private function table_posi() {
-        $this->tplData["db_alert"]["posi_table"] = array(
-            "alert"   => "y040111",
-            "status"  => "y",
+        include_once(BG_PATH_MODEL . "posi.class.php"); //载入管理帐号模型
+        $_mdl_posi        = new MODEL_POSI();
+        $_arr_posiAlert   = $_mdl_posi->mdl_alert_table();
+
+        $this->tplData["db_alert"]["posi_alert"] = array(
+            "alert"   => $_arr_posiAlert["alert"],
+            "status"  => substr($_arr_posiAlert["alert"], 0, 1),
         );
     }
 

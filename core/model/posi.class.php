@@ -25,8 +25,6 @@ class MODEL_POSI {
             "posi_name"          => "varchar(300) NOT NULL COMMENT '名称'",
             "posi_count"         => "tinyint NOT NULL COMMENT '广告数'",
             "posi_type"          => "enum('media','text') NOT NULL COMMENT '广告位类型'",
-            "posi_width"         => "varchar(4) NOT NULL COMMENT '宽度'",
-            "posi_height"        => "varchar(4) NOT NULL COMMENT '高度'",
             "posi_status"        => "enum('enable','disable') NOT NULL COMMENT '状态'",
             "posi_script"        => "varchar(100) NOT NULL COMMENT '脚本'",
             "posi_plugin"        => "varchar(100) NOT NULL COMMENT '插件名'",
@@ -61,6 +59,32 @@ class MODEL_POSI {
     }
 
 
+    /** 修改表
+     * mdl_alert_table function.
+     *
+     * @access public
+     * @return void
+     */
+    function mdl_alert_table() {
+        $_arr_col     = $this->mdl_column();
+        $_arr_alert   = array();
+
+        $_str_alert = "y040111";
+
+        if ($_arr_alert) {
+            $_reselt = $this->obj_db->alert_table(BG_DB_TABLE . "posi", $_arr_alert);
+
+            if ($_reselt) {
+                $_str_alert = "y040106";
+            }
+        }
+
+        return array(
+            "alert" => $_str_alert,
+        );
+    }
+
+
     function mdl_cache($arr_posiDels = false) {
         $_str_alert     = "y040110";
         $_arr_search    = array(
@@ -78,8 +102,6 @@ class MODEL_POSI {
                 $_str_outId .= "\"posi_name\" => \"" . $_value["posi_name"] . "\"," . PHP_EOL;
                 $_str_outId .= "\"posi_count\" => " . $_value["posi_count"] . "," . PHP_EOL;
                 $_str_outId .= "\"posi_type\" => \"" . $_value["posi_type"] . "\"," . PHP_EOL;
-                $_str_outId .= "\"posi_width\" => \"" . $_value["posi_width"] . "\"," . PHP_EOL;
-                $_str_outId .= "\"posi_height\" => " . $_value["posi_height"] . "," . PHP_EOL;
                 $_str_outId .= "\"posi_script\" => \"" . $_value["posi_script"] . "\"," . PHP_EOL;
                 $_str_outId .= "\"posi_plugin\" => \"" . $_value["posi_plugin"] . "\"," . PHP_EOL;
                 $_str_outId .= "\"posi_selector\" => \"" . $_value["posi_selector"] . "\"," . PHP_EOL;
@@ -98,8 +120,6 @@ class MODEL_POSI {
                 $_str_outList  .= "\"posi_name\" => \"" . $_value["posi_name"] . "\"," . PHP_EOL;
                 $_str_outList  .= "\"posi_count\" => " . $_value["posi_count"] . "," . PHP_EOL;
                 $_str_outList  .= "\"posi_type\" => \"" . $_value["posi_type"] . "\"," . PHP_EOL;
-                $_str_outList  .= "\"posi_width\" => \"" . $_value["posi_width"] . "\"," . PHP_EOL;
-                $_str_outList  .= "\"posi_height\" => " . $_value["posi_height"] . "," . PHP_EOL;
                 $_str_outList  .= "\"posi_script\" => \"" . $_value["posi_script"] . "\"," . PHP_EOL;
                 $_str_outList  .= "\"posi_plugin\" => \"" . $_value["posi_plugin"] . "\"," . PHP_EOL;
                 $_str_outList  .= "\"posi_selector\" => \"" . $_value["posi_selector"] . "\"," . PHP_EOL;
@@ -144,19 +164,17 @@ class MODEL_POSI {
     function mdl_submit() {
 
         $_arr_posiData = array(
-            "posi_name"          => $this->posiSubmit["posi_name"],
-            "posi_count"         => $this->posiSubmit["posi_count"],
-            "posi_script"        => $this->posiSubmit["posi_script"],
-            "posi_type"          => $this->posiSubmit["posi_type"],
-            "posi_width"         => $this->posiSubmit["posi_width"],
-            "posi_height"        => $this->posiSubmit["posi_height"],
-            "posi_status"        => $this->posiSubmit["posi_status"],
-            "posi_script"        => $this->posiSubmit["posi_script"],
-            "posi_plugin"        => $this->posiSubmit["posi_plugin"],
-            "posi_selector"      => $this->posiSubmit["posi_selector"],
-            "posi_opts"          => $this->posiSubmit["posi_opts"],
-            "posi_is_percent"    => $this->posiSubmit["posi_is_percent"],
-            "posi_note"          => $this->posiSubmit["posi_note"],
+            "posi_name"         => $this->posiSubmit["posi_name"],
+            "posi_count"        => $this->posiSubmit["posi_count"],
+            "posi_script"       => $this->posiSubmit["posi_script"],
+            "posi_type"         => $this->posiSubmit["posi_type"],
+            "posi_status"       => $this->posiSubmit["posi_status"],
+            "posi_script"       => $this->posiSubmit["posi_script"],
+            "posi_plugin"       => $this->posiSubmit["posi_plugin"],
+            "posi_selector"     => $this->posiSubmit["posi_selector"],
+            "posi_opts"         => $this->posiSubmit["posi_opts"],
+            "posi_is_percent"   => $this->posiSubmit["posi_is_percent"],
+            "posi_note"         => $this->posiSubmit["posi_note"],
         );
 
         if ($this->posiSubmit["posi_id"] < 1) { //插入
@@ -206,8 +224,6 @@ class MODEL_POSI {
             "posi_name",
             "posi_count",
             "posi_type",
-            "posi_width",
-            "posi_height",
             "posi_status",
             "posi_script",
             "posi_plugin",
@@ -221,6 +237,7 @@ class MODEL_POSI {
             case "posi_id":
                 $_str_sqlWhere = $str_readBy . "=" . $str_posi;
             break;
+
             default:
                 $_str_sqlWhere = $str_readBy . "='" . $str_posi . "'";
             break;
@@ -287,8 +304,6 @@ class MODEL_POSI {
             "posi_name",
             "posi_count",
             "posi_type",
-            "posi_width",
-            "posi_height",
             "posi_status",
             "posi_script",
             "posi_plugin",
@@ -438,55 +453,6 @@ class MODEL_POSI {
             case "ok":
                 $this->posiSubmit["posi_type"] = $_arr_posiType["str"];
             break;
-        }
-
-        switch ($this->posiSubmit["posi_type"]) {
-
-            case "media":
-                $_arr_posiWidth = validateStr(fn_post("posi_width"), 1, 4);
-                switch ($_arr_posiWidth["status"]) {
-                    case "too_short":
-                        return array(
-                            "alert" => "x040210",
-                        );
-                            break;
-
-                    case "too_long":
-                        return array(
-                            "alert" => "x040211",
-                        );
-                            break;
-
-                    case "ok":
-                        $this->posiSubmit["posi_width"] = $_arr_posiWidth["str"];
-                    break;
-                }
-
-                $_arr_posiHeight = validateStr(fn_post("posi_height"), 1, 4);
-                switch ($_arr_posiHeight["status"]) {
-                    case "too_short":
-                        return array(
-                            "alert" => "x040212",
-                        );
-                            break;
-
-                    case "too_long":
-                        return array(
-                            "alert" => "x040213",
-                        );
-                            break;
-
-                    case "ok":
-                        $this->posiSubmit["posi_height"] = $_arr_posiHeight["str"];
-                    break;
-                }
-            break;
-
-            default:
-                $this->posiSubmit["posi_width"]     = 0;
-                $this->posiSubmit["posi_height"]    = 0;
-            break;
-
         }
 
         $_arr_posiStatus = validateStr(fn_post("posi_status"), 1, 0);

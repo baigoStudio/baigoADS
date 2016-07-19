@@ -155,7 +155,7 @@
                                             {else}
                                                 {$str_putOpt = $type.put[$value.advert_put_type]}
                                             {/if}
-                                            
+
                                             <abbr data-toggle="tooltip" data-placement="bottom" title="{$str_putOpt}">
                                                 {$type.put[$value.advert_put_type]}
                                             </abbr>
@@ -244,7 +244,7 @@
         });
 
         $("#advert_list").baigoCheckall();
-    })
+    });
     </script>
 
 {include "{$smarty.const.BG_PATH_TPL}admin/default/include/html_foot.tpl" cfg=$cfg}

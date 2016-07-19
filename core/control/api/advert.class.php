@@ -75,6 +75,8 @@ class API_ADVERT {
             } else {
                 $_arr_adverts = $_arr_advertRows;
             }
+        } else {
+            $_arr_adverts = $this->mdl_advert->mdl_listPub($_num_posiId, "subs");
         }
 
         foreach ($_arr_adverts as $_key=>$_value) {
@@ -99,6 +101,10 @@ class API_ADVERT {
 
 
     function halt_re($arr_re) {
-        exit(json_encode($arr_re)); //输出错误信息
+        $_str_callback  = fn_getSafe(fn_get("callback"), "txt", "");
+        $_str_return    = json_encode($arr_re);
+        $_str_return    = $_str_callback . "(" . $_str_return . ")";
+
+        exit($_str_return); //输出错误信息
     }
 }

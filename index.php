@@ -10,3 +10,4 @@ include_once($base . "config/init.class.php");
 $obj_init = new CLASS_INIT();
 
 $obj_init->config_gen();
+?>

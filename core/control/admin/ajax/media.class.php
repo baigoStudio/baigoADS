@@ -270,15 +270,18 @@ class AJAX_MEDIA {
             $this->obj_ajax->halt_alert("x070301");
         }
 
-        $_str_key     = fn_getSafe(fn_get("key"), "txt", "");
-        $_str_year    = fn_getSafe(fn_get("year"), "txt", "");
-        $_str_month   = fn_getSafe(fn_get("month"), "txt", "");
-        $_str_ext     = fn_getSafe(fn_get("ext"), "txt", "");
-
+        $_arr_search = array(
+            "key"       => fn_getSafe(fn_get("key"), "txt", ""),
+            "year"      => fn_getSafe(fn_get("year"), "txt", ""),
+            "month"     => fn_getSafe(fn_get("month"), "txt", ""),
+            "ext"       => fn_getSafe(fn_get("ext"), "txt", ""),
+            "admin_id"  => fn_getSafe(fn_get("admin_id"), "int", 0),
+            "status"    => "normal",
+        );
         $_num_perPage     = 8;
-        $_num_mediaCount  = $this->mdl_media->mdl_count($_str_key, $_str_year, $_str_month, $_str_ext, 0, "normal");
+        $_num_mediaCount  = $this->mdl_media->mdl_count($_arr_search);
         $_arr_page        = fn_page($_num_mediaCount, $_num_perPage);
-        $_arr_mediaRows   = $this->mdl_media->mdl_list($_num_perPage, $_arr_page["except"], $_str_key, $_str_year, $_str_month, $_str_ext, 0, "normal");
+        $_arr_mediaRows   = $this->mdl_media->mdl_list($_num_perPage, $_arr_page["except"], $_arr_search);
 
         foreach ($_arr_mediaRows as $_key=>$_value) {
             $_arr_mediaRows[$_key]["adminRow"]  = $this->mdl_admin->mdl_read($_value["media_admin_id"]);
@@ -304,9 +307,9 @@ class AJAX_MEDIA {
      */
     private function show_err($str_alert, $status = "ok") {
         $_arr_re = array(
-            "alert"  => $str_alert,
-            "msg"        => $this->obj_ajax->alert[$str_alert],
-            "status"     => $status,
+            "alert"     => $str_alert,
+            "msg"       => $this->obj_ajax->alert[$str_alert],
+            "status"    => $status,
         );
         if ($str_alert == "x070203") {
             $_arr_re["msg"] = $this->obj_ajax->alert[$str_alert] . " " . BG_UPLOAD_SIZE . " " . BG_UPLOAD_UNIT;

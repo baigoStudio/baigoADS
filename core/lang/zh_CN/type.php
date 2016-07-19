@@ -9,8 +9,6 @@ if(!defined("IN_BAIGO")) {
     exit("Access Denied");
 }
 
-$_arr_percent[0] = "无限制";
-
 for ($_iii=1;$_iii<=10;$_iii++) {
     $_arr_percent[$_iii] = $_iii * 10 . "%";
 }

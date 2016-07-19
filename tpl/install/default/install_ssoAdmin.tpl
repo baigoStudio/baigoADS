@@ -59,7 +59,7 @@
         admin_name: {
             len: { min: 1, max: 30 },
             validate: { type: "text", format: "strDigit" },
-            msg: { selector: "#msg_admin_name", too_short: "{$alert.x020201}", too_long: "{$alert.x020202}", format_err: "{$alert.x020203}" },
+            msg: { selector: "#msg_admin_name", too_short: "{$alert.x020201}", too_long: "{$alert.x020202}", format_err: "{$alert.x020203}" }
         },
         admin_pass: {
             len: { min: 1, max: 0 },
@@ -93,7 +93,7 @@
                 obj_submit_form.formSubmit();
             }
         });
-    })
+    });
     </script>
 
 {include "{$smarty.const.BG_PATH_TPL}install/default/include/html_foot.tpl" cfg=$cfg}

@@ -1,7 +1,7 @@
 <?php
 return "<h3>广告数据</h3>
     <p>
-        广告数据实际上是一个类似 API 接口的 URL，返回格式为 JSON，其返回的数据可用于脚本的开发。
+        广告数据实际上是一个类似 API 接口的 URL，返回格式为 JSONP，其返回的数据可用于脚本的开发。
     </p>
 
     <p>
@@ -11,6 +11,9 @@ return "<h3>广告数据</h3>
     <p>&nbsp;</p>
 
     <h4>返回结果</h4>
+    <p>
+        系统采用 JSONP 返回数据，结构为带有 JSON 数据的回调函数，回调函数可在广告脚本中自定义。
+    </p>
 
     <div class=\"panel panel-default\">
         <div class=\"table-responsive\">
@@ -82,18 +85,6 @@ return "<h3>广告数据</h3>
                         <td class=\"text-nowrap\">string</td>
                         <td class=\"text-nowrap\">广告内容</td>
                         <td>media 或 text</td>
-                    </tr>
-                    <tr>
-                        <td class=\"text-nowrap\">posi_width</td>
-                        <td class=\"text-nowrap\">int</td>
-                        <td class=\"text-nowrap\">广告宽度</td>
-                        <td> </td>
-                    </tr>
-                    <tr>
-                        <td class=\"text-nowrap\">posi_height</td>
-                        <td class=\"text-nowrap\">int</td>
-                        <td class=\"text-nowrap\">广告高度</td>
-                        <td> </td>
                     </tr>
                     <tr>
                         <td class=\"text-nowrap\">posi_script</td>
@@ -252,14 +243,12 @@ return "<h3>广告数据</h3>
 
     <h4>返回结果示例</h4>
     <p>
-<pre><code class=\"language-javascript\">{
+<pre><code class=\"language-javascript\">callback({
     &quot;posiRow&quot;: { //广告位信息
         &quot;posi_id&quot;: 2, //广告位 ID
         &quot;posi_name&quot;: &quot;Banner&quot;, //广告位名称
         &quot;posi_count&quot;: 2, //显示广告数
         &quot;posi_type&quot;: &quot;media&quot;, //广告位类型 media 图片, text 文字
-        &quot;posi_width&quot;: 500, //宽度
-        &quot;posi_height&quot;: 100, //高度
         &quot;alert&quot;: &quot;y040102&quot; //返回代码
     },
     &quot;advertRows&quot;: [  //广告列表
@@ -274,11 +263,11 @@ return "<h3>广告数据</h3>
                 &quot;media_name&quot;: &quot;20080228_fa178442e062486695ad9OcYaxbrb2Qv.jpg&quot;, //图片原始文件名
                 &quot;media_ext&quot;: &quot;jpg&quot;, //图片扩展名
                 &quot;media_mime&quot;: &quot;image/jpeg&quot;, //MIME
-                &quot;media_size&quot;: 62308, //图片尺寸
+                &quot;media_size&quot;: 62308, //图片大小
                 &quot;media_url&quot;: &quot;http://www.domain.com/media/2015/09/4.jpg&quot;, //图片 URL
                 &quot;alert&quot;: &quot;y070102&quot; //返回代码
             }
         }
     ]
-}</code></pre>
+});</code></pre>
     </p>";

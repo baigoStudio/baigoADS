@@ -76,13 +76,6 @@
                                             {$value.posi_name}
                                             [
                                                 {$type.posi[$value.posi_type]}
-                                                {if $value.posi_type == "media"}
-                                                    /
-                                                    {$lang.label.width}
-                                                    {$value.posi_width}{$lang.label.px}
-                                                    {$lang.label.height}
-                                                    {$value.posi_height}{$lang.label.px}
-                                                {/if}
                                             ]
                                         </option>
                                     {/foreach}
@@ -104,12 +97,6 @@
                                                 {/if}
                                                 <img id="advert_media" src="{$str_mediaUrl}" class="img-responsive">
                                             </div>
-                                            <p class="help-block" id="media_size">
-                                                {$lang.label.width}
-                                                <span class="width">0</span>{$lang.label.px}
-                                                {$lang.label.height}
-                                                <span class="height">0</span>{$lang.label.px}
-                                            </p>
                                         </div>
 
                                         <div class="form-group">
@@ -179,7 +166,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group">                        
+                    <div class="form-group">
                         <div id="group_advert_put_type">
                             <label class="control-label">{$lang.label.advertPutType}<span id="msg_advert_put_type">*</span></label>
                             <select name="advert_put_type" id="advert_put_type" data-validate class="form-control">
@@ -371,9 +358,6 @@
             } else {
                 $("#group_advert_content").hide();
                 $("#group_advert_media_id").show();
-                $("#advert_media").attr("style", "width: " + _this_posi.posi_width + "px; height: " + _this_posi.posi_height + "px;");
-                $("#media_size .width").text(_this_posi.posi_width);
-                $("#media_size .height").text(_this_posi.posi_height);
             }
             if (_this_posi.posi_is_percent == "enable") {
                 $("#advert_percent option:gt(" + (11 - _this_posi.percent_sum) + ")").attr("disabled", true);
@@ -403,7 +387,7 @@
             advert_posi(_posi_id);
         });
         $(".input_date").datetimepicker(opts_datetimepicker);
-    })
+    });
     </script>
 
 {include "{$smarty.const.BG_PATH_TPL}admin/default/include/html_foot.tpl" cfg=$cfg}

@@ -106,14 +106,6 @@
                                 <td class="text-nowrap td_bg">
                                     <ul class="list-unstyled">
                                         <li>{$type.posi[$value.posi_type]}</li>
-                                        {if $value.posi_type == "media"}
-                                            <li>
-                                                {$lang.label.width}
-                                                {$value.posi_width}{$lang.label.px}
-                                                {$lang.label.height}
-                                                {$value.posi_height}{$lang.label.px}
-                                            </li>
-                                        {/if}
                                     </ul>
                                 </td>
                                 <td class="td_md label_baigo">
@@ -198,7 +190,7 @@
             }
         });
         $("#posi_list").baigoCheckall();
-    })
+    });
     </script>
 
 {include "{$smarty.const.BG_PATH_TPL}admin/default/include/html_foot.tpl" cfg=$cfg}

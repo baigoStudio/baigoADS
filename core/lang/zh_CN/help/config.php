@@ -18,10 +18,6 @@ return array(
         ),
         "doc" => array(
             "title"  => "开发文档",
-            "sub"    => array(
-                "script"    => "广告脚本文档",
-                "api"       => "API 接口文档",
-            ),
         ),
     ),
 );

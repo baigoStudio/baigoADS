@@ -35,7 +35,7 @@ class MODEL_ADVERT {
             "advert_put_type"    => "enum('date','show','hit','none','subs') NOT NULL COMMENT '投放类型'",
             "advert_put_opt"     => "int NOT NULL COMMENT '投放条件'",
             "advert_url"         => "varchar(3000) NOT NULL COMMENT '链接地址'",
-            "advert_percent"     => "tinyint NOT NULL COMMENT '投放百分比'",
+            "advert_percent"     => "tinyint NOT NULL COMMENT '展现几率'",
             "advert_content"     => "text NOT NULL COMMENT '文字内容'",
             "advert_status"      => "enum('enable','disable','wait') NOT NULL COMMENT '状态'",
             "advert_begin"       => "int NOT NULL COMMENT '生效时间'",
@@ -282,7 +282,7 @@ class MODEL_ADVERT {
     }
 
 
-    function mdl_listPub($num_posi) {
+    function mdl_listPub($num_posi, $str_type = "") {
         $_arr_advertSelect = array(
             "advert_id",
             "advert_name",
@@ -299,7 +299,15 @@ class MODEL_ADVERT {
             "advert_begin",
         );
 
-        $_str_sqlWhere = "advert_status='enable' AND ((advert_put_type='date' AND advert_put_opt>=" . time() . ") OR (advert_put_type='show' AND advert_count_show<=advert_put_opt) OR (advert_put_type='hit' AND advert_count_hit<=advert_put_opt) OR advert_put_type='none' OR advert_put_type='subs') AND advert_posi_id=" . $num_posi;
+        $_str_sqlWhere = "advert_status='enable' AND advert_posi_id=" . $num_posi;
+
+        if ($str_type == "subs") {
+            $_str_sqlWhere .= " AND advert_put_type='subs'";
+        } else {
+            $_str_sqlWhere .= " AND ((advert_put_type='date' AND advert_put_opt>=" . time() . ") OR (advert_put_type='show' AND advert_count_show<=advert_put_opt) OR (advert_put_type='hit' AND advert_count_hit<=advert_put_opt) OR advert_put_type='none')";
+        }
+
+        //print_r($_str_sqlWhere);
 
         $_arr_advertRows = $this->obj_db->select(BG_DB_TABLE . "advert", $_arr_advertSelect, $_str_sqlWhere, "", "advert_id DESC", 1000, 0); //查询数据
 

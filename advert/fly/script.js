@@ -6,6 +6,7 @@ License: http://www.opensource.org/licenses/mit-license.php
 
 (function($) {
     jQuery.fn.adsFly = function(options) {
+        "use strict";
         var thisObj       = $(this); //定义当前对象
         var _parent_id    = thisObj.attr("id");
 
@@ -28,7 +29,7 @@ License: http://www.opensource.org/licenses/mit-license.php
         var imgPosition = function() {
             var winWidth     = $(window).width() - thisObj.width();
             var winHeight    = $(window).height() - thisObj.height();
-            if (xD == 0) {
+            if (xD === 0) {
                 ownLeft += i;
                 thisObj.css({
                     left: ownLeft
@@ -45,7 +46,7 @@ License: http://www.opensource.org/licenses/mit-license.php
                 });
                 if (ownLeft <= 0) xD = 0;
             }
-            if (yD == 0) {
+            if (yD === 0) {
                 ownTop += i;
                 thisObj.css({
                     top: ownTop
@@ -62,7 +63,8 @@ License: http://www.opensource.org/licenses/mit-license.php
                 });
                 if (ownTop <= 0) yD = 0;
             }
-        }
+        };
+
         var imgHover = setInterval(imgPosition, opts.speed);
         thisObj.hover(function(){
             clearInterval(imgHover);
@@ -74,7 +76,7 @@ License: http://www.opensource.org/licenses/mit-license.php
         $.ajax({
             url: opts.data_url, //url
             type: "get",
-            dataType: "json", //数据格式为json
+            dataType: "jsonp", //数据格式为jsonp
             data: "",
             beforeSend: function(){
                 var _str_advert = "<div class='flyChild'></div>";
@@ -87,7 +89,7 @@ License: http://www.opensource.org/licenses/mit-license.php
 
                 var _str_media;
                 if (_posiRow.posi_type == "media") {
-                    _str_media = "<img src='" + _result.advertRows[0].mediaRow.media_url + "' width='" + _posiRow.posi_width + "' height='" + _posiRow.posi_height + "'>";
+                    _str_media = "<img src='" + _result.advertRows[0].mediaRow.media_url + "' width='100%'>";
                 } else {
                     _str_media = _result.advertRows[0].advert_content;
                 }
@@ -101,5 +103,5 @@ License: http://www.opensource.org/licenses/mit-license.php
                 });
             }
         });
-    }
+    };
 })(jQuery);

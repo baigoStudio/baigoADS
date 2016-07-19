@@ -20,13 +20,17 @@ if (!file_exists(BG_PATH_CONFIG . "is_install.php")) {
 
 include_once(BG_PATH_FUNC . "init.func.php");
 switch ($GLOBALS["act_get"]) {
-    case "dbconfig":
-    case "ext":
+    case "dbtable":
+    case "base":
+    case "upload":
+    case "sso":
+    case "over":
         $arr_set = array(
             "base"      => true, //基本设置
             "ssin"      => true, //启用会话
             "header"    => "Content-Type: text/html; charset=utf-8", //header
-            "ssin_file" => true, //由于升级时，session 数据表表可能尚未创建，故临时采用文件形式的 session
+            "db"        => true, //连接数据库
+            "type"      => "ctl",  //模块类型
         );
     break;
 
@@ -35,8 +39,7 @@ switch ($GLOBALS["act_get"]) {
             "base"      => true, //基本设置
             "ssin"      => true, //启用会话
             "header"    => "Content-Type: text/html; charset=utf-8", //header
-            "db"        => true, //连接数据库
-            "type"      => "ctl",  //模块类型
+            "ssin_file" => true, //由于升级时，session 数据表表可能尚未创建，故临时采用文件形式的 session
         );
     break;
 }

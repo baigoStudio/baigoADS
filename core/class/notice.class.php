@@ -101,7 +101,7 @@ class CLASS_NOTICE {
                 $_str_signature         = fn_post("signature");
                 $_str_code              = fn_post("code");
                 $_str_key               = fn_post("key");
-                $this->jsonp_callback   = fn_post("callback");
+                $this->jsonp_callback   = fn_getSafe(fn_post("callback"), "txt", "");
             break;
 
             default:
@@ -110,7 +110,7 @@ class CLASS_NOTICE {
                 $_str_signature         = fn_get("signature");
                 $_str_code              = fn_get("code");
                 $_str_key               = fn_get("key");
-                $this->jsonp_callback   = fn_get("callback");
+                $this->jsonp_callback   = fn_getSafe(fn_get("callback"), "txt", "");
             break;
         }
 

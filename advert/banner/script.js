@@ -6,20 +6,20 @@ License: http://www.opensource.org/licenses/mit-license.php
 
 (function($){
     $.fn.adsBanner = function(options) {
-
+        "use strict";
         var thisObj = $(this); //定义当前对象
         var _parent_id = thisObj.attr("id");
 
         var defaults = {
             loading: "Loading..."
-        }
+        };
 
         var opts = $.extend(defaults, options);
 
         $.ajax({
             url: opts.data_url, //url
             type: "get",
-            dataType: "json", //数据格式为json
+            dataType: "jsonp", //数据格式为jsonp
             data: "",
             beforeSend: function(){
                 var _str_advert = "<div class='bannerChild'></div>";
@@ -31,7 +31,7 @@ License: http://www.opensource.org/licenses/mit-license.php
                 var _posiRow = _result.posiRow;
                 var _str_media;
                 if (_posiRow.posi_type == "media") {
-                    _str_media = "<img src='" + _result.advertRows[0].mediaRow.media_url + "' width='" + _posiRow.posi_width + "' height='" + _posiRow.posi_height + "'>";
+                    _str_media = "<img src='" + _result.advertRows[0].mediaRow.media_url + "' width='100%'>";
                 } else {
                     _str_media = _result.advertRows[0].advert_content;
                 }
@@ -41,5 +41,5 @@ License: http://www.opensource.org/licenses/mit-license.php
                 $("#" + _parent_id + " .bannerChild").html(_str_advert);
             }
         });
-    }
+    };
 })(jQuery);

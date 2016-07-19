@@ -72,15 +72,18 @@ class CONTROL_POSI {
                 foreach ($arr_ids as $_key=>$_value) {
                     $_arr_adverts[$_key] = $this->mdl_advert->mdl_read($_value);;
                 }
-
             } else {
                 $_arr_adverts = $_arr_advertRows;
             }
+        } else {
+            $_arr_adverts = $this->mdl_advert->mdl_listPub($_num_posiId, "subs");
         }
 
         foreach ($_arr_adverts as $_key=>$_value) {
             $_arr_adverts[$_key]["mediaRow"] = $this->mdl_media->mdl_read($_value["advert_media_id"]);
         }
+
+        //print_r($_arr_adverts);
 
         $_arr_tpl = array(
             "posiRow"    => $_arr_posiRow,
@@ -120,8 +123,6 @@ class CONTROL_POSI {
                 "posi_name"         => "",
                 "posi_count"        => 1,
                 "posi_type"         => "media",
-                "posi_width"        => "",
-                "posi_height"       => "",
                 "posi_status"       => "enable",
                 "posi_script"       => "",
                 "posi_plugin"       => "",

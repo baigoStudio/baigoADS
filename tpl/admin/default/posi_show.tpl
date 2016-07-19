@@ -38,7 +38,13 @@
                     {if $tplData.posiRow.posi_type == "media"}
                         {foreach $tplData.advertRows as $key=>$value}
                             <div class="form-group">
-                                <a href="{$value.advert_url}" target="_blank"><img src="{$value.mediaRow.media_url}" width="{$tplData.posiRow.posi_width}" height="{$tplData.posiRow.posi_height}"></a>
+                                <a href="{$value.advert_url}" target="_blank">
+                                    {if isset($value.mediaRow.media_url)}
+                                        <img src="{$value.mediaRow.media_url}" width="100%">
+                                    {else}
+                                        {$lang.label.unknown}
+                                    {/if}
+                                </a>
                             </div>
                         {/foreach}
                     {else}
@@ -93,7 +99,7 @@
             _opts_ad_{$tplData.posiRow.posi_id} = {
 {if $tplData.posiRow.posi_opts}
 {foreach $tplData.posiRow.posi_opts as $key=>$value}
-                {$value.field}: &quot;{$value.value}&quot;,//{$value.label}
+                {$value.field}: &quot;{$value.value}&quot;, //{$value.label}
 {/foreach}
 {/if}
                 data_url: &quot;{$smarty.const.BG_SITE_URL}{$smarty.const.BG_URL_API}api.php?mod=advert&amp;act_get=list&amp;posi_id={$tplData.posiRow.posi_id}&quot
@@ -139,18 +145,6 @@
                     <label class="control-label static_label">{$lang.label.contentType}</label>
                     <p class="form-control-static">{$type.posi[$tplData.posiRow.posi_type]}</p>
                 </div>
-
-                {if $tplData.posiRow.posi_type == "media"}
-                    <div class="form-group">
-                        <label class="control-label static_label">{$lang.label.size}</label>
-                        <p class="form-control-static">
-                            {$lang.label.width}
-                            {$tplData.posiRow.posi_width}{$lang.label.px}
-                            {$lang.label.height}
-                            {$tplData.posiRow.posi_height}{$lang.label.px}
-                        </p>
-                    </div>
-                {/if}
 
                 <div class="form-group">
                     <label class="control-label static_label">{$lang.label.note}</label>

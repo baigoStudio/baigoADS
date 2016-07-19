@@ -115,20 +115,6 @@
                     </p>
                 </div>
             </div>
-
-            {if $tplData.posiRow.posi_type == "media"}
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="form-group">
-                        <label class="control-label static_label">{$lang.label.size}</label>
-                        <p class="form-control-static">
-                            {$lang.label.width}
-                            {$tplData.posiRow.posi_width}{$lang.label.px}
-                            {$lang.label.height}
-                            {$tplData.posiRow.posi_height}{$lang.label.px}
-                        </p>
-                    </div>
-                </div>
-            {/if}
         </div>
     </div>
 

@@ -30,7 +30,7 @@
 
     <script type="text/javascript">
     $(document).ready(function(){
-        {if isset($tplData.sync.urlRows)}
+        {if isset($tplData.sync.urlRows) && $tplData.sync.urlRows}
             {foreach $tplData.sync.urlRows as $key=>$value}
                 $.ajax({
                     url: "{$value}", //url
