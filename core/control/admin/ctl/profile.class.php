@@ -5,7 +5,7 @@
 -----------------------------------------------------------------*/
 
 //不能非法包含或直接执行
-if(!defined("IN_BAIGO")) {
+if (!defined("IN_BAIGO")) {
     exit("Access Denied");
 }
 
@@ -26,7 +26,7 @@ class CONTROL_PROFILE {
         $this->obj_base       = $GLOBALS["obj_base"]; //获取界面类型
         $this->config         = $this->obj_base->config;
         $this->adminLogged    = $GLOBALS["adminLogged"]; //获取已登录信息
-        $this->obj_tpl        = new CLASS_TPL(BG_PATH_TPL . "admin/" . $this->config["ui"]); //初始化视图对象
+        $this->obj_tpl        = new CLASS_TPL(BG_PATH_TPL . "admin/" . BG_DEFAULT_UI); //初始化视图对象
         $this->obj_sso        = new CLASS_SSO(); //初始化单点登录
         $this->tplData = array(
             "adminLogged" => $this->adminLogged
@@ -40,7 +40,7 @@ class CONTROL_PROFILE {
      * @return void
      */
     function ctl_info() {
-        $_arr_ssoRow = $this->obj_sso->sso_get($this->adminLogged["admin_id"]);
+        $_arr_ssoRow = $this->obj_sso->sso_read($this->adminLogged["admin_id"]);
         if ($_arr_ssoRow["alert"] != "y010102") {
             return $_arr_ssoRow;
         }
@@ -60,7 +60,7 @@ class CONTROL_PROFILE {
 
 
     function ctl_pass() {
-        $_arr_ssoRow = $this->obj_sso->sso_get($this->adminLogged["admin_id"]);
+        $_arr_ssoRow = $this->obj_sso->sso_read($this->adminLogged["admin_id"]);
         if ($_arr_ssoRow["alert"] != "y010102") {
             return $_arr_ssoRow;
         }

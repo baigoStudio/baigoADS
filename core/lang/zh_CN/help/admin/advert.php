@@ -5,16 +5,28 @@ return "<h3>所有广告</h3>
     </p>
 
     <p>
-        <img src=\"{images}advert_list.jpg\" class=\"img-responsive thumbnail\">
+        <a href=\"{images}advert_list.jpg\" target=\"_blank\"><img src=\"{images}advert_list.jpg\" class=\"img-responsive thumbnail\"></a>
     </p>
 
+    <p>&nbsp;</p>
+    <div class=\"text-right\">
+        <a href=\"#top\">
+            <span class=\"glyphicon glyphicon-chevron-up\"></span>
+            top
+        </a>
+    </div>
     <hr>
+    <p>&nbsp;</p>
 
     <a name=\"form\"></a>
     <h3>创建（编辑）广告</h3>
     <p>点左侧子菜单的“创建广告”或者点击广告列表的“编辑”菜单，进入如下界面，在此，您可以对广告进行各项操作。</p>
 
-    <p><img src=\"{images}advert_form.jpg\" class=\"img-responsive thumbnail\"></p>
+    <p>
+        <a href=\"{images}advert_form.jpg\" target=\"_blank\"><img src=\"{images}advert_form.jpg\" class=\"img-responsive thumbnail\"></a>
+    </p>
+
+    <p>&nbsp;</p>
 
     <div class=\"panel panel-default\">
         <div class=\"panel-heading\">填写说明</div>
@@ -60,7 +72,15 @@ return "<h3>所有广告</h3>
         </div>
     </div>
 
+    <p>&nbsp;</p>
+    <div class=\"text-right\">
+        <a href=\"#top\">
+            <span class=\"glyphicon glyphicon-chevron-up\"></span>
+            top
+        </a>
+    </div>
     <hr>
+    <p>&nbsp;</p>
 
     <h3>选取图片</h3>
     <p>点“选取图片”弹出如下对话框，在此您可以上传文件或选择已上传的文件，选取到广告中。</p>
@@ -79,15 +99,15 @@ return "<h3>所有广告</h3>
 
             <div class=\"carousel-inner\" role=\"listbox\">
                 <div class=\"item active\">
-                    <img src=\"{images}media_form.jpg\">
+                    <a href=\"{images}media_form.jpg\" target=\"_blank\"><img src=\"{images}media_form.jpg\"></a>
                     <div class=\"carousel-caption\">上传图片</div>
                 </div>
                 <div class=\"item\">
-                    <img src=\"{images}media_form_success.jpg\">
+                    <a href=\"{images}media_form_success.jpg\" target=\"_blank\"><img src=\"{images}media_form_success.jpg\"></a>
                     <div class=\"carousel-caption\">上传图片成功</div>
                 </div>
                 <div class=\"item\">
-                    <img src=\"{images}media_select.jpg\">
+                    <a href=\"{images}media_select.jpg\" target=\"_blank\"><img src=\"{images}media_select.jpg\"></a>
                     <div class=\"carousel-caption\">选取图片</div>
                 </div>
             </div>
@@ -112,5 +132,5 @@ return "<h3>所有广告</h3>
     </p>
 
     <p>
-        <img src=\"{images}stat_advert.jpg\" class=\"img-responsive thumbnail\">
+        <a href=\"{images}stat_advert.jpg\" target=\"_blank\"><img src=\"{images}stat_advert.jpg\" class=\"img-responsive thumbnail\"></a>
     </p>";

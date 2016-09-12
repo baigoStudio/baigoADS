@@ -10,7 +10,7 @@
     <!--jQuery 库-->
     <script src="{$smarty.const.BG_URL_STATIC}js/jquery.min.js" type="text/javascript"></script>
     <link href="{$smarty.const.BG_URL_STATIC}js/bootstrap/css/bootstrap.min.css" type="text/css" rel="stylesheet">
-    <link href="{$smarty.const.BG_URL_STATIC}admin/{$config.ui}/css/admin_logon.css" type="text/css" rel="stylesheet">
+    <link href="{$smarty.const.BG_URL_STATIC}admin/{$smarty.const.BG_DEFAULT_UI}/css/admin_logon.css" type="text/css" rel="stylesheet">
 
 </head>
 <body>
@@ -24,6 +24,14 @@
                 <span class="glyphicon glyphicon-user"></span>
                 {$lang.label.loging}
             </h4>
+            <p>&nbsp;</p>
+            <p>
+                {$lang.text.notForward}
+            </p>
+            <p>&nbsp;</p>
+            <p>
+                <a href="{$smarty.const.BG_URL_ADMIN}ctl.php" class="btn btn-primary">{$lang.href.forward}</a>
+            </p>
         </div>
 
     </div>

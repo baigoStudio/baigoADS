@@ -8,7 +8,7 @@ class CLASS_INIT {
     private $arr_visit     = array();
 
     function __construct() {
-        $this->str_pathRoot = str_replace("\\", "/", substr(dirname(__FILE__), 0, strrpos(dirname(__FILE__), $this->str_nameConfig)));
+        $this->str_pathRoot = str_ireplace("\\", "/", substr(dirname(__FILE__), 0, strrpos(dirname(__FILE__), $this->str_nameConfig)));
 
         $this->arr_config = array(
             "IN_BAIGO"               => array(1, "num"),
@@ -43,7 +43,7 @@ class CLASS_INIT {
             "BG_NAME_INSTALL"        => array("install", "str"),
             "BG_NAME_API"            => array("api", "str"),
             "BG_NAME_STATIC"         => array("static", "str"),
-            "BG_PATH_ROOT"           => array("str_replace(\"\\\\\", \"/\", substr(dirname(__FILE__), 0, strrpos(dirname(__FILE__), BG_NAME_CONFIG)))", "const"),
+            "BG_PATH_ROOT"           => array("str_ireplace(\"\\\\\", \"/\", substr(dirname(__FILE__), 0, strrpos(dirname(__FILE__), BG_NAME_CONFIG)))", "const"),
             "BG_PATH_CONFIG"         => array("BG_PATH_ROOT . BG_NAME_CONFIG . \"/\"", "const"),
             "BG_PATH_CACHE"          => array("BG_PATH_ROOT . BG_NAME_CACHE . \"/\"", "const"),
             "BG_PATH_TPL"            => array("BG_PATH_ROOT . BG_NAME_TPL . \"/\"", "const"),
@@ -82,7 +82,7 @@ class CLASS_INIT {
         );
 
         $this->arr_base = array(
-            "BG_SITE_NAME"          => array("baigo SSO", "str"),
+            "BG_SITE_NAME"          => array("baigo ADS", "str"),
             "BG_SITE_DOMAIN"        => array("\$_SERVER[\"SERVER_NAME\"]", "const"),
             "BG_SITE_URL"           => array("\"http://\" . \$_SERVER[\"SERVER_NAME\"]", "const"),
             "BG_SITE_PERPAGE"       => array(30, "num"),
@@ -119,6 +119,8 @@ class CLASS_INIT {
 
 
     private function file_gen($arr_configSrc, $str_file, $is_install = false) {
+        $_str_config        = "";
+        $_str_constConfig   = "";
         if (file_exists($this->str_pathRoot . "config/" . $str_file . ".inc.php")) { //如果文件存在
             if ($is_install) { //如果是安装状态，一一对比
                 include_once($this->str_pathRoot . "config/" . $str_file . ".inc.php"); //载入配置
@@ -131,15 +133,18 @@ class CLASS_INIT {
                             $_str_constConfig = "define(\"" . $_key_m . "\", " . $_value_m[0] . ");" . PHP_EOL;
                         }
 
-                        if ($str_file == "config") { //如果为全局配置，则忽略末尾5行
-                            array_splice($_arr_config, -5, 0, $_str_constConfig);
-                        }
+                        array_push($_arr_config, $_str_constConfig);
                     }
                 }
 
-                $_str_config = "";
                 foreach ($_arr_config as $_key_m=>$_value_m) { //拼接
                     $_str_config .= $_value_m;
+                }
+
+                $_str_config = preg_replace("/include_once\(\S+\s\.\s\"\S+\"\);\n?/i", "", $_str_config);
+
+                if ($str_file == "config") { //如果为全局配置，则增加 5 行
+                    $_str_config = $this->end_process($_str_config);
                 }
 
                 //print_r($_str_config);
@@ -156,11 +161,7 @@ class CLASS_INIT {
             }
 
             if ($str_file == "config") { //如果为全局配置，则增加 5 行
-                $_str_config .= "include_once(BG_PATH_INC . \"version.inc.php\");" . PHP_EOL;
-                $_str_config .= "include_once(BG_PATH_CONFIG . \"opt_dbconfig.inc.php\");" . PHP_EOL;
-                $_str_config .= "include_once(BG_PATH_CONFIG . \"opt_base.inc.php\");" . PHP_EOL;
-                $_str_config .= "include_once(BG_PATH_CONFIG . \"opt_sso.inc.php\");" . PHP_EOL;
-                $_str_config .= "include_once(BG_PATH_CONFIG . \"opt_upload.inc.php\");" . PHP_EOL;
+                $_str_config = $this->end_process($_str_config);
             }
 
             file_put_contents($this->str_pathRoot . "config/" . $str_file . ".inc.php", $_str_config);
@@ -182,5 +183,15 @@ class CLASS_INIT {
             $_str_rnd .= substr($_str_char, (rand(0, strlen($_str_char))), 1);
         }
         return $_str_rnd;
+    }
+
+    private function end_process($str_config) {
+        $str_config .= "include_once(BG_PATH_INC . \"version.inc.php\");" . PHP_EOL;
+        $str_config .= "include_once(BG_PATH_CONFIG . \"opt_dbconfig.inc.php\");" . PHP_EOL;
+        $str_config .= "include_once(BG_PATH_CONFIG . \"opt_base.inc.php\");" . PHP_EOL;
+        $str_config .= "include_once(BG_PATH_CONFIG . \"opt_sso.inc.php\");" . PHP_EOL;
+        $str_config .= "include_once(BG_PATH_CONFIG . \"opt_upload.inc.php\");" . PHP_EOL;
+
+        return $str_config;
     }
 }

@@ -37,7 +37,7 @@
 
                 $("#media_files").fileupload({
                     formData: [
-                        { name: "token_session", value: "{$common.token_session}" },
+                        { name: "{$common.tokenRow.name_session}", value: "{$common.tokenRow.token}" },
                         { name: "act_post", value: "submit" }
                     ],
                     url: "{$smarty.const.BG_URL_ADMIN}ajax.php?mod=media",

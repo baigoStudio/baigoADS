@@ -5,13 +5,15 @@
 -----------------------------------------------------------------*/
 
 //不能非法包含或直接执行
-if(!defined("IN_BAIGO")) {
+if (!defined("IN_BAIGO")) {
     exit("Access Denied");
 }
 
 /*-------------应用模型-------------*/
 class MODEL_ADVERT {
     private $obj_db;
+    public $advertStatus    = array();
+    public $advertPutTypes  = array();
 
     function __construct() { //构造函数
         $this->obj_db = $GLOBALS["obj_db"]; //设置数据库对象
@@ -25,6 +27,16 @@ class MODEL_ADVERT {
      * @return void
      */
     function mdl_create_table() {
+        foreach ($this->advertStatus as $_key=>$_value) {
+            $_arr_status[] = $_key;
+        }
+        $_str_status = implode("','", $_arr_status);
+
+        foreach ($this->advertPutTypes as $_key=>$_value) {
+            $_arr_putTyes[] = $_key;
+        }
+        $_str_putTyes = implode("','", $_arr_putTyes);
+
         $_arr_advertCreate = array(
             "advert_id"          => "int NOT NULL AUTO_INCREMENT COMMENT 'ID'",
             "advert_name"        => "varchar(300) NOT NULL COMMENT '广告名称'",
@@ -32,12 +44,12 @@ class MODEL_ADVERT {
             "advert_media_id"    => "int NOT NULL COMMENT '广告图片 ID'",
             "advert_count_show"  => "int NOT NULL COMMENT '展示数'",
             "advert_count_hit"   => "int NOT NULL COMMENT '点击数'",
-            "advert_put_type"    => "enum('date','show','hit','none','subs') NOT NULL COMMENT '投放类型'",
+            "advert_put_type"    => "enum('" . $_str_putTyes . "') NOT NULL COMMENT '投放类型'",
             "advert_put_opt"     => "int NOT NULL COMMENT '投放条件'",
             "advert_url"         => "varchar(3000) NOT NULL COMMENT '链接地址'",
             "advert_percent"     => "tinyint NOT NULL COMMENT '展现几率'",
             "advert_content"     => "text NOT NULL COMMENT '文字内容'",
-            "advert_status"      => "enum('enable','disable','wait') NOT NULL COMMENT '状态'",
+            "advert_status"      => "enum('" . $_str_status . "') NOT NULL COMMENT '状态'",
             "advert_begin"       => "int NOT NULL COMMENT '生效时间'",
             "advert_note"        => "varchar(300) NOT NULL COMMENT '备注'",
             "advert_time"        => "int NOT NULL COMMENT '创建时间'",
@@ -525,7 +537,7 @@ class MODEL_ADVERT {
 
             case "ok":
                 if ($this->advertSubmit["advert_put_type"] == "date") {
-                    $_num_advertPutOpts = strtotime($_arr_advertPutOpts["str"]);
+                    $_num_advertPutOpts = fn_strtotime($_arr_advertPutOpts["str"]);
                 } else {
                     $_num_advertPutOpts = $_arr_advertPutOpts["str"];
                 }
@@ -625,7 +637,7 @@ class MODEL_ADVERT {
             break;
 
             case "ok":
-                $this->advertSubmit["advert_begin"] = strtotime($_arr_advertBegin["str"]);
+                $this->advertSubmit["advert_begin"] = fn_strtotime($_arr_advertBegin["str"]);
             break;
         }
 

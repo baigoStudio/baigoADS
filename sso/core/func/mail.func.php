@@ -5,11 +5,11 @@
 -----------------------------------------------------------------*/
 
 //不能非法包含或直接执行
-if(!defined("IN_BAIGO")) {
+if (!defined("IN_BAIGO")) {
     exit("Access Denied");
 }
 
-include_once(BG_PATH_PHPMAILER . "PHPMailerAutoload.php"); //载入 PHPMailer 类
+include_once(BG_PATH_LIB . "PHPMailer/PHPMailerAutoload.php"); //载入 PHPMailer 类
 
 function fn_mailSend($str_mailTo, $str_subject, $str_content, $str_text = "") {
 

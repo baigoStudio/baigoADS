@@ -6,7 +6,7 @@
 {include "{$smarty.const.BG_PATH_TPL}install/default/include/install_head.tpl" cfg=$cfg}
 
     <form name="install_form" id="install_form">
-        <input type="hidden" name="token_session" class="token_session" value="{$common.token_session}">
+        <input type="hidden" name="{$common.tokenRow.name_session}" value="{$common.tokenRow.token}">
         <input type="hidden" name="act_post" value="{$tplData.act_get}">
 
         {if $tplData.act_get == "sso"}

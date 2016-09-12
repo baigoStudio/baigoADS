@@ -5,7 +5,15 @@ return "<h3>概述</h3>
         <li>高级部署方式可能需要更高的服务器权限，请确认您拥有足够的权限。</li>
     </ol>
 
+    <p>&nbsp;</p>
+    <div class=\"text-right\">
+        <a href=\"#top\">
+            <span class=\"glyphicon glyphicon-chevron-up\"></span>
+            top
+        </a>
+    </div>
     <hr>
+    <p>&nbsp;</p>
 
     <h3>上传文件</h3>
 
@@ -13,7 +21,7 @@ return "<h3>概述</h3>
     <div class=\"panel panel-default\">
         <div class=\"panel-heading\">目录结构说明</div>
         <div class=\"table-responsive\">
-            <table class=\"table\">
+            <table class=\"table table-bordered\">
                 <thead>
                     <tr>
                         <th class=\"text-nowrap\">文件 / 目录</th>
@@ -77,7 +85,15 @@ return "<h3>概述</h3>
         </div>
     </div>
 
+    <p>&nbsp;</p>
+    <div class=\"text-right\">
+        <a href=\"#top\">
+            <span class=\"glyphicon glyphicon-chevron-up\"></span>
+            top
+        </a>
+    </div>
     <hr>
+    <p>&nbsp;</p>
 
     <h3>修改配置文件</h3>
 
@@ -87,7 +103,15 @@ return "<h3>概述</h3>
 define(\"BG_PATH_TPL\", \"/web/tpl/\");</code></pre>
     </p>
 
+    <p>&nbsp;</p>
+    <div class=\"text-right\">
+        <a href=\"#top\">
+            <span class=\"glyphicon glyphicon-chevron-up\"></span>
+            top
+        </a>
+    </div>
     <hr>
+    <p>&nbsp;</p>
 
     <h3>执行安装程序</h3>
 

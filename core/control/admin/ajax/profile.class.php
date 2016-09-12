@@ -5,7 +5,7 @@
 -----------------------------------------------------------------*/
 
 //不能非法包含或直接执行
-if(!defined("IN_BAIGO")) {
+if (!defined("IN_BAIGO")) {
     exit("Access Denied");
 }
 
@@ -19,6 +19,7 @@ class AJAX_PROFILE {
     private $adminLogged;
     private $obj_ajax;
     private $mdl_admin;
+    private $is_super = false;
 
     function __construct() { //构造函数
         $this->adminLogged    = $GLOBALS["adminLogged"]; //已登录商家信息
@@ -30,6 +31,10 @@ class AJAX_PROFILE {
         if ($this->adminLogged["alert"] != "y020102") { //未登录，抛出错误信息
             $this->obj_ajax->halt_alert($this->adminLogged["alert"]);
         }
+
+        if ($this->adminLogged["admin_type"] == "super") {
+            $this->is_super = true;
+        }
     }
 
 
@@ -40,7 +45,7 @@ class AJAX_PROFILE {
      * @return void
      */
     function ajax_info() {
-        if (isset($this->adminLogged["admin_allow"]["info"])) {
+        if (isset($this->adminLogged["admin_allow"]["info"]) && !$this->is_super) {
             $this->obj_ajax->halt_alert("x020108");
         }
 
@@ -63,7 +68,7 @@ class AJAX_PROFILE {
 
 
     function ajax_pass() {
-        if (isset($this->adminLogged["admin_allow"]["pass"])) {
+        if (isset($this->adminLogged["admin_allow"]["pass"]) && !$this->is_super) {
             $this->obj_ajax->halt_alert("x020109");
         }
 

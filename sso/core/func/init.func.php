@@ -5,7 +5,7 @@
 -----------------------------------------------------------------*/
 
 //不能非法包含或直接执行
-if(!defined("IN_BAIGO")) {
+if (!defined("IN_BAIGO")) {
     exit("Access Denied");
 }
 
@@ -23,14 +23,14 @@ $GLOBALS["act_post"]    = fn_getSafe(fn_post("act_post"), "txt", ""); //表单�
 $GLOBALS["act_get"]     = fn_getSafe(fn_get("act_get"), "txt", ""); //查询串动作
 $GLOBALS["view"]        = fn_getSafe(fn_request("view"), "txt", ""); //界面 (是否 iframe)
 
-if ($GLOBALS["view"]) {
+if (!fn_isEmpty($GLOBALS["view"])) {
     $_url_attach = "&view=" . $GLOBALS["view"];
 }
 
 function fn_init($arr_set = array()) {
-    
+
     //$base = false, $ssin = false, $header = "Content-Type: text/html; charset=utf-8", $db = false, $ajax = "", $admin = false, $is_ssin_db = true
-    
+
     if (isset($arr_set["db"])) { //连接数据库
         include_once(BG_PATH_CLASS . "mysqli.class.php"); //载入数据库类
 
@@ -53,6 +53,7 @@ function fn_init($arr_set = array()) {
     if (isset($arr_set["type"])) { //模块类型
         switch ($arr_set["type"]) {
             case "ajax":
+                header("Cache-Control: no-cache, no-store, max-age=0, must-revalidate");
                 if (!$GLOBALS["obj_db"]->connect()) {
                     $arr_alert = include_once(BG_PATH_LANG . $GLOBALS["obj_base"]->config["lang"] . "/alert.php"); //载入提示信息
                     $str_alert = "x030111";
@@ -62,7 +63,7 @@ function fn_init($arr_set = array()) {
                     );
                     exit(json_encode($arr_re));
                 }
-        
+
                 if (!$GLOBALS["obj_db"]->select_db()) {
                     $arr_alert = include_once(BG_PATH_LANG . $GLOBALS["obj_base"]->config["lang"] . "/alert.php"); //载入提示信息
                     $str_alert = "x030112";
@@ -73,15 +74,27 @@ function fn_init($arr_set = array()) {
                     exit(json_encode($arr_re));
                 }
             break;
-            
+
             case "ctl":
                 if (!$GLOBALS["obj_db"]->connect()) {
                     header("Location: " . BG_URL_ROOT . "db_conn_err.html");
                     exit;
                 }
-        
+
                 if (!$GLOBALS["obj_db"]->select_db()) {
                     header("Location: " . BG_URL_ROOT . "db_select_err.html");
+                    exit;
+                }
+            break;
+
+            case "install":
+                if (!$GLOBALS["obj_db"]->connect()) {
+                    header("Location: " . BG_URL_INSTALL . "ctl.php?mod=alert&act_get=show&alert=x030404");
+                    exit;
+                }
+
+                if (!$GLOBALS["obj_db"]->select_db()) {
+                    header("Location: " . BG_URL_INSTALL . "ctl.php?mod=alert&act_get=show&alert=x030404");
                     exit;
                 }
             break;
@@ -90,8 +103,7 @@ function fn_init($arr_set = array()) {
 
     if (isset($arr_set["ssin"])) {  //启动会话
         if (isset($arr_set["ssin_file"])) {
-            $_str_iniSsin = ini_get("session.save_path");
-            if (!$_str_iniSsin) {
+            if (!ini_get("session.save_path")) {
                 ini_set("session.save_path", BG_PATH_CACHE . "ssin");
             }
         } else {

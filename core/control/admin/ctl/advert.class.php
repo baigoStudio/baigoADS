@@ -5,7 +5,7 @@
 -----------------------------------------------------------------*/
 
 //不能非法包含或直接执行
-if(!defined("IN_BAIGO")) {
+if (!defined("IN_BAIGO")) {
     exit("Access Denied");
 }
 
@@ -25,6 +25,7 @@ class CONTROL_ADVERT {
     private $mdl_advertBelong;
     private $mdl_user;
     private $tplData;
+    private $is_super = false;
 
     function __construct() { //构造函数
         $this->obj_base       = $GLOBALS["obj_base"]; //获取界面类型
@@ -33,17 +34,21 @@ class CONTROL_ADVERT {
         $this->mdl_advert     = new MODEL_ADVERT(); //设置管理员模型
         $this->mdl_posi       = new MODEL_POSI();
         $this->mdl_media      = new MODEL_MEDIA();
-        $this->obj_tpl        = new CLASS_TPL(BG_PATH_TPL . "admin/" . $this->config["ui"]); //初始化视图对象
+        $this->obj_tpl        = new CLASS_TPL(BG_PATH_TPL . "admin/" . BG_DEFAULT_UI); //初始化视图对象
         $this->tplData = array(
             "adminLogged" => $this->adminLogged
         );
+
+        if ($this->adminLogged["admin_type"] == "super") {
+            $this->is_super = true;
+        }
     }
 
     /*============编辑管理员界面============
     返回提示
     */
     function ctl_show() {
-        if (!isset($this->adminLogged["admin_allow"]["advert"]["browse"])) {
+        if (!isset($this->adminLogged["admin_allow"]["advert"]["browse"]) && !$this->is_super) {
             return array(
                 "alert" => "x080301",
             );
@@ -89,7 +94,7 @@ class CONTROL_ADVERT {
         );
 
         if ($_num_advertId > 0) {
-            if (!isset($this->adminLogged["admin_allow"]["advert"]["edit"])) {
+            if (!isset($this->adminLogged["admin_allow"]["advert"]["edit"]) && !$this->is_super) {
                 return array(
                     "alert" => "x080303",
                 );
@@ -108,7 +113,7 @@ class CONTROL_ADVERT {
                 $_arr_advertRow["mediaRow"] = $_arr_mediaRow;
             }
         } else {
-            if (!isset($this->adminLogged["admin_allow"]["advert"]["add"])) {
+            if (!isset($this->adminLogged["admin_allow"]["advert"]["add"]) && !$this->is_super) {
                 return array(
                     "alert" => "x080302",
                 );
@@ -165,7 +170,7 @@ class CONTROL_ADVERT {
     无返回
     */
     function ctl_list() {
-        if (!isset($this->adminLogged["admin_allow"]["advert"]["browse"])) {
+        if (!isset($this->adminLogged["admin_allow"]["advert"]["browse"]) && !$this->is_super) {
             return array(
                 "alert" => "x080301",
             );

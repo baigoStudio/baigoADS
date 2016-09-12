@@ -5,7 +5,7 @@
 -----------------------------------------------------------------*/
 
 //不能非法包含或直接执行
-if(!defined("IN_BAIGO")) {
+if (!defined("IN_BAIGO")) {
     exit("Access Denied");
 }
 
@@ -32,8 +32,6 @@ class AJAX_INSTALL {
 
 
     function ajax_dbconfig() {
-        $this->check_db();
-
         $_arr_dbconfigSubmit = $this->mdl_opt->input_dbconfig();
 
         if ($_arr_dbconfigSubmit["alert"] != "ok") {
@@ -121,7 +119,7 @@ class AJAX_INSTALL {
 
         $_obj_sso = new CLASS_SSO();
 
-        $_arr_ssoGet = $_obj_sso->sso_get($_arr_adminSubmit["admin_name"], "user_name");
+        $_arr_ssoGet = $_obj_sso->sso_read($_arr_adminSubmit["admin_name"], "user_name");
         if ($_arr_ssoGet["alert"] != "y010102") {
             if ($_arr_ssoGet["alert"] == "x010102") {
                 $this->obj_ajax->halt_alert("x020205");
@@ -228,7 +226,7 @@ class AJAX_INSTALL {
         $_obj_sso     = new CLASS_SSO();
 
         $_str_adminName   = fn_getSafe(fn_get("admin_name"), "txt", "");
-        $_arr_ssoGet      = $_obj_sso->sso_get($_str_adminName, "user_name");
+        $_arr_ssoGet      = $_obj_sso->sso_read($_str_adminName, "user_name");
 
         if ($_arr_ssoGet["alert"] == "y010102") {
             $_arr_adminRow = $_mdl_admin->mdl_read($_arr_ssoGet["user_id"]);
@@ -255,7 +253,7 @@ class AJAX_INSTALL {
         $_obj_sso     = new CLASS_SSO();
 
         $_str_adminName   = fn_getSafe(fn_get("admin_name"), "txt", "");
-        $_arr_ssoGet      = $_obj_sso->sso_get($_str_adminName, "user_name");
+        $_arr_ssoGet      = $_obj_sso->sso_read($_str_adminName, "user_name");
 
         if ($_arr_ssoGet["alert"] == "y010102") {
             //检验用户是否存在

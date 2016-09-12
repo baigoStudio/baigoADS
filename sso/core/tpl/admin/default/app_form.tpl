@@ -43,7 +43,7 @@
     </div>
 
     <form name="app_form" id="app_form">
-        <input type="hidden" name="token_session" class="token_session" value="{$common.token_session}">
+        <input type="hidden" name="{$common.tokenRow.name_session}" value="{$common.tokenRow.token}">
         <input type="hidden" name="act_post" value="submit">
         <input type="hidden" name="app_id" value="{$tplData.appRow.app_id}">
 
@@ -59,9 +59,9 @@
                         </div>
 
                         <div class="form-group">
-                            <div id="group_app_url_notice">
-                                <label class="control-label">{$lang.label.appUrlNotice}<span id="msg_app_url_notice">*</span></label>
-                                <input type="text" name="app_url_notice" id="app_url_notice" value="{$tplData.appRow.app_url_notice}" data-validate class="form-control">
+                            <div id="group_app_url_notify">
+                                <label class="control-label">{$lang.label.appUrlNotify}<span id="msg_app_url_notify">*</span></label>
+                                <input type="text" name="app_url_notify" id="app_url_notify" value="{$tplData.appRow.app_url_notify}" data-validate class="form-control">
                             </div>
                         </div>
 
@@ -141,27 +141,31 @@
                     {/if}
 
                     <div class="form-group">
-                        <label class="control-label">{$lang.label.status}<span id="msg_app_status">*</span></label>
-                        {foreach $status.app as $key=>$value}
-                            <div class="radio_baigo">
-                                <label for="app_status_{$key}">
-                                    <input type="radio" name="app_status" id="app_status_{$key}" value="{$key}" {if $tplData.appRow.app_status == $key}checked{/if} data-validate="app_status">
-                                    {$value}
-                                </label>
-                            </div>
-                        {/foreach}
+                        <div id="group_app_status">
+                            <label class="control-label">{$lang.label.status}<span id="msg_app_status">*</span></label>
+                            {foreach $status.app as $key=>$value}
+                                <div class="radio_baigo">
+                                    <label for="app_status_{$key}">
+                                        <input type="radio" name="app_status" id="app_status_{$key}" value="{$key}" {if $tplData.appRow.app_status == $key}checked{/if} data-validate="app_status">
+                                        {$value}
+                                    </label>
+                                </div>
+                            {/foreach}
+                        </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label">{$lang.label.sync}<span id="msg_app_sync">*</span></label>
-                        {foreach $status.appSync as $key=>$value}
-                            <div class="radio_baigo">
-                                <label for="app_sync_{$key}">
-                                    <input type="radio" name="app_sync" id="app_sync_{$key}" value="{$key}" {if $tplData.appRow.app_sync == $key}checked{/if} data-validate="app_sync">
-                                    {$value}
-                                </label>
-                            </div>
-                        {/foreach}
+                        <div id="group_app_sync">
+                            <label class="control-label">{$lang.label.sync}<span id="msg_app_sync">*</span></label>
+                            {foreach $status.appSync as $key=>$value}
+                                <div class="radio_baigo">
+                                    <label for="app_sync_{$key}">
+                                        <input type="radio" name="app_sync" id="app_sync_{$key}" value="{$key}" {if $tplData.appRow.app_sync == $key}checked{/if} data-validate="app_sync">
+                                        {$value}
+                                    </label>
+                                </div>
+                            {/foreach}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -178,10 +182,10 @@
             validate: { type: "str", format: "text", group: "#group_app_name" },
             msg: { selector: "#msg_app_name", too_short: "{$alert.x050201}", too_long: "{$alert.x050202}" }
         },
-        app_url_notice: {
+        app_url_notify: {
             len: { min: 1, max: 3000 },
-            validate: { type: "str", format: "url", group: "#group_app_url_notice" },
-            msg: { selector: "#msg_app_url_notice", too_short: "{$alert.x050207}", too_long: "{$alert.x050208}", format_err: "{$alert.x050209}" }
+            validate: { type: "str", format: "url", group: "#group_app_url_notify" },
+            msg: { selector: "#msg_app_url_notify", too_short: "{$alert.x050207}", too_long: "{$alert.x050208}", format_err: "{$alert.x050209}" }
         },
         app_url_sync: {
             len: { min: 1, max: 3000 },
@@ -205,12 +209,12 @@
         },
         app_status: {
             len: { min: 1, max: 0 },
-            validate: { selector: "[name='app_status']", type: "radio" },
+            validate: { selector: "[name='app_status']", type: "radio", group: "#group_app_status" },
             msg: { selector: "#msg_app_status", too_few: "{$alert.x050206}" }
         },
         app_sync: {
             len: { min: 1, max: 0 },
-            validate: { selector: "[name='app_sync']", type: "radio" },
+            validate: { selector: "[name='app_sync']", type: "radio", group: "#group_app_sync" },
             msg: { selector: "#msg_app_sync", too_few: "{$alert.x050218}" }
         }
     };

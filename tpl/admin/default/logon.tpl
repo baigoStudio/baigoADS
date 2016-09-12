@@ -11,7 +11,7 @@
     <script src="{$smarty.const.BG_URL_STATIC}js/jquery.min.js" type="text/javascript"></script>
     <link href="{$smarty.const.BG_URL_STATIC}js/bootstrap/css/bootstrap.min.css" type="text/css" rel="stylesheet">
     <link href="{$smarty.const.BG_URL_STATIC}js/baigoValidator/baigoValidator.css" type="text/css" rel="stylesheet">
-    <link href="{$smarty.const.BG_URL_STATIC}admin/{$config.ui}/css/admin_logon.css" type="text/css" rel="stylesheet">
+    <link href="{$smarty.const.BG_URL_STATIC}admin/{$smarty.const.BG_DEFAULT_UI}/css/admin_logon.css" type="text/css" rel="stylesheet">
 
 </head>
 <body>
@@ -31,11 +31,11 @@
 
                 <form action="{$smarty.const.BG_URL_ADMIN}ctl.php?mod=logon" method="post" id="login_form">
                     <input type="hidden" name="act_post" value="login">
-                    <input type="hidden" name="token_session" class="token_session" value="{$common.token_session}">
+                    <input type="hidden" name="{$common.tokenRow.name_session}" value="{$common.tokenRow.token}">
                     <input type="hidden" name="forward" value="{$tplData.forward}">
 
                     <div class="form-group">
-                        {if $tplData.alert}
+                        {if $tplData.alert && isset($alert[$tplData.alert])}
                             <div class="alert alert-danger">{$alert[$tplData.alert]}</div>
                         {/if}
                     </div>
@@ -82,18 +82,18 @@
             <div class="panel-footer">
                 <div class="pull-left">
                     {$smarty.const.PRD_ADS_POWERED}
-                    {if $config.ui == "default"}
+                    {if $smarty.const.BG_DEFAULT_UI == "default"}
                         <a href="{$smarty.const.PRD_ADS_URL}" target="_blank">{$smarty.const.PRD_ADS_NAME}</a>
                     {else}
-                        {$config.ui} ADS
+                        {$smarty.const.BG_DEFAULT_UI} ADS
                     {/if}
                     {$smarty.const.PRD_ADS_VER}
                 </div>
                 <div class="pull-right foot_logo">
-                    {if $config.ui == "default"}
+                    {if $smarty.const.BG_DEFAULT_UI == "default"}
                         <a href="{$smarty.const.PRD_ADS_URL}" target="_blank">{$smarty.const.PRD_ADS_POWERED} {$smarty.const.PRD_ADS_NAME} {$smarty.const.PRD_ADS_VER}</a>
                     {else}
-                        <a href="#">{$config.ui} ADS</a>
+                        <a href="#">{$smarty.const.BG_DEFAULT_UI} ADS</a>
                     {/if}
                 </div>
                 <div class="clearfix"></div>

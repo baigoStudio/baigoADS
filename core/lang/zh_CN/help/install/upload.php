@@ -1,7 +1,11 @@
 <?php
 return "<h3>上传设置</h3>
 
-    <p><img src=\"{images}upload.jpg\" class=\"img-responsive\"></p>
+    <p>
+        <a href=\"{images}upload.jpg\" target=\"_blank\"><img src=\"{images}upload.jpg\" class=\"img-responsive\"></a>
+    </p>
+
+    <p>&nbsp;</p>
 
     <div class=\"panel panel-default\">
         <div class=\"panel-heading\">填写说明</div>

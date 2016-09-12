@@ -2,7 +2,11 @@
 return "<h3>SSO 设置</h3>
     <p>baigo ADS 的用户以及后台登录需要 baigo SSO 支持。</p>
 
-    <p><img src=\"{images}sso.jpg\" class=\"img-responsive\"></p>
+    <p>
+        <a href=\"{images}sso.jpg\" target=\"_blank\"><img src=\"{images}sso.jpg\" class=\"img-responsive\"></a>
+    </p>
+
+    <p>&nbsp;</p>
 
     <div class=\"panel panel-default\">
         <div class=\"panel-heading\">填写说明</div>
@@ -23,7 +27,15 @@ return "<h3>SSO 设置</h3>
 
     <p>点击“保存“，成功后点击“下一步“。</p>
 
+    <p>&nbsp;</p>
+    <div class=\"text-right\">
+        <a href=\"#top\">
+            <span class=\"glyphicon glyphicon-chevron-up\"></span>
+            top
+        </a>
+    </div>
     <hr>
+    <p>&nbsp;</p>
 
     <h3>SSO 升级</h3>
     <p>baigo SSO 的升级与 baigo ADS 的升级并无直接关联，如果您要检查 baigo SSO 是否可升级，请点击 <mark>SSO 升级</mark>。</p>";

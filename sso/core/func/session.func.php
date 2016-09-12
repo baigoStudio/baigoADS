@@ -5,7 +5,7 @@
 -----------------------------------------------------------------*/
 
 //不能非法包含或直接执行
-if(!defined("IN_BAIGO")) {
+if (!defined("IN_BAIGO")) {
     exit("Access Denied");
 }
 
@@ -26,7 +26,7 @@ function fn_ssin_begin() {
 
     $_num_adminTimeDiff = fn_session("admin_ssin_time") + BG_DEFAULT_SESSION; //session有效期
 
-    if (!fn_session("admin_id") || !fn_session("admin_ssin_time") || !fn_session("admin_hash") || $_num_adminTimeDiff < time()) {
+    if (fn_isEmpty(fn_session("admin_id")) || fn_isEmpty(fn_session("admin_ssin_time")) || fn_isEmpty(fn_session("admin_hash")) || $_num_adminTimeDiff < time()) {
         fn_ssin_end();
         $_arr_adminRow["alert"] = "x020401";
         return $_arr_adminRow;

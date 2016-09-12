@@ -5,7 +5,7 @@
 -----------------------------------------------------------------*/
 
 //不能非法包含或直接执行
-if(!defined("IN_BAIGO")) {
+if (!defined("IN_BAIGO")) {
     exit("Access Denied");
 }
 
@@ -13,6 +13,8 @@ if(!defined("IN_BAIGO")) {
 class MODEL_STAT {
 
     private $obj_db;
+    public $statTypes = array();
+    public $statTargets = array();
 
     function __construct() { //构造函数
         $this->obj_db = $GLOBALS["obj_db"]; //设置数据库对象
@@ -26,10 +28,20 @@ class MODEL_STAT {
      * @return void
      */
     function mdl_create_table() {
+        foreach ($this->statTypes as $_key=>$_value) {
+            $_arr_types[] = $_key;
+        }
+        $_str_types = implode("','", $_arr_types);
+
+        foreach ($this->statTargets as $_key=>$_value) {
+            $_arr_targets[] = $_key;
+        }
+        $_str_targets = implode("','", $_arr_targets);
+
         $_arr_statCreat = array(
             "stat_id"            => "int NOT NULL AUTO_INCREMENT COMMENT 'ID'",
-            "stat_type"          => "enum('day','month','year') NOT NULL COMMENT '统计类型'",
-            "stat_target"        => "enum('advert','posi') NOT NULL COMMENT '统计目标'",
+            "stat_type"          => "enum('" . $_str_types . "') NOT NULL COMMENT '统计类型'",
+            "stat_target"        => "enum('" . $_str_targets . "') NOT NULL COMMENT '统计目标'",
             "stat_target_id"     => "int NOT NULL COMMENT '目标 ID'",
             "stat_time"          => "int NOT NULL COMMENT '统计时间'",
             "stat_count_show"    => "int NOT NULL COMMENT '显示数'",
@@ -66,10 +78,10 @@ class MODEL_STAT {
     }
 
 
-    function mdl_stat($str_statTarget, $num_statTargetId, $tm_time, $is_hit = false) {
-        $this->mdl_submit("year", $str_statTarget, $num_statTargetId, $tm_time, $is_hit);
-        $this->mdl_submit("month", $str_statTarget, $num_statTargetId, $tm_time, $is_hit);
-        $this->mdl_submit("day", $str_statTarget, $num_statTargetId, $tm_time, $is_hit);
+    function mdl_stat($str_statTarget, $num_statTargetId, $is_hit = false) {
+        $this->mdl_submit("year", $str_statTarget, $num_statTargetId, $is_hit);
+        $this->mdl_submit("month", $str_statTarget, $num_statTargetId, $is_hit);
+        $this->mdl_submit("day", $str_statTarget, $num_statTargetId, $is_hit);
     }
 
 
@@ -81,14 +93,13 @@ class MODEL_STAT {
      * @param mixed $num_appId
      * @return void
      */
-    function mdl_submit($str_statType, $str_statTarget, $num_statTargetId, $tm_time, $is_hit = false) {
-
+    function mdl_submit($str_statType, $str_statTarget, $num_statTargetId, $is_hit = false) {
         $_arr_statData = array(
             "stat_count_show"    => 1,
             "stat_count_hit"     => 1,
         );
 
-        $_arr_statRow = $this->mdl_read($str_statType, $str_statTarget, $num_statTargetId, $tm_time);
+        $_arr_statRow = $this->mdl_read($str_statType, $str_statTarget, $num_statTargetId);
 
         if ($_arr_statRow["alert"] != "y090102") {
             $_arr_statData["stat_type"]      = $str_statType;
@@ -112,7 +123,7 @@ class MODEL_STAT {
                 );
             } else {
                 $_arr_statData = array(
-                    "stat_count_show"   => "stat_count_show+1",
+                    "stat_count_show"  => "stat_count_show+1",
                 );
             }
 
@@ -133,7 +144,7 @@ class MODEL_STAT {
     }
 
 
-    function mdl_read($str_statType = "", $str_statTarget = "", $num_statTargetId = 0, $tm_time = 0) {
+    function mdl_read($str_statType = "", $str_statTarget = "", $num_statTargetId = 0) {
         $_arr_statSelect = array(
             "stat_id",
             "stat_type",
@@ -160,15 +171,15 @@ class MODEL_STAT {
 
         switch ($str_statType) {
             case "year":
-                $_str_sqlWhere .= " AND FROM_UNIXTIME(stat_time, '%Y')='" . date("Y", $tm_time) . "'";
+                $_str_sqlWhere .= " AND FROM_UNIXTIME(stat_time, '%Y')='" . date("Y") . "'";
             break;
 
             case "month":
-                $_str_sqlWhere .= " AND FROM_UNIXTIME(stat_time, '%Y-%m')='" . date("Y-m", $tm_time) . "'";
+                $_str_sqlWhere .= " AND FROM_UNIXTIME(stat_time, '%Y-%m')='" . date("Y-m") . "'";
             break;
 
             case "day":
-                $_str_sqlWhere .= " AND FROM_UNIXTIME(stat_time, '%Y-%m-%d')='" . date("Y-m-d", $tm_time) . "'";
+                $_str_sqlWhere .= " AND FROM_UNIXTIME(stat_time, '%Y-%m-%d')='" . date("Y-m-d") . "'";
             break;
         }
 
@@ -282,6 +293,7 @@ class MODEL_STAT {
             "alert" => $_str_alert,
         ); //成功
     }
+
 
     private function sql_process($arr_search = array()) {
         $_str_sqlWhere = "1=1";

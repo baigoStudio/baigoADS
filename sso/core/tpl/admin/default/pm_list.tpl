@@ -76,7 +76,7 @@
     </div>
 
     <form name="pm_list" id="pm_list" class="form-inline">
-        <input type="hidden" name="token_session" class="token_session" value="{$common.token_session}">
+        <input type="hidden" name="{$common.tokenRow.name_session}" value="{$common.tokenRow.token}">
 
         <div class="panel panel-default">
             <div class="table-responsive">
@@ -223,14 +223,6 @@
         confirm_selector: "#act_post",
         confirm_val: "del",
         confirm_msg: "{$lang.confirm.del}",
-        text_submitting: "{$lang.label.submitting}",
-        btn_text: "{$lang.btn.ok}",
-        btn_close: "{$lang.btn.close}",
-        btn_url: "{$cfg.str_url}"
-    };
-
-    var opts_submit_notice = {
-        ajax_url: "{$smarty.const.BG_URL_ADMIN}ajax.php?mod=pm",
         text_submitting: "{$lang.label.submitting}",
         btn_text: "{$lang.btn.ok}",
         btn_close: "{$lang.btn.close}",

@@ -5,7 +5,7 @@
 -----------------------------------------------------------------*/
 
 //不能非法包含或直接执行
-if(!defined("IN_BAIGO")) {
+if (!defined("IN_BAIGO")) {
     exit("Access Denied");
 }
 
@@ -18,7 +18,7 @@ class CONTROL_INSTALL {
     function __construct() { //构造函数
         $this->obj_base = $GLOBALS["obj_base"];
         $this->config   = $this->obj_base->config;
-        $this->obj_tpl  = new CLASS_TPL(BG_PATH_TPL . "install/" . $this->config["ui"]);
+        $this->obj_tpl  = new CLASS_TPL(BG_PATH_TPL . "install/" . BG_DEFAULT_UI);
         $this->obj_dir  = new CLASS_DIR(); //初始化目录对象
         $this->obj_dir->mk_dir(BG_PATH_CACHE . "ssin");
         $this->install_init();
@@ -310,8 +310,10 @@ class CONTROL_INSTALL {
 
     private function table_admin() {
         include_once(BG_PATH_MODEL . "admin.class.php"); //载入管理帐号模型
-        $_mdl_admin       = new MODEL_ADMIN();
-        $_arr_adminTable  = $_mdl_admin->mdl_create_table();
+        $_mdl_admin                 = new MODEL_ADMIN();
+        $_mdl_admin->adminStatus    = $this->obj_tpl->status["admin"];
+        $_mdl_admin->adminTypes     = $this->obj_tpl->type["admin"];
+        $_arr_adminTable            = $_mdl_admin->mdl_create_table();
 
         $this->tplData["db_alert"]["admin_table"] = array(
             "alert"   => $_arr_adminTable["alert"],
@@ -322,8 +324,10 @@ class CONTROL_INSTALL {
 
     private function table_advert() {
         include_once(BG_PATH_MODEL . "advert.class.php"); //载入管理帐号模型
-        $_mdl_advert      = new MODEL_ADVERT();
-        $_arr_advertTable = $_mdl_advert->mdl_create_table();
+        $_mdl_advert                    = new MODEL_ADVERT();
+        $_mdl_advert->advertStatus      = $this->obj_tpl->status["advert"];
+        $_mdl_advert->advertPutTypes    = $this->obj_tpl->type["put"];
+        $_arr_advertTable               = $_mdl_advert->mdl_create_table();
 
         $this->tplData["db_alert"]["advert_table"] = array(
             "alert"   => $_arr_advertTable["alert"],
@@ -346,8 +350,11 @@ class CONTROL_INSTALL {
 
     private function table_posi() {
         include_once(BG_PATH_MODEL . "posi.class.php"); //载入管理帐号模型
-        $_mdl_posi        = new MODEL_POSI();
-        $_arr_posiTable   = $_mdl_posi->mdl_create_table();
+        $_mdl_posi                  = new MODEL_POSI();
+        $_mdl_posi->posiStatus      = $this->obj_tpl->status["posi"];
+        $_mdl_posi->posiTypes       = $this->obj_tpl->type["posi"];
+        $_mdl_posi->posiIsPercent   = $this->obj_tpl->status["isPercent"];
+        $_arr_posiTable             = $_mdl_posi->mdl_create_table();
 
         $this->tplData["db_alert"]["posi_table"] = array(
             "alert"   => $_arr_posiTable["alert"],
@@ -358,8 +365,10 @@ class CONTROL_INSTALL {
 
     private function table_stat() {
         include_once(BG_PATH_MODEL . "stat.class.php"); //载入管理帐号模型
-        $_mdl_stat        = new MODEL_STAT();
-        $_arr_statTable   = $_mdl_stat->mdl_create_table();
+        $_mdl_stat              = new MODEL_STAT();
+        $_mdl_stat->statTypes   = $this->obj_tpl->type["stat"];
+        $_mdl_stat->statTargets = $this->obj_tpl->type["target"];
+        $_arr_statTable         = $_mdl_stat->mdl_create_table();
 
         $this->tplData["db_alert"]["stat_table"] = array(
             "alert"   => $_arr_statTable["alert"],

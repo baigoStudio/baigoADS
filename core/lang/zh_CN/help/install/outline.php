@@ -7,7 +7,7 @@ return "<h3>概述</h3>
     <div class=\"panel panel-default\">
         <div class=\"panel-heading\">目录结构说明</div>
         <div class=\"table-responsive\">
-            <table class=\"table\">
+            <table class=\"table table-bordered\">
                 <thead>
                     <tr>
                         <th class=\"text-nowrap\">文件 / 目录</th>

@@ -26,7 +26,7 @@
     </div>
 
     <form name="app_form" id="app_form">
-        <input type="hidden" name="token_session" class="token_session" value="{$common.token_session}">
+        <input type="hidden" name="{$common.tokenRow.name_session}" value="{$common.tokenRow.token}">
         <input type="hidden" name="act_post" id="act_post" value="reset">
         <input type="hidden" name="app_id" value="{$tplData.appRow.app_id}">
 
@@ -60,8 +60,8 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label static_label">{$lang.label.appUrlNotice}</label>
-                            <p class="form-control-static">{$tplData.appRow.app_url_notice}</p>
+                            <label class="control-label static_label">{$lang.label.appUrlNotify}</label>
+                            <p class="form-control-static">{$tplData.appRow.app_url_notify}</p>
                         </div>
 
                         <div class="form-group">

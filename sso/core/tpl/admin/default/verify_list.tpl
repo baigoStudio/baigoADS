@@ -29,7 +29,7 @@
     </div>
 
     <form name="verify_list" id="verify_list" class="form-inline">
-        <input type="hidden" name="token_session" class="token_session" value="{$common.token_session}">
+        <input type="hidden" name="{$common.tokenRow.name_session}" value="{$common.tokenRow.token}">
 
         <div class="panel panel-default">
             <div class="table-responsive">
@@ -66,7 +66,7 @@
                                     <ul class="list-unstyled">
                                         <li>
                                             {if isset($value.userRow.user_name)}
-                                                <a href="{$smarty.const.BG_URL_ADMIN}ctl.php?mod=verify&act_get=list&user_id={$value.userRow.user_id}">{$value.userRow.user_name}</a>
+                                                {$value.userRow.user_name}
                                             {else}
                                                 {$lang.label.unknow}
                                             {/if}

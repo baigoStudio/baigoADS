@@ -8,11 +8,11 @@
         <input type="hidden" name="act_post" value="confirm">
         <input type="hidden" name="verify_id" value="{$tplData.verifyRow.verify_id}">
         <input type="hidden" name="verify_token" value="{$tplData.verifyRow.verify_token}">
-        <input type="hidden" name="token_session" class="token_session" value="{$common.token_session}">
+        <input type="hidden" name="{$common.tokenRow.name_session}" value="{$common.tokenRow.token}">
 
         <div class="form-group">
             <label class="control-label">{$lang.label.username}</label>
-            <p class="form-control-static input-lg">{$tplData.userRow.user_name}</p>
+            <input type="text" name="user_name" id="user_name" value="{$tplData.userRow.user_name}" readonly class="form-control input-lg">
         </div>
 
         <div class="form-group">

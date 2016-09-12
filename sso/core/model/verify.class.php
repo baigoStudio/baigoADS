@@ -5,7 +5,7 @@
 -----------------------------------------------------------------*/
 
 //不能非法包含或直接执行
-if(!defined("IN_BAIGO")) {
+if (!defined("IN_BAIGO")) {
     exit("Access Denied");
 }
 
@@ -377,7 +377,7 @@ class MODEL_VERIFY {
 
         $this->verifyIds = array(
             "alert"         => $_str_alert,
-            "verify_ids"    => $_arr_verifyIds
+            "verify_ids"    => array_unique($_arr_verifyIds),
         );
 
         return $this->verifyIds;

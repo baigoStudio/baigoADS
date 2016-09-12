@@ -6,15 +6,10 @@
 {include "{$smarty.const.BG_PATH_TPL}install/default/include/install_head.tpl" cfg=$cfg}
 
     <form name="install_form_auth" id="install_form_auth">
-        <input type="hidden" name="token_session" class="token_session" value="{$common.token_session}">
+        <input type="hidden" name="{$common.tokenRow.name_session}" value="{$common.tokenRow.token}">
         <input type="hidden" name="act_post" value="auth">
         <input type="hidden" name="admin_status" value="enable">
-
-        {foreach $adminMod as $key_m=>$value_m}
-            {foreach $value_m.allow as $key_s=>$value_s}
-                <input type="hidden" name="admin_allow[{$key_m}][{$key_s}]" value="1">
-            {/foreach}
-        {/foreach}
+        <input type="hidden" name="admin_type" value="super">
 
         <div class="alert alert-warning">
             <h4>

@@ -1,6 +1,5 @@
 <?php
-return "<a name=\"top\"></a>
-    <ul class=\"list-inline\">
+return "<ul class=\"list-inline\">
         <li>
             <a href=\"#send\">发送短信</a>
         </li>
@@ -17,13 +16,67 @@ return "<a name=\"top\"></a>
             <a href=\"#status\">更改短信状态</a>
         </li>
         <li>
-            <a href=\"#rev\">撤回短信</a>
+            <a href=\"#revoke\">撤回短信</a>
         </li>
         <li>
             <a href=\"#del\">删除短信</a>
         </li>
     </ul>
 
+    <p>&nbsp;</p>
+
+    <h3>公共请求参数</h3>
+    <p>公共请求参数是指向所有接口发起请求时都必须传入的参数。</p>
+    <div class=\"panel panel-default\">
+        <div class=\"panel-heading\">公共请求参数</div>
+        <div class=\"table-responsive\">
+            <table class=\"table table-bordered\">
+                <thead>
+                    <tr>
+                        <th class=\"text-nowrap\">名称</th>
+                        <th class=\"text-nowrap\">类型</th>
+                        <th class=\"text-nowrap\">必须</th>
+                        <th>描述</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class=\"text-nowrap\">app_id</td>
+                        <td class=\"text-nowrap\">int</td>
+                        <td class=\"text-nowrap\">true</td>
+                        <td>应用的 APP ID，后台创建应用时生成的 ID。详情查看 <a href=\"{BG_URL_HELP}ctl.php?mod=admin&act_get=app#show\">应用</a>。</td>
+                    </tr>
+                    <tr>
+                        <td class=\"text-nowrap\">app_key</td>
+                        <td class=\"text-nowrap\">string</td>
+                        <td class=\"text-nowrap\">true</td>
+                        <td>应用的 APP KEY，后台创建应用时生成的 KEY。详情查看 <a href=\"{BG_URL_HELP}ctl.php?mod=admin&act_get=app#show\">应用</a>。</td>
+                    </tr>
+                    <tr>
+                        <td class=\"text-nowrap\">time</td>
+                        <td class=\"text-nowrap\">int</td>
+                        <td class=\"text-nowrap\">true</td>
+                        <td>Unix 时间戳，baigo SSO 允许 +-30 分钟以内的时差，为了防止时区设置不同导致的时差，请开发者将应用的时区设置为为与 baigo SSO 一致，关于时区设置，请查看 <a href=\"{BG_URL_HELP}ctl.php?mod=admin&act_get=opt#base\">系统设置</a>。</td>
+                    </tr>
+                    <tr>
+                        <td class=\"text-nowrap\">signature</td>
+                        <td class=\"text-nowrap\">string</td>
+                        <td class=\"text-nowrap\">true</td>
+                        <td>签名，将请求参数中的所有参数（包括公共请求参数，但不含签名）按照一定规律组合以后生成的，详情请查看 <a href=\"{BG_URL_HELP}ctl.php?mod=api&act_get=signature#verify\">签名接口</a>。</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <p>&nbsp;</p>
+    <div class=\"text-right\">
+        <a href=\"#top\">
+            <span class=\"glyphicon glyphicon-chevron-up\"></span>
+            top
+        </a>
+    </div>
+    <hr>
     <p>&nbsp;</p>
 
     <a name=\"send\"></a>
@@ -33,7 +86,7 @@ return "<a name=\"top\"></a>
     <p>本接口用于向指定用户发送站内短信。</p>
 
     <p class=\"text-success\">URL</p>
-    <p><span class=\"text-primary\">http://www.domain.com/api/api.php?mod=pm</span></p>
+    <p class=\"text-primary\">http://www.domain.com/api/api.php?mod=pm</p>
 
     <p class=\"text-success\">HTTP 请求方式</p>
     <p>POST</p>
@@ -42,7 +95,7 @@ return "<a name=\"top\"></a>
     <p>JSON</p>
 
     <div class=\"panel panel-default\">
-        <div class=\"panel-heading\">接口参数</div>
+        <div class=\"panel-heading\">请求参数</div>
         <div class=\"table-responsive\">
             <table class=\"table table-bordered\">
                 <thead>
@@ -50,7 +103,7 @@ return "<a name=\"top\"></a>
                         <th class=\"text-nowrap\">名称</th>
                         <th class=\"text-nowrap\">类型</th>
                         <th class=\"text-nowrap\">必须</th>
-                        <th>具体描述</th>
+                        <th>描述</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -61,35 +114,21 @@ return "<a name=\"top\"></a>
                         <td>接口调用动作，值只能为 send。</td>
                     </tr>
                     <tr>
-                        <td class=\"text-nowrap\">app_id</td>
-                        <td class=\"text-nowrap\">int</td>
-                        <td class=\"text-nowrap\">true</td>
-                        <td>应用的 APP ID，后台创建应用时生成的 ID。详情查看 <a href=\"{BG_URL_HELP}ctl.php?mod=admin&act_get=app#show\">查看应用</a>。</td>
-                    </tr>
-                    <tr>
-                        <td class=\"text-nowrap\">app_key</td>
-                        <td class=\"text-nowrap\">string</td>
-                        <td class=\"text-nowrap\">true</td>
-                        <td>应用的 APP KEY，后台创建应用时生成的 KEY。详情查看 <a href=\"{BG_URL_HELP}ctl.php?mod=admin&act_get=app#show\">查看应用</a>。</td>
-                    </tr>
-                    <tr>
                         <td class=\"text-nowrap\">user_id</td>
                         <td class=\"text-nowrap\">int</td>
-                        <td class=\"text-nowrap\"> </td>
+                        <td rowspan=\"3\">true</td>
                         <td rowspan=\"3\">
-                            <p>user_id、user_name、user_mail 三选一，优先级按顺序排列（作为发送者）</p>
+                            <p>三选一，优先级为 user_id &gt; user_name &gt; user_mail（作为发送者）</p>
                             <p>其中是否允许邮箱登录，视注册设置情况而定。详情查看 <a href=\"{BG_URL_HELP}ctl.php?mod=admin&act_get=opt#reg\">注册设置</a>。</p>
                         </td>
                     </tr>
                     <tr>
                         <td class=\"text-nowrap\">user_name</td>
                         <td class=\"text-nowrap\">string</td>
-                        <td class=\"text-nowrap\"> </td>
                     </tr>
                     <tr>
                         <td class=\"text-nowrap\">user_mail</td>
                         <td class=\"text-nowrap\">string</td>
-                        <td class=\"text-nowrap\"> </td>
                     </tr>
                     <tr>
                         <td class=\"text-nowrap\">user_access_token</td>
@@ -134,7 +173,7 @@ return "<a name=\"top\"></a>
                     <tr>
                         <th class=\"text-nowrap\">名称</th>
                         <th class=\"text-nowrap\">类型</th>
-                        <th>具体描述</th>
+                        <th>描述</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -147,11 +186,6 @@ return "<a name=\"top\"></a>
                         <td class=\"text-nowrap\">code</td>
                         <td class=\"text-nowrap\">string</td>
                         <td>加密字符串，需要解密。详情查看 <a href=\"{BG_URL_HELP}ctl.php?mod=api&act_get=code#decode\">密文接口</a>。</td>
-                    </tr>
-                    <tr>
-                        <td class=\"text-nowrap\">key</td>
-                        <td class=\"text-nowrap\">string</td>
-                        <td>解密码，配合加密字符串使用，用于解码。详情查看 <a href=\"{BG_URL_HELP}ctl.php?mod=api&act_get=code#decode\">密文接口</a>。</td>
                     </tr>
                     <tr>
                         <td class=\"text-nowrap\">prd_sso_ver</td>
@@ -179,7 +213,7 @@ return "<a name=\"top\"></a>
                         <th class=\"text-nowrap\">名称</th>
                         <th class=\"text-nowrap\">Base64</th>
                         <th class=\"text-nowrap\">类型</th>
-                        <th>具体描述</th>
+                        <th>描述</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -226,7 +260,7 @@ return "<a name=\"top\"></a>
     <p>本接口用于检查是否有未读短信</p>
 
     <p class=\"text-success\">URL</p>
-    <p><span class=\"text-primary\">http://www.domain.com/api/api.php?mod=pm</span></p>
+    <p class=\"text-primary\">http://www.domain.com/api/api.php?mod=pm</p>
 
     <p class=\"text-success\">HTTP 请求方式</p>
     <p>GET</p>
@@ -235,7 +269,7 @@ return "<a name=\"top\"></a>
     <p>JSON</p>
 
     <div class=\"panel panel-default\">
-        <div class=\"panel-heading\">接口参数</div>
+        <div class=\"panel-heading\">请求参数</div>
         <div class=\"table-responsive\">
             <table class=\"table table-bordered\">
                 <thead>
@@ -243,7 +277,7 @@ return "<a name=\"top\"></a>
                         <th class=\"text-nowrap\">名称</th>
                         <th class=\"text-nowrap\">类型</th>
                         <th class=\"text-nowrap\">必须</th>
-                        <th>具体描述</th>
+                        <th>描述</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -254,35 +288,21 @@ return "<a name=\"top\"></a>
                         <td>接口调用动作，值只能为 check。</td>
                     </tr>
                     <tr>
-                        <td class=\"text-nowrap\">app_id</td>
-                        <td class=\"text-nowrap\">int</td>
-                        <td class=\"text-nowrap\">true</td>
-                        <td>应用的 APP ID，后台创建应用时生成的 ID。详情查看 <a href=\"{BG_URL_HELP}ctl.php?mod=admin&act_get=app#show\">查看应用</a>。</td>
-                    </tr>
-                    <tr>
-                        <td class=\"text-nowrap\">app_key</td>
-                        <td class=\"text-nowrap\">string</td>
-                        <td class=\"text-nowrap\">true</td>
-                        <td>应用的 APP KEY，后台创建应用时生成的 KEY。详情查看 <a href=\"{BG_URL_HELP}ctl.php?mod=admin&act_get=app#show\">查看应用</a>。</td>
-                    </tr>
-                    <tr>
                         <td class=\"text-nowrap\">user_id</td>
                         <td class=\"text-nowrap\">int</td>
-                        <td class=\"text-nowrap\"> </td>
+                        <td rowspan=\"3\">true</td>
                         <td rowspan=\"3\">
-                            <p>user_id、user_name、user_mail 三选一，优先级按顺序排列（作为接收者）</p>
+                            <p>三选一，优先级为 user_id &gt; user_name &gt; user_mail（作为接收者）</p>
                             <p>其中是否允许邮箱登录，视注册设置情况而定。详情查看 <a href=\"{BG_URL_HELP}ctl.php?mod=admin&act_get=opt#reg\">注册设置</a>。</p>
                         </td>
                     </tr>
                     <tr>
                         <td class=\"text-nowrap\">user_name</td>
                         <td class=\"text-nowrap\">string</td>
-                        <td class=\"text-nowrap\"> </td>
                     </tr>
                     <tr>
                         <td class=\"text-nowrap\">user_mail</td>
                         <td class=\"text-nowrap\">string</td>
-                        <td class=\"text-nowrap\"> </td>
                     </tr>
                     <tr>
                         <td class=\"text-nowrap\">user_access_token</td>
@@ -305,7 +325,7 @@ return "<a name=\"top\"></a>
                     <tr>
                         <th class=\"text-nowrap\">名称</th>
                         <th class=\"text-nowrap\">类型</th>
-                        <th>具体描述</th>
+                        <th>描述</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -360,7 +380,7 @@ return "<a name=\"top\"></a>
     <p>本接口用于列出当前用户的所有短信。</p>
 
     <p class=\"text-success\">URL</p>
-    <p><span class=\"text-primary\">http://www.domain.com/api/api.php?mod=pm</span></p>
+    <p class=\"text-primary\">http://www.domain.com/api/api.php?mod=pm</p>
 
     <p class=\"text-success\">HTTP 请求方式</p>
     <p>GET</p>
@@ -369,7 +389,7 @@ return "<a name=\"top\"></a>
     <p>JSON</p>
 
     <div class=\"panel panel-default\">
-        <div class=\"panel-heading\">接口参数</div>
+        <div class=\"panel-heading\">请求参数</div>
         <div class=\"table-responsive\">
             <table class=\"table table-bordered\">
                 <thead>
@@ -377,7 +397,7 @@ return "<a name=\"top\"></a>
                         <th class=\"text-nowrap\">名称</th>
                         <th class=\"text-nowrap\">类型</th>
                         <th class=\"text-nowrap\">必须</th>
-                        <th>具体描述</th>
+                        <th>描述</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -388,35 +408,21 @@ return "<a name=\"top\"></a>
                         <td>接口调用动作，值只能为 list。</td>
                     </tr>
                     <tr>
-                        <td class=\"text-nowrap\">app_id</td>
-                        <td class=\"text-nowrap\">int</td>
-                        <td class=\"text-nowrap\">true</td>
-                        <td>应用的 APP ID，后台创建应用时生成的 ID。详情查看 <a href=\"{BG_URL_HELP}ctl.php?mod=admin&act_get=app#show\">查看应用</a>。</td>
-                    </tr>
-                    <tr>
-                        <td class=\"text-nowrap\">app_key</td>
-                        <td class=\"text-nowrap\">string</td>
-                        <td class=\"text-nowrap\">true</td>
-                        <td>应用的 APP KEY，后台创建应用时生成的 KEY。详情查看 <a href=\"{BG_URL_HELP}ctl.php?mod=admin&act_get=app#show\">查看应用</a>。</td>
-                    </tr>
-                    <tr>
                         <td class=\"text-nowrap\">user_id</td>
                         <td class=\"text-nowrap\">int</td>
-                        <td class=\"text-nowrap\"> </td>
+                        <td rowspan=\"3\">true</td>
                         <td rowspan=\"3\">
-                            <p>user_id、user_name、user_mail 三选一，优先级按顺序排列（作为接收者）</p>
+                            <p>三选一，优先级为 user_id &gt; user_name &gt; user_mail（作为接收者）</p>
                             <p>其中是否允许邮箱登录，视注册设置情况而定。详情查看 <a href=\"{BG_URL_HELP}ctl.php?mod=admin&act_get=opt#reg\">注册设置</a>。</p>
                         </td>
                     </tr>
                     <tr>
                         <td class=\"text-nowrap\">user_name</td>
                         <td class=\"text-nowrap\">string</td>
-                        <td class=\"text-nowrap\"> </td>
                     </tr>
                     <tr>
                         <td class=\"text-nowrap\">user_mail</td>
                         <td class=\"text-nowrap\">string</td>
-                        <td class=\"text-nowrap\"> </td>
                     </tr>
                     <tr>
                         <td class=\"text-nowrap\">user_access_token</td>
@@ -467,7 +473,7 @@ return "<a name=\"top\"></a>
                     <tr>
                         <th class=\"text-nowrap\">名称</th>
                         <th class=\"text-nowrap\">类型</th>
-                        <th>具体描述</th>
+                        <th>描述</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -480,11 +486,6 @@ return "<a name=\"top\"></a>
                         <td class=\"text-nowrap\">code</td>
                         <td class=\"text-nowrap\">string</td>
                         <td>加密字符串，需要解密。详情查看 <a href=\"{BG_URL_HELP}ctl.php?mod=api&act_get=code#decode\">密文接口</a>。</td>
-                    </tr>
-                    <tr>
-                        <td class=\"text-nowrap\">key</td>
-                        <td class=\"text-nowrap\">string</td>
-                        <td>解密码，配合加密字符串使用，用于解码。详情查看 <a href=\"{BG_URL_HELP}ctl.php?mod=api&act_get=code#decode\">密文接口</a>。</td>
                     </tr>
                     <tr>
                         <td class=\"text-nowrap\">prd_sso_ver</td>
@@ -550,7 +551,7 @@ return "<a name=\"top\"></a>
     <p>本接口用于读取已注册用户的信息。</p>
 
     <p class=\"text-success\">URL</p>
-    <p><span class=\"text-primary\">http://www.domain.com/api/api.php?mod=pm</span></p>
+    <p class=\"text-primary\">http://www.domain.com/api/api.php?mod=pm</p>
 
     <p class=\"text-success\">HTTP 请求方式</p>
     <p>GET</p>
@@ -559,7 +560,7 @@ return "<a name=\"top\"></a>
     <p>JSON</p>
 
     <div class=\"panel panel-default\">
-        <div class=\"panel-heading\">接口参数</div>
+        <div class=\"panel-heading\">请求参数</div>
         <div class=\"table-responsive\">
             <table class=\"table table-bordered\">
                 <thead>
@@ -567,7 +568,7 @@ return "<a name=\"top\"></a>
                         <th class=\"text-nowrap\">名称</th>
                         <th class=\"text-nowrap\">类型</th>
                         <th class=\"text-nowrap\">必须</th>
-                        <th>具体描述</th>
+                        <th>描述</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -578,35 +579,21 @@ return "<a name=\"top\"></a>
                         <td>接口调用动作，值只能为 read。</td>
                     </tr>
                     <tr>
-                        <td class=\"text-nowrap\">app_id</td>
-                        <td class=\"text-nowrap\">int</td>
-                        <td class=\"text-nowrap\">true</td>
-                        <td>应用的 APP ID，后台创建应用时生成的 ID。详情查看 <a href=\"{BG_URL_HELP}ctl.php?mod=admin&act_get=app#show\">查看应用</a>。</td>
-                    </tr>
-                    <tr>
-                        <td class=\"text-nowrap\">app_key</td>
-                        <td class=\"text-nowrap\">string</td>
-                        <td class=\"text-nowrap\">true</td>
-                        <td>应用的 APP KEY，后台创建应用时生成的 KEY。详情查看 <a href=\"{BG_URL_HELP}ctl.php?mod=admin&act_get=app#show\">查看应用</a>。</td>
-                    </tr>
-                    <tr>
                         <td class=\"text-nowrap\">user_id</td>
                         <td class=\"text-nowrap\">int</td>
-                        <td class=\"text-nowrap\"> </td>
+                        <td rowspan=\"3\">true</td>
                         <td rowspan=\"3\">
-                            <p>user_id、user_name、user_mail 三选一，优先级按顺序排列（作为发送者）</p>
+                            <p>三选一，优先级为 user_id &gt; user_name &gt; user_mail（作为发送者）</p>
                             <p>其中是否允许邮箱登录，视注册设置情况而定。详情查看 <a href=\"{BG_URL_HELP}ctl.php?mod=admin&act_get=opt#reg\">注册设置</a>。</p>
                         </td>
                     </tr>
                     <tr>
                         <td class=\"text-nowrap\">user_name</td>
                         <td class=\"text-nowrap\">string</td>
-                        <td class=\"text-nowrap\"> </td>
                     </tr>
                     <tr>
                         <td class=\"text-nowrap\">user_mail</td>
                         <td class=\"text-nowrap\">string</td>
-                        <td class=\"text-nowrap\"> </td>
                     </tr>
                     <tr>
                         <td class=\"text-nowrap\">user_access_token</td>
@@ -639,7 +626,7 @@ return "<a name=\"top\"></a>
                     <tr>
                         <th class=\"text-nowrap\">名称</th>
                         <th class=\"text-nowrap\">类型</th>
-                        <th>具体描述</th>
+                        <th>描述</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -652,11 +639,6 @@ return "<a name=\"top\"></a>
                         <td class=\"text-nowrap\">code</td>
                         <td class=\"text-nowrap\">string</td>
                         <td>加密字符串，需要解密。详情查看 <a href=\"{BG_URL_HELP}ctl.php?mod=api&act_get=code#decode\">密文接口</a>。</td>
-                    </tr>
-                    <tr>
-                        <td class=\"text-nowrap\">key</td>
-                        <td class=\"text-nowrap\">string</td>
-                        <td>解密码，配合加密字符串使用，用于解码。详情查看 <a href=\"{BG_URL_HELP}ctl.php?mod=api&act_get=code#decode\">密文接口</a>。</td>
                     </tr>
                     <tr>
                         <td class=\"text-nowrap\">prd_sso_ver</td>
@@ -684,7 +666,7 @@ return "<a name=\"top\"></a>
                         <th class=\"text-nowrap\">名称</th>
                         <th class=\"text-nowrap\">Base64</th>
                         <th class=\"text-nowrap\">类型</th>
-                        <th>具体描述</th>
+                        <th>描述</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -793,7 +775,7 @@ return "<a name=\"top\"></a>
     <p>本接口用于更改短信的阅读状态。</p>
 
     <p class=\"text-success\">URL</p>
-    <p><span class=\"text-primary\">http://www.domain.com/api/api.php?mod=pm</span></p>
+    <p class=\"text-primary\">http://www.domain.com/api/api.php?mod=pm</p>
 
     <p class=\"text-success\">HTTP 请求方式</p>
     <p>POST</p>
@@ -802,7 +784,7 @@ return "<a name=\"top\"></a>
     <p>JSON</p>
 
     <div class=\"panel panel-default\">
-        <div class=\"panel-heading\">接口参数</div>
+        <div class=\"panel-heading\">请求参数</div>
         <div class=\"table-responsive\">
             <table class=\"table table-bordered\">
                 <thead>
@@ -810,7 +792,7 @@ return "<a name=\"top\"></a>
                         <th class=\"text-nowrap\">名称</th>
                         <th class=\"text-nowrap\">类型</th>
                         <th class=\"text-nowrap\">必须</th>
-                        <th>具体描述</th>
+                        <th>描述</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -821,35 +803,21 @@ return "<a name=\"top\"></a>
                         <td>接口调用动作，值只能为 status。</td>
                     </tr>
                     <tr>
-                        <td class=\"text-nowrap\">app_id</td>
-                        <td class=\"text-nowrap\">int</td>
-                        <td class=\"text-nowrap\">true</td>
-                        <td>应用的 APP ID，后台创建应用时生成的 ID。详情查看 <a href=\"{BG_URL_HELP}ctl.php?mod=admin&act_get=app#show\">查看应用</a>。</td>
-                    </tr>
-                    <tr>
-                        <td class=\"text-nowrap\">app_key</td>
-                        <td class=\"text-nowrap\">string</td>
-                        <td class=\"text-nowrap\">true</td>
-                        <td>应用的 APP KEY，后台创建应用时生成的 KEY。详情查看 <a href=\"{BG_URL_HELP}ctl.php?mod=admin&act_get=app#show\">查看应用</a>。</td>
-                    </tr>
-                    <tr>
                         <td class=\"text-nowrap\">user_id</td>
                         <td class=\"text-nowrap\">int</td>
-                        <td class=\"text-nowrap\"> </td>
+                        <td rowspan=\"3\">true</td>
                         <td rowspan=\"3\">
-                            <p>user_id、user_name、user_mail 三选一，优先级按顺序排列（作为接收者）</p>
+                            <p>三选一，优先级为 user_id &gt; user_name &gt; user_mail（作为接收者）</p>
                             <p>其中是否允许邮箱登录，视注册设置情况而定。详情查看 <a href=\"{BG_URL_HELP}ctl.php?mod=admin&act_get=opt#reg\">注册设置</a>。</p>
                         </td>
                     </tr>
                     <tr>
                         <td class=\"text-nowrap\">user_name</td>
                         <td class=\"text-nowrap\">string</td>
-                        <td class=\"text-nowrap\"> </td>
                     </tr>
                     <tr>
                         <td class=\"text-nowrap\">user_mail</td>
                         <td class=\"text-nowrap\">string</td>
-                        <td class=\"text-nowrap\"> </td>
                     </tr>
                     <tr>
                         <td class=\"text-nowrap\">user_access_token</td>
@@ -859,9 +827,9 @@ return "<a name=\"top\"></a>
                     </tr>
                     <tr>
                         <td class=\"text-nowrap\">pm_ids</td>
-                        <td class=\"text-nowrap\">array</td>
+                        <td class=\"text-nowrap\">string</td>
                         <td class=\"text-nowrap\">true</td>
-                        <td>准备更改状态的短信 ID 数组</td>
+                        <td>准备更改状态的短信 ID，多个 ID 请用 <kbd>|</kbd> 分隔。</td>
                     </tr>
                     <tr>
                         <td class=\"text-nowrap\">pm_status</td>
@@ -884,7 +852,7 @@ return "<a name=\"top\"></a>
                     <tr>
                         <th class=\"text-nowrap\">名称</th>
                         <th class=\"text-nowrap\">类型</th>
-                        <th>具体描述</th>
+                        <th>描述</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -927,14 +895,14 @@ return "<a name=\"top\"></a>
     <hr>
     <p>&nbsp;</p>
 
-    <a name=\"rev\"></a>
+    <a name=\"revoke\"></a>
     <h3>撤回短信</h3>
 
     <p class=\"text-success\">接口说明</p>
     <p>本接口用于修改已注册用户的邮箱，根据系统的设置，可能需要通过邮件进行验证，详情查看 <a href=\"{BG_URL_HELP}ctl.php?mod=admin&act_get=opt#send\">注册设置</a>。</p>
 
     <p class=\"text-success\">URL</p>
-    <p><span class=\"text-primary\">http://www.domain.com/api/api.php?mod=pm</span></p>
+    <p class=\"text-primary\">http://www.domain.com/api/api.php?mod=pm</p>
 
     <p class=\"text-success\">HTTP 请求方式</p>
     <p>POST</p>
@@ -943,7 +911,7 @@ return "<a name=\"top\"></a>
     <p>JSON</p>
 
     <div class=\"panel panel-default\">
-        <div class=\"panel-heading\">接口参数</div>
+        <div class=\"panel-heading\">请求参数</div>
         <div class=\"table-responsive\">
             <table class=\"table table-bordered\">
                 <thead>
@@ -951,7 +919,7 @@ return "<a name=\"top\"></a>
                         <th class=\"text-nowrap\">名称</th>
                         <th class=\"text-nowrap\">类型</th>
                         <th class=\"text-nowrap\">必须</th>
-                        <th>具体描述</th>
+                        <th>描述</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -959,38 +927,24 @@ return "<a name=\"top\"></a>
                         <td class=\"text-nowrap\">act_post</td>
                         <td class=\"text-nowrap\">string</td>
                         <td class=\"text-nowrap\">true</td>
-                        <td>接口调用动作，值只能为 rev。</td>
-                    </tr>
-                    <tr>
-                        <td class=\"text-nowrap\">app_id</td>
-                        <td class=\"text-nowrap\">int</td>
-                        <td class=\"text-nowrap\">true</td>
-                        <td>应用的 APP ID，后台创建应用时生成的 ID。详情查看 <a href=\"{BG_URL_HELP}ctl.php?mod=admin&act_get=app#show\">查看应用</a>。</td>
-                    </tr>
-                    <tr>
-                        <td class=\"text-nowrap\">app_key</td>
-                        <td class=\"text-nowrap\">string</td>
-                        <td class=\"text-nowrap\">true</td>
-                        <td>应用的 APP KEY，后台创建应用时生成的 KEY。详情查看 <a href=\"{BG_URL_HELP}ctl.php?mod=admin&act_get=app#show\">查看应用</a>。</td>
+                        <td>接口调用动作，值只能为 revoke。</td>
                     </tr>
                     <tr>
                         <td class=\"text-nowrap\">user_id</td>
                         <td class=\"text-nowrap\">int</td>
-                        <td class=\"text-nowrap\"> </td>
+                        <td rowspan=\"3\">true</td>
                         <td rowspan=\"3\">
-                            <p>user_id、user_name、user_mail 三选一，优先级按顺序排列（作为接收者）</p>
+                            <p>三选一，优先级为 user_id &gt; user_name &gt; user_mail（作为接收者）</p>
                             <p>其中是否允许邮箱登录，视注册设置情况而定。详情查看 <a href=\"{BG_URL_HELP}ctl.php?mod=admin&act_get=opt#reg\">注册设置</a>。</p>
                         </td>
                     </tr>
                     <tr>
                         <td class=\"text-nowrap\">user_name</td>
                         <td class=\"text-nowrap\">string</td>
-                        <td class=\"text-nowrap\"> </td>
                     </tr>
                     <tr>
                         <td class=\"text-nowrap\">user_mail</td>
                         <td class=\"text-nowrap\">string</td>
-                        <td class=\"text-nowrap\"> </td>
                     </tr>
                     <tr>
                         <td class=\"text-nowrap\">user_access_token</td>
@@ -1000,9 +954,9 @@ return "<a name=\"top\"></a>
                     </tr>
                     <tr>
                         <td class=\"text-nowrap\">pm_ids</td>
-                        <td class=\"text-nowrap\">array</td>
+                        <td class=\"text-nowrap\">string</td>
                         <td class=\"text-nowrap\">true</td>
-                        <td>准备撤回的短信 ID 数组，此处的短信 ID 可从已发送短信的 pm_send_id 字段获得。</td>
+                        <td>准备撤回的短信 ID，多个 ID 请用 <kbd>|</kbd> 分隔，此处的短信 ID 可从已发送短信的 pm_send_id 字段获得。</td>
                     </tr>
                 </tbody>
             </table>
@@ -1019,7 +973,7 @@ return "<a name=\"top\"></a>
                     <tr>
                         <th class=\"text-nowrap\">名称</th>
                         <th class=\"text-nowrap\">类型</th>
-                        <th>具体描述</th>
+                        <th>描述</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -1069,7 +1023,7 @@ return "<a name=\"top\"></a>
     <p>本接口用于删除已注册用户。</p>
 
     <p class=\"text-success\">URL</p>
-    <p><span class=\"text-primary\">http://www.domain.com/api/api.php?mod=pm</span></p>
+    <p class=\"text-primary\">http://www.domain.com/api/api.php?mod=pm</p>
 
     <p class=\"text-success\">HTTP 请求方式</p>
     <p>POST</p>
@@ -1078,7 +1032,7 @@ return "<a name=\"top\"></a>
     <p>JSON</p>
 
     <div class=\"panel panel-default\">
-        <div class=\"panel-heading\">接口参数</div>
+        <div class=\"panel-heading\">请求参数</div>
         <div class=\"table-responsive\">
             <table class=\"table table-bordered\">
                 <thead>
@@ -1086,7 +1040,7 @@ return "<a name=\"top\"></a>
                         <th class=\"text-nowrap\">名称</th>
                         <th class=\"text-nowrap\">类型</th>
                         <th class=\"text-nowrap\">必须</th>
-                        <th>具体描述</th>
+                        <th>描述</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -1097,35 +1051,21 @@ return "<a name=\"top\"></a>
                         <td>接口调用动作，值只能为 del。</td>
                     </tr>
                     <tr>
-                        <td class=\"text-nowrap\">app_id</td>
-                        <td class=\"text-nowrap\">int</td>
-                        <td class=\"text-nowrap\">true</td>
-                        <td>应用的 APP ID，后台创建应用时生成的 ID。详情查看 <a href=\"{BG_URL_HELP}ctl.php?mod=admin&act_get=app#show\">查看应用</a>。</td>
-                    </tr>
-                    <tr>
-                        <td class=\"text-nowrap\">app_key</td>
-                        <td class=\"text-nowrap\">string</td>
-                        <td class=\"text-nowrap\">true</td>
-                        <td>应用的 APP KEY，后台创建应用时生成的 KEY。详情查看 <a href=\"{BG_URL_HELP}ctl.php?mod=admin&act_get=app#show\">查看应用</a>。</td>
-                    </tr>
-                    <tr>
                         <td class=\"text-nowrap\">user_id</td>
                         <td class=\"text-nowrap\">int</td>
-                        <td class=\"text-nowrap\"> </td>
+                        <td rowspan=\"3\">true</td>
                         <td rowspan=\"3\">
-                            <p>user_id、user_name、user_mail 三选一，优先级按顺序排列（作为接收者）</p>
+                            <p>三选一，优先级为 user_id &gt; user_name &gt; user_mail（作为接收者）</p>
                             <p>其中是否允许邮箱登录，视注册设置情况而定。详情查看 <a href=\"{BG_URL_HELP}ctl.php?mod=admin&act_get=opt#reg\">注册设置</a>。</p>
                         </td>
                     </tr>
                     <tr>
                         <td class=\"text-nowrap\">user_name</td>
                         <td class=\"text-nowrap\">string</td>
-                        <td class=\"text-nowrap\"> </td>
                     </tr>
                     <tr>
                         <td class=\"text-nowrap\">user_mail</td>
                         <td class=\"text-nowrap\">string</td>
-                        <td class=\"text-nowrap\"> </td>
                     </tr>
                     <tr>
                         <td class=\"text-nowrap\">user_access_token</td>
@@ -1135,9 +1075,9 @@ return "<a name=\"top\"></a>
                     </tr>
                     <tr>
                         <td class=\"text-nowrap\">pm_ids</td>
-                        <td class=\"text-nowrap\">array</td>
+                        <td class=\"text-nowrap\">string</td>
                         <td class=\"text-nowrap\">true</td>
-                        <td>准备删除的短信 ID 数组。</td>
+                        <td>准备删除的短信 ID，多个 ID 请用 <kbd>|</kbd> 分隔。。</td>
                     </tr>
                 </tbody>
             </table>
@@ -1154,7 +1094,7 @@ return "<a name=\"top\"></a>
                     <tr>
                         <th class=\"text-nowrap\">名称</th>
                         <th class=\"text-nowrap\">类型</th>
-                        <th>具体描述</th>
+                        <th>描述</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -1185,12 +1125,4 @@ return "<a name=\"top\"></a>
 <pre><code class=\"language-javascript\">{
     &quot;alert&quot;: &quot;y110104&quot; //返回代码
 }</code></pre>
-    </p>
-
-    <p>&nbsp;</p>
-    <div class=\"text-right\">
-        <a href=\"#top\">
-            <span class=\"glyphicon glyphicon-chevron-up\"></span>
-            top
-        </a>
-    </div>";
+    </p>";

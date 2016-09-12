@@ -1,6 +1,5 @@
 <?php
-return "<a name=\"list\"></a>
-    <h3>所有图片</h3>
+return "<h3>所有图片</h3>
     <p>
         点左侧菜单“图片管理“，进入如下界面，可以对已上传的文件进行删除操作。点击“上传按钮“，可以上传文件，仅限上传 JPG、GIF、PNG 文件。
     </p>
@@ -10,5 +9,5 @@ return "<a name=\"list\"></a>
     </p>
 
     <p>
-        <img src=\"{images}media_list.jpg\" class=\"img-responsive thumbnail\">
+        <a href=\"{images}media_list.jpg\" target=\"_blank\"><img src=\"{images}media_list.jpg\" class=\"img-responsive thumbnail\"></a>
     </p>";

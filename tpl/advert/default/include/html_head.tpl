@@ -7,7 +7,7 @@
     <title>{$cfg.title} - {$smarty.const.BG_SITE_NAME}</title>
 
     <link href="{$smarty.const.BG_URL_STATIC}js/bootstrap/css/bootstrap.min.css" type="text/css" rel="stylesheet">
-    <link href="{$smarty.const.BG_URL_STATIC}advert/{$config.ui}/css/advert_common.css" type="text/css" rel="stylesheet">
+    <link href="{$smarty.const.BG_URL_STATIC}advert/{$smarty.const.BG_DEFAULT_UI}/css/advert_common.css" type="text/css" rel="stylesheet">
 </head>
 
 <body>

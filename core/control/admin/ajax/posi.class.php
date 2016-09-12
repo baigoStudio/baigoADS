@@ -5,7 +5,7 @@
 -----------------------------------------------------------------*/
 
 //不能非法包含或直接执行
-if(!defined("IN_BAIGO")) {
+if (!defined("IN_BAIGO")) {
     exit("Access Denied");
 }
 
@@ -17,6 +17,7 @@ class AJAX_POSI {
 
     private $adminLogged;
     private $mdl_posi;
+    private $is_super = false;
 
     function __construct() { //构造函数
         $this->adminLogged    = $GLOBALS["adminLogged"]; //获取已登录信息
@@ -27,7 +28,12 @@ class AJAX_POSI {
         if ($this->adminLogged["alert"] != "y020102") { //未登录，抛出错误信息
             $this->obj_ajax->halt_alert($this->adminLogged["alert"]);
         }
+
+        if ($this->adminLogged["admin_type"] == "super") {
+            $this->is_super = true;
+        }
     }
+
 
     function ajax_cache() {
         $_arr_posiRow = $this->mdl_posi->mdl_cache();
@@ -48,11 +54,11 @@ class AJAX_POSI {
         }
 
         if ($_arr_posiSubmit["posi_id"] > 0) {
-            if (!isset($this->adminLogged["admin_allow"]["posi"]["edit"])) {
+            if (!isset($this->adminLogged["admin_allow"]["posi"]["edit"]) && !$this->is_super) {
                 $this->obj_ajax->halt_alert("x040303");
             }
         } else {
-            if (!isset($this->adminLogged["admin_allow"]["posi"]["add"])) {
+            if (!isset($this->adminLogged["admin_allow"]["posi"]["add"]) && !$this->is_super) {
                 $this->obj_ajax->halt_alert("x040302");
             }
         }
@@ -72,7 +78,7 @@ class AJAX_POSI {
      * @return void
      */
     function ajax_status() {
-        if (!isset($this->adminLogged["admin_allow"]["posi"]["edit"])) {
+        if (!isset($this->adminLogged["admin_allow"]["posi"]["edit"]) && !$this->is_super) {
             $this->obj_ajax->halt_alert("x040303");
         }
 
@@ -101,7 +107,7 @@ class AJAX_POSI {
      * @return void
      */
     function ajax_del() {
-        if (!isset($this->adminLogged["admin_allow"]["posi"]["del"])) {
+        if (!isset($this->adminLogged["admin_allow"]["posi"]["del"]) && !$this->is_super) {
             $this->obj_ajax->halt_alert("x040304");
         }
 

@@ -43,7 +43,7 @@
     </div>
 
     <form name="admin_form" id="admin_form" autocomplete="off">
-        <input type="hidden" name="token_session" class="token_session" value="{$common.token_session}">
+        <input type="hidden" name="{$common.tokenRow.name_session}" value="{$common.tokenRow.token}">
         <input type="hidden" name="act_post" value="submit">
         <input type="hidden" name="admin_id" id="admin_id" value="{$tplData.adminRow.admin_id}">
 
@@ -160,6 +160,20 @@
                     {/if}
 
                     <div class="form-group">
+                        <div id="group_admin_type">
+                            <label class="control-label">{$lang.label.type}<span id="msg_admin_type">*</span></label>
+                            {foreach $type.admin as $key=>$value}
+                                <div class="radio_baigo">
+                                    <label for="admin_type_{$key}">
+                                        <input type="radio" name="admin_type" id="admin_type_{$key}" value="{$key}" {if $tplData.adminRow.admin_type == $key}checked{/if} data-validate="admin_type">
+                                        {$value}
+                                    </label>
+                                </div>
+                            {/foreach}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
                         <div id="group_admin_status">
                             <label class="control-label">{$lang.label.status}<span id="msg_admin_status">*</span></label>
                             {foreach $status.admin as $key=>$value}
@@ -223,6 +237,11 @@
             len: { min: 0, max: 30 },
             validate: { type: "str", format: "text", group: "#group_admin_note" },
             msg: { selector: "#msg_admin_note", too_long: "{$alert.x020208}" }
+        },
+        admin_type: {
+            len: { min: 1, max: 0 },
+            validate: { selector: "[name='admin_type']", type: "radio", group: "#group_admin_type" },
+            msg: { selector: "#msg_admin_status", too_few: "{$alert.x020218}" }
         },
         admin_status: {
             len: { min: 1, max: 0 },

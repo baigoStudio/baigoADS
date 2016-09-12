@@ -1,12 +1,32 @@
 <?php
-return "<a name=\"top\"></a>
+return "<h3>检查更新</h3>
+    <p>
+        点左侧子菜单检查更新，进入如下界面，系统会定时检查最新版本，也可点击“再次检查更新”按钮进行手工检查。
+    </p>
+    <p>
+        <a href=\"{images}opt_chkver.jpg\" target=\"_blank\"><img src=\"{images}opt_chkver.jpg\" class=\"img-responsive thumbnail\"></a>
+    </p>
+
+    <p>&nbsp;</p>
+    <div class=\"text-right\">
+        <a href=\"#top\">
+            <span class=\"glyphicon glyphicon-chevron-up\"></span>
+            top
+        </a>
+    </div>
+    <hr>
+    <p>&nbsp;</p>
+
+    <a name=\"base\"></a>
     <h3>基本设置</h3>
     <p>
-        点右上角菜单系统设置，进入如下界面，可以对系统进行设置。
+        点左侧菜单系统设置，进入如下界面，可以对系统进行设置。
     </p>
     <p>
-        <img src=\"{images}opt_base.jpg\" class=\"img-responsive thumbnail\">
+        <a href=\"{images}opt_base.jpg\" target=\"_blank\"><img src=\"{images}opt_base.jpg\" class=\"img-responsive thumbnail\"></a>
     </p>
+
+    <p>&nbsp;</p>
 
     <div class=\"panel panel-default\">
         <div class=\"panel-heading\">填写说明</div>
@@ -24,7 +44,7 @@ return "<a name=\"top\"></a>
             <p>管理后台以及前台页面，在对文章、TAG 等进行分页管理的时候，每一页所显示的数量，默认为 30。</p>
 
             <h4 class=\"text-success\">时区</h4>
-            <p>请根据当地实际情况填写，默认为 Etc/GMT+8，即北京时间。</p>
+            <p>请根据当地实际情况填写，默认为 Asia/Shanghai，即北京时间。</p>
 
             <h4 class=\"text-success\">日期格式</h4>
             <p>部分页面显示日期的格式，此日期为完整的日期格式，默认为 xxxx-xx-xx（年-月-日）。</p>
@@ -37,6 +57,18 @@ return "<a name=\"top\"></a>
 
             <h4 class=\"text-success\">短时间格式</h4>
             <p>部分页面显示时间的格式，此日期为缩短的时间格式，不显示秒，默认为 xx:xx（时:分）。</p>
+
+            <h4 class=\"text-success\">模板</h4>
+            <p>前台页面模板</p>
+
+            <h4 class=\"text-success\">访问口令存活期</h4>
+            <p>主要用于 API 接口。</p>
+
+            <h4 class=\"text-success\">刷新口令存活期</h4>
+            <p>主要用于 API 接口。</p>
+
+            <h4 class=\"text-success\">验证链接有效期</h4>
+            <p>用户激活、找回密码等操作时声称的链接有效期。</p>
         </div>
     </div>
 
@@ -50,14 +82,16 @@ return "<a name=\"top\"></a>
     <hr>
     <p>&nbsp;</p>
 
-    <a name=\"db\"></a>
+    <a name=\"dbconfig\"></a>
     <h3>数据库设置</h3>
     <p>
-        点右上角子菜单数据库设置，进入如下界面，可以对数据库进行设置。
+        点左侧子菜单数据库设置，进入如下界面，可以对数据库进行设置。
     </p>
     <p>
-        <img src=\"{images}opt_dbconfig.jpg\" class=\"img-responsive thumbnail\">
+        <a href=\"{images}opt_dbconfig.jpg\" target=\"_blank\"><img src=\"{images}opt_dbconfig.jpg\" class=\"img-responsive thumbnail\"></a>
     </p>
+
+    <p>&nbsp;</p>
 
     <div class=\"panel panel-default\">
         <div class=\"panel-heading\">填写说明</div>
@@ -95,11 +129,13 @@ return "<a name=\"top\"></a>
     <a name=\"reg\"></a>
     <h3>注册设置</h3>
     <p>
-        点右上角子菜单注册设置，进入如下界面，可以设置注册有关项目。
+        点左侧子菜单注册设置，进入如下界面，可以设置注册有关项目。
     </p>
     <p>
-        <img src=\"{images}opt_reg.jpg\" class=\"img-responsive thumbnail\">
+        <a href=\"{images}opt_reg.jpg\" target=\"_blank\"><img src=\"{images}opt_reg.jpg\" class=\"img-responsive thumbnail\"></a>
     </p>
+
+    <p>&nbsp;</p>
 
     <div class=\"panel panel-default\">
         <div class=\"panel-heading\">填写说明</div>
@@ -137,11 +173,13 @@ return "<a name=\"top\"></a>
     <a name=\"smtp\"></a>
     <h3>邮件发送设置</h3>
     <p>
-        点右上角子菜单邮件发送设置设置，进入如下界面，可以对邮件发送方式进行设置。
+        点左侧子菜单邮件发送设置设置，进入如下界面，可以对邮件发送方式进行设置。
     </p>
     <p>
-        <img src=\"{images}opt_smtp.jpg\" class=\"img-responsive thumbnail\">
+        <a href=\"{images}opt_smtp.jpg\" target=\"_blank\"><img src=\"{images}opt_smtp.jpg\" class=\"img-responsive thumbnail\"></a>
     </p>
+
+    <p>&nbsp;</p>
 
     <div class=\"panel panel-default\">
         <div class=\"panel-heading\">填写说明</div>
@@ -167,12 +205,4 @@ return "<a name=\"top\"></a>
             <h4 class=\"text-success\">回复邮箱</h4>
             <p>收件人需要回复时的邮箱。</p>
         </div>
-    </div>
-
-    <p>&nbsp;</p>
-    <div class=\"text-right\">
-        <a href=\"#top\">
-            <span class=\"glyphicon glyphicon-chevron-up\"></span>
-            top
-        </a>
     </div>";

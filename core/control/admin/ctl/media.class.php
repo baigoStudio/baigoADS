@@ -5,7 +5,7 @@
 -----------------------------------------------------------------*/
 
 //不能非法包含或直接执行
-if(!defined("IN_BAIGO")) {
+if (!defined("IN_BAIGO")) {
     exit("Access Denied");
 }
 
@@ -21,12 +21,13 @@ class CONTROL_MEDIA {
     private $obj_tpl;
     private $mdl_media;
     private $mdl_admin;
+    private $is_super = false;
 
     function __construct() { //构造函数
         $this->obj_base       = $GLOBALS["obj_base"];
         $this->config         = $this->obj_base->config;
         $this->adminLogged    = $GLOBALS["adminLogged"];
-        $this->obj_tpl        = new CLASS_TPL(BG_PATH_TPL . "admin/" . $this->config["ui"]); //初始化视图对象
+        $this->obj_tpl        = new CLASS_TPL(BG_PATH_TPL . "admin/" . BG_DEFAULT_UI); //初始化视图对象
         $this->mdl_media      = new MODEL_MEDIA(); //设置上传信息对象
         $this->mdl_admin      = new MODEL_ADMIN();
         $this->setUpload();
@@ -35,6 +36,10 @@ class CONTROL_MEDIA {
             "uploadSize"     => BG_UPLOAD_SIZE * $this->sizeUnit,
             "mimeRows"       => $this->mimeRows
         );
+
+        if ($this->adminLogged["admin_type"] == "super") {
+            $this->is_super = true;
+        }
     }
 
 
@@ -45,7 +50,7 @@ class CONTROL_MEDIA {
      * @return void
      */
     function ctl_form() {
-        if (!isset($this->adminLogged["admin_allow"]["media"]["upload"])) {
+        if (!isset($this->adminLogged["admin_allow"]["media"]["upload"]) && !$this->is_super) {
             return array(
                 "alert" => "x070302",
             );
@@ -82,7 +87,7 @@ class CONTROL_MEDIA {
      * @return void
      */
     function ctl_list() {
-        if (!isset($this->adminLogged["admin_allow"]["media"]["browse"])) {
+        if (!isset($this->adminLogged["admin_allow"]["media"]["browse"]) && !$this->is_super) {
             return array(
                 "alert" => "x070301",
             );

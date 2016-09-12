@@ -5,11 +5,10 @@
 -----------------------------------------------------------------*/
 
 //不能非法包含或直接执行
-if(!defined("IN_BAIGO")) {
+if (!defined("IN_BAIGO")) {
     exit("Access Denied");
 }
 
-include_once(BG_PATH_FUNC . "baigocode.func.php"); //载入开放平台类
 include_once(BG_PATH_CLASS . "api.class.php");
 include_once(BG_PATH_MODEL . "opt.class.php"); //载入后台用户类
 
@@ -84,6 +83,9 @@ class API_INSTALL {
         $this->table_app();
         $this->table_belong();
         $this->table_log();
+        $this->table_session();
+        $this->table_verify();
+        $this->table_pm();
         $this->view_user();
 
         $_arr_return = array(
@@ -133,6 +135,7 @@ class API_INSTALL {
         include_once(BG_PATH_MODEL . "admin.class.php"); //载入管理帐号模型
         $_mdl_admin                 = new MODEL_ADMIN();
         $_mdl_admin->adminStatus    = $this->obj_api->status["admin"];
+        $_mdl_admin->adminTypes     = $this->obj_api->type["admin"];
         $_arr_adminTable            = $_mdl_admin->mdl_create_table();
 
         if ($_arr_adminTable["alert"] != "y020105") {
@@ -191,6 +194,45 @@ class API_INSTALL {
     }
 
 
+    private function table_session() {
+        include_once(BG_PATH_MODEL . "session.class.php"); //载入管理帐号模型
+        $_mdl_session         = new MODEL_SESSION();
+        $_arr_sessionTable    = $_mdl_session->mdl_create_table();
+
+        $this->tplData["db_alert"]["session_table"] = array(
+            "alert"   => $_arr_sessionTable["alert"],
+            "status"  => substr($_arr_sessionTable["alert"], 0, 1),
+        );
+    }
+
+
+    private function table_verify() {
+        include_once(BG_PATH_MODEL . "verify.class.php"); //载入管理帐号模型
+        $_mdl_verify                = new MODEL_VERIFY();
+        $_mdl_verify->verifyStatus  = $this->obj_api->status["verify"];
+        $_arr_verifyTable           = $_mdl_verify->mdl_create_table();
+
+        $this->tplData["db_alert"]["verify_table"] = array(
+            "alert"   => $_arr_verifyTable["alert"],
+            "status"  => substr($_arr_verifyTable["alert"], 0, 1),
+        );
+    }
+
+
+    private function table_pm() {
+        include_once(BG_PATH_MODEL . "pm.class.php"); //载入管理帐号模型
+        $_mdl_pm            = new MODEL_PM();
+        $_mdl_pm->pmStatus  = $this->obj_api->status["pm"];
+        $_mdl_pm->pmTypes   = $this->obj_api->type["pm"];
+        $_arr_pmTable       = $_mdl_pm->mdl_create_table();
+
+        $this->tplData["db_alert"]["pm_table"] = array(
+            "alert"   => $_arr_pmTable["alert"],
+            "status"  => substr($_arr_pmTable["alert"], 0, 1),
+        );
+    }
+
+
     private function view_user() {
         include_once(BG_PATH_MODEL . "user.class.php"); //载入管理帐号模型
         $_mdl_user        = new MODEL_USER();
@@ -219,7 +261,7 @@ class API_INSTALL {
 
 
     private function check_db() {
-        if (strlen(BG_DB_HOST) < 1 || strlen(BG_DB_NAME) < 1 || strlen(BG_DB_USER) < 1 || strlen(BG_DB_PASS) < 1 || strlen(BG_DB_CHARSET) < 1) {
+        if (fn_isEmpty(BG_DB_HOST) || fn_isEmpty(BG_DB_NAME) || fn_isEmpty(BG_DB_USER) || fn_isEmpty(BG_DB_PASS) || fn_isEmpty(BG_DB_CHARSET)) {
             $_arr_return = array(
                 "alert" => "x030404"
             );

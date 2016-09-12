@@ -17,7 +17,7 @@ return "<h3>广告数据</h3>
 
     <div class=\"panel panel-default\">
         <div class=\"table-responsive\">
-            <table class=\"table\">
+            <table class=\"table table-bordered\">
                 <thead>
                     <tr>
                         <th class=\"text-nowrap\">键名</th>
@@ -51,7 +51,7 @@ return "<h3>广告数据</h3>
 
     <div class=\"panel panel-default\">
         <div class=\"table-responsive\">
-            <table class=\"table\">
+            <table class=\"table table-bordered\">
                 <thead>
                     <tr>
                         <th class=\"text-nowrap\">键名</th>
@@ -122,7 +122,7 @@ return "<h3>广告数据</h3>
 
     <div class=\"panel panel-default\">
         <div class=\"table-responsive\">
-            <table class=\"table\">
+            <table class=\"table table-bordered\">
                 <thead>
                     <tr>
                         <th class=\"text-nowrap\">键名</th>
@@ -181,7 +181,7 @@ return "<h3>广告数据</h3>
 
     <div class=\"panel panel-default\">
         <div class=\"table-responsive\">
-            <table class=\"table\">
+            <table class=\"table table-bordered\">
                 <thead>
                     <tr>
                         <th class=\"text-nowrap\">键名</th>

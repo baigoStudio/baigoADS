@@ -5,7 +5,7 @@
 -----------------------------------------------------------------*/
 
 //不能非法包含或直接执行
-if(!defined("IN_BAIGO")) {
+if (!defined("IN_BAIGO")) {
     exit("Access Denied");
 }
 
@@ -21,6 +21,7 @@ class CONTROL_POSI {
     public $obj_tpl;
     public $mdl_posi;
     public $adminLogged;
+    private $is_super = false;
 
     function __construct() { //构造函数
         $this->obj_base       = $GLOBALS["obj_base"]; //获取界面类型
@@ -29,16 +30,20 @@ class CONTROL_POSI {
         $this->mdl_advert     = new MODEL_ADVERT(); //设置管理员模型
         $this->mdl_media      = new MODEL_MEDIA();
         $this->mdl_posi       = new MODEL_POSI();
-        $this->obj_tpl        = new CLASS_TPL(BG_PATH_TPL . "admin/" . $this->config["ui"]); //初始化视图对象
+        $this->obj_tpl        = new CLASS_TPL(BG_PATH_TPL . "admin/" . BG_DEFAULT_UI); //初始化视图对象
         $this->obj_dir        = new CLASS_DIR();
         $this->tplData = array(
             "adminLogged" => $this->adminLogged
         );
+
+        if ($this->adminLogged["admin_type"] == "super") {
+            $this->is_super = true;
+        }
     }
 
 
     function ctl_show() {
-        if (!isset($this->adminLogged["admin_allow"]["posi"]["browse"])) {
+        if (!isset($this->adminLogged["admin_allow"]["posi"]["browse"]) && !$this->is_super) {
             return array(
                 "alert" => "x040301",
             );
@@ -103,7 +108,7 @@ class CONTROL_POSI {
         $_num_posiId  = fn_getSafe(fn_get("posi_id"), "int", 0);
 
         if ($_num_posiId > 0) {
-            if (!isset($this->adminLogged["admin_allow"]["posi"]["edit"])) {
+            if (!isset($this->adminLogged["admin_allow"]["posi"]["edit"]) && !$this->is_super) {
                 return array(
                     "alert" => "x040303",
                 );
@@ -113,7 +118,7 @@ class CONTROL_POSI {
                 return $_arr_posiRow;
             }
         } else {
-            if (!isset($this->adminLogged["admin_allow"]["posi"]["add"])) {
+            if (!isset($this->adminLogged["admin_allow"]["posi"]["add"]) && !$this->is_super) {
                 return array(
                     "alert" => "x040302",
                 );
@@ -168,7 +173,7 @@ class CONTROL_POSI {
      * @return void
      */
     function ctl_list() {
-        if (!isset($this->adminLogged["admin_allow"]["posi"]["browse"])) {
+        if (!isset($this->adminLogged["admin_allow"]["posi"]["browse"]) && !$this->is_super) {
             return array(
                 "alert" => "x040301",
             );

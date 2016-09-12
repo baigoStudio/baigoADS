@@ -5,7 +5,7 @@
 -----------------------------------------------------------------*/
 
 //不能非法包含或直接执行
-if(!defined("IN_BAIGO")) {
+if (!defined("IN_BAIGO")) {
     exit("Access Denied");
 }
 
@@ -69,7 +69,6 @@ return array(
             "browse"    => "浏览",
             "send"      => "发送",
             "bulk"      => "群发",
-            "edit"      => "编辑",
             "del"       => "删除",
         ),
     ),

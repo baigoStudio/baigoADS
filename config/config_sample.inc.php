@@ -31,7 +31,7 @@ define("BG_NAME_ADVERT", "advert");
 define("BG_NAME_INSTALL", "install");
 define("BG_NAME_API", "api");
 define("BG_NAME_STATIC", "static");
-define("BG_PATH_ROOT", str_replace("\\", "/", substr(dirname(__FILE__), 0, strrpos(dirname(__FILE__), BG_NAME_CONFIG))));
+define("BG_PATH_ROOT", str_ireplace("\\", "/", substr(dirname(__FILE__), 0, strrpos(dirname(__FILE__), BG_NAME_CONFIG))));
 define("BG_PATH_CONFIG", BG_PATH_ROOT . BG_NAME_CONFIG . "/");
 define("BG_PATH_CACHE", BG_PATH_ROOT . BG_NAME_CACHE . "/");
 define("BG_PATH_TPL", BG_PATH_ROOT . BG_NAME_TPL . "/");

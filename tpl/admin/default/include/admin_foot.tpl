@@ -20,6 +20,7 @@
                             <span class="caret"></span>
                         </a>
                         {if isset($cfg.menu_active) && $cfg.menu_active == "opt"}
+                            <a href="{$smarty.const.BG_URL_ADMIN}ctl.php?mod=opt&act_get=chkver" class="list-group-item {if isset($cfg.sub_active) && $cfg.sub_active == "chkver"}sub_active{else}sub_normal{/if}">{$lang.page.chkver}</a>
                             <a href="{$smarty.const.BG_URL_ADMIN}ctl.php?mod=opt&act_get=dbconfig" class="list-group-item {if $cfg.sub_active == "dbconfig"}sub_active{else}sub_normal{/if}">{$lang.page.installDbConfig}</a>
                             {foreach $opt as $key_opt=>$value_opt}
                                 <a href="{$smarty.const.BG_URL_ADMIN}ctl.php?mod=opt&act_get={$key_opt}" class="list-group-item {if $cfg.sub_active == $key_opt}sub_active{else}sub_normal{/if}">{$value_opt.title}</a>
@@ -33,18 +34,18 @@
 
     <footer class="page_foot">
         <div class="pull-left foot_logo">
-            {if $config.ui == "default"}
+            {if $smarty.const.BG_DEFAULT_UI == "default"}
                 <a href="{$smarty.const.PRD_ADS_URL}" target="_blank">{$smarty.const.PRD_ADS_POWERED} {$smarty.const.PRD_ADS_NAME} {$smarty.const.PRD_ADS_VER}</a>
             {else}
-                <a href="#">{$config.ui} ADS</a>
+                <a href="#">{$smarty.const.BG_DEFAULT_UI} ADS</a>
             {/if}
         </div>
         <div class="pull-right foot_power">
             {$smarty.const.PRD_ADS_POWERED}
-            {if $config.ui == "default"}
+            {if $smarty.const.BG_DEFAULT_UI == "default"}
                 <a href="{$smarty.const.PRD_ADS_URL}" target="_blank">{$smarty.const.PRD_ADS_NAME}</a>
             {else}
-                {$config.ui} ADS
+                {$smarty.const.BG_DEFAULT_UI} ADS
             {/if}
             {$smarty.const.PRD_ADS_VER}
         </div>

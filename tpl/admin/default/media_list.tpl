@@ -101,7 +101,7 @@
             <div class="well">
                 {if $tplData.search.box == "recycle"}
                     <form name="media_empty" id="media_empty">
-                        <input type="hidden" name="token_session" class="token_session" value="{$common.token_session}">
+                        <input type="hidden" name="{$common.tokenRow.name_session}" value="{$common.tokenRow.token}">
                         <input type="hidden" name="act_post" id="act_empty" value="empty">
                         <div class="form-group">
                             <button type="button" class="btn btn-warning" id="go_empty">
@@ -122,7 +122,7 @@
                     </form>
                 {else}
                     <form name="media_clear" id="media_clear">
-                        <input type="hidden" name="token_session" class="token_session" value="{$common.token_session}">
+                        <input type="hidden" name="{$common.tokenRow.name_session}" value="{$common.tokenRow.token}">
                         <input type="hidden" name="act_post" id="act_clear" value="clear">
                         <div class="form-group">
                             <button type="button" class="btn btn-warning" id="go_clear">
@@ -147,7 +147,7 @@
 
         <div class="col-md-9">
             <form name="media_list" id="media_list" class="form-inline">
-                <input type="hidden" name="token_session" class="token_session" value="{$common.token_session}">
+                <input type="hidden" name="{$common.tokenRow.name_session}" value="{$common.tokenRow.token}">
 
                 <div class="panel panel-default">
                     <div class="table-responsive">

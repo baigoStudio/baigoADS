@@ -5,7 +5,7 @@
 -----------------------------------------------------------------*/
 
 //不能非法包含或直接执行
-if(!defined("IN_BAIGO")) {
+if (!defined("IN_BAIGO")) {
     exit("Access Denied");
 }
 
@@ -42,7 +42,7 @@ class CONTROL_REG {
             );
         }
 
-        if (!$_str_verifyToken) {
+        if (fn_isEmpty($_str_verifyToken)) {
             return array(
                 "alert" => "x120202",
             );
@@ -101,7 +101,7 @@ class CONTROL_REG {
             );
         }
 
-        if (!$_str_verifyToken) {
+        if (fn_isEmpty($_str_verifyToken)) {
             return array(
                 "alert" => "x120202",
             );
@@ -160,7 +160,7 @@ class CONTROL_REG {
             );
         }
 
-        if (!$_str_verifyToken) {
+        if (fn_isEmpty($_str_verifyToken)) {
             return array(
                 "alert" => "x120202",
             );

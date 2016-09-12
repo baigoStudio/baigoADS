@@ -5,7 +5,7 @@
 -----------------------------------------------------------------*/
 
 //不能非法包含或直接执行
-if(!defined("IN_BAIGO")) {
+if (!defined("IN_BAIGO")) {
     exit("Access Denied");
 }
 
@@ -21,6 +21,7 @@ class CONTROL_STAT {
     public $obj_tpl;
     public $mdl_stat;
     public $adminLogged;
+    private $is_super = false;
 
     function __construct() { //构造函数
         $this->obj_base       = $GLOBALS["obj_base"]; //获取界面类型
@@ -30,15 +31,19 @@ class CONTROL_STAT {
         $this->mdl_advert     = new MODEL_ADVERT(); //设置管理员模型
         $this->mdl_posi       = new MODEL_POSI();
         $this->mdl_media      = new MODEL_MEDIA();
-        $this->obj_tpl        = new CLASS_TPL(BG_PATH_TPL . "admin/" . $this->config["ui"]); //初始化视图对象
+        $this->obj_tpl        = new CLASS_TPL(BG_PATH_TPL . "admin/" . BG_DEFAULT_UI); //初始化视图对象
         $this->tplData = array(
             "adminLogged" => $this->adminLogged
         );
+
+        if ($this->adminLogged["admin_type"] == "super") {
+            $this->is_super = true;
+        }
     }
 
 
     function ctl_advert() {
-        if (!isset($this->adminLogged["admin_allow"]["advert"]["stat"])) {
+        if (!isset($this->adminLogged["admin_allow"]["advert"]["stat"]) && !$this->is_super) {
             return array(
                 "alert" => "x080305",
             );
@@ -90,7 +95,7 @@ class CONTROL_STAT {
 
 
     function ctl_posi() {
-        if (!isset($this->adminLogged["admin_allow"]["posi"]["stat"])) {
+        if (!isset($this->adminLogged["admin_allow"]["posi"]["stat"]) && !$this->is_super) {
             return array(
                 "alert" => "x040305",
             );

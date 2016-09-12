@@ -6,7 +6,7 @@
 
 
 //不能非法包含或直接执行
-if(!defined("IN_BAIGO")) {
+if (!defined("IN_BAIGO")) {
     exit("Access Denied");
 }
 
@@ -38,7 +38,8 @@ switch ($GLOBALS["act_post"]) {
     break;
 
     case "rev":
-        $api_pm->api_rev(); //撤回
+    case "revoke":
+        $api_pm->api_revoke(); //撤回
     break;
 
     default:

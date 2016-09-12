@@ -5,7 +5,7 @@
 -----------------------------------------------------------------*/
 
 //不能非法包含或直接执行
-if(!defined("IN_BAIGO")) {
+if (!defined("IN_BAIGO")) {
     exit("Access Denied");
 }
 
@@ -13,24 +13,37 @@ if(!defined("IN_BAIGO")) {
 class MODEL_ADMIN {
 
     private $obj_db;
+    public $adminStatus = array();
+    public $adminTypes = array();
 
     function __construct() { //构造函数
         $this->obj_db     = $GLOBALS["obj_db"]; //设置数据库对象
     }
 
     function mdl_create_table() {
+        foreach ($this->adminStatus as $_key=>$_value) {
+            $_arr_status[] = $_key;
+        }
+        $_str_status = implode("','", $_arr_status);
+
+        foreach ($this->adminTypes as $_key=>$_value) {
+            $_arr_types[] = $_key;
+        }
+        $_str_types = implode("','", $_arr_types);
+
         $_arr_adminCreate = array(
-            "admin_id"               => "int NOT NULL AUTO_INCREMENT COMMENT 'ID'",
-            "admin_name"             => "varchar(30) NOT NULL COMMENT '用户名'",
-            "admin_note"             => "varchar(30) NOT NULL COMMENT '备注'",
-            "admin_nick"             => "varchar(30) NOT NULL COMMENT '昵称'",
-            "admin_rand"             => "char(6) NOT NULL COMMENT '随机码'",
-            "admin_allow"            => "text NOT NULL COMMENT '权限'",
-            "admin_time"             => "int NOT NULL COMMENT '登录时间'",
-            "admin_time_login"       => "int NOT NULL COMMENT '最后登录'",
-            "admin_status"           => "enum('enable','disable') NOT NULL COMMENT '状态'",
-            "admin_ip"               => "char(15) NOT NULL COMMENT 'IP'",
-            "admin_allow_profile"    => "varchar(1000) NOT NULL COMMENT '个人权限'",
+            "admin_id"              => "int NOT NULL AUTO_INCREMENT COMMENT 'ID'",
+            "admin_name"            => "varchar(30) NOT NULL COMMENT '用户名'",
+            "admin_note"            => "varchar(30) NOT NULL COMMENT '备注'",
+            "admin_nick"            => "varchar(30) NOT NULL COMMENT '昵称'",
+            "admin_rand"            => "char(6) NOT NULL COMMENT '随机码'",
+            "admin_allow"           => "text NOT NULL COMMENT '权限'",
+            "admin_time"            => "int NOT NULL COMMENT '登录时间'",
+            "admin_time_login"      => "int NOT NULL COMMENT '最后登录'",
+            "admin_status"          => "enum('" . $_str_status . "') NOT NULL COMMENT '状态'",
+            "admin_type"            => "enum('" . $_str_types . "') NOT NULL COMMENT '类型'",
+            "admin_ip"              => "char(15) NOT NULL COMMENT 'IP'",
+            "admin_allow_profile"   => "varchar(1000) NOT NULL COMMENT '个人权限'",
         );
 
         $_num_mysql = $this->obj_db->create_table(BG_DB_TABLE . "admin", $_arr_adminCreate, "admin_id", "管理帐号");
@@ -56,6 +69,40 @@ class MODEL_ADMIN {
 
         return $_arr_col;
     }
+
+
+    function mdl_alert_table() {
+        foreach ($this->adminTypes as $_key=>$_value) {
+            $_arr_types[] = $_key;
+        }
+        $_str_types = implode("','", $_arr_types);
+
+        $_arr_col     = $this->mdl_column();
+        $_arr_alert   = array();
+
+        if (!in_array("admin_type", $_arr_col)) {
+            $_arr_alert["admin_type"] = array("ADD", "enum('" . $_str_types . "') NOT NULL COMMENT '类型'");
+        }
+
+        $_str_alert = "y020111";
+
+        if ($_arr_alert) {
+            $_reselt = $this->obj_db->alert_table(BG_DB_TABLE . "admin", $_arr_alert);
+
+            if ($_reselt) {
+                $_str_alert = "y020106";
+                $_arr_adminData = array(
+                    "admin_type" => $_arr_types[0],
+                );
+                $this->obj_db->update(BG_DB_TABLE . "admin", $_arr_adminData, "LENGTH(admin_type) < 1"); //更新数据
+            }
+        }
+
+        return array(
+            "alert" => $_str_alert,
+        );
+    }
+
 
     /**
      * mdl_login function.
@@ -122,11 +169,12 @@ class MODEL_ADMIN {
         $_arr_adminRow = $this->mdl_read($num_adminId);
 
         $_arr_adminData = array(
-            "admin_note"             => $this->adminSubmit["admin_note"],
-            "admin_nick"             => $this->adminSubmit["admin_nick"],
-            "admin_status"           => $this->adminSubmit["admin_status"],
-            "admin_allow"            => $this->adminSubmit["admin_allow"],
-            "admin_allow_profile"    => $this->adminSubmit["admin_allow_profile"],
+            "admin_note"            => $this->adminSubmit["admin_note"],
+            "admin_nick"            => $this->adminSubmit["admin_nick"],
+            "admin_status"          => $this->adminSubmit["admin_status"],
+            "admin_type"            => $this->adminSubmit["admin_type"],
+            "admin_allow"           => $this->adminSubmit["admin_allow"],
+            "admin_allow_profile"   => $this->adminSubmit["admin_allow_profile"],
         );
 
         if ($_arr_adminRow["alert"] == "x020102") {
@@ -212,6 +260,7 @@ class MODEL_ADMIN {
             "admin_nick",
             "admin_rand",
             "admin_status",
+            "admin_type",
             "admin_time",
             "admin_ip",
             "admin_allow",
@@ -265,6 +314,7 @@ class MODEL_ADMIN {
             "admin_note",
             "admin_nick",
             "admin_status",
+            "admin_type",
         );
 
         $_str_sqlWhere = $this->sql_process($arr_search);
@@ -472,7 +522,19 @@ class MODEL_ADMIN {
             case "ok":
                 $this->adminSubmit["admin_status"] = $_arr_adminStatus["str"];
             break;
+        }
 
+        $_arr_adminType = validateStr(fn_post("admin_type"), 1, 0);
+        switch ($_arr_adminType["status"]) {
+            case "too_short":
+                return array(
+                    "alert" => "x020218",
+                );
+            break;
+
+            case "ok":
+                $this->adminSubmit["admin_type"] = $_arr_adminType["str"];
+            break;
         }
 
         $this->adminSubmit["admin_allow"]         = fn_jsonEncode(fn_post("admin_allow"), "no");
@@ -492,7 +554,7 @@ class MODEL_ADMIN {
     function input_login() {
         $_arr_adminLogin["forward"] = fn_getSafe(fn_post("forward"), "txt", "");
         if (!$_arr_adminLogin["forward"]) {
-            $_arr_adminLogin["forward"] = base64_encode(BG_URL_ADMIN . "ctl.php");
+            $_arr_adminLogin["forward"] = fn_forward(BG_URL_ADMIN . "ctl.php");
         }
 
         if (!fn_seccode()) { //验证码
@@ -659,6 +721,10 @@ class MODEL_ADMIN {
 
         if (isset($arr_search["status"]) && $arr_search["status"]) {
             $_str_sqlWhere .= " AND admin_status='" . $arr_search["status"] . "'";
+        }
+
+        if (isset($arr_search["type"]) && $arr_search["type"]) {
+            $_str_sqlWhere .= " AND admin_type='" . $arr_search["type"] . "'";
         }
 
         return $_str_sqlWhere;

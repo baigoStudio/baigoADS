@@ -5,23 +5,31 @@ return "<h3>后台概述</h3>
     </p>
 
     <p>
-        <img src=\"{images}logon.jpg\" class=\"img-responsive thumbnail\">
+        <a href=\"{images}logon.jpg\" target=\"_blank\"><img src=\"{images}logon.jpg\" class=\"img-responsive thumbnail\"></a>
     </p>
 
+    <p>&nbsp;</p>
+    <div class=\"text-right\">
+        <a href=\"#top\">
+            <span class=\"glyphicon glyphicon-chevron-up\"></span>
+            top
+        </a>
+    </div>
     <hr>
+    <p>&nbsp;</p>
 
     <p>
         登录后将显示类似如下界面
     </p>
 
     <p>
-        <img src=\"{images}advert_list.jpg\" class=\"img-responsive thumbnail\">
+        <a href=\"{images}advert_list.jpg\" target=\"_blank\"><img src=\"{images}advert_list.jpg\" class=\"img-responsive thumbnail\"></a>
     </p>
 
     <div class=\"panel panel-default\">
         <div class=\"panel-heading\">左侧菜单组成说明</div>
         <div class=\"table-responsive\">
-            <table class=\"table\">
+            <table class=\"table table-bordered\">
                 <thead>
                     <tr>
                         <th class=\"text-nowrap\">菜单</th>

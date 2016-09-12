@@ -6,8 +6,10 @@ return "<h3>创建管理员</h3>
     </p>
 
     <p>
-        <img src=\"{images}admin.jpg\" class=\"img-responsive\">
+        <a href=\"{images}admin.jpg\" target=\"_blank\"><img src=\"{images}admin.jpg\" class=\"img-responsive\"></a>
     </p>
+
+    <p>&nbsp;</p>
 
     <div class=\"panel panel-default\">
         <div class=\"panel-heading\">填写说明</div>
@@ -30,12 +32,25 @@ return "<h3>创建管理员</h3>
         填写完毕，点击提交，提交成功后，点击下一步。
     </p>
 
+    <p>&nbsp;</p>
+    <div class=\"text-right\">
+        <a href=\"#top\">
+            <span class=\"glyphicon glyphicon-chevron-up\"></span>
+            top
+        </a>
+    </div>
     <hr>
+    <p>&nbsp;</p>
 
     <a name=\"auth\"></a>
     <h3>授权为管理员</h3>
     <p>点左侧子菜单的“授权为管理员”，进入如下界面。此功能与创建管理员的区别为，创建管理员时，系统会向 baigo SSO 系统注册用户，而授权为管理员则是将 baigo SSO 已注册的用户授权为管理员。<a href=\"http://www.baigo.net/sso/\" target=\"_blank\">baigo SSO 官方网站</a></p>
-    <p><img src=\"{images}auth.jpg\" class=\"img-responsive\"></p>
+
+    <p>
+        <a href=\"{images}auth.jpg\" target=\"_blank\"><img src=\"{images}auth.jpg\" class=\"img-responsive\"></a>
+    </p>
+
+    <p>&nbsp;</p>
 
     <div class=\"panel panel-default\">
         <div class=\"panel-heading\">填写说明</div>
@@ -63,9 +78,19 @@ return "<h3>创建管理员</h3>
         </div>
     </div>
 
+    <p>&nbsp;</p>
+    <div class=\"text-right\">
+        <a href=\"#top\">
+            <span class=\"glyphicon glyphicon-chevron-up\"></span>
+            top
+        </a>
+    </div>
     <hr>
+    <p>&nbsp;</p>
 
     <a name=\"sso\"></a>
     <h3>自动部署 SSO 后创建管理员</h3>
     <p>自动部署 SSO 后，安装程序将会自动跳转到本界面面，本操作将同时为 CMS 与 SSO 创建管理员，拥有所有的管理权限。请牢记用户名与密码。</p>
-    <p><img src=\"{images}ssoAdmin.jpg\" class=\"img-responsive\"></p>";
+    <p>
+        <a href=\"{images}ssoAdmin.jpg\" target=\"_blank\"><img src=\"{images}ssoAdmin.jpg\" class=\"img-responsive\"></a>
+    </p>";

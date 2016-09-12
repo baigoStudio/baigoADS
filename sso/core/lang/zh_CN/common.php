@@ -5,7 +5,7 @@
 -----------------------------------------------------------------*/
 
 //不能非法包含或直接执行
-if(!defined("IN_BAIGO")) {
+if (!defined("IN_BAIGO")) {
     exit("Access Denied");
 }
 
@@ -39,6 +39,7 @@ return array(
         "installDbTable"  => "创建数据表",
         "installAdmin"    => "创建管理员",
         "installOver"     => "完成安装",
+        "chkver"          => "检查更新",
     ),
 
     /*------链接文字------*/
@@ -48,7 +49,6 @@ return array(
         "back"            => "返回",
         "add"             => "创建",
         "edit"            => "编辑",
-        "order"           => "优先级",
         "help"            => "帮助",
         "opt"             => "系统设置",
         "import"          => "批量导入",
@@ -60,7 +60,7 @@ return array(
         "infoModi"        => "个人信息",
         "passModi"        => "修改密码",
         "show"            => "查看",
-        "noticeTest"      => "通知接口测试",
+        "notifyTest"      => "通知接口测试",
 
         "pageFirst"       => "首页",
         "pagePrevList"    => "上十页",
@@ -104,6 +104,16 @@ return array(
         "time"              => "时间",
         "timezone"          => "时区",
         "onlyModi"          => "需要修改时输入", //需要修改时输入
+        "userCount"         => "用户统计",
+        "appCount"          => "应用统计",
+        "total"             => "总计",
+        "installVer"        => "当前安装版本",
+        "installTime"       => "安装（升级）时间",
+        "pubTime"           => "发布时间",
+        "latestVer"         => "最新版本",
+        "announcement"      => "公告",
+        "downloadUrl"       => "下载地址",
+        "description"       => "描述",
 
         "dbHost"            => "数据库服务器",
         "dbPort"            => "服务器端口",
@@ -125,7 +135,7 @@ return array(
         "bulkRangeId"       => "用户 ID 范围",
         "bulkRangeTime"     => "注册时间范围",
         "bulkRangeLogin"    => "登录时间范围",
-        "toNote"            => "多个收件人请用 <kbd>,</kbd> 分隔",
+        "toNote"            => "多个收件人请用 <kbd>|</kbd> 分隔",
         "keyNameNote"       => "发送给用户名中包含该关键词的用户",
         "keyMailNote"       => "发送给邮箱中包含该关键词的用户",
         "rangeIdNote"       => "发送给 ID 范围内的用户",
@@ -143,7 +153,7 @@ return array(
         "appId"             => "APP ID",
         "appKey"            => "APP KEY",
         "appKeyNote"        => "如果 APP KEY 泄露，可以通过重置更换，原 APP KEY 将作废。",
-        "appUrlNotice"      => "通知接口 URL",
+        "appUrlNotify"      => "通知接口 URL",
         "appUrlSync"        => "同步接口 URL",
         "apiUrl"            => "API 接口 URL",
 
@@ -218,6 +228,7 @@ return array(
         "delCsv"    => "删除 CSV 文件",
         "stepNext"  => "下一步",
         "resetKey"  => "重置 APP KEY",
+        "chkver"    => "再次检查更新",
     ),
 
     /*------确认框------*/
@@ -232,6 +243,8 @@ return array(
         "refreshImport"   => "CSV 文件第一行必须为字段名，建议使用三列，其中密码列必须使用 MD5 加密，加密工具请看下方表单。上传 CSV 文件后，请刷新本页查看预览，点此 <a href=\"javascript:location.reload();\" class=\"alert-link\">刷新</a>。",
         "extErr"          => "服务器环境检查未通过，请检查上述扩展库是否已经正确安装。",
         "extOk"           => "服务器环境检查通过，可以继续安装。",
+        "haveNewVer"      => "您的版本不是最新的，下面是最新版本的发布和更新帮助链接。",
+        "isNewVer"        => "恭喜！您的版本是最新的！",
     ),
 
     /*------图片说明------*/

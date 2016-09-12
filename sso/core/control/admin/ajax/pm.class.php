@@ -5,7 +5,7 @@
 -----------------------------------------------------------------*/
 
 //不能非法包含或直接执行
-if(!defined("IN_BAIGO")) {
+if (!defined("IN_BAIGO")) {
     exit("Access Denied");
 }
 
@@ -21,6 +21,7 @@ class AJAX_PM {
     private $log;
     private $mdl_pm;
     private $mdl_log;
+    private $is_super = false;
 
     function __construct() { //构造函数
         $this->adminLogged = $GLOBALS["adminLogged"]; //已登录商家信息
@@ -32,6 +33,10 @@ class AJAX_PM {
         if ($this->adminLogged["alert"] != "y020102") { //未登录，抛出错误信息
             $this->obj_ajax->halt_alert($this->adminLogged["alert"]);
         }
+
+        if ($this->adminLogged["admin_type"] == "super") {
+            $this->is_super = true;
+        }
     }
 
 
@@ -42,7 +47,7 @@ class AJAX_PM {
      * @return void
      */
     function ajax_send() {
-        if (!isset($this->adminLogged["admin_allow"]["pm"]["send"])) {
+        if (!isset($this->adminLogged["admin_allow"]["pm"]["send"]) && !$this->is_super) {
             $this->obj_ajax->halt_alert("x110303");
         }
 
@@ -64,7 +69,7 @@ class AJAX_PM {
 
 
     function ajax_bulk() {
-        if (!isset($this->adminLogged["admin_allow"]["pm"]["bulk"])) {
+        if (!isset($this->adminLogged["admin_allow"]["pm"]["bulk"]) && !$this->is_super) {
             $this->obj_ajax->halt_alert("x110303");
         }
 
@@ -76,8 +81,8 @@ class AJAX_PM {
 
         switch ($_arr_pmBulk["pm_bulk_type"]) {
             case "bulkUsers":
-                if (stristr($_arr_pmBulk["pm_to_users"], ",")) {
-                    $_arr_toUsers = explode(",", $_arr_pmBulk["pm_to_users"]);
+                if (stristr($_arr_pmBulk["pm_to_users"], "|")) {
+                    $_arr_toUsers = explode("|", $_arr_pmBulk["pm_to_users"]);
                 } else {
                     $_arr_toUsers = array($_arr_pmBulk["pm_to_users"]);
                 }
@@ -103,8 +108,8 @@ class AJAX_PM {
 
             case "bulkRangeId":
                 $_arr_search = array(
-                    "begin_id"  => $_arr_pmBulk["pm_to_begin_id"],
-                    "end_id"    => $_arr_pmBulk["pm_to_end_id"],
+                    "min_id"  => $_arr_pmBulk["pm_to_min_id"],
+                    "max_id"    => $_arr_pmBulk["pm_to_max_id"],
                 );
                 $_arr_userRows = $this->mdl_user->mdl_list(1000, 0, $_arr_search);
             break;
@@ -141,7 +146,7 @@ class AJAX_PM {
      * @return void
      */
     function ajax_status() {
-        if (!isset($this->adminLogged["admin_allow"]["pm"]["edit"])) {
+        if (!isset($this->adminLogged["admin_allow"]["pm"]["edit"]) && !$this->is_super) {
             $this->obj_ajax->halt_alert("x110305");
         }
 
@@ -165,7 +170,7 @@ class AJAX_PM {
      * @return void
      */
     function ajax_del() {
-        if (!isset($this->adminLogged["admin_allow"]["pm"]["del"])) {
+        if (!isset($this->adminLogged["admin_allow"]["pm"]["del"]) && !$this->is_super) {
             $this->obj_ajax->halt_alert("x110304");
         }
 

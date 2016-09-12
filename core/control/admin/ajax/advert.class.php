@@ -5,7 +5,7 @@
 -----------------------------------------------------------------*/
 
 //不能非法包含或直接执行
-if(!defined("IN_BAIGO")) {
+if (!defined("IN_BAIGO")) {
     exit("Access Denied");
 }
 
@@ -18,6 +18,7 @@ class AJAX_ADVERT {
     private $adminLogged;
     private $obj_ajax;
     private $mdl_advert;
+    private $is_super = false;
 
     function __construct() { //构造函数
         $this->adminLogged        = $GLOBALS["adminLogged"]; //已登录用户信息
@@ -27,6 +28,10 @@ class AJAX_ADVERT {
 
         if ($this->adminLogged["alert"] != "y020102") { //未登录，抛出错误信息
             $this->obj_ajax->halt_alert($this->adminLogged["alert"]);
+        }
+
+        if ($this->adminLogged["admin_type"] == "super") {
+            $this->is_super = true;
         }
     }
 
@@ -45,16 +50,16 @@ class AJAX_ADVERT {
         }
 
         if ($_arr_advertSubmit["advert_id"] > 0) {
-            if (!isset($this->adminLogged["admin_allow"]["advert"]["edit"])) {
+            if (!isset($this->adminLogged["admin_allow"]["advert"]["edit"]) && !$this->is_super) {
                 $this->obj_ajax->halt_alert("x080303");
             }
         } else {
-            if (!isset($this->adminLogged["admin_allow"]["advert"]["add"])) {
+            if (!isset($this->adminLogged["admin_allow"]["advert"]["add"]) && !$this->is_super) {
                 $this->obj_ajax->halt_alert("x080302");
             }
         }
 
-        if (!isset($this->adminLogged["admin_allow"]["advert"]["approve"])) {
+        if (!isset($this->adminLogged["admin_allow"]["advert"]["approve"]) && !$this->is_super) {
             $_str_advertStatus = "wait";
         } else {
             $_str_advertStatus = $_arr_advertSubmit["advert_status"];
@@ -73,7 +78,7 @@ class AJAX_ADVERT {
      * @return void
      */
     function ajax_status() {
-        if (!isset($this->adminLogged["admin_allow"]["advert"]["approve"])) {
+        if (!isset($this->adminLogged["admin_allow"]["advert"]["approve"]) && !$this->is_super) {
             $this->obj_ajax->halt_alert("x080303");
         }
 
@@ -97,7 +102,7 @@ class AJAX_ADVERT {
      * @return void
      */
     function ajax_del() {
-        if (!isset($this->adminLogged["admin_allow"]["advert"]["del"])) {
+        if (!isset($this->adminLogged["admin_allow"]["advert"]["del"]) && !$this->is_super) {
             $this->obj_ajax->halt_alert("x080304");
         }
 

@@ -5,7 +5,7 @@
 -----------------------------------------------------------------*/
 
 //不能非法包含或直接执行
-if(!defined("IN_BAIGO")) {
+if (!defined("IN_BAIGO")) {
     exit("Access Denied");
 }
 
@@ -18,7 +18,7 @@ class CONTROL_UPGRADE {
     function __construct() { //构造函数
         $this->obj_base = $GLOBALS["obj_base"];
         $this->config   = $this->obj_base->config;
-        $this->obj_tpl  = new CLASS_TPL(BG_PATH_TPL . "install/" . $this->config["ui"]);
+        $this->obj_tpl  = new CLASS_TPL(BG_PATH_TPL . "install/" . BG_DEFAULT_UI);
         $this->obj_dir  = new CLASS_DIR(); //初始化目录对象
         $this->obj_dir->mk_dir(BG_PATH_CACHE . "ssin");
         $this->upgrade_init();
@@ -90,10 +90,10 @@ class CONTROL_UPGRADE {
         }
 
         $this->table_admin();
-        $this->table_advert();
+        /*$this->table_advert();
         $this->table_media();
         $this->table_posi();
-        $this->table_stat();
+        $this->table_stat();*/
         $this->table_session();
 
         $this->obj_tpl->tplDisplay("upgrade_dbtable.tpl", $this->tplData);
@@ -195,6 +195,11 @@ class CONTROL_UPGRADE {
 
 
     private function table_admin() {
+        include_once(BG_PATH_MODEL . "admin.class.php"); //载入管理帐号模型
+        $_mdl_admin             = new MODEL_ADMIN();
+        $_mdl_admin->adminTypes = $this->obj_tpl->type["admin"];
+        $_arr_adminTable        = $_mdl_admin->mdl_alert_table();
+
         $this->tplData["db_alert"]["admin_table"] = array(
             "alert"   => "y020111",
             "status"  => "y",

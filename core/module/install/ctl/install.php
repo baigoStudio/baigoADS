@@ -5,7 +5,7 @@
 -----------------------------------------------------------------*/
 
 //不能非法包含或直接执行
-if(!defined("IN_BAIGO")) {
+if (!defined("IN_BAIGO")) {
     exit("Access Denied");
 }
 
@@ -35,7 +35,7 @@ switch ($GLOBALS["act_get"]) {
             "ssin"      => true, //启用会话
             "header"    => "Content-Type: text/html; charset=utf-8", //header
             "db"        => true, //连接数据库
-            "type"      => "ctl", //模块类型
+            "type"      => "install", //模块类型
         );
     break;
 

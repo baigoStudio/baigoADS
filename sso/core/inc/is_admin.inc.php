@@ -6,16 +6,16 @@
 
 
 //不能非法包含或直接执行
-if(!defined("IN_BAIGO")) {
+if (!defined("IN_BAIGO")) {
     exit("Access Denied");
 }
 
 if ($GLOBALS["adminLogged"]["alert"] != "y020102") {
-    if ($GLOBALS["view"]) {
+    if ($GLOBALS["view"] == "iframe") {
         $_str_location = "Location: " . BG_URL_ADMIN . "ctl.php?mod=alert&act_get=show&alert=" . $GLOBALS["adminLogged"]["alert"] . "&view=" . $GLOBALS["view"];
     } else {
-        if (fn_server("REQUEST_URI")) {
-            $_str_attach = base64_encode(fn_server("REQUEST_URI"));
+        if (!fn_isEmpty(fn_server("REQUEST_URI"))) {
+            $_str_attach = fn_forward(fn_server("REQUEST_URI"));
         }
         $_str_location = "Location: " . BG_URL_ADMIN . "ctl.php?mod=logon&forward=" . $_str_attach;
     }

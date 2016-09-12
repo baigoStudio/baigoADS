@@ -5,7 +5,7 @@
 -----------------------------------------------------------------*/
 
 //不能非法包含或直接执行
-if(!defined("IN_BAIGO")) {
+if (!defined("IN_BAIGO")) {
     exit("Access Denied");
 }
 
@@ -256,26 +256,35 @@ class MODEL_PM {
      * @access public
      * @return void
      */
-    function mdl_del($num_userId = 0, $is_rev = false) {
-        $_str_pmIds      = implode(",", $this->pmIds["pm_ids"]);
+    function mdl_del($num_userId = 0, $is_revoke = false) {
+        $_str_pmIds     = implode(",", $this->pmIds["pm_ids"]);
         $_str_sqlWhere  = "pm_id IN (" . $_str_pmIds . ")";
 
         if ($num_userId > 0) {
-            if ($is_rev) {
+            if ($is_revoke) {
                 $_str_sqlWhere .= " AND pm_from=" . $num_userId . " AND pm_type='in'";
             } else {
                 $_str_sqlWhere .= " AND ((pm_from=" . $num_userId . " AND pm_type='out') OR (pm_to=" . $num_userId . " AND pm_type='in'))";
             }
         }
 
+        //print_r($_str_sqlWhere);
 
         $_num_mysql = $this->obj_db->delete(BG_DB_TABLE . "pm", $_str_sqlWhere); //删除数据
 
         //如车影响行数小于0则返回错误
         if ($_num_mysql > 0) {
-            $_str_alert = "y110104"; //成功
+            if ($is_revoke) {
+                $_str_alert = "y110109"; //撤回
+            } else {
+                $_str_alert = "y110104"; //成功
+            }
         } else {
-            $_str_alert = "x110104"; //失败
+            if ($is_revoke) {
+                $_str_alert = "x110109"; //撤回
+            } else {
+                $_str_alert = "x110104"; //失败
+            }
         }
 
         return array(
@@ -323,7 +332,7 @@ class MODEL_PM {
             break;
         }
 
-        if (!$this->pmSubmit["pm_title"]) {
+        if (fn_isEmpty($this->pmSubmit["pm_title"])) {
             $this->pmSubmit["pm_title"] = fn_substr_utf8($this->pmSubmit["pm_content"], 0, 30);
         }
 
@@ -387,7 +396,7 @@ class MODEL_PM {
             break;
 
             case "bulkRangeId":
-                $_arr_pmBeginId = validateStr(fn_post("pm_to_begin_id"), 1, 0, "str", "int");
+                $_arr_pmBeginId = validateStr(fn_post("pm_to_min_id"), 1, 0, "str", "int");
                 switch ($_arr_pmBeginId["status"]) {
                     case "too_short":
                         return array(
@@ -402,11 +411,11 @@ class MODEL_PM {
                     break;
 
                     case "ok":
-                        $this->pmSubmit["pm_to_begin_id"] = $_arr_pmBeginId["str"];
+                        $this->pmSubmit["pm_to_min_id"] = $_arr_pmBeginId["str"];
                     break;
                 }
 
-                $_arr_pmEndId = validateStr(fn_post("pm_to_end_id"), 1, 0, "str", "int");
+                $_arr_pmEndId = validateStr(fn_post("pm_to_max_id"), 1, 0, "str", "int");
                 switch ($_arr_pmEndId["status"]) {
                     case "too_short":
                         return array(
@@ -421,7 +430,7 @@ class MODEL_PM {
                     break;
 
                     case "ok":
-                        $this->pmSubmit["pm_to_end_id"] = $_arr_pmEndId["str"];
+                        $this->pmSubmit["pm_to_max_id"] = $_arr_pmEndId["str"];
                     break;
                 }
             break;
@@ -442,7 +451,7 @@ class MODEL_PM {
                     break;
 
                     case "ok":
-                        $this->pmSubmit["pm_to_begin_time"] = strtotime($_arr_pmBeginTime["str"]);
+                        $this->pmSubmit["pm_to_begin_time"] = fn_strtotime($_arr_pmBeginTime["str"]);
                     break;
                 }
 
@@ -461,7 +470,7 @@ class MODEL_PM {
                     break;
 
                     case "ok":
-                        $this->pmSubmit["pm_to_end_time"] = strtotime($_arr_pmEndTime["str"]);
+                        $this->pmSubmit["pm_to_end_time"] = fn_strtotime($_arr_pmEndTime["str"]);
                     break;
                 }
             break;
@@ -482,7 +491,7 @@ class MODEL_PM {
                     break;
 
                     case "ok":
-                        $this->pmSubmit["pm_to_begin_login"] = strtotime($_arr_pmBeginLogin["str"]);
+                        $this->pmSubmit["pm_to_begin_login"] = fn_strtotime($_arr_pmBeginLogin["str"]);
                     break;
                 }
 
@@ -501,7 +510,7 @@ class MODEL_PM {
                     break;
 
                     case "ok":
-                        $this->pmSubmit["pm_to_end_login"] = strtotime($_arr_pmEndLogin["str"]);
+                        $this->pmSubmit["pm_to_end_login"] = fn_strtotime($_arr_pmEndLogin["str"]);
                     break;
                 }
             break;
@@ -558,7 +567,7 @@ class MODEL_PM {
             break;
         }
 
-        if (!$this->pmSubmit["pm_title"]) {
+        if (fn_isEmpty($this->pmSubmit["pm_title"])) {
             $this->pmSubmit["pm_title"] = fn_substr_utf8($this->pmSubmit["pm_content"], 0, 30);
         }
 
@@ -607,12 +616,46 @@ class MODEL_PM {
 
         $this->pmIds = array(
             "alert"     => $_str_alert,
-            "pm_ids"    => $_arr_pmIds
+            "pm_ids"    => array_unique($_arr_pmIds),
         );
 
         return $this->pmIds;
     }
 
+
+    function input_ids_api() {
+        $_str_pmIds = fn_getSafe(fn_post("pm_ids"), "txt", "");
+        $_arr_pmIds = array();
+
+        if (fn_isEmpty($_str_pmIds)) {
+            return array(
+                "alert" => "x110211",
+            );
+        } else {
+            if (stristr($_str_pmIds, "|")) {
+                $_arr_pmIds = explode("|", $_str_pmIds);
+            } else {
+                $_arr_pmIds = array($_str_pmIds);
+            }
+        }
+
+        if ($_arr_pmIds) {
+            foreach ($_arr_pmIds as $_key=>$_value) {
+                $_arr_pmIds[$_key] = fn_getSafe($_value, "int", 0);
+            }
+            $_str_alert = "ok";
+        } else {
+            $_str_alert = "x110211";
+        }
+
+        $this->pmIds = array(
+            "alert"     => "ok",
+            "str_pmIds" => $_str_pmIds,
+            "pm_ids"    => array_unique($_arr_pmIds),
+        );
+
+        return $this->pmIds;
+    }
 
     /** 列出及统计 SQL 处理
      * sql_process function.
@@ -624,15 +667,15 @@ class MODEL_PM {
     private function sql_process($arr_search = array()) {
         $_str_sqlWhere = "1=1";
 
-        if (isset($arr_search["key"]) && $arr_search["key"]) {
+        if (isset($arr_search["key"]) && !fn_isEmpty($arr_search["key"])) {
             $_str_sqlWhere .= " AND (pm_title LIKE '%" . $arr_search["key"] . "%' OR pm_content LIKE '%" . $arr_search["key"] . "%')";
         }
 
-        if (isset($arr_search["status"]) && $arr_search["status"]) {
+        if (isset($arr_search["status"]) && !fn_isEmpty($arr_search["status"])) {
             $_str_sqlWhere .= " AND pm_status='" . $arr_search["status"] . "'";
         }
 
-        if (isset($arr_search["type"]) && $arr_search["type"]) {
+        if (isset($arr_search["type"]) && !fn_isEmpty($arr_search["type"])) {
             $_str_sqlWhere .= " AND pm_type='" . $arr_search["type"] . "'";
         }
 

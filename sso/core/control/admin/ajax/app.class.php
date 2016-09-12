@@ -5,13 +5,13 @@
 -----------------------------------------------------------------*/
 
 //不能非法包含或直接执行
-if(!defined("IN_BAIGO")) {
+if (!defined("IN_BAIGO")) {
     exit("Access Denied");
 }
 
 include_once(BG_PATH_FUNC . "http.func.php"); //载入模板类
-include_once(BG_PATH_FUNC . "baigocode.func.php"); //载入模板类
 include_once(BG_PATH_CLASS . "ajax.class.php"); //载入模板类
+include_once(BG_PATH_CLASS . "sign.class.php"); //载入模板类
 include_once(BG_PATH_MODEL . "app.class.php"); //载入管理帐号模型
 include_once(BG_PATH_MODEL . "belong.class.php");
 include_once(BG_PATH_MODEL . "user.class.php"); //载入管理帐号模型
@@ -25,12 +25,14 @@ class AJAX_APP {
     private $log;
     private $mdl_app;
     private $mdl_log;
+    private $is_super = false;
 
     function __construct() { //构造函数
         $this->adminLogged  = $GLOBALS["adminLogged"]; //已登录用户信息
         $this->obj_ajax     = new CLASS_AJAX(); //获取界面类型
         $this->obj_ajax->chk_install();
         $this->log          = $this->obj_ajax->log; //初始化 AJAX 基对象
+        $this->obj_sign     = new CLASS_SIGN();
         $this->mdl_app      = new MODEL_APP(); //设置用户模型
         $this->mdl_belong   = new MODEL_BELONG();
         $this->mdl_user     = new MODEL_USER(); //设置管理员模型
@@ -39,11 +41,15 @@ class AJAX_APP {
         if ($this->adminLogged["alert"] != "y020102") { //未登录，抛出错误信息
             $this->obj_ajax->halt_alert($this->adminLogged["alert"]);
         }
+
+        if ($this->adminLogged["admin_type"] == "super") {
+            $this->is_super = true;
+        }
     }
 
 
     function ajax_reset() {
-        if (!isset($this->adminLogged["admin_allow"]["app"]["edit"])) {
+        if (!isset($this->adminLogged["admin_allow"]["app"]["edit"]) && !$this->is_super) {
             $this->obj_ajax->halt_alert("x050303");
         }
 
@@ -67,7 +73,7 @@ class AJAX_APP {
 
 
     function ajax_deauth() {
-        if (!isset($this->adminLogged["admin_allow"]["app"]["edit"])) {
+        if (!isset($this->adminLogged["admin_allow"]["app"]["edit"]) && !$this->is_super) {
             $this->obj_ajax->halt_alert("x050303");
         }
 
@@ -94,7 +100,7 @@ class AJAX_APP {
 
 
     function ajax_auth() {
-        if (!isset($this->adminLogged["admin_allow"]["app"]["edit"])) {
+        if (!isset($this->adminLogged["admin_allow"]["app"]["edit"]) && !$this->is_super) {
             $this->obj_ajax->halt_alert("x050303");
         }
 
@@ -124,18 +130,18 @@ class AJAX_APP {
 
 
     /**
-     * ajax_notice function.
+     * ajax_notify function.
      *
      * @access public
      * @return void
      */
-    function ajax_notice() {
-        $_num_appId = fn_getSafe(fn_post("app_id_notice"), "int", 0);
+    function ajax_notify() {
+        $_num_appId = fn_getSafe(fn_post("app_id_notify"), "int", 0);
         if ($_num_appId < 1) {
             $this->obj_ajax->halt_alert("x050203");
         }
 
-        if (!isset($this->adminLogged["admin_allow"]["app"]["browse"])) {
+        if (!isset($this->adminLogged["admin_allow"]["app"]["browse"]) && !$this->is_super) {
             $this->obj_ajax->halt_alert("x050301");
         }
 
@@ -144,31 +150,28 @@ class AJAX_APP {
             $this->obj_ajax->halt_alert($_arr_appRow["alert"]);
         }
 
-        $_tm_time    = time();
-        $_str_rand   = fn_rand();
-        $_str_sign   = fn_baigoSignMk($_tm_time, $_str_rand, $_arr_appRow["app_id"], $_arr_appRow["app_key"]);
-        $_str_echo   = fn_rand();
+        $_tm_time   = time();
+        $_str_echo  = fn_rand();
 
         $_arr_data = array(
             "act_get"    => "test",
             "time"       => $_tm_time,
-            "random"     => $_str_rand,
-            "signature"  => $_str_sign,
             "echostr"    => $_str_echo,
             "app_id"     => $_arr_appRow["app_id"],
             "app_key"    => $_arr_appRow["app_key"],
         );
 
-        if (stristr($_arr_appRow["app_url_notice"], "?")) {
+        $_arr_data["signature"] = $this->obj_sign->sign_make($_arr_data);
+
+        if (stristr($_arr_appRow["app_url_notify"], "?")) {
             $_str_conn = "&";
         } else {
             $_str_conn = "?";
         }
 
-        $_arr_notice = fn_http($_arr_appRow["app_url_notice"] . $_str_conn . "mod=notice", $_arr_data, "get");
-        //print_r($_arr_notice);
+        $_arr_notify = fn_http($_arr_appRow["app_url_notify"] . $_str_conn . "mod=notify", $_arr_data, "get");
 
-        if ($_arr_notice["ret"] == $_str_echo) {
+        if ($_arr_notify["ret"] == $_str_echo) {
             $_str_alert = "y050401";
         } else {
             $_str_alert = "x050401";
@@ -177,9 +180,18 @@ class AJAX_APP {
                 "app_id" => $_num_appId,
             );
             $_str_targets    = json_encode($_arr_targets);
-            $_str_notice     = htmlentities($_arr_notice["ret"], ENT_QUOTES, "UTF-8");
-            //exit($_str_notice);
-            $this->mdl_log->mdl_submit($_str_targets, "app", $this->log["app"]["noticeTest"], $_str_notice, "admin", $this->adminLogged["admin_id"]);
+            $_str_notify     = fn_htmlcode($_arr_notify["ret"]);
+            //exit($_str_notify);
+
+            $_arr_logData = array(
+                "log_targets"        => $_str_targets,
+                "log_target_type"    => "app",
+                "log_title"          => $this->log["app"]["notifyTest"],
+                "log_result"         => $_str_notify,
+                "log_type"           => "admin",
+            );
+
+            $this->mdl_log->mdl_submit($_arr_logData, $this->adminLogged["admin_id"]);
             //exit("test");
         }
 
@@ -201,11 +213,11 @@ class AJAX_APP {
         }
 
         if ($_arr_appSubmit["app_id"] > 0) {
-            if (!isset($this->adminLogged["admin_allow"]["app"]["edit"])) {
+            if (!isset($this->adminLogged["admin_allow"]["app"]["edit"]) && !$this->is_super) {
                 $this->obj_ajax->halt_alert("x050303");
             }
         } else {
-            if (!isset($this->adminLogged["admin_allow"]["app"]["add"])) {
+            if (!isset($this->adminLogged["admin_allow"]["app"]["add"]) && !$this->is_super) {
                 $this->obj_ajax->halt_alert("x050302");
             }
         }
@@ -223,7 +235,16 @@ class AJAX_APP {
                 $_type = "edit";
             }
             $_str_appRow = json_encode($_arr_appRow);
-            $this->mdl_log->mdl_submit($_str_targets, "app", $this->log["app"][$_type], $_str_appRow, "admin", $this->adminLogged["admin_id"]);
+
+            $_arr_logData = array(
+                "log_targets"        => $_str_targets,
+                "log_target_type"    => "app",
+                "log_title"          => $this->log["app"][$_type],
+                "log_result"         => $_str_appRow,
+                "log_type"           => "admin",
+            );
+
+            $this->mdl_log->mdl_submit($_arr_logData, $this->adminLogged["admin_id"]);
         }
 
         $this->obj_ajax->halt_alert($_arr_appRow["alert"]);
@@ -237,7 +258,7 @@ class AJAX_APP {
      * @return void
      */
     function ajax_status() {
-        if (!isset($this->adminLogged["admin_allow"]["app"]["edit"])) {
+        if (!isset($this->adminLogged["admin_allow"]["app"]["edit"]) && !$this->is_super) {
             $this->obj_ajax->halt_alert("x050303");
         }
 
@@ -258,7 +279,16 @@ class AJAX_APP {
                 $_str_targets = json_encode($_arr_targets);
             }
             $_str_appRow = json_encode($_arr_appRow);
-            $this->mdl_log->mdl_submit($_str_targets, "app", $this->log["app"]["edit"], $_str_appRow, "admin", $this->adminLogged["admin_id"]);
+
+            $_arr_logData = array(
+                "log_targets"        => $_str_targets,
+                "log_target_type"    => "app",
+                "log_title"          => $this->log["app"]["edit"],
+                "log_result"         => $_str_appRow,
+                "log_type"           => "admin",
+            );
+
+            $this->mdl_log->mdl_submit($_arr_logData, $this->adminLogged["admin_id"]);
         }
 
         $this->obj_ajax->halt_alert($_arr_appRow["alert"]);
@@ -272,7 +302,7 @@ class AJAX_APP {
      * @return void
      */
     function ajax_del() {
-        if (!isset($this->adminLogged["admin_allow"]["app"]["del"])) {
+        if (!isset($this->adminLogged["admin_allow"]["app"]["del"]) && !$this->is_super) {
             $this->obj_ajax->halt_alert("x050304");
         }
 
@@ -291,7 +321,16 @@ class AJAX_APP {
                 $_str_targets = json_encode($_arr_targets);
             }
             $_str_appRow = json_encode($_arr_appRow);
-            $this->mdl_log->mdl_submit($_str_targets, "app", $this->log["app"]["del"], $_str_appRow, "admin", $this->adminLogged["admin_id"]);
+
+            $_arr_logData = array(
+                "log_targets"        => $_str_targets,
+                "log_target_type"    => "app",
+                "log_title"          => $this->log["app"]["del"],
+                "log_result"         => $_str_appRow,
+                "log_type"           => "admin",
+            );
+
+            $this->mdl_log->mdl_submit($_arr_logData, $this->adminLogged["admin_id"]);
         }
 
         $this->obj_ajax->halt_alert($_arr_appRow["alert"]);

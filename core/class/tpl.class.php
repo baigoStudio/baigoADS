@@ -5,7 +5,7 @@
 -----------------------------------------------------------------*/
 
 //不能非法包含或直接执行
-if(!defined("IN_BAIGO")) {
+if (!defined("IN_BAIGO")) {
     exit("Access Denied");
 }
 
@@ -54,12 +54,7 @@ class CLASS_TPL {
      * @return void
      */
     function tplDisplay($str_tpl, $arr_tplData = "") {
-        $this->common["token_session"]    = fn_token();
-        if (fn_server("REQUEST_URI")) {
-            $this->common["thisUrl"]      = base64_encode(fn_server("REQUEST_URI"));
-        }
-        $this->common["ssid"]             = session_id();
-        $this->common["view"]             = $GLOBALS["view"];
+        $this->common["tokenRow"]    = fn_token();
 
         $this->obj_smarty->assign("common", $this->common);
         $this->obj_smarty->assign("config", $this->config);

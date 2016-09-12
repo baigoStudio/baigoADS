@@ -1,6 +1,5 @@
 <?php
-return "<a name=\"top\"></a>
-    <h3>API 概述</h3>
+return "<h3>API 概述</h3>
     <p>
         各种应用整合 baigo SSO 都是通过 API 接口实现的，您可以在各类应用程序中使用该接口，通过发起 HTTP 请求方式调用 baigo SSO 服务，返回 JSON 数据。
     </p>
@@ -59,6 +58,7 @@ return "<a name=\"top\"></a>
         );
 
         \$_arr_ssoData = array_merge(\$this-&gt;arr_data, \$_arr_sso);
+        \$_arr_ssoData[&quot;signature&quot;] = \$this->sso_signature(\$_arr_ssoData);
         \$_arr_get     = \$this->fn_http(BG_SSO_URL . &quot;?mod=user&quot;, \$_arr_ssoData, &quot;post&quot;); //&#25552;&#20132;
         \$_arr_result  = \$this-&gt;result_process(\$_arr_get);
 
@@ -99,6 +99,26 @@ return "<a name=\"top\"></a>
     }
 
 
+    /** 签名
+     * sso_signature function.
+     *
+     * @access public
+     * @param mixed \$arr_params
+     * @return void
+     */
+    function sso_signature(\$arr_params) {
+        \$_arr_sso = array(
+            &quot;act_post&quot;  => &quot;signature&quot;, //方法
+            &quot;params&quot;    => \$arr_params,
+        );
+
+        \$_arr_ssoData     = array_merge(\$this->arr_data, \$_arr_sso); //合并数组
+        \$_arr_get         = fn_http(BG_SSO_URL . &quot;?mod=signature&quot;, \$_arr_ssoData, &quot;post&quot;); //提交
+
+        return fn_jsonDecode(\$_arr_get[&quot;ret&quot;], &quot;no&quot;);
+    }
+
+
     /** 解码
      * sso_decode function.
      *
@@ -107,7 +127,7 @@ return "<a name=\"top\"></a>
      */
     function sso_decode(\$str_code, \$str_key) {
         \$_arr_sso = array(
-            &quot;act_get&quot;    =&gt; &quot;decode&quot;, //&#26041;&#27861;
+            &quot;act_post&quot;   =&gt; &quot;decode&quot;, //&#26041;&#27861;
             &quot;code&quot;       =&gt; \$str_code, //&#21152;&#23494;&#20018;
             &quot;key&quot;        =&gt; \$str_key, //&#35299;&#30721;&#31192;&#38053;
         );
@@ -229,8 +249,8 @@ return "<a name=\"top\"></a>
 }
 
 \$obj_sso       = new CLASS_SSO(); //初始化对象
-\$user_name     = \$_GET[&quot;user_name&quot;]; //表单获取用户名
-\$user_pass     = \$_GET[&quot;user_pass&quot;]; //表单获取密码
+\$user_name     = \$_POST[&quot;user_name&quot;]; //表单获取用户名
+\$user_pass     = \$_POST[&quot;user_pass&quot;]; //表单获取密码
 \$arr_userRow   = \$obj_sso-&gt;sso_login(\$user_name, \$user_pass); //调用登录接口</code></pre>
     </p>
 
@@ -256,7 +276,7 @@ return "<a name=\"top\"></a>
                     <tr>
                         <th class=\"text-nowrap\">名称</th>
                         <th class=\"text-nowrap\">类型</th>
-                        <th>具体描述</th>
+                        <th>描述</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -269,11 +289,6 @@ return "<a name=\"top\"></a>
                         <td class=\"text-nowrap\">code</td>
                         <td class=\"text-nowrap\">string</td>
                         <td>加密字符串，需要解密。详情查看 <a href=\"{BG_URL_HELP}ctl.php?mod=api&act_get=code#decode\">密文接口</a>。</td>
-                    </tr>
-                    <tr>
-                        <td class=\"text-nowrap\">key</td>
-                        <td class=\"text-nowrap\">string</td>
-                        <td>解密码，配合加密字符串使用，用于解码。详情查看 <a href=\"{BG_URL_HELP}ctl.php?mod=api&act_get=code#decode\">密文接口</a>。</td>
                     </tr>
                     <tr>
                         <td class=\"text-nowrap\">prd_sso_ver</td>
@@ -298,15 +313,6 @@ return "<a name=\"top\"></a>
     &quot;prd_sso_ver&quot;: &quot;1.1.1&quot;, //SSO 版本号
     &quot;prd_sso_pub&quot;: 20150923, //SSO 版本发布时间
     &quot;code&quot;: &quot;CSMEIFh7AHYBOFIlXQwAaQE0UXENawF2WUxXUQNFVD4Ac1R%2BUSUFdQgnBmYMcARbAT5RMlprBjZdJQdvBSRQXgkPBEhYZAAnAXFSdV0mAHMBNVEhDQ4BOVliV2wDbFQhAGtUcFElBSwIdgZ2DHEEYQEiUQxaaAY6XWQHPgUkUD0JegRbWFkATwE3UnVdfwAiASVRIA00ASZZXFdxA2lUbgA0VHBRPQUiCBkGVwxTBDQBHVEpWkMGYF1KBxEFR1A1CRcEU1gzADgBf1J7XXEAdQEjUTYNIwELWXdXbANtVGYADlQ%2BUWgFZwg9Bm0MIAQ%2BAXJRHlpSBgJdNwcYBXxQQglrBE9YSgBIAWhSGV0kAD0BbVFxDX0Bdll2V3YDZVRxAA5UO1F3BSIIbgYhDE8EUAEZUStaSgY5XUIHYAVJUFQJbAR6WEMAVgFpUi9dHQBqAR1Rbg1zASk%3D&quot;, //加密字符串
-    &quot;key&quot;: &quot;tLUwyt&quot;, //解密码
     &quot;alert&quot;: &quot;y010102&quot; //返回代码
 }</code></pre>
-    </p>
-
-    <p>&nbsp;</p>
-    <div class=\"text-right\">
-        <a href=\"#top\">
-            <span class=\"glyphicon glyphicon-chevron-up\"></span>
-            top
-        </a>
-    </div>";
+    </p>";

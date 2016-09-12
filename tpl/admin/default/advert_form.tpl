@@ -44,7 +44,7 @@
     </div>
 
     <form name="advert_form" id="advert_form">
-        <input type="hidden" name="token_session" class="token_session" value="{$common.token_session}">
+        <input type="hidden" name="{$common.tokenRow.name_session}" value="{$common.tokenRow.token}">
         <input type="hidden" name="act_post" value="submit">
         <input type="hidden" name="advert_id" value="{$tplData.advertRow.advert_id}">
 

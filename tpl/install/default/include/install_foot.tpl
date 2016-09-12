@@ -4,10 +4,10 @@
 
             <div class="panel-footer">
                 <div class="pull-left">
-                    {if $config.ui == "default"}
+                    {if $smarty.const.BG_DEFAULT_UI == "default"}
                         <a href="{$smarty.const.PRD_ADS_URL}" target="_blank">{$smarty.const.PRD_ADS_POWERED} {$smarty.const.PRD_ADS_NAME}</a>
                     {else}
-                        {$config.ui} ADS
+                        {$smarty.const.BG_DEFAULT_UI} ADS
                     {/if}
                 </div>
                 <div class="pull-right">

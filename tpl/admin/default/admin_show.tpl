@@ -110,6 +110,18 @@
                     </p>
                 </div>
 
+                {if isset($tplData.adminRow.admin_allow.info)}
+                    <div class="form-group label_baigo">
+                        <span class="label label-danger">{$lang.label.profileInfo}</span>
+                    </div>
+                {/if}
+
+                {if isset($tplData.adminRow.admin_allow.pass)}
+                    <div class="form-group label_baigo">
+                        <span class="label label-danger">{$lang.label.profilePass}</span>
+                    </div>
+                {/if}
+
                 <div class="form-group">
                     <a href="{$smarty.const.BG_URL_ADMIN}ctl.php?mod=admin&act_get=form&admin_id={$tplData.adminRow.admin_id}">
                         <span class="glyphicon glyphicon-edit"></span>

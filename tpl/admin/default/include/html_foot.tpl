@@ -99,13 +99,7 @@
         <script type="text/javascript">
         function tokenReload() {
             $.getJSON("{$smarty.const.BG_URL_ADMIN}ajax.php?mod=token&act_get=make", function(result){
-                var _token = $("form input.token_session").val();
-                if (result.alert == "y030102") {
-                    if (_token != result.token) {
-                        //alert(result.str_alert);
-                        $("form input.token_session").val(result.token);
-                    }
-                } else {
+                if (result.alert != "y030102") {
                     $("#msg_token_content").text(result.msg);
                     $("#msg_token").modal({ show: true, backdrop: "static" });
                 }

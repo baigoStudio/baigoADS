@@ -7,7 +7,7 @@
 {include "{$smarty.const.BG_PATH_TPLSYS}install/default/include/upgrade_head.tpl" cfg=$cfg}
 
     <form name="upgrade_form" id="upgrade_form">
-        <input type="hidden" name="token_session" class="token_session" value="{$common.token_session}">
+        <input type="hidden" name="{$common.tokenRow.name_session}" value="{$common.tokenRow.token}">
         <input type="hidden" name="act_post" value="{$tplData.act_get}">
 
         {foreach $opt[$tplData.act_get].list as $key=>$value}
@@ -29,7 +29,7 @@
                         </select>
                     {else if $value.type == "radio"}
                         {foreach $value.option as $key_opt=>$value_opt}
-                            <div class="radio">
+                            <div class="radio_baigo">
                                 <label for="opt_{$tplData.act_get}_{$key}_{$key_opt}">
                                     <input type="radio" {if $this_value == $key_opt}checked{/if} value="{$key_opt}" data-validate="opt_{$tplData.act_get}_{$key}" name="opt[{$tplData.act_get}][{$key}]" id="opt_{$tplData.act_get}_{$key}_{$key_opt}">
                                     {$value_opt.value}

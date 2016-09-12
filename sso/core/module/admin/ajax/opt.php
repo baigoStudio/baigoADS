@@ -5,7 +5,7 @@
 -----------------------------------------------------------------*/
 
 //不能非法包含或直接执行
-if(!defined("IN_BAIGO")) {
+if (!defined("IN_BAIGO")) {
     exit("Access Denied");
 }
 
@@ -25,6 +25,10 @@ include_once(BG_PATH_CONTROL . "admin/ajax/opt.class.php"); //载入设置 ajax 
 $ajax_opt = new AJAX_OPT(); //初始化设置对象
 
 switch ($GLOBALS["act_post"]) {
+    case "chkver":
+        $ajax_opt->ajax_chkver(); //数据库
+    break;
+
     case "dbconfig":
         $ajax_opt->ajax_dbconfig(); //数据库
     break;

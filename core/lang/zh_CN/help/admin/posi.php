@@ -5,10 +5,18 @@ return "<h3>所有广告位</h3>
     </p>
 
     <p>
-        <img src=\"{images}posi_list.jpg\" class=\"img-responsive thumbnail\">
+        <a href=\"{images}posi_list.jpg\" target=\"_blank\"><img src=\"{images}posi_list.jpg\" class=\"img-responsive thumbnail\"></a>
     </p>
 
+    <p>&nbsp;</p>
+    <div class=\"text-right\">
+        <a href=\"#top\">
+            <span class=\"glyphicon glyphicon-chevron-up\"></span>
+            top
+        </a>
+    </div>
     <hr>
+    <p>&nbsp;</p>
 
     <a name=\"form\"></a>
     <h3>创建（编辑）广告位</h3>
@@ -17,8 +25,10 @@ return "<h3>所有广告位</h3>
     </p>
 
     <p>
-        <img src=\"{images}posi_form.jpg\" class=\"img-responsive thumbnail\">
+        <a href=\"{images}posi_form.jpg\" target=\"_blank\"><img src=\"{images}posi_form.jpg\" class=\"img-responsive thumbnail\"></a>
     </p>
+
+    <p>&nbsp;</p>
 
     <div class=\"panel panel-default\">
         <div class=\"panel-heading\">填写说明</div>
@@ -58,7 +68,15 @@ return "<h3>所有广告位</h3>
         </div>
     </div>
 
+    <p>&nbsp;</p>
+    <div class=\"text-right\">
+        <a href=\"#top\">
+            <span class=\"glyphicon glyphicon-chevron-up\"></span>
+            top
+        </a>
+    </div>
     <hr>
+    <p>&nbsp;</p>
 
     <a name=\"show\"></a>
     <h3>查看广告位</h3>
@@ -67,7 +85,7 @@ return "<h3>所有广告位</h3>
     </p>
 
     <p>
-        <img src=\"{images}posi_show.jpg\" class=\"img-responsive thumbnail\">
+        <a href=\"{images}posi_show.jpg\" target=\"_blank\"><img src=\"{images}posi_show.jpg\" class=\"img-responsive thumbnail\"></a>
     </p>
 
     <hr>
@@ -79,6 +97,6 @@ return "<h3>所有广告位</h3>
     </p>
 
     <p>
-        <img src=\"{images}stat_posi.jpg\" class=\"img-responsive thumbnail\">
+        <a href=\"{images}stat_posi.jpg\" target=\"_blank\"><img src=\"{images}stat_posi.jpg\" class=\"img-responsive thumbnail\"></a>
     </p>";
 

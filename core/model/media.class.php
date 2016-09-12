@@ -5,7 +5,7 @@
 -----------------------------------------------------------------*/
 
 //不能非法包含或直接执行
-if(!defined("IN_BAIGO")) {
+if (!defined("IN_BAIGO")) {
     exit("Access Denied");
 }
 
@@ -411,11 +411,11 @@ class MODEL_MEDIA {
             $_str_sqlWhere  .= " AND media_id IN (" . $_str_mediaIds . ")";
         }
 
-        if (isset($arr_search["begin_id"]) && $arr_search["begin_id"] > 0) {
-            $_str_sqlWhere .= " AND media_id>" . $arr_search["begin_id"];
+        if (isset($arr_search["min_id"]) && $arr_search["min_id"] > 0) {
+            $_str_sqlWhere .= " AND media_id>" . $arr_search["min_id"];
         }
 
-        if (isset($arr_search["end_id"]) && $arr_search["end_id"] > 0) {
+        if (isset($arr_search["max_id"]) && $arr_search["max_id"] > 0) {
             $_str_sqlWhere .= " AND media_id<" . $num_end;
         }
 

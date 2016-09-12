@@ -5,7 +5,7 @@
 -----------------------------------------------------------------*/
 
 //不能非法包含或直接执行
-if(!defined("IN_BAIGO")) {
+if (!defined("IN_BAIGO")) {
     exit("Access Denied");
 }
 
@@ -38,6 +38,7 @@ class MODEL_USER {
             "user_name"             => "varchar(30) NOT NULL COMMENT '用户名'",
             "user_mail"             => "varchar(300) NOT NULL COMMENT '邮箱'",
             "user_contact"          => "varchar(3000) NOT NULL COMMENT '联系方式'",
+            "user_extend"           => "varchar(3000) NOT NULL COMMENT '扩展字段'",
             "user_pass"             => "char(32) NOT NULL COMMENT '密码'",
             "user_rand"             => "char(6) NOT NULL COMMENT '随机串'",
             "user_nick"             => "varchar(30) NOT NULL COMMENT '昵称'",
@@ -85,11 +86,6 @@ class MODEL_USER {
             $_arr_alert["user_status"] = array("CHANGE", "enum('" . $_str_status . "') NOT NULL COMMENT '状态'", "user_status");
         }
 
-        $_arr_userData = array(
-            "user_status" => $_arr_status[0],
-        );
-        $this->obj_db->update(BG_DB_TABLE . "user", $_arr_userData, "LENGTH(user_status) < 1"); //更新数据
-
         if (in_array("user_pass", $_arr_col)) {
             $_arr_alert["user_pass"] = array("CHANGE", "char(32) NOT NULL COMMENT '密码'", "user_pass");
         }
@@ -122,6 +118,10 @@ class MODEL_USER {
             $_arr_alert["user_contact"] = array("ADD", "varchar(3000) NOT NULL COMMENT '联系方式'");
         }
 
+        if (!in_array("user_extend", $_arr_col)) {
+            $_arr_alert["user_extend"] = array("ADD", "varchar(3000) NOT NULL COMMENT '联系方式'");
+        }
+
         $_str_alert = "y010111";
 
         if ($_arr_alert) {
@@ -129,6 +129,10 @@ class MODEL_USER {
 
             if ($_reselt) {
                 $_str_alert = "y010106";
+                $_arr_userData = array(
+                    "user_status" => $_arr_status[0],
+                );
+                $this->obj_db->update(BG_DB_TABLE . "user", $_arr_userData, "LENGTH(user_status) < 1"); //更新数据
             }
         }
 
@@ -208,7 +212,7 @@ class MODEL_USER {
             "user_pass"             => $this->apiLogin["user_pass_do"],
             "user_rand"             => $this->apiLogin["user_rand"],
             "user_time_login"       => time(),
-            "user_ip"               => fn_getIp(true),
+            "user_ip"               => fn_getIp(),
             "user_access_token"     => md5($_str_accessToken),
             "user_access_expire"    => $_tm_accessExpire,
             "user_refresh_token"    => md5($_str_refreshToken),
@@ -296,6 +300,10 @@ class MODEL_USER {
             $_arr_userData["user_contact"] = $this->apiEdit["user_contact"];
         }
 
+        if (isset($this->apiEdit["user_extend"])) { //如果 扩展字段 为空，则不修改
+            $_arr_userData["user_extend"] = $this->apiEdit["user_extend"];
+        }
+
         if ($_arr_userData) {
             $_num_mysql   = $this->obj_db->update(BG_DB_TABLE . "user", $_arr_userData, "user_id=" . $num_userId); //更新数据
         }
@@ -366,10 +374,10 @@ class MODEL_USER {
         }
 
         if ($_num_mysql > 0) {
-            $_str_alert = "y010103"; //更新成功
+            $_str_alert = "y010405"; //更新成功
         } else {
             return array(
-                "alert" => "x010103", //更新失败
+                "alert" => "x010405", //更新失败
             );
         }
 
@@ -443,7 +451,11 @@ class MODEL_USER {
             $_arr_userData["user_contact"] = $this->userSubmit["user_contact"];
         }
 
-        if ($str_status) {
+        if (isset($this->userSubmit["user_extend"])) {
+            $_arr_userData["user_extend"] = $this->userSubmit["user_extend"];
+        }
+
+        if (!fn_isEmpty($str_status)) {
             $_arr_userData["user_status"] = $str_status;
         } else {
             $_arr_userData["user_status"] = $this->userSubmit["user_status"];
@@ -471,10 +483,10 @@ class MODEL_USER {
                 );
             }
         } else {
-            if ($str_userPass) {
+            if (!fn_isEmpty($str_userPass)) {
                 $_arr_userData["user_pass"] = $str_userPass; //如果密码为空，则不修改
             }
-            if ($str_userRand) {
+            if (!fn_isEmpty($str_userRand)) {
                 $_arr_userData["user_rand"] = $str_userRand; //如果密码为空，则不修改
             }
             $_num_userId = $this->userSubmit["user_id"];
@@ -548,6 +560,7 @@ class MODEL_USER {
             "user_pass",
             "user_mail",
             "user_contact",
+            "user_extend",
             "user_nick",
             "user_note",
             "user_rand",
@@ -582,6 +595,8 @@ class MODEL_USER {
         }
 
         $_arr_userRow["user_contact"]   = fn_jsonDecode($_arr_userRow["user_contact"], "decode");
+        $_arr_userRow["user_extend"]    = fn_jsonDecode($_arr_userRow["user_extend"], "decode");
+
         $_arr_userRow["alert"]          = "y010102";
 
         return $_arr_userRow;
@@ -603,6 +618,7 @@ class MODEL_USER {
             "user_name",
             "user_mail",
             "user_contact",
+            "user_extend",
             "user_nick",
             "user_status",
             "user_time",
@@ -634,6 +650,8 @@ class MODEL_USER {
         }
 
         $_arr_userRow["user_contact"]   = fn_jsonDecode($_arr_userRow["user_contact"], "decode");
+        $_arr_userRow["user_extend"]    = fn_jsonDecode($_arr_userRow["user_extend"], "decode");
+
         $_arr_userRow["alert"]          = "y010102";
 
         return $_arr_userRow;
@@ -662,7 +680,7 @@ class MODEL_USER {
 
         $_str_sqlWhere = "1=1";
 
-        if (isset($arr_search["key"]) && $arr_search["key"]) {
+        if (isset($arr_search["key"]) && !fn_isEmpty($arr_search["key"])) {
             $_str_sqlWhere .= " AND (user_name LIKE '%" . $arr_search["key"] . "%' OR user_nick LIKE '%" . $arr_search["key"] . "%' OR user_note LIKE '%" . $arr_search["key"] . "%')";
         }
 
@@ -766,15 +784,15 @@ class MODEL_USER {
 
             //print_r($_str_encode);
 
-            if ($_str_encode && $_str_encode != "UTF-8" && $_str_encode != "ASCII") {
+            if (!fn_isEmpty($_str_encode) && $_str_encode != "UTF-8" && $_str_encode != "ASCII") {
                 stream_filter_append($_obj_csv, "convert.iconv." . $_str_encode . "/UTF-8");
             }
 
             $_num_row    = 0;
             while ($_arr_data = fgetcsv($_obj_csv)) {
-                if ($_arr_data[0]) {
+                if (is_arr($_arr_data[0]) && !fn_isEmpty($_arr_data[0])) {
                     foreach ($_arr_data as $_key=>$_value) {
-                        if ($_value) {
+                        if (!fn_isEmpty($_value)) {
                             /*$_str_encode = mb_detect_encoding($_value , array("UTF-8", "GBK", "GB2312", "BIG5"));
 
                             if ($_str_encode != "UTF-8") {
@@ -991,7 +1009,7 @@ class MODEL_USER {
         }
         $this->userSubmit["user_mail"] = $_arr_userMail["user_mail"];
 
-        if ((BG_REG_ONEMAIL == "false" || BG_LOGIN_MAIL == "on") && $_arr_userMail["user_mail"]) {
+        if ((BG_REG_ONEMAIL == "false" || BG_LOGIN_MAIL == "on") && !fn_isEmpty($_arr_userMail["user_mail"])) {
             $_arr_userRow = $this->mdl_read($_arr_userMail["user_mail"], "user_mail"); //检查邮箱
             if ($_arr_userRow["alert"] == "y010102") {
                 return array(
@@ -1012,8 +1030,21 @@ class MODEL_USER {
         }
         $this->userSubmit["user_nick"]    = $_arr_userNick["user_nick"];
 
-        $_arr_userContact = fn_post("user_contact");
+        $_str_userContact = fn_getSafe(fn_post("user_contact"), "txt", "");
+        $this->userSubmit["user_contactStr"] = $_str_userContact;
+
+        $_str_userContact = fn_htmlcode($_str_userContact, "decode", "json");
+        $_arr_userContact = json_decode($_str_userContact, true);
+
         $this->userSubmit["user_contact"] = fn_jsonEncode($_arr_userContact, "encode");
+
+        $_str_userExtend = fn_getSafe(fn_post("user_extend"), "txt", "");
+        $this->userSubmit["user_extendStr"] = $_str_userExtend;
+
+        $_str_userExtend = fn_htmlcode($_str_userExtend, "decode", "json");
+        $_arr_userExtend = json_decode($_str_userExtend, true);
+
+        $this->userSubmit["user_extend"] = fn_jsonEncode($_arr_userExtend, "encode");
 
         $this->userSubmit["alert"]        = "ok";
 
@@ -1040,10 +1071,10 @@ class MODEL_USER {
             return $_arr_userPass;
         }
 
-        $this->apiLogin["user_rand"]                = fn_rand(6);
-        $this->apiLogin["user_pass"]                = $_arr_userPass["user_pass"];
-        $this->apiLogin["user_pass_do"]             = fn_baigoEncrypt($this->apiLogin["user_pass"], $this->apiLogin["user_rand"], true);
-        $this->apiLogin["alert"]                    = "ok";
+        $this->apiLogin["user_rand"]    = fn_rand(6);
+        $this->apiLogin["user_pass"]    = $_arr_userPass["user_pass"];
+        $this->apiLogin["user_pass_do"] = fn_baigoEncrypt($this->apiLogin["user_pass"], $this->apiLogin["user_rand"], true);
+        $this->apiLogin["alert"]        = "ok";
 
         return $this->apiLogin;
     }
@@ -1122,13 +1153,13 @@ class MODEL_USER {
             $this->apiEdit["user_pass"] = $_arr_userPass["user_pass"];
         }
 
-        if (fn_post("user_pass_new")) {
+        if (!fn_isEmpty(fn_post("user_pass_new"))) {
             $this->apiEdit["user_pass_new"]  = fn_post("user_pass_new");
             $this->apiEdit["user_rand"]      = fn_rand(6);
             $this->apiEdit["user_pass_do"]   = fn_baigoEncrypt($this->apiEdit["user_pass_new"], $this->apiEdit["user_rand"], true);
         }
 
-        if (fn_post("user_mail_new")) {
+        if (!fn_isEmpty(fn_post("user_mail_new"))) {
             $_arr_userMailNew = $this->chk_user_mail(fn_post("user_mail_new"));
             if ($_arr_userMailNew["alert"] != "ok") {
                 return $_arr_userMailNew;
@@ -1142,9 +1173,17 @@ class MODEL_USER {
         }
         $this->apiEdit["user_nick"]   = $_arr_userNick["user_nick"];
 
-        $_arr_userContact = fn_post("user_contact");
-
+        $_str_userContact = fn_getSafe(fn_post("user_contact"), "txt", "");
+        $this->apiEdit["user_contactStr"] = $_str_userContact;
+        $_str_userContact = fn_htmlcode($_str_userContact, "decode", "json");
+        $_arr_userContact = json_decode($_str_userContact, true);
         $this->apiEdit["user_contact"] = fn_jsonEncode($_arr_userContact, "encode");
+
+        $_str_userExtend = fn_getSafe(fn_post("user_extend"), "txt", "");
+        $this->apiEdit["user_extendStr"] = $_str_userExtend;
+        $_str_userExtend = fn_htmlcode($_str_userExtend, "decode", "json");
+        $_arr_userExtend = json_decode($_str_userExtend, true);
+        $this->apiEdit["user_extend"] = fn_jsonEncode($_arr_userExtend, "encode");
 
         $this->apiEdit["alert"]       = "ok";
 
@@ -1319,7 +1358,7 @@ class MODEL_USER {
         }
         $this->userSubmit["user_mail"] = $_arr_userMail["user_mail"];
 
-        if ((BG_REG_ONEMAIL == "false" || BG_LOGIN_MAIL == "on") && $_arr_userMail["user_mail"]) {
+        if ((BG_REG_ONEMAIL == "false" || BG_LOGIN_MAIL == "on") && !fn_isEmpty($_arr_userMail["user_mail"])) {
             $_arr_userRowChk = $this->mdl_read($_arr_userMail["user_mail"], "user_mail", $this->userSubmit["user_id"]); //检查邮箱
             if ($_arr_userRowChk["alert"] == "y010102") {
                 return array(
@@ -1355,8 +1394,10 @@ class MODEL_USER {
 
 
         $_arr_userContact = fn_post("user_contact");
-
         $this->userSubmit["user_contact"] = fn_jsonEncode($_arr_userContact, "encode");
+
+        $_arr_userExtend = fn_post("user_extend");
+        $this->userSubmit["user_extend"] = fn_jsonEncode($_arr_userExtend, "encode");
 
         $this->userSubmit["alert"] = "ok";
 
@@ -1423,7 +1464,44 @@ class MODEL_USER {
 
         $this->userIds = array(
             "alert"      => $_str_alert,
-            "user_ids"   => $_arr_userIds
+            "user_ids"   => array_unique($_arr_userIds),
+        );
+
+        return $this->userIds;
+    }
+
+
+
+    function input_ids_api() {
+        $_str_userIds = fn_getSafe(fn_post("user_ids"), "txt", "");
+
+        $_arr_userIds = array();
+
+        if (fn_isEmpty($_str_userIds)) {
+            return array(
+                "alert" => "x010217",
+            );
+        } else {
+            if (stristr($_str_userIds, "|")) {
+                $_arr_userIds = explode("|", $_str_userIds);
+            } else {
+                $_arr_userIds = array($_str_userIds);
+            }
+        }
+
+        if ($_arr_userIds) {
+            foreach ($_arr_userIds as $_key=>$_value) {
+                $_arr_userIds[$_key] = fn_getSafe($_value, "int", 0);
+            }
+            $_str_alert = "ok";
+        } else {
+            $_str_alert = "x010217";
+        }
+
+        $this->userIds = array(
+            "alert"         => "ok",
+            "str_userIds"   => $_str_userIds,
+            "user_ids"      => array_unique($_arr_userIds),
         );
 
         return $this->userIds;
@@ -1497,7 +1575,7 @@ class MODEL_USER {
             case "ok":
                 $_str_userName = $_arr_userName["str"];
 
-                if (defined("BG_BAD_NAME") && strlen(BG_BAD_NAME)) {
+                if (defined("BG_BAD_NAME") && !fn_isEmpty(BG_BAD_NAME)) {
                     if (fn_regChk($_str_userName, BG_BAD_NAME, true)) {
                         return array(
                             "alert" => "x010204",
@@ -1553,13 +1631,13 @@ class MODEL_USER {
             case "ok":
                 $_str_userMail = $_arr_userMail["str"];
 
-                if (defined("BG_ACC_MAIL") && strlen(BG_ACC_MAIL) && $_str_userMail) {
+                if (defined("BG_ACC_MAIL") && !fn_isEmpty(BG_ACC_MAIL) && fn_isEmpty($_str_userMail)) {
                     if (!fn_regChk($_str_userMail, BG_ACC_MAIL)) {
                         return array(
                             "alert" => "x010209",
                         );
                     }
-                } else if (defined("BG_BAD_MAIL") && strlen(BG_BAD_MAIL) && $_str_userMail) {
+                } else if (defined("BG_BAD_MAIL") && !fn_isEmpty(BG_BAD_MAIL) && fn_isEmpty($_str_userMail)) {
                     if (fn_regChk($_str_userMail, BG_BAD_MAIL)) {
                         return array(
                             "alert" => "x010210",
@@ -1672,24 +1750,24 @@ class MODEL_USER {
     private function sql_process($arr_search = array()) {
         $_str_sqlWhere = "1=1";
 
-        if (isset($arr_search["key"]) && $arr_search["key"]) {
+        if (isset($arr_search["key"]) && !fn_isEmpty($arr_search["key"])) {
             $_str_sqlWhere .= " AND (user_name LIKE '%" . $arr_search["key"] . "%' OR user_name LIKE '%" . $arr_search["key"] . "%' OR user_mail LIKE '%" . $arr_search["key"] . "%' OR user_note LIKE '%" . $arr_search["key"] . "%')";
         }
 
-        if (isset($arr_search["key_name"]) && $arr_search["key_name"]) {
+        if (isset($arr_search["key_name"]) && !fn_isEmpty($arr_search["key_name"])) {
             $_str_sqlWhere .= " AND user_name LIKE '%" . $arr_search["key_name"] . "%'";
         }
 
-        if (isset($arr_search["key_mail"]) && $arr_search["key_mail"]) {
+        if (isset($arr_search["key_mail"]) && !fn_isEmpty($arr_search["key_mail"])) {
             $_str_sqlWhere .= " AND user_mail LIKE '%" . $arr_search["key_mail"] . "%'";
         }
 
-        if (isset($arr_search["begin_id"]) && $arr_search["begin_id"] > 0) {
-            $_str_sqlWhere .= " AND user_id>=" . $arr_search["begin_id"];
+        if (isset($arr_search["min_id"]) && $arr_search["min_id"] > 0) {
+            $_str_sqlWhere .= " AND user_id>=" . $arr_search["min_id"];
         }
 
-        if (isset($arr_search["end_id"]) && $arr_search["end_id"] > 0) {
-            $_str_sqlWhere .= " AND user_id<=" . $arr_search["end_id"];
+        if (isset($arr_search["max_id"]) && $arr_search["max_id"] > 0) {
+            $_str_sqlWhere .= " AND user_id<=" . $arr_search["max_id"];
         }
 
         if (isset($arr_search["begin_time"]) && $arr_search["begin_time"] > 0) {
@@ -1708,7 +1786,7 @@ class MODEL_USER {
             $_str_sqlWhere .= " AND user_time_login<=" . $arr_search["end_login"];
         }
 
-        if (isset($arr_search["status"]) && $arr_search["status"]) {
+        if (isset($arr_search["status"]) && !fn_isEmpty($arr_search["status"])) {
             $_str_sqlWhere .= " AND user_status='" . $arr_search["status"] . "'";
         }
 

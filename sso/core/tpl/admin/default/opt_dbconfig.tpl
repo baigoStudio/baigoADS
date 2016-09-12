@@ -6,7 +6,7 @@
     baigoValidator => "true",
     baigoSubmit    => "true",
     tokenReload    => "true",
-    str_url        => "{$smarty.const.BG_URL_ADMIN}ctl.php?mod=opt"
+    str_url        => "{$smarty.const.BG_URL_ADMIN}ctl.php?mod=opt&act_get=dbconfig"
 ]}
 
 {include "{$smarty.const.BG_PATH_TPLSYS}admin/default/include/admin_head.tpl" cfg=$cfg}
@@ -19,7 +19,7 @@
     <div class="form-group">
         <ul class="nav nav-pills nav_baigo">
             <li>
-                <a href="{$smarty.const.BG_URL_HELP}ctl.php?mod=admin&act_get=opt" target="_blank">
+                <a href="{$smarty.const.BG_URL_HELP}ctl.php?mod=admin&act_get=opt#dbconfig" target="_blank">
                     <span class="glyphicon glyphicon-question-sign"></span>
                     {$lang.href.help}
                 </a>
@@ -29,7 +29,7 @@
 
     <form name="opt_dbconfig" id="opt_dbconfig">
 
-        <input type="hidden" name="token_session" class="token_session" value="{$common.token_session}">
+        <input type="hidden" name="{$common.tokenRow.name_session}" value="{$common.tokenRow.token}">
         <input type="hidden" name="act_post" value="dbconfig">
 
         <div class="panel panel-default">

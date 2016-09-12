@@ -5,7 +5,7 @@
 -----------------------------------------------------------------*/
 
 //不能非法包含或直接执行
-if(!defined("IN_BAIGO")) {
+if (!defined("IN_BAIGO")) {
     exit("Access Denied");
 }
 
@@ -60,8 +60,8 @@ class CONTROL_ADVERT {
         }
 
         $this->mdl_advert->mdl_stat($_num_advertId, true);
-        $this->mdl_stat->mdl_stat("posi", $_arr_advertRow["advert_posi_id"], time(), true);
-        $this->mdl_stat->mdl_stat("advert", $_num_advertId, time(), true);
+        $this->mdl_stat->mdl_stat("posi", $_arr_advertRow["advert_posi_id"], true);
+        $this->mdl_stat->mdl_stat("advert", $_num_advertId, true);
 
         return $_arr_advertRow;
     }

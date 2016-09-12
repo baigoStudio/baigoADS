@@ -5,7 +5,7 @@
 -----------------------------------------------------------------*/
 
 //不能非法包含或直接执行
-if(!defined("IN_BAIGO")) {
+if (!defined("IN_BAIGO")) {
     exit("Access Denied");
 }
 
@@ -49,7 +49,7 @@ switch ($GLOBALS["act_get"]) {
         }
     break;
 
-    /*default:
+    default:
         $arr_regRow = $ctl_reg->ctl_form(); //注册
-    break;*/
+    break;
 }

@@ -5,7 +5,7 @@
 -----------------------------------------------------------------*/
 
 //不能非法包含或直接执行
-if(!defined("IN_BAIGO")) {
+if (!defined("IN_BAIGO")) {
     exit("Access Denied");
 }
 
@@ -270,7 +270,7 @@ class CLASS_MYSQLI {
         } else {
             $sql .= " COUNT(*) FROM `" . $table . "`";
         }
-        if ($where) {
+        if (!fn_isEmpty($where)) {
             $sql .= " WHERE " . $where;
         }
         //print_r($sql);
@@ -297,13 +297,13 @@ class CLASS_MYSQLI {
             $sql .= ", COUNT(DISTINCT `" . implode(",", $distinct) . "`)";
         }
         $sql .= " FROM `" . $table . "`";
-        if ($where) {
+        if (!fn_isEmpty($where)) {
             $sql .= " WHERE " . $where;
         }
-        if ($group) {
+        if (!fn_isEmpty($group)) {
             $sql .= " GROUP BY " . $group;
         }
-        if ($order) {
+        if (!fn_isEmpty($order)) {
             $sql .= " ORDER BY " . $order;
         }
         if ($length > 0) {

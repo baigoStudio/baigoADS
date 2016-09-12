@@ -5,7 +5,7 @@
 -----------------------------------------------------------------*/
 
 //不能非法包含或直接执行
-if(!defined("IN_BAIGO")) {
+if (!defined("IN_BAIGO")) {
     exit("Access Denied");
 }
 
@@ -32,8 +32,6 @@ switch ($GLOBALS["act_post"]) {
 
         if ($arr_logonRow["alert"] != "y020401") {
             header("Location: " . BG_URL_ADMIN . "ctl.php?mod=logon&forward=" . $arr_logonRow["forward"] . "&alert=" . $arr_logonRow["alert"] . $_url_attach);
-        /*} else {
-            header("Location: " . base64_decode($arr_logonRow["forward"]));*/
         }
         exit;
     break;
@@ -42,7 +40,7 @@ switch ($GLOBALS["act_post"]) {
         switch ($GLOBALS["act_get"]) {
             case "logout":
                 $arr_logonRow = $ctl_logon->ctl_logout();
-                header("Location: " . base64_decode($arr_logonRow["forward"]));
+                header("Location: " . $arr_logonRow["forward"]);
                 exit;
             break;
 

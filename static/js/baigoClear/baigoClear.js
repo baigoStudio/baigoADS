@@ -1,5 +1,5 @@
 /*
-v1.0 jQuery baigoClear plugin 表单 ajax 清理插件
+v1.0.2 jQuery baigoClear plugin 表单 ajax 清理插件
 (c) 2013 baigo studio - http://www.baigo.net/
 License: http://www.opensource.org/licenses/mit-license.php
 */
@@ -22,7 +22,8 @@ License: http://www.opensource.org/licenses/mit-license.php
             box_selector: ".baigoClear",
             msg_selector: ".baigoClearMsg",
             msg_loading: "Loading...",
-            msg_complete: "Complete"
+            msg_complete: "Complete",
+            msg_err: "Error"
         };
         var opts = $.extend(defaults, options);
         var appendMsg = function(_status, _msg) {
@@ -48,28 +49,27 @@ License: http://www.opensource.org/licenses/mit-license.php
             }
         };
         var _count = 0;
-        var clearAjax = function(_page, _last) {
+        var clearAjax = function(_page, _min_id, _max_id) {
             //alert(_page);
             var formData = $(thisForm).serializeArray();
+            var _str_msgResult;
             formData.push({
                 name: "page",
                 value: _page
             });
             formData.push({
-                name: "last",
-                value: _last
+                name: "min_id",
+                value: _min_id
+            });
+            formData.push({
+                name: "max_id",
+                value: _max_id
             });
             $.ajax({
                 url: opts.ajax_url,
-                //url
-                //async: false, //设置为同步
                 type: "post",
                 dataType: "json",
-                //数据格式为json
                 data: formData,
-                beforeSend: function(){
-                    appendMsg("info", opts.msg_loading);
-                }, //输出消息
                 success: function(_result) { //读取返回结果
                     if (_count < 1) {
                         _count = _result.count;
@@ -80,25 +80,51 @@ License: http://www.opensource.org/licenses/mit-license.php
                     }
                     switch (_result.status) {
                         case "err":
-                            appendMsg("danger", _result.msg);
+                            if (typeof _result.msg != "undefined") {
+                                _str_msgResult = _result.msg;
+                            } else {
+                                _str_msgResult = opts.msg_err;
+                            }
+                            appendMsg("danger", _str_msgResult);
                             _count  = 0;
                             _page   = 1;
                         break;
-                        default:
-                            if (_page <= _count) {
-                                appendMsg("info", opts.msg_loading);
-                                $(opts.box_selector + " .progress-bar").text(_width + "%");
-                                $(opts.box_selector + " .progress-bar").css("min-width", "20%");
-                                $(opts.box_selector + " .progress-bar").css("width", _width + "%");
-                                clearAjax(_page, _result.last);
+                        case "complete":
+                            if (typeof _result.msg != "undefined") {
+                                _str_msgResult = _result.msg;
                             } else {
-                                appendMsg("success", opts.msg_complete);
-                                $(opts.box_selector + " .progress-bar").text("100%");
-                                $(opts.box_selector + " .progress-bar").css("width", "100%");
-                                $(opts.box_selector + " .progress-bar").attr("class", "progress-bar progress-bar-success");
-                                _count = 0;
-                                _page = 1;
+                                _str_msgResult = opts.msg_complete;
                             }
+                            appendMsg("success", _str_msgResult);
+                            $(opts.box_selector + " .progress-bar").text("100%");
+                            $(opts.box_selector + " .progress-bar").css("width", "100%");
+                            _count  = 0;
+                            _page   = 1;
+                        break;
+                        case "next":
+                            if (typeof _result.msg != "undefined") {
+                                _str_msgResult = _result.msg;
+                            } else {
+                                _str_msgResult = opts.msg_loading;
+                            }
+                            appendMsg("info", _str_msgResult);
+                            _width = 20;
+                            $(opts.box_selector + " .progress-bar").text(_width + "%");
+                            $(opts.box_selector + " .progress-bar").css("min-width", "20%");
+                            $(opts.box_selector + " .progress-bar").css("width", _width + "%");
+                            clearAjax(1, 0, _result.max_id);
+                        break;
+                        default:
+                            if (typeof _result.msg != "undefined") {
+                                _str_msgResult = _result.msg;
+                            } else {
+                                _str_msgResult = opts.msg_loading;
+                            }
+                            appendMsg("info", _str_msgResult);
+                            $(opts.box_selector + " .progress-bar").text(_width + "%");
+                            $(opts.box_selector + " .progress-bar").css("min-width", "20%");
+                            $(opts.box_selector + " .progress-bar").css("width", _width + "%");
+                            clearAjax(_page, 0, _result.max_id);
                         break;
                     }
                 }

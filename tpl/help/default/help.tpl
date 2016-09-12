@@ -12,7 +12,7 @@
     <!--bootstrap-->
     <link href="{$smarty.const.BG_URL_STATIC}js/bootstrap/css/bootstrap.min.css" type="text/css" rel="stylesheet">
     <link href="{$smarty.const.BG_URL_STATIC}js/prism/prism.css" type="text/css" rel="stylesheet">
-    <link href="{$smarty.const.BG_URL_STATIC}help/{$config.ui}/css/help.css" type="text/css" rel="stylesheet">
+    <link href="{$smarty.const.BG_URL_STATIC}help/{$smarty.const.BG_DEFAULT_UI}/css/help.css" type="text/css" rel="stylesheet">
 
 </head>
 
@@ -28,7 +28,7 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="./">
-                    <img alt="baigo ADS" src="{$smarty.const.BG_URL_STATIC}admin/{$config.ui}/image/admin_logo.png">
+                    <img alt="baigo ADS" src="{$smarty.const.BG_URL_STATIC}admin/{$smarty.const.BG_DEFAULT_UI}/image/admin_logo.png">
                 </a>
             </div>
             <nav class="collapse navbar-collapse bs-navbar-collapse">
@@ -62,6 +62,7 @@
         <h2 class="page-header">{$tplData.config.title}</h2>
         <div class="row">
             <div class="col-md-10">
+                <a name="top"></a>
                 {$tplData.content}
                 {if $tplData.mod == "api" && $tplData.act_get == "alert"}
                     <div class="panel panel-default">
@@ -85,6 +86,13 @@
                         </div>
                     </div>
                 {/if}
+                <p>&nbsp;</p>
+                <div class="text-right">
+                    <a href="#top">
+                        <span class="glyphicon glyphicon-chevron-up"></span>
+                        top
+                    </a>
+                </div>
             </div>
             <div class="col-md-2">
                 <ul class="nav nav-pills nav-stacked nav_ads">
@@ -99,13 +107,13 @@
     <footer class="container">
         <hr>
         <ul class="list-inline">
-            {if $config.ui == "default"}
+            {if $smarty.const.BG_DEFAULT_UI == "default"}
                 <li><a href="http://www.baigo.net/" target="_blank">baigo Studio</a></li>
                 <li><a href="http://www.baigo.net/cms/" target="_blank">baigo CMS</a></li>
                 <li><a href="http://www.baigo.net/sso/" target="_blank">baigo SSO</a></li>
                 <li><a href="http://www.baigo.net/ads/" target="_blank">baigo ADS</a></li>
             {else}
-                <li>{$config.ui} ADS</li>
+                <li>{$smarty.const.BG_DEFAULT_UI} ADS</li>
             {/if}
         </ul>
     </footer>

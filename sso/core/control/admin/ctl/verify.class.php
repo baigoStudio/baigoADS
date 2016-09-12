@@ -5,7 +5,7 @@
 -----------------------------------------------------------------*/
 
 //不能非法包含或直接执行
-if(!defined("IN_BAIGO")) {
+if (!defined("IN_BAIGO")) {
     exit("Access Denied");
 }
 
@@ -22,6 +22,7 @@ class CONTROL_VERIFY {
     private $obj_tpl;
     private $mdl_verify;
     private $tplData;
+    private $is_super = false;
 
     function __construct() { //构造函数
         $this->obj_base     = $GLOBALS["obj_base"];
@@ -30,15 +31,19 @@ class CONTROL_VERIFY {
         $this->mdl_verify   = new MODEL_VERIFY();
         $this->mdl_user     = new MODEL_USER();
         $_arr_cfg["admin"]  = true;
-        $this->obj_tpl        = new CLASS_TPL(BG_PATH_TPLSYS . "admin/" . $this->config["ui"], $_arr_cfg); //初始化视图对象
+        $this->obj_tpl        = new CLASS_TPL(BG_PATH_TPLSYS . "admin/" . BG_DEFAULT_UI, $_arr_cfg); //初始化视图对象
         $this->tplData = array(
             "adminLogged" => $this->adminLogged
         );
+
+        if ($this->adminLogged["admin_type"] == "super") {
+            $this->is_super = true;
+        }
     }
 
 
     function ctl_show() {
-        if (!isset($this->adminLogged["admin_allow"]["log"]["verify"])) {
+        if (!isset($this->adminLogged["admin_allow"]["log"]["verify"]) && !$this->is_super) {
             return array(
                 "alert" => "x120301",
             );
@@ -80,7 +85,7 @@ class CONTROL_VERIFY {
      * @return void
      */
     function ctl_list() {
-        if (!isset($this->adminLogged["admin_allow"]["log"]["verify"])) {
+        if (!isset($this->adminLogged["admin_allow"]["log"]["verify"]) && !$this->is_super) {
             return array(
                 "alert" => "x120301",
             );

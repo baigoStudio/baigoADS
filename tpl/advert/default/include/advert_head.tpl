@@ -10,13 +10,13 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                {if $config.ui == "default"}
+                {if $smarty.const.BG_DEFAULT_UI == "default"}
                     <a class="navbar-brand" href="{$smarty.const.PRD_ADS_URL}" target="_blank">
-                        <img src="{$smarty.const.BG_URL_STATIC}advert/{$config.ui}/image/advert_logo.png">
+                        <img src="{$smarty.const.BG_URL_STATIC}advert/{$smarty.const.BG_DEFAULT_UI}/image/advert_logo.png">
                     </a>
                 {else}
                     <a class="navbar-brand" href="#">
-                        <img src="{$smarty.const.BG_URL_STATIC}advert/{$config.ui}/image/advert_logo.png">
+                        <img src="{$smarty.const.BG_URL_STATIC}advert/{$smarty.const.BG_DEFAULT_UI}/image/advert_logo.png">
                     </a>
                 {/if}
             </div>

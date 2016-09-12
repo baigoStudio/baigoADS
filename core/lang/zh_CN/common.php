@@ -5,7 +5,7 @@
 -----------------------------------------------------------------*/
 
 //不能非法包含或直接执行
-if(!defined("IN_BAIGO")) {
+if (!defined("IN_BAIGO")) {
     exit("Access Denied");
 }
 
@@ -42,6 +42,7 @@ return array(
         "upgrade"           => "baigo ADS 升级程序",
         "upgradeDbTable"    => "升级数据库",
         "upgradeOver"       => "完成升级",
+        "chkver"            => "检查更新",
 
     ),
 
@@ -59,6 +60,7 @@ return array(
         "upload"          => "上传",
         "select"          => "选择",
         "auth"            => "授权", //授权
+        "forward"         => "跳转",
 
         "advertMan"       => "管理广告",
         "posiPreview"     => "预览 / 获取代码",
@@ -79,7 +81,7 @@ return array(
 
         "opt"             => "系统设置",
         "show"            => "查看",
-        "noticeTest"      => "通知接口测试",
+        "notifyTest"      => "通知接口测试",
 
         "pageFirst"       => "首页",
         "pagePrevList"    => "上十页",
@@ -108,9 +110,13 @@ return array(
         "expired"         => "完毕",
         "opt"             => "系统设置",
         "mail"            => "邮箱",
-
-        "size"            => "尺寸",
-        "sizeNote"        => "单位可选 px 或 ％，填入 auto 为自动调节。",
+        "installVer"        => "当前安装版本",
+        "installTime"       => "安装（升级）时间",
+        "pubTime"           => "发布时间",
+        "latestVer"         => "最新版本",
+        "announcement"      => "公告",
+        "downloadUrl"       => "下载地址",
+        "description"       => "描述",
 
         "year"            => "年", //年
         "month"           => "月", //月
@@ -236,7 +242,7 @@ return array(
         "upload"      => "上传图片 ...",
         "empty"       => "清空回收站", //清空回收站
         "more"        => "更多详情", //清空回收站
-
+        "chkver"      => "再次检查更新",
         "mediaClear"  => "图片清理",
     ),
 
@@ -245,11 +251,12 @@ return array(
     /*------确认框------*/
     "confirm"          => array(
         "del"     => "确认永久删除吗？此操作不可恢复！",
-        "clear"   => "确认清理图片吗？此操作将耗费将长时间！", //确认清空回收站
+        "clear"   => "确认清理图片吗？此操作将耗费较长时间！", //确认清空回收站
         "empty"   => "确认清空回收站吗？此操作不可恢复！", //确认清空回收站
     ),
 
     "text" => array(
+        "notForward"      => "如果长时间没有跳转，请点“跳转”按钮跳转！",
         "extErr"          => "服务器环境检查未通过，请检查上述扩展库是否已经正确安装。",
         "extOk"           => "服务器环境检查通过，可以继续安装。",
         "installSso"      => "baigo ADS 的用户以及后台登录需要 baigo SSO 支持，baigo SSO 的部署方式，请查看 <a href=\"http://www.baigo.net/sso/\" target=\"_blank\">baigo SSO 官方网站</a>。如果您的网站没有部署 baigo SSO，请点击 <mark>SSO 自动部署</mark>。",
@@ -259,6 +266,8 @@ return array(
         "installAuth"     => "本操作将用您输入的 baigo SSO 用户作为管理员，拥有所有的管理权限。您必须输入该用户的用户名和密码才能进行授权。如果您要创建新的管理员请点击 <mark>创建管理员</mark>。",
         "posiCodeNote"    => "该代码用于显示广告，请根据实际情况灵活运用。建议将示例代码中的 <mark>广告样式</mark> 放置在网页的 <code>head</code> 之间，<mark>显示容器</mark> 放置在网页显示广告的位置，其余部分放置在网页的 <code>body</code> 末尾。",
         "x080230"         => "尚未创建广告位，<a href=\"" . BG_URL_ADMIN . "ctl.php?mod=posi&act_get=form\" target=\"_top\">点击立刻创建</a>",
+        "haveNewVer"      => "您的版本不是最新的，下面是最新版本的发布和更新帮助链接。",
+        "isNewVer"        => "恭喜！您的版本是最新的！",
     ),
 
     /*------图片说明------*/

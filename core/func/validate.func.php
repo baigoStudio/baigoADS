@@ -56,7 +56,7 @@ class CLASS_VALIDATE {
     function v_leng($str, $min, $max) {
         if ($min > 0 && strlen($str) < $min) {
             $_status = "too_short"; //如果定义最小长度，且短于，则返回太短
-        } elseif ($max > 0 && strlen($str) > $max) {
+        } else if ($max > 0 && strlen($str) > $max) {
             $_status = "too_long"; //如果定义最大长度，且长于，则返回太长
         } else {
             $_status = "ok"; //返回正确
@@ -80,22 +80,25 @@ class CLASS_VALIDATE {
                 $_reg = "/^[0-9]{4}-(((0?[13578]|(10|12))-(0?[1-9]|[1-2][0-9]|3[0-1]))|(0?2-(0[1-9]|[1-2][0-9]))|((0?[469]|11)-(0[1-9]|[1-2][0-9]|30)))\s(([1-9]{1})|([0-1][0-9])|([1-2][0-3])):([0-5][0-9])(:([0-5][0-9]))?$/";
             break;
             case "int":
-                $_reg = "/^([+-]?)\d*$/"; //整数
+                $_reg = "/^(\+|-)?\d*$/"; //整数
             break;
             case "digit":
-                $_reg = "/^([+-]?)\d*\.?\d+$/"; //数值，可以包含小数点
+                $_reg = "/^(\+|-)?\d*(\.\d+)*$/"; //数值，可以包含小数点
             break;
             case "email":
-                $_reg = "/^\w{0,}(\.)?(\w+)@\w+(\.\w+)+$/"; //Email
+                $_reg = "/^\w+(-\w+)*(\.\w+(-\w+)*)*@\w+(\.\w+)+$/"; //Email
             break;
             case "url":
-                $_reg = "/^http[s]?:\/\/(.*|-)+\.(.*|-)+$/"; //URL地址
+                $_reg = "/^(http|ftp)s?:\/\/\w+(-\w+)*(\.\w+(-\w+)*)+(/\w+(-\w+)*)*(\.\w+)*\??(&?\w+=\w+)*(/\w+(-\w+)*)*$/"; //URL地址
             break;
             case "alphabetDigit":
-                $_reg = "/^[a-z|A-Z|\d]*$/"; //URL地址
+                $_reg = "/^[a-zA-Z\d]*$/"; //数字英文字母
             break;
             case "strDigit":
-                $_reg = "/^[\\\u4e00-\\\u9fa5|\\\uf900-\\\ufa2d|\w]*$/"; //字母中文数字下划线
+                $_reg = "/^[\x{4e00}-\x{9fa5}a-zA-Z\d-_]*$/u"; // "/^[\\\u4e00-\\\u9fa5|\\\uf900-\\\ufa2d|\w]*$/" 中文字母数字下划线连字符
+            break;
+            case "alias":
+                $_reg = "/^[a-zA-Z\d-_]*$/"; // "/^[\\\u4e00-\\\u9fa5|\\\uf900-\\\ufa2d|\w]*$/" 字母数字下划线连字符
             break;
             default:
                 $_reg = ""; //默认
@@ -140,7 +143,7 @@ class CLASS_VALIDATE {
         if ($this->v_reg($num, $format)) {
             if ($min > 0 && $num < $min ){
                 $_status = "too_small"; //如果定义最小数，且小于，则返回太小
-            } elseif ($max > 0 && $num > $max){
+            } else if ($max > 0 && $num > $max){
                 $_status = "too_big"; //如果定义最大数，且大于，则返回太大
             } else {
                 $_status = "ok"; //返回正确
@@ -158,7 +161,7 @@ class CLASS_VALIDATE {
     function is_num($num, $min, $max) {
         if ($min > 0 && $num < $min ){
             $_status = "too_few"; //如果定义最小个数，且少于，则返回太少
-        } elseif ($max > 0 && $num > $max){
+        } else if ($max > 0 && $num > $max){
             $_status = "too_many"; //如果定义最大个数，且多于，则返回太多
         } else {
             $_status = "ok"; //返回正确

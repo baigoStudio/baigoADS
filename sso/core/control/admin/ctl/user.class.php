@@ -5,7 +5,7 @@
 -----------------------------------------------------------------*/
 
 //不能非法包含或直接执行
-if(!defined("IN_BAIGO")) {
+if (!defined("IN_BAIGO")) {
     exit("Access Denied");
 }
 
@@ -21,6 +21,7 @@ class CONTROL_USER {
     private $obj_tpl;
     private $mdl_user;
     private $tplData;
+    private $is_super = false;
 
     function __construct() { //构造函数
         $this->obj_base       = $GLOBALS["obj_base"]; //获取界面类型
@@ -28,15 +29,19 @@ class CONTROL_USER {
         $this->adminLogged    = $GLOBALS["adminLogged"]; //获取已登录信息
         $this->mdl_user       = new MODEL_USER(); //设置管理员模型
         $_arr_cfg["admin"]    = true;
-        $this->obj_tpl        = new CLASS_TPL(BG_PATH_TPLSYS . "admin/" . $this->config["ui"], $_arr_cfg); //初始化视图对象
+        $this->obj_tpl        = new CLASS_TPL(BG_PATH_TPLSYS . "admin/" . BG_DEFAULT_UI, $_arr_cfg); //初始化视图对象
         $this->tplData = array(
             "adminLogged" => $this->adminLogged
         );
+
+        if ($this->adminLogged["admin_type"] == "super") {
+            $this->is_super = true;
+        }
     }
 
 
     function ctl_import() {
-        if (!isset($this->adminLogged["admin_allow"]["user"]["import"])) {
+        if (!isset($this->adminLogged["admin_allow"]["user"]["import"]) && !$this->is_super) {
             return array(
                 "alert" => "x010305",
             );
@@ -65,7 +70,7 @@ class CONTROL_USER {
         $_num_userId  = fn_getSafe(fn_get("user_id"), "int", 0);
 
         if ($_num_userId > 0) {
-            if (!isset($this->adminLogged["admin_allow"]["user"]["edit"])) {
+            if (!isset($this->adminLogged["admin_allow"]["user"]["edit"]) && !$this->is_super) {
                 return array(
                     "alert" => "x010303",
                 );
@@ -75,7 +80,7 @@ class CONTROL_USER {
                 return $_arr_userRow;
             }
         } else {
-            if (!isset($this->adminLogged["admin_allow"]["user"]["add"])) {
+            if (!isset($this->adminLogged["admin_allow"]["user"]["add"]) && !$this->is_super) {
                 return array(
                     "alert" => "x010301",
                 );
@@ -87,6 +92,7 @@ class CONTROL_USER {
                 "user_note"     => "",
                 "user_status"   => "enable",
                 "user_contact"  => array(),
+                "user_extend"   => array(),
             );
         }
 
@@ -110,7 +116,7 @@ class CONTROL_USER {
      * @return void
      */
     function ctl_list() {
-        if (!isset($this->adminLogged["admin_allow"]["user"]["browse"])) {
+        if (!isset($this->adminLogged["admin_allow"]["user"]["browse"]) && !$this->is_super) {
             return array(
                 "alert" => "x010301",
             );

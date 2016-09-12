@@ -5,7 +5,7 @@
 -----------------------------------------------------------------*/
 
 //不能非法包含或直接执行
-if(!defined("IN_BAIGO")) {
+if (!defined("IN_BAIGO")) {
     exit("Access Denied");
 }
 
@@ -21,6 +21,7 @@ class AJAX_MEDIA {
     private $obj_ajax;
     private $mdl_media;
     private $mediaMime;
+    private $is_super = false;
 
     function __construct() { //构造函数
         $this->adminLogged    = $GLOBALS["adminLogged"]; //获取已登录信息
@@ -30,6 +31,10 @@ class AJAX_MEDIA {
         $this->mdl_media      = new MODEL_MEDIA();
         $this->mdl_admin      = new MODEL_ADMIN();
         $this->setUpload();
+
+        if ($this->adminLogged["admin_type"] == "super") {
+            $this->is_super = true;
+        }
     }
 
 
@@ -38,7 +43,7 @@ class AJAX_MEDIA {
             $this->show_err($this->adminLogged["alert"], "err");
         }
 
-        if (!isset($this->adminLogged["admin_allow"]["media"]["del"])) {
+        if (!isset($this->adminLogged["admin_allow"]["media"]["del"]) && !$this->is_super) {
             $this->show_err("x070304", "err");
         }
 
@@ -99,11 +104,11 @@ class AJAX_MEDIA {
             $this->show_err($this->adminLogged["alert"], "err");
         }
 
-        if (!isset($this->adminLogged["admin_allow"]["media"]["del"])) {
+        if (!isset($this->adminLogged["admin_allow"]["media"]["del"]) && !$this->is_super) {
             $this->show_err("x070304", "err");
         }
 
-        $_num_last        = fn_getSafe(fn_post("last"), "int", 0);
+        $_num_maxId        = fn_getSafe(fn_post("max_id"), "int", 0);
 
         $_arr_search = array(
             "box"        => "normal",
@@ -114,7 +119,7 @@ class AJAX_MEDIA {
         $_arr_page        = fn_page($_num_mediaCount, $_num_perPage, "post");
         $_arr_search = array(
             "box"       => "normal",
-            "end_id"    => $_num_last,
+            "max_id"    => $_num_maxId,
         ); //搜索设置
         $_arr_mediaRows   = $this->mdl_media->mdl_list($_num_perPage, 0, $_arr_search);
 
@@ -125,18 +130,19 @@ class AJAX_MEDIA {
                     $this->mdl_media->mdl_box("recycle", array($_value["media_id"]));
                 }
             }
-            $_str_status = "loading";
-            $_str_msg    = $this->obj_ajax->alert["x070407"];
+            $_str_status    = "loading";
+            $_str_msg       = $this->obj_ajax->alert["x070407"];
+            $_num_maxId     = $_value["media_id"];
         } else {
-            $_str_status = "complete";
-            $_str_msg    = $this->obj_ajax->alert["y070407"];
+            $_str_status    = "complete";
+            $_str_msg       = $this->obj_ajax->alert["y070407"];
         }
 
         $_arr_re = array(
-            "msg"    => $_str_msg,
-            "count"  => $_arr_page["total"],
-            "last"   => $_value["media_id"],
-            "status" => $_str_status,
+            "msg"       => $_str_msg,
+            "count"     => $_arr_page["total"],
+            "max_id"    => $_value["media_id"],
+            "status"    => $_num_maxId,
         );
 
         exit(json_encode($_arr_re));
@@ -144,7 +150,7 @@ class AJAX_MEDIA {
 
 
     function ajax_box() {
-        if (!isset($this->adminLogged["admin_allow"]["media"]["del"])) {
+        if (!isset($this->adminLogged["admin_allow"]["media"]["del"]) && !$this->is_super) {
             $this->obj_ajax->halt_alert("x170303");
         }
 
@@ -179,7 +185,7 @@ class AJAX_MEDIA {
             $this->show_err($_arr_status["alert"]);
         }
 
-        if (!isset($this->adminLogged["admin_allow"]["media"]["upload"])) {
+        if (!isset($this->adminLogged["admin_allow"]["media"]["upload"]) && !$this->is_super) {
             $this->show_err("x070302");
         }
 
@@ -231,7 +237,7 @@ class AJAX_MEDIA {
             $this->obj_ajax->halt_alert($_arr_status["alert"]);
         }
 
-        if (isset($this->adminLogged["admin_allow"]["media"]["del"])) {
+        if (isset($this->adminLogged["admin_allow"]["media"]["del"]) && !$this->is_super) {
             $_num_adminId = 0;
         } else {
             $_num_adminId = $this->adminLogged["admin_id"];
@@ -266,7 +272,7 @@ class AJAX_MEDIA {
             $this->obj_ajax->halt_alert($this->adminLogged["alert"]);
         }
 
-        if (!isset($this->adminLogged["admin_allow"]["media"]["browse"])) {
+        if (!isset($this->adminLogged["admin_allow"]["media"]["browse"]) && !$this->is_super) {
             $this->obj_ajax->halt_alert("x070301");
         }
 

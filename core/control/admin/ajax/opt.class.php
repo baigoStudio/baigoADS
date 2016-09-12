@@ -5,10 +5,11 @@
 -----------------------------------------------------------------*/
 
 //不能非法包含或直接执行
-if(!defined("IN_BAIGO")) {
+if (!defined("IN_BAIGO")) {
     exit("Access Denied");
 }
 
+include_once(BG_PATH_FUNC . "http.func.php"); //载入模板类
 include_once(BG_PATH_CLASS . "ajax.class.php"); //载入 AJAX 基类
 include_once(BG_PATH_MODEL . "opt.class.php"); //载入管理帐号模型
 
@@ -18,6 +19,7 @@ class AJAX_OPT {
     private $adminLogged;
     private $obj_ajax;
     private $mdl_opt;
+    private $is_super = false;
 
     function __construct() { //构造函数
         $this->adminLogged    = $GLOBALS["adminLogged"]; //已登录商家信息
@@ -28,12 +30,27 @@ class AJAX_OPT {
         if ($this->adminLogged["alert"] != "y020102") { //未登录，抛出错误信息
             $this->obj_ajax->halt_alert($this->adminLogged["alert"]);
         }
+
+        if ($this->adminLogged["admin_type"] == "super") {
+            $this->is_super = true;
+        }
+    }
+
+
+    function ajax_chkver() {
+        if (!isset($this->adminLogged["admin_allow"]["opt"]["chkver"]) && !$this->is_super) {
+            $this->obj_ajax->halt_alert("x040301");
+        }
+
+        $this->mdl_opt->chk_ver(true, "manual");
+
+        $this->obj_ajax->halt_alert("y060402");
     }
 
 
     function ajax_dbconfig() {
-        if (!isset($this->adminLogged["admin_allow"]["opt"]["dbconfig"])) {
-            $this->obj_ajax->halt_alert("x060306");
+        if (!isset($this->adminLogged["admin_allow"]["opt"]["dbconfig"]) && !$this->is_super) {
+            $this->obj_ajax->halt_alert("x060301");
         }
 
         $_arr_dbconfigSubmit = $this->mdl_opt->input_dbconfig();
@@ -51,7 +68,7 @@ class AJAX_OPT {
     function ajax_submit() {
         $_act_post    = fn_getSafe($GLOBALS["act_post"], "txt", "base");
 
-        if (!isset($this->adminLogged["admin_allow"]["opt"][$_act_post])) {
+        if (!isset($this->adminLogged["admin_allow"]["opt"][$_act_post]) && !$this->is_super) {
             $this->obj_ajax->halt_alert("x060301");
         }
 

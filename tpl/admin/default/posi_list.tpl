@@ -53,7 +53,7 @@
     </div>
 
     <form name="posi_list" id="posi_list" class="form-inline">
-        <input type="hidden" name="token_session" class="token_session" value="{$common.token_session}">
+        <input type="hidden" name="{$common.tokenRow.name_session}" value="{$common.tokenRow.token}">
 
         <div class="panel panel-default">
             <div class="table-responsive">
@@ -68,7 +68,7 @@
                             </th>
                             <th class="text-nowrap td_mn">{$lang.label.id}</th>
                             <th>{$lang.label.posi}</th>
-                            <th class="text-nowrap td_bg">{$lang.label.contentType} / {$lang.label.size}</th>
+                            <th class="text-nowrap td_bg">{$lang.label.contentType}</th>
                             <th class="text-nowrap td_md">{$lang.label.status} / {$lang.label.note}</th>
                         </tr>
                     </thead>

@@ -5,7 +5,7 @@
 -----------------------------------------------------------------*/
 
 //不能非法包含或直接执行
-if(!defined("IN_BAIGO")) {
+if (!defined("IN_BAIGO")) {
     exit("Access Denied");
 }
 
@@ -23,6 +23,11 @@ return array(
     "lang" => array(
         "zh_CN"   => "简体中文", //简体中文
         "en"      => "English", //English
+    ),
+
+    "admin" => array(
+        "normal"    => "普通管理员",
+        "super"     => "超级管理员",
     ),
 
     "put" => array(

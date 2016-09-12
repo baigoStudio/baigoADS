@@ -11,7 +11,7 @@
     <script src="{$smarty.const.BG_URL_STATIC}js/jquery.min.js" type="text/javascript"></script>
     <link href="{$smarty.const.BG_URL_STATIC}js/bootstrap/css/bootstrap.min.css" type="text/css" rel="stylesheet">
     <link href="{$smarty.const.BG_URL_STATIC}js/baigoValidator/baigoValidator.css" type="text/css" rel="stylesheet">
-    <link href="{$smarty.const.BG_URL_STATIC}admin/{$config.ui}/css/admin_logon.css" type="text/css" rel="stylesheet">
+    <link href="{$smarty.const.BG_URL_STATIC}admin/{$smarty.const.BG_DEFAULT_UI}/css/admin_logon.css" type="text/css" rel="stylesheet">
 
 </head>
 <body>
@@ -31,11 +31,11 @@
 
                 <form action="{$smarty.const.BG_URL_ADMIN}ctl.php?mod=logon" method="post" id="login_form">
                     <input type="hidden" name="act_post" value="login">
-                    <input type="hidden" name="token_session" class="token_session" value="{$common.token_session}">
+                    <input type="hidden" name="{$common.tokenRow.name_session}" value="{$common.tokenRow.token}">
                     <input type="hidden" name="forward" value="{$tplData.forward}">
 
                     <div class="form-group">
-                        {if $tplData.alert}
+                        {if $tplData.alert && isset($alert[$tplData.alert])}
                             <div class="alert alert-danger">{$alert[$tplData.alert]}</div>
                         {/if}
                     </div>
@@ -82,18 +82,18 @@
             <div class="panel-footer">
                 <div class="pull-left">
                     {$smarty.const.PRD_SSO_POWERED}
-                    {if $config.ui == "default"}
+                    {if $smarty.const.BG_DEFAULT_UI == "default"}
                         <a href="{$smarty.const.PRD_SSO_URL}" target="_blank">{$smarty.const.PRD_SSO_NAME}</a>
                     {else}
-                        {$config.ui} SSO
+                        {$smarty.const.BG_DEFAULT_UI} SSO
                     {/if}
                     {$smarty.const.PRD_SSO_VER}
                 </div>
                 <div class="pull-right foot_logo">
-                    {if $config.ui == "default"}
+                    {if $smarty.const.BG_DEFAULT_UI == "default"}
                         <a href="{$smarty.const.PRD_SSO_URL}" target="_blank">{$smarty.const.PRD_SSO_POWERED} {$smarty.const.PRD_SSO_NAME} {$smarty.const.PRD_SSO_VER}</a>
                     {else}
-                        <a href="#">{$config.ui} SSO</a>
+                        <a href="javascript:void(0);">{$smarty.const.BG_DEFAULT_UI} SSO</a>
                     {/if}
                 </div>
                 <div class="clearfix"></div>
@@ -145,7 +145,7 @@
     <script src="{$smarty.const.BG_URL_STATIC}js/reloadImg.js" type="text/javascript"></script>
     <script src="{$smarty.const.BG_URL_STATIC}js/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 
-    <!-- {$smarty.const.PRD_SSO_POWERED} {if $config.ui == "default"}{$smarty.const.PRD_SSO_NAME}{else}{$config.ui} SSO{/if} {$smarty.const.PRD_SSO_VER} -->
+    <!-- {$smarty.const.PRD_SSO_POWERED} {if $smarty.const.BG_DEFAULT_UI == "default"}{$smarty.const.PRD_SSO_NAME}{else}{$smarty.const.BG_DEFAULT_UI} SSO{/if} {$smarty.const.PRD_SSO_VER} -->
 
 </body>
 </html>

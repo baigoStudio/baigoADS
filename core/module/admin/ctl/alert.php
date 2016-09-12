@@ -5,7 +5,7 @@
 -----------------------------------------------------------------*/
 
 //不能非法包含或直接执行
-if(!defined("IN_BAIGO")) {
+if (!defined("IN_BAIGO")) {
     exit("Access Denied");
 }
 
@@ -27,7 +27,7 @@ include_once(BG_PATH_CONTROL . "admin/ctl/alert.class.php"); //载入消息类
 $ctl_alert = new CONTROL_ALERT(); //初始化消息对象
 
 switch ($GLOBALS["act_get"]) {
-    case "show":
+    default:
         $ctl_alert->ctl_show(); //显示消息
     break;
 }

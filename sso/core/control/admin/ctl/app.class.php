@@ -5,7 +5,7 @@
 -----------------------------------------------------------------*/
 
 //不能非法包含或直接执行
-if(!defined("IN_BAIGO")) {
+if (!defined("IN_BAIGO")) {
     exit("Access Denied");
 }
 
@@ -25,6 +25,7 @@ class CONTROL_APP {
     private $mdl_belong;
     private $mdl_user;
     private $tplData;
+    private $is_super = false;
 
     function __construct() { //构造函数
         $this->obj_base     = $GLOBALS["obj_base"]; //获取界面类型
@@ -34,17 +35,21 @@ class CONTROL_APP {
         $this->mdl_belong   = new MODEL_BELONG();
         $this->mdl_user     = new MODEL_USER(); //设置管理员模型
         $_arr_cfg["admin"]  = true;
-        $this->obj_tpl      = new CLASS_TPL(BG_PATH_TPLSYS . "admin/" . $this->config["ui"], $_arr_cfg); //初始化视图对象
+        $this->obj_tpl      = new CLASS_TPL(BG_PATH_TPLSYS . "admin/" . BG_DEFAULT_UI, $_arr_cfg); //初始化视图对象
         $this->tplData = array(
             "adminLogged" => $this->adminLogged
         );
+
+        if ($this->adminLogged["admin_type"] == "super") {
+            $this->is_super = true;
+        }
     }
 
     /*============编辑管理员界面============
     返回提示
     */
     function ctl_show() {
-        if (!isset($this->adminLogged["admin_allow"]["app"]["browse"])) {
+        if (!isset($this->adminLogged["admin_allow"]["app"]["browse"]) && !$this->is_super) {
             return array(
                 "alert" => "x050301",
             );
@@ -78,7 +83,7 @@ class CONTROL_APP {
         $_num_appId = fn_getSafe(fn_get("app_id"), "int", 0);
 
         if ($_num_appId > 0) {
-            if (!isset($this->adminLogged["admin_allow"]["app"]["edit"])) {
+            if (!isset($this->adminLogged["admin_allow"]["app"]["edit"]) && !$this->is_super) {
                 return array(
                     "alert" => "x050303",
                 );
@@ -88,7 +93,7 @@ class CONTROL_APP {
                 return $_arr_appRow;
             }
         } else {
-            if (!isset($this->adminLogged["admin_allow"]["app"]["add"])) {
+            if (!isset($this->adminLogged["admin_allow"]["app"]["add"]) && !$this->is_super) {
                 return array(
                     "alert" => "x050302",
                 );
@@ -96,7 +101,7 @@ class CONTROL_APP {
             $_arr_appRow = array(
                 "app_id"            => 0,
                 "app_name"          => "",
-                "app_url_notice"    => "",
+                "app_url_notify"    => "",
                 "app_url_sync"      => "",
                 "app_ip_allow"      => "",
                 "app_ip_bad"        => "",
@@ -117,7 +122,7 @@ class CONTROL_APP {
 
 
     function ctl_belong() {
-        if (!isset($this->adminLogged["admin_allow"]["app"]["edit"])) {
+        if (!isset($this->adminLogged["admin_allow"]["app"]["edit"]) && !$this->is_super) {
             return array(
                 "alert" => "x050303",
             );
@@ -177,7 +182,7 @@ class CONTROL_APP {
     无返回
     */
     function ctl_list() {
-        if (!isset($this->adminLogged["admin_allow"]["app"]["browse"])) {
+        if (!isset($this->adminLogged["admin_allow"]["app"]["browse"]) && !$this->is_super) {
             return array(
                 "alert" => "x050301",
             );

@@ -5,7 +5,7 @@
 -----------------------------------------------------------------*/
 
 //不能非法包含或直接执行
-if(!defined("IN_BAIGO")) {
+if (!defined("IN_BAIGO")) {
     exit("Access Denied");
 }
 
@@ -13,24 +13,43 @@ if(!defined("IN_BAIGO")) {
 class MODEL_POSI {
 
     public $obj_db;
+    public $posiStatus = array();
+    public $posiTypes = array();
+    public $posiIsPercent = array();
 
     function __construct() { //构造函数
-        $this->obj_db = $GLOBALS["obj_db"]; //设置数据库对象
+        $this->obj_db   = $GLOBALS["obj_db"]; //设置数据库对象
+        $this->obj_dir  = new CLASS_DIR();
     }
 
 
     function mdl_create_table() {
+        foreach ($this->posiStatus as $_key=>$_value) {
+            $_arr_status[] = $_key;
+        }
+        $_str_status = implode("','", $_arr_status);
+
+        foreach ($this->posiTypes as $_key=>$_value) {
+            $_arr_types[] = $_key;
+        }
+        $_str_types = implode("','", $_arr_types);
+
+        foreach ($this->posiIsPercent as $_key=>$_value) {
+            $_arr_isPercent[] = $_key;
+        }
+        $_str_isPercent = implode("','", $_arr_isPercent);
+
         $_arr_posiCreat = array(
             "posi_id"            => "int NOT NULL AUTO_INCREMENT COMMENT 'ID'",
             "posi_name"          => "varchar(300) NOT NULL COMMENT '名称'",
             "posi_count"         => "tinyint NOT NULL COMMENT '广告数'",
-            "posi_type"          => "enum('media','text') NOT NULL COMMENT '广告位类型'",
-            "posi_status"        => "enum('enable','disable') NOT NULL COMMENT '状态'",
+            "posi_type"          => "enum('" . $_str_types . "') NOT NULL COMMENT '广告位类型'",
+            "posi_status"        => "enum('" . $_str_status . "') NOT NULL COMMENT '状态'",
             "posi_script"        => "varchar(100) NOT NULL COMMENT '脚本'",
             "posi_plugin"        => "varchar(100) NOT NULL COMMENT '插件名'",
             "posi_selector"      => "varchar(100) NOT NULL COMMENT '默认选择器'",
             "posi_opts"          => "text NOT NULL COMMENT '选项'",
-            "posi_is_percent"    => "enum('enable','disable') NOT NULL COMMENT '允许几率展现'",
+            "posi_is_percent"    => "enum('" . $_str_isPercent . "') NOT NULL COMMENT '允许几率展现'",
             "posi_note"          => "varchar(300) NOT NULL COMMENT '备注'",
         );
 
@@ -59,32 +78,6 @@ class MODEL_POSI {
     }
 
 
-    /** 修改表
-     * mdl_alert_table function.
-     *
-     * @access public
-     * @return void
-     */
-    function mdl_alert_table() {
-        $_arr_col     = $this->mdl_column();
-        $_arr_alert   = array();
-
-        $_str_alert = "y040111";
-
-        if ($_arr_alert) {
-            $_reselt = $this->obj_db->alert_table(BG_DB_TABLE . "posi", $_arr_alert);
-
-            if ($_reselt) {
-                $_str_alert = "y040106";
-            }
-        }
-
-        return array(
-            "alert" => $_str_alert,
-        );
-    }
-
-
     function mdl_cache($arr_posiDels = false) {
         $_str_alert     = "y040110";
         $_arr_search    = array(
@@ -109,7 +102,7 @@ class MODEL_POSI {
                 $_str_outId .= "\"alert\" => \"y040102\"," . PHP_EOL;
             $_str_outId .= ");";
 
-            $_num_size = file_put_contents(BG_PATH_CACHE . "sys/posi_" . $_value["posi_id"] . ".php", $_str_outId);
+            $_num_size = $this->obj_dir->put_file(BG_PATH_CACHE . "sys/posi_" . $_value["posi_id"] . ".php", $_str_outId);
 
             if (!$_num_size) {
                 $_str_alert = "x040110";
@@ -130,7 +123,7 @@ class MODEL_POSI {
 
         $_str_outList.= ");";
 
-        $_num_size    = file_put_contents(BG_PATH_CACHE . "sys/posi_list.php", $_str_outList);
+        $_num_size    = $this->obj_dir->put_file(BG_PATH_CACHE . "sys/posi_list.php", $_str_outList);
 
         if (!$_num_size) {
             $_str_alert = "x040110";

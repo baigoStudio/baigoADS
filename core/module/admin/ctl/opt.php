@@ -5,7 +5,7 @@
 -----------------------------------------------------------------*/
 
 //不能非法包含或直接执行
-if(!defined("IN_BAIGO")) {
+if (!defined("IN_BAIGO")) {
     exit("Access Denied");
 }
 
@@ -27,9 +27,17 @@ include_once(BG_PATH_CONTROL . "admin/ctl/opt.class.php"); //载入设置控制�
 $ctl_opt = new CONTROL_OPT(); //初始化设置对象
 
 switch ($GLOBALS["act_get"]) {
+    case "chkver":
+        $arr_optRow = $ctl_opt->ctl_chkver(); //数据库
+        if ($arr_optRow["alert"] != "y060301") {
+            header("Location: " . BG_URL_ADMIN . "ctl.php?mod=alert&act_get=show&alert=" . $arr_optRow["alert"]);
+            exit;
+        }
+    break;
+
     case "dbconfig":
         $arr_optRow = $ctl_opt->ctl_dbconfig();
-        if ($arr_optRow["alert"] != "y060306") {
+        if ($arr_optRow["alert"] != "y060301") {
             header("Location: " . BG_URL_ADMIN . "ctl.php?mod=alert&act_get=show&alert=" . $arr_optRow["alert"]);
             exit;
         }

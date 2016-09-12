@@ -1,6 +1,5 @@
 <?php
-return "<a name=\"top\"></a>
-    <div class=\"alert alert-warning\">
+return "<div class=\"alert alert-warning\">
         <p>
             <span class=\"glyphicon glyphicon-warning-sign\"></span>
             注意：本接口仅在安装 SSO 时有效，安装成功后将自动失效。
@@ -17,7 +16,7 @@ return "<a name=\"top\"></a>
     <p>本接口用于设置数据库，本接口必须在第一步调用。</p>
 
     <p class=\"text-success\">URL</p>
-    <p><span class=\"text-primary\">http://www.domain.com/api/api.php?mod=install</span></p>
+    <p class=\"text-primary\">http://www.domain.com/api/api.php?mod=install</p>
 
     <p class=\"text-success\">HTTP 请求方式</p>
     <p>POST</p>
@@ -26,7 +25,7 @@ return "<a name=\"top\"></a>
     <p>JSON</p>
 
     <div class=\"panel panel-default\">
-        <div class=\"panel-heading\">接口参数</div>
+        <div class=\"panel-heading\">请求参数</div>
         <div class=\"table-responsive\">
             <table class=\"table table-bordered\">
                 <thead>
@@ -34,7 +33,7 @@ return "<a name=\"top\"></a>
                         <th class=\"text-nowrap\">名称</th>
                         <th class=\"text-nowrap\">类型</th>
                         <th class=\"text-nowrap\">必须</th>
-                        <th>具体描述</th>
+                        <th>描述</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -46,43 +45,43 @@ return "<a name=\"top\"></a>
                     </tr>
                     <tr>
                         <td class=\"text-nowrap\">db_host</td>
-                        <td class=\"text-nowrap\">str</td>
+                        <td class=\"text-nowrap\">string</td>
                         <td class=\"text-nowrap\">true</td>
                         <td>数据库服务器</td>
                     </tr>
                     <tr>
                         <td class=\"text-nowrap\">db_port</td>
-                        <td class=\"text-nowrap\">str</td>
+                        <td class=\"text-nowrap\">string</td>
                         <td class=\"text-nowrap\">true</td>
                         <td>服务器端口</td>
                     </tr>
                     <tr>
                         <td class=\"text-nowrap\">db_name</td>
-                        <td class=\"text-nowrap\">str</td>
+                        <td class=\"text-nowrap\">string</td>
                         <td class=\"text-nowrap\">true</td>
                         <td>数据库名称</td>
                     </tr>
                     <tr>
                         <td class=\"text-nowrap\">db_user</td>
-                        <td class=\"text-nowrap\">str</td>
+                        <td class=\"text-nowrap\">string</td>
                         <td class=\"text-nowrap\">true</td>
                         <td>数据库用户名</td>
                     </tr>
                     <tr>
                         <td class=\"text-nowrap\">db_pass</td>
-                        <td class=\"text-nowrap\">str</td>
+                        <td class=\"text-nowrap\">string</td>
                         <td class=\"text-nowrap\">true</td>
                         <td>数据库密码</td>
                     </tr>
                     <tr>
                         <td class=\"text-nowrap\">db_charset</td>
-                        <td class=\"text-nowrap\">str</td>
+                        <td class=\"text-nowrap\">string</td>
                         <td class=\"text-nowrap\">true</td>
                         <td>数据库字符编码</td>
                     </tr>
                     <tr>
                         <td class=\"text-nowrap\">db_table</td>
-                        <td class=\"text-nowrap\">str</td>
+                        <td class=\"text-nowrap\">string</td>
                         <td class=\"text-nowrap\">true</td>
                         <td>数据表前缀</td>
                     </tr>
@@ -101,7 +100,7 @@ return "<a name=\"top\"></a>
                     <tr>
                         <th class=\"text-nowrap\">名称</th>
                         <th class=\"text-nowrap\">类型</th>
-                        <th>具体描述</th>
+                        <th>描述</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -152,7 +151,7 @@ return "<a name=\"top\"></a>
     <p>本接口用于基本设置。</p>
 
     <p class=\"text-success\">URL</p>
-    <p><span class=\"text-primary\">http://www.domain.com/api/api.php?mod=install</span></p>
+    <p class=\"text-primary\">http://www.domain.com/api/api.php?mod=install</p>
 
     <p class=\"text-success\">HTTP 请求方式</p>
     <p>POST</p>
@@ -161,7 +160,7 @@ return "<a name=\"top\"></a>
     <p>JSON</p>
 
     <div class=\"panel panel-default\">
-        <div class=\"panel-heading\">接口参数</div>
+        <div class=\"panel-heading\">请求参数</div>
         <div class=\"table-responsive\">
             <table class=\"table table-bordered\">
                 <thead>
@@ -169,7 +168,7 @@ return "<a name=\"top\"></a>
                         <th class=\"text-nowrap\">名称</th>
                         <th class=\"text-nowrap\">类型</th>
                         <th class=\"text-nowrap\">必须</th>
-                        <th>具体描述</th>
+                        <th>描述</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -192,11 +191,11 @@ return "<a name=\"top\"></a>
 
     <p>&nbsp;</p>
 
-    <h4>安装参数示例</h4>
+    <h4>安装参数</h4>
     <p>
 <pre><code class=\"language-php\">array(
     &quot;opt&quot; =&gt; array(
-        &quot;dbconfig&quot; =&gt; array(
+        &quot;base&quot; =&gt; array(
             &quot;BG_SITE_NAME&quot;        =&gt; &quot;baigo SSO&quot; //站点名称
             &quot;BG_SITE_DOMAIN&quot;      =&gt; &quot;" . $_SERVER["SERVER_NAME"] . "&quot; //域名
             &quot;BG_SITE_URL&quot;         =&gt; &quot;http://" . $_SERVER["SERVER_NAME"] . "&quot; //首页 URL
@@ -206,6 +205,10 @@ return "<a name=\"top\"></a>
             &quot;BG_SITE_DATESHORT&quot;   =&gt; &quot;m-d&quot; //短日期格式，等同于 PHP date 函数
             &quot;BG_SITE_TIME&quot;        =&gt; &quot;H:i:s&quot; //时间格式，等同于 PHP date 函数
             &quot;BG_SITE_TIMESHORT&quot;   =&gt; &quot;H:s&quot; //短时间格式，等同于 PHP date 函数
+            &quot;BG_SITE_TPL&quot;         =&gt; &quot;default&quot; //模板
+            &quot;BG_ACCESS_EXPIRE&quot;    =&gt; 60; //访问口令存活期，单位：分钟
+            &quot;BG_REFRESH_EXPIRE&quot;   =&gt; 60; //刷新口令存活期，单位：天
+            &quot;BG_VERIFY_EXPIRE&quot;    =&gt; 30 //验证链接有效期，单位：分钟
         )
     )
 );</code></pre>
@@ -221,7 +224,7 @@ return "<a name=\"top\"></a>
                     <tr>
                         <th class=\"text-nowrap\">名称</th>
                         <th class=\"text-nowrap\">类型</th>
-                        <th>具体描述</th>
+                        <th>描述</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -272,7 +275,7 @@ return "<a name=\"top\"></a>
     <p>本接口用于创建数据表。</p>
 
     <p class=\"text-success\">URL</p>
-    <p><span class=\"text-primary\">http://www.domain.com/api/api.php?mod=install</span></p>
+    <p class=\"text-primary\">http://www.domain.com/api/api.php?mod=install</p>
 
     <p class=\"text-success\">HTTP 请求方式</p>
     <p>POST</p>
@@ -281,7 +284,7 @@ return "<a name=\"top\"></a>
     <p>JSON</p>
 
     <div class=\"panel panel-default\">
-        <div class=\"panel-heading\">接口参数</div>
+        <div class=\"panel-heading\">请求参数</div>
         <div class=\"table-responsive\">
             <table class=\"table table-bordered\">
                 <thead>
@@ -289,7 +292,7 @@ return "<a name=\"top\"></a>
                         <th class=\"text-nowrap\">名称</th>
                         <th class=\"text-nowrap\">类型</th>
                         <th class=\"text-nowrap\">必须</th>
-                        <th>具体描述</th>
+                        <th>描述</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -314,7 +317,7 @@ return "<a name=\"top\"></a>
                     <tr>
                         <th class=\"text-nowrap\">名称</th>
                         <th class=\"text-nowrap\">类型</th>
-                        <th>具体描述</th>
+                        <th>描述</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -365,7 +368,7 @@ return "<a name=\"top\"></a>
     <p>本接口用于创建管理员。</p>
 
     <p class=\"text-success\">URL</p>
-    <p><span class=\"text-primary\">http://www.domain.com/api/api.php?mod=install</span></p>
+    <p class=\"text-primary\">http://www.domain.com/api/api.php?mod=install</p>
 
     <p class=\"text-success\">HTTP 请求方式</p>
     <p>POST</p>
@@ -374,7 +377,7 @@ return "<a name=\"top\"></a>
     <p>JSON</p>
 
     <div class=\"panel panel-default\">
-        <div class=\"panel-heading\">接口参数</div>
+        <div class=\"panel-heading\">请求参数</div>
         <div class=\"table-responsive\">
             <table class=\"table table-bordered\">
                 <thead>
@@ -382,7 +385,7 @@ return "<a name=\"top\"></a>
                         <th class=\"text-nowrap\">名称</th>
                         <th class=\"text-nowrap\">类型</th>
                         <th class=\"text-nowrap\">必须</th>
-                        <th>具体描述</th>
+                        <th>描述</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -419,7 +422,7 @@ return "<a name=\"top\"></a>
                     <tr>
                         <th class=\"text-nowrap\">名称</th>
                         <th class=\"text-nowrap\">类型</th>
-                        <th>具体描述</th>
+                        <th>描述</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -476,7 +479,7 @@ return "<a name=\"top\"></a>
     <p>本接口用于通知系统安装已完成，本接口必须在最后一步调用，本接口调用成功后，安装接口将全部失效。</p>
 
     <p class=\"text-success\">URL</p>
-    <p><span class=\"text-primary\">http://www.domain.com/api/api.php?mod=install</span></p>
+    <p class=\"text-primary\">http://www.domain.com/api/api.php?mod=install</p>
 
     <p class=\"text-success\">HTTP 请求方式</p>
     <p>POST</p>
@@ -485,7 +488,7 @@ return "<a name=\"top\"></a>
     <p>JSON</p>
 
     <div class=\"panel panel-default\">
-        <div class=\"panel-heading\">接口参数</div>
+        <div class=\"panel-heading\">请求参数</div>
         <div class=\"table-responsive\">
             <table class=\"table table-bordered\">
                 <thead>
@@ -493,7 +496,7 @@ return "<a name=\"top\"></a>
                         <th class=\"text-nowrap\">名称</th>
                         <th class=\"text-nowrap\">类型</th>
                         <th class=\"text-nowrap\">必须</th>
-                        <th>具体描述</th>
+                        <th>描述</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -510,7 +513,7 @@ return "<a name=\"top\"></a>
                         <td>应用名称。</td>
                     </tr>
                     <tr>
-                        <td class=\"text-nowrap\">app_url_notice</td>
+                        <td class=\"text-nowrap\">app_url_notify</td>
                         <td class=\"text-nowrap\">string</td>
                         <td class=\"text-nowrap\">true</td>
                         <td>通知 URL。</td>
@@ -536,7 +539,7 @@ return "<a name=\"top\"></a>
                     <tr>
                         <th class=\"text-nowrap\">名称</th>
                         <th class=\"text-nowrap\">类型</th>
-                        <th>具体描述</th>
+                        <th>描述</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -586,12 +589,4 @@ return "<a name=\"top\"></a>
     &quot;app_key&quot;: &quot;sfewrw8084382h2r9fdsw9ey5whfDISORwegds&quot;, //应用 APP KEY
     &quot;alert&quot;: &quot;y010102&quot; //返回代码
 }</code></pre>
-    </p>
-
-    <p>&nbsp;</p>
-    <div class=\"text-right\">
-        <a href=\"#top\">
-            <span class=\"glyphicon glyphicon-chevron-up\"></span>
-            top
-        </a>
-    </div>";
+    </p>";

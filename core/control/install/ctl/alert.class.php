@@ -5,7 +5,7 @@
 -----------------------------------------------------------------*/
 
 //不能非法包含或直接执行
-if(!defined("IN_BAIGO")) {
+if (!defined("IN_BAIGO")) {
     exit("Access Denied");
 }
 
@@ -18,7 +18,7 @@ class CONTROL_ALERT {
     function __construct() { //构造函数
         $this->obj_base       = $GLOBALS["obj_base"];
         $this->config         = $this->obj_base->config;
-        $this->obj_tpl    = new CLASS_TPL(BG_PATH_TPL . "install/" . $this->config["ui"]);
+        $this->obj_tpl    = new CLASS_TPL(BG_PATH_TPL . "install/" . BG_DEFAULT_UI);
     }
 
     /**

@@ -5,7 +5,7 @@
 -----------------------------------------------------------------*/
 
 //不能非法包含或直接执行
-if(!defined("IN_BAIGO")) {
+if (!defined("IN_BAIGO")) {
     exit("Access Denied");
 }
 
@@ -19,7 +19,7 @@ class CONTROL_INSTALL {
         $this->obj_base     = $GLOBALS["obj_base"];
         $this->config       = $this->obj_base->config;
         $_arr_cfg["admin"]  = true;
-        $this->obj_tpl      = new CLASS_TPL(BG_PATH_TPLSYS . "install/" . $this->config["ui"], $_arr_cfg);
+        $this->obj_tpl      = new CLASS_TPL(BG_PATH_TPLSYS . "install/" . BG_DEFAULT_UI, $_arr_cfg);
         $this->obj_dir      = new CLASS_DIR();
         $this->obj_dir->mk_dir(BG_PATH_CACHE . "ssin");
         $this->install_init();
@@ -157,7 +157,7 @@ class CONTROL_INSTALL {
 
 
     private function check_db() {
-        if (strlen(BG_DB_HOST) < 1 || strlen(BG_DB_NAME) < 1 || strlen(BG_DB_USER) < 1 || strlen(BG_DB_PASS) < 1 || strlen(BG_DB_CHARSET) < 1) {
+        if (fn_isEmpty(BG_DB_HOST) || fn_isEmpty(BG_DB_NAME) || fn_isEmpty(BG_DB_USER) || fn_isEmpty(BG_DB_PASS) || fn_isEmpty(BG_DB_CHARSET)) {
             return false;
         } else {
             if (!defined("BG_DB_PORT")) {
@@ -200,7 +200,7 @@ class CONTROL_INSTALL {
             }
         }
 
-        $this->act_get = fn_getSafe($GLOBALS["act_get"], "txt", "ext");
+        $this->act_get = fn_getSafe(fn_get("act_get"), "txt", "ext");
 
         $this->tplData = array(
             "errCount"   => $this->errCount,
@@ -229,6 +229,7 @@ class CONTROL_INSTALL {
         include_once(BG_PATH_MODEL . "admin.class.php"); //载入管理帐号模型
         $_mdl_admin                 = new MODEL_ADMIN();
         $_mdl_admin->adminStatus    = $this->obj_tpl->status["admin"];
+        $_mdl_admin->adminTypes     = $this->obj_tpl->type["admin"];
         $_arr_adminTable            = $_mdl_admin->mdl_create_table();
 
         $this->tplData["db_alert"]["admin_table"] = array(
