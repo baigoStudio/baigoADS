@@ -2,7 +2,8 @@
     "name": "轮播",
     "plugin": "adsCarousel",
     "selector": "#adsCarousel",
-    "ispercent": "disable",
+    "isPercent": "disable",
+    "count": 5,
     "type": "media",
     "note": "本脚本需要 bootstrap 支持",
     "opts": [

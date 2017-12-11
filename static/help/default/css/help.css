@@ -1,11 +1,5 @@
-.img_border { border: #ddd 1px solid; }
-.text_break { word-break: break-all; }
-.indicator_black { color: #999; }
-.indicator_black li { border:1px solid #999; }
-.indicator_black li.active { background: #999; }
+.bg-nav-ads li a { color: #96224c; }
+.bg-nav-ads li.active a { background: #96224c!important; }
+.bg-nav-ads li.active a:hover { background: #96224c!important; }
 
-.nav_ads li a { color: #96224c; }
-.nav_ads li.active a { background: #96224c!important; }
-.nav_ads li.active a:hover { background: #96224c!important; }
-
-.text_ads { color: #96224c; }
+.bg-text-ads { color: #96224c; }

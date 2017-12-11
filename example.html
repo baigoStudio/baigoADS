@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <title>advert</title>
+
+        <script src="./static/lib/jquery.min.js" type="text/javascript"></script>
+
+        <!-- 广告样式 begin -->
+        <link href="./advert/banner/style.css" type="text/css" rel="stylesheet">
+        <!-- 广告样式 end -->
+
+    </head>
+    <body>
+
+        <!-- 显示容器 begin -->
+        <div id="adsBanner_2"></div>
+        <!-- 显示容器 end -->
+
+        <!-- 初始化 begin -->
+        <script type="text/javascript">
+        $(document).ready(function(){
+            _opts_ad_2 = {
+                loading: "正在载入广告 ...",//载入消息
+                data_url: "./api/api.php?mod=advert&act=list&posi_id=2"
+            }
+            $("#adsBanner_2").adsBanner(_opts_ad_2);
+        });
+        </script>
+        <!-- 初始化 end -->
+
+        <!-- 广告脚本 begin -->
+        <script src="./advert/banner/script.js" type="text/javascript"></script>
+        <!-- 广告脚本 end -->
+
+    </body>
+</html>

@@ -2,7 +2,8 @@
     "name": "巨幕",
     "plugin": "adsJumbotron",
     "selector": "#adsJumbotron",
-    "ispercent": "enable",
+    "isPercent": "enable",
+    "count": 1,
     "type": "media",
     "note": "本脚本需要 jQuery 支持",
     "opts": [

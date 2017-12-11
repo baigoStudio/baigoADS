@@ -1,5 +1,5 @@
 /*
-v0.0.9 jQuery baigoADS 通屏 插件
+v1.0 jQuery baigo ADS 通屏 插件
 (c) 2013 baigo studio - http://www.baigo.net/ads/
 License: http://www.opensource.org/licenses/mit-license.php
 */
@@ -9,6 +9,10 @@ License: http://www.opensource.org/licenses/mit-license.php
         "use strict";
         var thisObj = $(this); //定义当前对象
         var _parent_id = thisObj.attr("id");
+        var _posiRow;
+        var _str_advert;
+        var _str_media;
+        var _str_href;
 
         var defaults = {
             loading: "Loading...",
@@ -35,29 +39,34 @@ License: http://www.opensource.org/licenses/mit-license.php
             dataType: "jsonp", //数据格式为jsonp
             data: "",
             beforeSend: function(){
-                var _str_advert = "<div class='throughChild'></div>";
+                _str_advert = "<div class='throughChild'></div>";
                 thisObj.html(_str_advert);
 
                 $("#" + _parent_id + " .throughChild").css(_css_posi);
                 $("#" + _parent_id + " .throughChild").text(opts.loading);
             }, //输出消息
             success: function(_result){ //读取返回结果
-                var _posiRow = _result.posiRow;
+                if (typeof _result.posiRow != "undefined" && typeof _result.advertRows[0] != "undefined") {
+                    _posiRow = _result.posiRow;
 
-                var _str_media;
-                if (_posiRow.posi_type == "media") {
-                    _str_media = "<img src='" + _result.advertRows[0].mediaRow.media_url + "' width='100%'>";
-                } else {
-                    _str_media = _result.advertRows[0].advert_content;
+                    if (typeof _result.advertRows[0].advert_href != "undefined") {
+                        _str_href = _result.advertRows[0].advert_href;
+                    }
+
+                    if (typeof _posiRow.posi_type != "undefined" && _posiRow.posi_type == "media" && typeof _result.advertRows[0].mediaRow.media_url != "undefined") {
+                        _str_media = "<img src='" + _result.advertRows[0].mediaRow.media_url + "' width='100%'>";
+                    } else if (typeof _result.advertRows[0].advert_content != "undefined") {
+                        _str_media = _result.advertRows[0].advert_content;
+                    }
+
+                    _str_advert = "<div class='btn_close'><a href='javascript:void(0);'>" + opts.close + "</a></div><div><a href='" + _str_href + "' target='_blank'>" + _str_media + "</a></div>";
+
+                    $("#" + _parent_id + " .throughChild").html(_str_advert);
+
+                    $("#" + _parent_id + " throughChild .btn_close").click(function(){
+                        $("#" + _parent_id + " .throughChild").hide();
+                    });
                 }
-
-                var _str_advert = "<div class='btn_close'><a href='javascript:void(0);'>" + opts.close + "</a></div><div><a href='" + _result.advertRows[0].advert_href + "' target='_blank'>" + _str_media + "</a></div>";
-
-                $("#" + _parent_id + " .throughChild").html(_str_advert);
-
-                $("#" + _parent_id + " throughChild .btn_close").click(function(){
-                    $("#" + _parent_id + " .throughChild").hide();
-                });
             }
         });
     };

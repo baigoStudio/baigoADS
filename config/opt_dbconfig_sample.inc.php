@@ -5,10 +5,11 @@
 -----------------------------------------------------------------*/
 
 /*-------------------------数据库配置-------------------------*/
-define("BG_DB_HOST", "localhost"); //数据库服务器
-define("BG_DB_USER", "baigo_ads"); //数据库用户名
-define("BG_DB_PASS", ""); //数据库密码
-define("BG_DB_NAME", "baigo_ads"); //数据库名
-define("BG_DB_CHARSET", "utf8"); //数据库编码
-define("BG_DB_TABLE", "ads_"); //数据表前缀
+define('BG_DB_HOST', 'localhost'); //数据库服务器
+define('BG_DB_USER', 'baigo_ads'); //数据库用户名
+define('BG_DB_PASS', ''); //数据库密码
+define('BG_DB_NAME', 'baigo_ads'); //数据库名
+define('BG_DB_CHARSET', 'utf8'); //数据库编码
+define('BG_DB_TABLE', 'ads_'); //数据表前缀
+define('BG_DB_PORT', 3306);
 

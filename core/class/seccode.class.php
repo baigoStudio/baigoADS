@@ -5,13 +5,13 @@
 -----------------------------------------------------------------*/
 
 //不能非法包含或直接执行
-if (!defined("IN_BAIGO")) {
-    exit("Access Denied");
+if (!defined('IN_BAIGO')) {
+    exit('Access Denied');
 }
 
 /*-------------验证码类-------------*/
 class CLASS_SECCODE {
-    private $chars = "abdefghkmnprstuvwxyzABCDEFGHKMNPRSTUVWXYZ23456789";
+    private $chars = 'abdefghkmnprstuvwxyzABCDEFGHKMNPRSTUVWXYZ23456789';
 
     private $code; //验证码
     private $len; //长度
@@ -29,7 +29,7 @@ class CLASS_SECCODE {
     private $back; //背景资源
 
     //设置验证码
-    public function secSet($sec_size = 20, $sec_len = 4, $sec_font = "FetteSteinschrift.ttf") {
+    public function secSet($sec_size = 20, $sec_len = 4, $sec_font = 'FetteSteinschrift.ttf') {
         $this->len        = $sec_len;
         $this->fontSize   = $sec_size;
         $this->fontFile   = BG_PATH_FONT . $sec_font;
@@ -94,6 +94,6 @@ class CLASS_SECCODE {
         $this->createLine();
         $this->createFont();
         $this->secOutput();
-        fn_session("seccode", "mk", strtolower($this->code));
+        fn_session('seccode', 'mk', strtolower($this->code));
     }
 }

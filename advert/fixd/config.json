@@ -2,7 +2,8 @@
     "name": "定位",
     "plugin": "adsFixed",
     "selector": "#adsFixed",
-    "ispercent": "enable",
+    "isPercent": "enable",
+    "count": 1,
     "type": "media",
     "note": "本脚本需要 jQuery 支持",
     "opts": [
@@ -13,7 +14,7 @@
         },
         {
             "field": "position",
-            "label": "位置（可选 left-top、right-top、left-bottom、right-bottom）",
+            "label": "定位（可选 left-top、right-top、left-bottom、right-bottom）",
             "value": "left-top"
         },
         {

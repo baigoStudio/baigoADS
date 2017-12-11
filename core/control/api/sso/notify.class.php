@@ -5,21 +5,21 @@
 -----------------------------------------------------------------*/
 
 //不能非法包含或直接执行
-if (!defined("IN_BAIGO")) {
-    exit("Access Denied");
+if (!defined('IN_BAIGO')) {
+    exit('Access Denied');
 }
 
 /*-------------文章类-------------*/
-class API_NOTIFY {
+class CONTROL_API_SSO_NOTIFY {
 
     /**
-     * api_list function.
+     * ctrl_list function.
      *
      * @access public
      * @return void
      */
-    function api_test() {
-        $_str_echostr     = fn_get("echostr");
+    function ctrl_test() {
+        $_str_echostr     = fn_get('echostr');
 
         echo $_str_echostr;
     }

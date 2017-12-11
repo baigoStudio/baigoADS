@@ -3,10 +3,11 @@
 ！！！！警告！！！！
 以下为系统文件，请勿修改
 -----------------------------------------------------------------*/
-$base = str_ireplace("\\", "/", str_ireplace("//", "/", $_SERVER["DOCUMENT_ROOT"] . "/" . basename(dirname($_SERVER["PHP_SELF"])) . "/"));
 
-include_once($base . "config/init.class.php");
+define('BG_PATH_CONFIG', $_SERVER['DOCUMENT_ROOT'] . dirname($_SERVER['PHP_SELF']) . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR);
 
-$obj_init = new CLASS_INIT();
-
-$obj_init->config_gen();
+if (file_exists(BG_PATH_CONFIG . 'config.class.php')) {
+    require(BG_PATH_CONFIG . 'config.class.php'); //配置生成类
+} else {
+    exit('{"rcode":"x","msg":"Fatal Error: Config class not exists!"}');
+}

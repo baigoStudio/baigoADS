@@ -5,19 +5,18 @@
 -----------------------------------------------------------------*/
 
 //不能非法包含或直接执行
-if (!defined("IN_BAIGO")) {
-    exit("Access Denied");
+if (!defined('IN_BAIGO')) {
+    exit('Access Denied');
 }
 
 /*-------------应用归属-------------*/
 class MODEL_STAT {
 
-    private $obj_db;
-    public $statTypes = array();
-    public $statTargets = array();
+    public $arr_type   = array('day', 'month', 'year');
+    public $arr_target = array('advert', 'posi');
 
     function __construct() { //构造函数
-        $this->obj_db = $GLOBALS["obj_db"]; //设置数据库对象
+        $this->obj_db = $GLOBALS['obj_db']; //设置数据库对象
     }
 
 
@@ -28,36 +27,29 @@ class MODEL_STAT {
      * @return void
      */
     function mdl_create_table() {
-        foreach ($this->statTypes as $_key=>$_value) {
-            $_arr_types[] = $_key;
-        }
-        $_str_types = implode("','", $_arr_types);
-
-        foreach ($this->statTargets as $_key=>$_value) {
-            $_arr_targets[] = $_key;
-        }
-        $_str_targets = implode("','", $_arr_targets);
+        $_str_type      = implode('\',\'', $this->arr_type);
+        $_str_target    = implode('\',\'', $this->arr_target);
 
         $_arr_statCreat = array(
-            "stat_id"            => "int NOT NULL AUTO_INCREMENT COMMENT 'ID'",
-            "stat_type"          => "enum('" . $_str_types . "') NOT NULL COMMENT '统计类型'",
-            "stat_target"        => "enum('" . $_str_targets . "') NOT NULL COMMENT '统计目标'",
-            "stat_target_id"     => "int NOT NULL COMMENT '目标 ID'",
-            "stat_time"          => "int NOT NULL COMMENT '统计时间'",
-            "stat_count_show"    => "int NOT NULL COMMENT '显示数'",
-            "stat_count_hit"     => "int NOT NULL COMMENT '点击数'",
+            'stat_id'            => 'int NOT NULL AUTO_INCREMENT COMMENT \'I\'',
+            'stat_type'          => 'enum(\'' . $_str_type . '\') NOT NULL COMMENT \'统计类型\'',
+            'stat_target'        => 'enum(\'' . $_str_target . '\') NOT NULL COMMENT \'统计目标\'',
+            'stat_target_id'     => 'int NOT NULL COMMENT \'目标 ID\'',
+            'stat_time'          => 'int NOT NULL COMMENT \'统计时间\'',
+            'stat_count_show'    => 'int NOT NULL COMMENT \'显示数\'',
+            'stat_count_hit'     => 'int NOT NULL COMMENT \'点击数\'',
         );
 
-        $_num_mysql = $this->obj_db->create_table(BG_DB_TABLE . "stat", $_arr_statCreat, "stat_id", "统计");
+        $_num_db = $this->obj_db->create_table(BG_DB_TABLE . 'stat', $_arr_statCreat, 'stat_id', '统计');
 
-        if ($_num_mysql > 0) {
-            $_str_alert = "y090105"; //更新成功
+        if ($_num_db > 0) {
+            $_str_rcode = 'y090105'; //更新成功
         } else {
-            $_str_alert = "x090105"; //更新失败
+            $_str_rcode = 'x090105'; //更新失败
         }
 
         return array(
-            "alert" => $_str_alert, //更新成功
+            'rcode' => $_str_rcode, //更新成功
         );
     }
 
@@ -68,10 +60,10 @@ class MODEL_STAT {
      * @return void
      */
     function mdl_column() {
-        $_arr_colRows = $this->obj_db->show_columns(BG_DB_TABLE . "stat");
+        $_arr_colRows = $this->obj_db->show_columns(BG_DB_TABLE . 'stat');
 
         foreach ($_arr_colRows as $_key=>$_value) {
-            $_arr_col[] = $_value["Field"];
+            $_arr_col[] = $_value['Field'];
         }
 
         return $_arr_col;
@@ -79,9 +71,9 @@ class MODEL_STAT {
 
 
     function mdl_stat($str_statTarget, $num_statTargetId, $is_hit = false) {
-        $this->mdl_submit("year", $str_statTarget, $num_statTargetId, $is_hit);
-        $this->mdl_submit("month", $str_statTarget, $num_statTargetId, $is_hit);
-        $this->mdl_submit("day", $str_statTarget, $num_statTargetId, $is_hit);
+        $this->mdl_submit('year', $str_statTarget, $num_statTargetId, $is_hit);
+        $this->mdl_submit('month', $str_statTarget, $num_statTargetId, $is_hit);
+        $this->mdl_submit('day', $str_statTarget, $num_statTargetId, $is_hit);
     }
 
 
@@ -95,105 +87,109 @@ class MODEL_STAT {
      */
     function mdl_submit($str_statType, $str_statTarget, $num_statTargetId, $is_hit = false) {
         $_arr_statData = array(
-            "stat_count_show"    => 1,
-            "stat_count_hit"     => 1,
+            'stat_count_show'    => 1,
+            'stat_count_hit'     => 1,
         );
 
         $_arr_statRow = $this->mdl_read($str_statType, $str_statTarget, $num_statTargetId);
 
-        if ($_arr_statRow["alert"] != "y090102") {
-            $_arr_statData["stat_type"]      = $str_statType;
-            $_arr_statData["stat_target"]    = $str_statTarget;
-            $_arr_statData["stat_target_id"] = $num_statTargetId;
-            $_arr_statData["stat_time"]      = time();
+        if ($_arr_statRow['rcode'] != 'y090102') {
+            $_arr_statData['stat_type']      = $str_statType;
+            $_arr_statData['stat_target']    = $str_statTarget;
+            $_arr_statData['stat_target_id'] = $num_statTargetId;
+            $_arr_statData['stat_time']      = time();
 
-            $_num_statId = $this->obj_db->insert(BG_DB_TABLE . "stat", $_arr_statData);
+            $_num_statId = $this->obj_db->insert(BG_DB_TABLE . 'stat', $_arr_statData);
 
             if ($_num_statId > 0) { //数据库插入是否成功
-                $_str_alert = "y090101";
+                $_str_rcode = 'y090101';
             } else {
                 return array(
-                    "alert" => "x090101",
+                    'rcode' => 'x090101',
                 );
             }
         } else {
             if ($is_hit) {
                 $_arr_statData = array(
-                    "stat_count_hit"   => "stat_count_hit+1",
+                    'stat_count_hit'   => '`stat_count_hit`+1',
                 );
             } else {
                 $_arr_statData = array(
-                    "stat_count_show"  => "stat_count_show+1",
+                    'stat_count_show'  => '`stat_count_show`+1',
                 );
             }
 
-            $_num_mysql = $this->obj_db->update(BG_DB_TABLE . "stat", $_arr_statData, "stat_id=" . $_arr_statRow["stat_id"], true);
+            $_num_db = $this->obj_db->update(BG_DB_TABLE . 'stat', $_arr_statData, '`stat_id`=' . $_arr_statRow['stat_id'], true);
 
-            if ($_num_mysql > 0) { //数据库插入是否成功
-                $_str_alert = "y090103";
+            if ($_num_db > 0) { //数据库插入是否成功
+                $_str_rcode = 'y090103';
             } else {
                 return array(
-                    "alert" => "x090103",
+                    'rcode' => 'x090103',
                 );
             }
         }
 
         return array(
-            "alert"  => $_str_alert,
+            'rcode'  => $_str_rcode,
         );
     }
 
 
-    function mdl_read($str_statType = "", $str_statTarget = "", $num_statTargetId = 0) {
+    function mdl_read($str_statType = '', $str_statTarget = '', $num_statTargetId = 0) {
         $_arr_statSelect = array(
-            "stat_id",
-            "stat_type",
-            "stat_target",
-            "stat_target_id",
-            "stat_time",
-            "stat_count_show",
-            "stat_count_hit",
+            'stat_id',
+            'stat_type',
+            'stat_target',
+            'stat_target_id',
+            'stat_time',
+            'stat_count_show',
+            'stat_count_hit',
         );
 
-        $_str_sqlWhere = "1=1";
+        $_str_sqlWhere = '1';
 
         if ($str_statType) {
-            $_str_sqlWhere .= " AND stat_type='" . $str_statType . "'";
+            $_str_sqlWhere .= ' AND `stat_type`=\'' . $str_statType . '\'';
         }
 
         if ($str_statTarget) {
-            $_str_sqlWhere .= " AND stat_target='" . $str_statTarget . "'";
+            $_str_sqlWhere .= ' AND `stat_target`=\'' . $str_statTarget . '\'';
         }
 
         if ($num_statTargetId > 0) {
-            $_str_sqlWhere .= " AND stat_target_id=" . $num_statTargetId;
+            $_str_sqlWhere .= ' AND `stat_target_id`=' . $num_statTargetId;
         }
 
         switch ($str_statType) {
-            case "year":
-                $_str_sqlWhere .= " AND FROM_UNIXTIME(stat_time, '%Y')='" . date("Y") . "'";
+            case 'year':
+                $_str_sqlWhere .= ' AND FROM_UNIXTIME(`stat_time`, \'%Y\')=\'' . date('Y') . '\'';
             break;
 
-            case "month":
-                $_str_sqlWhere .= " AND FROM_UNIXTIME(stat_time, '%Y-%m')='" . date("Y-m") . "'";
+            case 'month':
+                $_str_sqlWhere .= ' AND FROM_UNIXTIME(`stat_time`, \'%Y-%m\')=\'' . date('Y-m') . '\'';
             break;
 
-            case "day":
-                $_str_sqlWhere .= " AND FROM_UNIXTIME(stat_time, '%Y-%m-%d')='" . date("Y-m-d") . "'";
+            case 'day':
+                $_str_sqlWhere .= ' AND FROM_UNIXTIME(`stat_time`, \'%Y-%m-%d\')=\'' . date('Y-m-d') . '\'';
             break;
         }
 
-        $_arr_statRows = $this->obj_db->select(BG_DB_TABLE . "stat", $_arr_statSelect, $_str_sqlWhere, "", "stat_id DESC", 1, 0);
+        $_arr_order = array(
+            array('stat_id', 'DESC'),
+        );
+
+        $_arr_statRows = $this->obj_db->select(BG_DB_TABLE . 'stat', $_arr_statSelect, $_str_sqlWhere, '', $_arr_order, 1, 0);
 
         if (isset($_arr_statRows[0])) { //用户名不存在则返回错误
             $_arr_statRow = $_arr_statRows[0];
         } else {
             return array(
-                "alert" => "x090102", //不存在记录
+                'rcode' => 'x090102', //不存在记录
             );
         }
 
-        $_arr_statRow["alert"] = "y090102";
+        $_arr_statRow['rcode'] = 'y090102';
 
         return $_arr_statRow;
     }
@@ -212,17 +208,23 @@ class MODEL_STAT {
      */
     function mdl_list($num_no, $num_except = 0, $arr_search = array()) {
         $_arr_statSelect = array(
-            "stat_type",
-            "stat_target",
-            "stat_target_id",
-            "stat_time",
-            "stat_count_show",
-            "stat_count_hit",
+            'stat_type',
+            'stat_target',
+            'stat_target_id',
+            'stat_time',
+            'stat_count_show',
+            'stat_count_hit',
         );
 
         $_str_sqlWhere = $this->sql_process($arr_search);
 
-        $_arr_statRows = $this->obj_db->select(BG_DB_TABLE . "stat", $_arr_statSelect, $_str_sqlWhere, "", "stat_id DESC", $num_no, $num_except);
+        //print_r($_str_sqlWhere);
+
+        $_arr_order = array(
+            array('stat_id', 'DESC'),
+        );
+
+        $_arr_statRows = $this->obj_db->select(BG_DB_TABLE . 'stat', $_arr_statSelect, $_str_sqlWhere, '', $_arr_order, $num_no, $num_except);
 
         return $_arr_statRows;
     }
@@ -241,7 +243,7 @@ class MODEL_STAT {
 
         $_str_sqlWhere = $this->sql_process($arr_search);
 
-        $_num_statCount = $this->obj_db->count(BG_DB_TABLE . "stat", $_str_sqlWhere); //查询数据
+        $_num_statCount = $this->obj_db->count(BG_DB_TABLE . 'stat', $_str_sqlWhere); //查询数据
 
         /*print_r($_arr_userRow);
         exit;*/
@@ -252,12 +254,16 @@ class MODEL_STAT {
 
     function mdl_year() {
         $_arr_statSelect = array(
-            "DISTINCT FROM_UNIXTIME(stat_time, '%Y') AS stat_year",
+            'DISTINCT FROM_UNIXTIME(`stat_time`, \'%Y\') AS `stat_year`',
         );
 
-        $_str_sqlWhere = "stat_time > 0";
+        $_str_sqlWhere = '`stat_time` > 0';
 
-        $_arr_yearRows = $this->obj_db->select(BG_DB_TABLE . "stat", $_arr_statSelect, $_str_sqlWhere, "", "stat_time ASC", 100, 0, false, true);
+        $_arr_order = array(
+            array('stat_time', 'ASC'),
+        );
+
+        $_arr_yearRows = $this->obj_db->select(BG_DB_TABLE . 'stat', $_arr_statSelect, $_str_sqlWhere, '', $_arr_order, 100, 0, true);
 
         return $_arr_yearRows;
     }
@@ -276,46 +282,46 @@ class MODEL_STAT {
      */
     function mdl_del() {
 
-        $_str_sqlWhere = "1=1";
+        $_str_sqlWhere = '1';
 
         //print_r($_str_sqlWhere);
 
-        //$_num_mysql = $this->obj_db->delete(BG_DB_TABLE . "stat", $_str_sqlWhere); //删除数据
+        //$_num_db = $this->obj_db->delete(BG_DB_TABLE . 'stat', $_str_sqlWhere); //删除数据
 
         //如车影响行数小于0则返回错误
-        if ($_num_mysql > 0) {
-            $_str_alert = "y090104";
+        if ($_num_db > 0) {
+            $_str_rcode = 'y090104';
         } else {
-            $_str_alert = "x090104";
+            $_str_rcode = 'x090104';
         }
 
         return array(
-            "alert" => $_str_alert,
+            'rcode' => $_str_rcode,
         ); //成功
     }
 
 
     private function sql_process($arr_search = array()) {
-        $_str_sqlWhere = "1=1";
+        $_str_sqlWhere = '1';
 
-        if (isset($arr_search["type"]) && $arr_search["type"]) {
-            $_str_sqlWhere .= " AND stat_type='" . $arr_search["type"] . "'";
+        if (isset($arr_search['type']) && $arr_search['type']) {
+            $_str_sqlWhere .= ' AND `stat_type`=\'' . $arr_search['type'] . '\'';
         }
 
-        if (isset($arr_search["target"]) && $arr_search["target"]) {
-            $_str_sqlWhere .= " AND stat_target='" . $arr_search["target"] . "'";
+        if (isset($arr_search['target']) && $arr_search['target']) {
+            $_str_sqlWhere .= ' AND `stat_target`=\'' . $arr_search['target'] . '\'';
         }
 
-        if (isset($arr_search["target_id"]) && $arr_search["target_id"] > 0) {
-            $_str_sqlWhere .= " AND stat_target_id=" . $arr_search["target_id"];
+        if (isset($arr_search['target_id']) && $arr_search['target_id'] > 0) {
+            $_str_sqlWhere .= ' AND `stat_target_id`=' . $arr_search['target_id'];
         }
 
-        if (isset($arr_search["year"]) && $arr_search["year"]) {
-            $_str_sqlWhere .= " AND FROM_UNIXTIME(stat_time, '%Y')='" . $arr_search["year"] . "'";
+        if (isset($arr_search['year']) && $arr_search['year']) {
+            $_str_sqlWhere .= ' AND FROM_UNIXTIME(`stat_time`, \'%Y\')=\'' . $arr_search['year'] . '\'';
         }
 
-        if (isset($arr_search["month"]) && $arr_search["month"]) {
-            $_str_sqlWhere .= " AND FROM_UNIXTIME(stat_time, '%m')='" . $arr_search["month"] . "'";
+        if (isset($arr_search['month']) && $arr_search['month']) {
+            $_str_sqlWhere .= ' AND FROM_UNIXTIME(`stat_time`, \'%m\')=\'' . $arr_search['month'] . '\'';
         }
 
         return $_str_sqlWhere;
