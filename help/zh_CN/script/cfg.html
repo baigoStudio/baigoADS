@@ -3,7 +3,6 @@
         配置文件为一个 JSON 文件，必须命名为 config.json，系统将读取此文件，以便使脚本生效。
     </p>
 
-    <div class="panel panel-default">
         <div class="table-responsive">
             <table class="table table-bordered">
                 <thead>
@@ -25,7 +24,7 @@
                         <td class="text-nowrap">plugin</td>
                         <td class="text-nowrap">string</td>
                         <td class="text-nowrap">插件名</td>
-                        <td>创建（编辑）广告位时，选择脚本，会将此参数填入插件名。</td>
+                        <td>创建（编辑）广告位时，选择脚本，会将此参数填入插件名。此处指广告脚本的 jQuery 插件名。</td>
                     </tr>
                     <tr>
                         <td class="text-nowrap">selector</td>
@@ -36,8 +35,8 @@
                     <tr>
                         <td class="text-nowrap">isPercent</td>
                         <td class="text-nowrap">string</td>
-                        <td class="text-nowrap">是否允许几率展现</td>
-                        <td>enable 或 disable，创建（编辑）广告位时，选择脚本，会自动选择允许几率展现。</td>
+                        <td class="text-nowrap">是否允许按几率展现</td>
+                        <td>enable 或 disable，创建（编辑）广告位时，选择脚本，会自动选择允许按几率展现。</td>
                     </tr>
                     <tr>
                         <td class="text-nowrap">count</td>
@@ -49,7 +48,7 @@
                         <td class="text-nowrap">type</td>
                         <td class="text-nowrap">string</td>
                         <td class="text-nowrap">广告内容</td>
-                        <td>media 或 text，创建（编辑）广告位时，选择脚本，会自动选择广告内容。</td>
+                        <td>attach 或 text，创建（编辑）广告位时，选择脚本，会自动选择广告内容。</td>
                     </tr>
                     <tr>
                         <td class="text-nowrap">note</td>
@@ -66,7 +65,6 @@
                 </tbody>
             </table>
         </div>
-    </div>
 
     <div>&nbsp;</div>
 
@@ -77,7 +75,6 @@
         选择脚本，会自动在表单中添加选项表单，并在生成广告代码时，成为广告插件的 JSON 对象。
     </p>
 
-    <div class="panel panel-default">
         <div class="table-responsive">
             <table class="table table-bordered">
                 <thead>
@@ -110,24 +107,27 @@
                 </tbody>
             </table>
         </div>
-    </div>
 
     <div>&nbsp;</div>
 
     <h4>配置文件示例</h4>
+    <div class="alert alert-warning">
+        <span class="oi oi-warning"></span>
+        重要提示：由于系统将读取 JSON 文件，并转换为 PHP 能够支持的数组，因此 JSON 文件中不能含有任何注释，否则系统将会无法正确读取。
+    </div>
     <p>
-<pre><code class="language-javascript">{
-    &quot;name&quot;: &quot;Banner&quot;, //脚本名
-    &quot;plugin&quot;: &quot;adsBanner&quot;, //插件名
-    &quot;selector&quot;: &quot;#adsBanner&quot;, //默认选择器
-    &quot;isPercent&quot;: &quot;enable&quot;, //是否允许几率展现（enable 或 disable）
-    &quot;type&quot;: &quot;media&quot;, //广告内容（media 或 text）
-    &quot;note&quot;: &quot;本脚本需要 jQuery 支持&quot;, //备注说明
-    &quot;opts&quot;: [ //选项
+<pre class="border rounded"><code class="language-javascript">{
+    &quot;name&quot;: &quot;Banner&quot;,
+    &quot;plugin&quot;: &quot;adsBanner&quot;,
+    &quot;selector&quot;: &quot;#adsBanner&quot;,
+    &quot;isPercent&quot;: &quot;enable&quot;,
+    &quot;type&quot;: &quot;attach&quot;,
+    &quot;note&quot;: &quot;本脚本需要 jQuery 支持&quot;,
+    &quot;opts&quot;: [
         {
-            &quot;field&quot;: &quot;loading&quot;, //选项名
-            &quot;label&quot;: &quot;载入消息&quot;, //说明文字
-            &quot;value&quot;: &quot;正在载入广告 ...&quot; //默认值
+            &quot;field&quot;: &quot;loading&quot;,
+            &quot;label&quot;: &quot;载入消息&quot;,
+            &quot;value&quot;: &quot;正在载入广告 ...&quot;
         }
     ]
 }</code></pre>

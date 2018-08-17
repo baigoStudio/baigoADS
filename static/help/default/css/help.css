@@ -1,5 +1,5 @@
-.bg-nav-ads li a { color: #96224c; }
-.bg-nav-ads li.active a { background: #96224c!important; }
-.bg-nav-ads li.active a:hover { background: #96224c!important; }
+.bg-nav-ads li .nav-link { color: #96224c; }
+.bg-nav-ads li .nav-link.active { background: #96224c !important; }
+.bg-nav-ads li .nav-link.active:hover { background: #96224c !important; }
 
 .bg-text-ads { color: #96224c; }

@@ -9,27 +9,25 @@
 include($cfg['pathInclude'] . 'function.php');
 include($cfg['pathInclude'] . 'console_head.php'); ?>
 
-    <div class="form-group">
-        <ul class="nav nav-pills bg-nav-pills">
-            <li>
-                <a href="<?php echo BG_URL_CONSOLE; ?>index.php?mod=posi&act=list">
-                    <span class="glyphicon glyphicon-chevron-left"></span>
-                    <?php echo $this->lang['common']['href']['back']; ?>
-                </a>
-            </li>
-        </ul>
-    </div>
+    <ul class="nav nav-pills mb-3">
+        <li class="nav-item">
+            <a href="<?php echo BG_URL_CONSOLE; ?>index.php?m=posi&a=list" class="nav-link">
+                <span class="oi oi-chevron-left"></span>
+                <?php echo $this->lang['common']['href']['back']; ?>
+            </a>
+        </li>
+    </ul>
 
     <div class="row">
         <div class="col-md-9">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <?php if ($this->tplData['posiRow']['posi_type'] == "media") {
+            <div class="card mb-3 mb-lg-0">
+                <div class="card-body">
+                    <?php if ($this->tplData['posiRow']['posi_type'] == 'attach') {
                         foreach ($this->tplData['advertRows'] as $key=>$value) { ?>
                             <div class="form-group">
                                 <a href="<?php echo $value['advert_url']; ?>" target="_blank">
-                                    <?php if (isset($value['mediaRow']['media_url'])) { ?>
-                                        <img src="<?php echo $value['mediaRow']['media_url']; ?>" width="100%">
+                                    <?php if (isset($value['attachRow']['attach_url'])) { ?>
+                                        <img src="<?php echo $value['attachRow']['attach_url']; ?>" width="100%">
                                     <?php } else {
                                         echo $this->lang['mod']['label']['unknown'];
                                     } ?>
@@ -45,27 +43,26 @@ include($cfg['pathInclude'] . 'console_head.php'); ?>
                     } ?>
 
                     <div class="form-group">
-                        <label class="control-label"><?php echo $this->lang['mod']['label']['dataUrl']; ?></label>
-                        <div class="form-control-static">
-                            <?php echo BG_SITE_URL . BG_URL_API; ?>api.php?mod=advert&amp;act=list&amp;posi_id=<?php echo $this->tplData['posiRow']['posi_id']; ?>
+                        <label><?php echo $this->lang['mod']['label']['dataUrl']; ?></label>
+                        <div class="form-text">
+                            <?php echo BG_SITE_URL . BG_URL_ADVERT; ?>index.php?m=advert&amp;c=request&amp;a=list&amp;posi_id=<?php echo $this->tplData['posiRow']['posi_id']; ?>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <a href="<?php echo BG_URL_CONSOLE; ?>index.php?mod=posi&act=form&posi_id=<?php echo $this->tplData['posiRow']['posi_id']; ?>">
-                            <span class="glyphicon glyphicon-edit"></span>
+                        <a href="<?php echo BG_URL_CONSOLE; ?>index.php?m=posi&a=form&posi_id=<?php echo $this->tplData['posiRow']['posi_id']; ?>">
+                            <span class="oi oi-pencil"></span>
                             <?php echo $this->lang['mod']['href']['edit']; ?>
                         </a>
                     </div>
                 </div>
             </div>
 
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <div class="form-group">
-                        <label class="control-label"><?php echo $this->lang['mod']['label']['posiCode']; ?></label>
-                        <p>
-<pre><code class="language-markup">
+            <div>&nbsp;</div>
+
+            <h4><?php echo $this->lang['mod']['label']['posiCode']; ?></h4>
+            <p>
+<pre class="border rounded"><code class="language-markup">
 &lt;!DOCTYPE html&gt;
 &lt;html lang=&quot;<?php echo substr($this->config['lang'], 0, 2); ?>&quot;&gt;
     &lt;head&gt;
@@ -88,15 +85,16 @@ include($cfg['pathInclude'] . 'console_head.php'); ?>
 
         &lt;!-- <?php echo $this->lang['mod']['label']['posiCodeNote3']; ?> begin --&gt;
         &lt;script type=&quot;text/javascript&quot;&gt;
+        _opts_ad_<?php echo $this->tplData['posiRow']['posi_id']; ?> = {
+            <?php if (!fn_isEmpty($this->tplData['posiRow']['posi_opts'])) {
+                foreach ($this->tplData['posiRow']['posi_opts'] as $key=>$value) {
+                    echo $value['field']; ?>: &quot;<?php echo $value['value']; ?>&quot;, //<?php echo $value['label'] . PHP_EOL;
+                }
+            } ?>
+            data_url: &quot;<?php echo BG_SITE_URL . BG_URL_ADVERT; ?>index.php?m=advert&amp;c=request&amp;a=list&amp;posi_id=<?php echo $this->tplData['posiRow']['posi_id']; ?>&quot
+        };
+
         $(document).ready(function(){
-            _opts_ad_<?php echo $this->tplData['posiRow']['posi_id']; ?> = {
-                <?php if (!fn_isEmpty($this->tplData['posiRow']['posi_opts'])) {
-                    foreach ($this->tplData['posiRow']['posi_opts'] as $key=>$value) {
-                        echo $value['field']; ?>: &quot;<?php echo $value['value']; ?>&quot;, //<?php echo $value['label'] . PHP_EOL;
-                    }
-                } ?>
-                data_url: &quot;<?php echo BG_SITE_URL . BG_URL_API; ?>api.php?mod=advert&amp;act=list&amp;posi_id=<?php echo $this->tplData['posiRow']['posi_id']; ?>&quot
-            };
             $(&quot;<?php echo $this->tplData['posiRow']['posi_selector']; ?>_<?php echo $this->tplData['posiRow']['posi_id']; ?>&quot;).<?php echo $this->tplData['posiRow']['posi_plugin']; ?>(_opts_ad_<?php echo $this->tplData['posiRow']['posi_id']; ?>);
         });
         &lt;/script&gt;
@@ -109,57 +107,56 @@ include($cfg['pathInclude'] . 'console_head.php'); ?>
     &lt;/body&gt;
 &lt;/html&gt;
 </code></pre>
-                        </p>
+            </p>
 
-                        <span class="help-block"><?php echo $this->lang['mod']['text']['posiCodeNote']; ?></span>
-                    </div>
-                </div>
-            </div>
+            <div><?php echo $this->lang['mod']['text']['posiCodeNote']; ?></div>
         </div>
 
         <div class="col-md-3">
-            <div class="well">
+            <div class="card bg-light">
+                <div class="card-body">
                 <div class="form-group">
-                    <label class="control-label"><?php echo $this->lang['mod']['label']['id']; ?></label>
-                    <div class="form-control-static"><?php echo $this->tplData['posiRow']['posi_id']; ?></div>
+                    <label><?php echo $this->lang['mod']['label']['id']; ?></label>
+                    <div class="form-text"><?php echo $this->tplData['posiRow']['posi_id']; ?></div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label"><?php echo $this->lang['mod']['label']['posiName']; ?></label>
-                    <div class="form-control-static"><?php echo $this->tplData['posiRow']['posi_name']; ?></div>
+                    <label><?php echo $this->lang['mod']['label']['posiName']; ?></label>
+                    <div class="form-text"><?php echo $this->tplData['posiRow']['posi_name']; ?></div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label"><?php echo $this->lang['mod']['label']['posiCount']; ?></label>
-                    <div class="form-control-static"><?php echo $this->tplData['posiRow']['posi_count']; ?></div>
+                    <label><?php echo $this->lang['mod']['label']['posiCount']; ?></label>
+                    <div class="form-text"><?php echo $this->tplData['posiRow']['posi_count']; ?></div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label"><?php echo $this->lang['mod']['label']['contentType']; ?></label>
-                    <div class="form-control-static"><?php echo $this->lang['mod']['type'][$this->tplData['posiRow']['posi_type']]; ?></div>
+                    <label><?php echo $this->lang['mod']['label']['contentType']; ?></label>
+                    <div class="form-text"><?php echo $this->lang['mod']['type'][$this->tplData['posiRow']['posi_type']]; ?></div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label"><?php echo $this->lang['mod']['label']['note']; ?></label>
-                    <div class="form-control-static"><?php echo $this->tplData['posiRow']['posi_note']; ?></div>
+                    <label><?php echo $this->lang['mod']['label']['note']; ?></label>
+                    <div class="form-text"><?php echo $this->tplData['posiRow']['posi_note']; ?></div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label"><?php echo $this->lang['mod']['label']['status']; ?></label>
-                    <div class="form-control-static">
+                    <label><?php echo $this->lang['mod']['label']['status']; ?></label>
+                    <div class="form-text">
                         <?php posi_status_process($this->tplData['posiRow']['posi_status'], $this->lang['mod']['status']); ?>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <a href="<?php echo BG_URL_CONSOLE; ?>index.php?mod=posi&act=form&posi_id=<?php echo $this->tplData['posiRow']['posi_id']; ?>">
-                        <span class="glyphicon glyphicon-edit"></span>
+                    <a href="<?php echo BG_URL_CONSOLE; ?>index.php?m=posi&a=form&posi_id=<?php echo $this->tplData['posiRow']['posi_id']; ?>">
+                        <span class="oi oi-pencil"></span>
                         <?php echo $this->lang['mod']['href']['edit']; ?>
                     </a>
                 </div>
+            </div>
             </div>
         </div>
     </div>
 
 <?php include($cfg['pathInclude'] . 'console_foot.php');
-include($cfg['pathInclude'] . 'html_foot.php'); ?>
+include($cfg['pathInclude'] . 'html_foot.php');

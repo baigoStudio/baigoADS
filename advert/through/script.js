@@ -11,7 +11,7 @@ License: http://www.opensource.org/licenses/mit-license.php
         var _parent_id = thisObj.attr("id");
         var _posiRow;
         var _str_advert;
-        var _str_media;
+        var _str_attach;
         var _str_href;
 
         var defaults = {
@@ -53,13 +53,13 @@ License: http://www.opensource.org/licenses/mit-license.php
                         _str_href = _result.advertRows[0].advert_href;
                     }
 
-                    if (typeof _posiRow.posi_type != "undefined" && _posiRow.posi_type == "media" && typeof _result.advertRows[0].mediaRow.media_url != "undefined") {
-                        _str_media = "<img src='" + _result.advertRows[0].mediaRow.media_url + "' width='100%'>";
+                    if (typeof _posiRow.posi_type != "undefined" && _posiRow.posi_type == "attach" && typeof _result.advertRows[0].attachRow.attach_url != "undefined") {
+                        _str_attach = "<img src='" + _result.advertRows[0].attachRow.attach_url + "' width='100%'>";
                     } else if (typeof _result.advertRows[0].advert_content != "undefined") {
-                        _str_media = _result.advertRows[0].advert_content;
+                        _str_attach = _result.advertRows[0].advert_content;
                     }
 
-                    _str_advert = "<div class='btn_close'><a href='javascript:void(0);'>" + opts.close + "</a></div><div><a href='" + _str_href + "' target='_blank'>" + _str_media + "</a></div>";
+                    _str_advert = "<div class='btn_close'><a href='javascript:void(0);'>" + opts.close + "</a></div><div><a href='" + _str_href + "' target='_blank'>" + _str_attach + "</a></div>";
 
                     $("#" + _parent_id + " .throughChild").html(_str_advert);
 

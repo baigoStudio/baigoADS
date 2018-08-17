@@ -6,13 +6,13 @@
 include($cfg['pathInclude'] . 'login_head.php'); ?>
 
         <h4>
-            <span class="glyphicon glyphicon-refresh bg-spin"></span>
+            <span class="oi oi-loop-circular bg-spin"></span>
             <?php echo $this->lang['mod']['label']['submitting']; ?>
         </h4>
-        <div class="form-group">
+        <div class="mb-3">
             <?php echo $this->lang['mod']['text']['notForward']; ?>
         </div>
-        <div class="form-group">
+        <div class="mb-3">
             <a href="<?php echo BG_URL_CONSOLE; ?>index.php" class="btn btn-primary"><?php echo $this->lang['mod']['href']['forward']; ?></a>
         </div>
 
@@ -24,23 +24,21 @@ include($cfg['pathInclude'] . 'login_head.php'); ?>
             foreach ($this->tplData['sync']['urlRows'] as $key=>$value) { ?>
                 $.ajax({
                     url: "<?php echo $value; ?>", //url
-                    dataType: "jsonp", //数据格式为 jsonp 支持跨域提交
-                    jsonp: "c",
-                    jsonpCallback: "f"
+                    dataType: "jsonp" //数据格式为 jsonp 支持跨域提交
                 });
             <?php } ?>
 
             $(this).ajaxStop(function(){
                 setTimeout(function(){
                     window.location.href = "<?php echo $this->tplData['forward']; ?>";
-                }, 1500);
+                }, 1000);
             });
         <?php } else { ?>
             setTimeout(function(){
                 window.location.href = "<?php echo $this->tplData['forward']; ?>";
-            }, 3000);
+            }, 1000);
         <?php } ?>
     });
     </script>
 
-<?php include($cfg['pathInclude'] . 'html_foot.php'); ?>
+<?php include('include' . DS . 'html_foot.php');

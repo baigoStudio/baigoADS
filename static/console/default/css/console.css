@@ -1,23 +1,15 @@
-.bg-navbar { background: #444; width: 100%; }
-.bg-navbar .bg-navbar-btn { color: #ccc; display: inline-block; padding: 10px; text-decoration: none; }
-.bg-navbar .bg-navbar-btn:hover { background: #555 !important; color: #fff; }
-
-.bg-navbar .active .bg-navbar-btn { background: #555 !important; color: #fff; }
-
-.bg-navbar .list-inline { margin: 0; }
-.bg-navbar .bg-navbar-btn .badge { color: #444; background-color: #ccc; }
-.bg-navbar .bg-navbar-btn:hover .badge { color: #000; background-color: #fff; }
-
-.bg-navbar-img { padding: 10px; }
-.bg-navbar-dropdown { margin-top: 0; border-top-left-radius: 0; border-top-right-radius: 0; }
-
-.affix {
-    top: 0; left: 0; right: 0; z-index: 100; background: #fff; padding: 10px 15px; text-align: center;
-    -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, .3) !important;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, .3) !important;
+@media (max-width: 767px) {
+    .bg-accordion .card { border: 0 !important; border-radius: 0; }
+    .bg-accordion .card > .list-group:first-child .list-group-item:first-child {
+        border-radius: 0;
+    }
+    .bg-accordion .card > .list-group:last-child .list-group-item:last-child {
+        border-radius: 0;
+    }
 }
 
-.bg-overflow { overflow: hidden; }
+.bg-content, .bg-content * { max-width: 100% !important; }
+.bg-btn-bottom { border-color: rgba(0, 0, 0, .125); border-width: 1px 0 0 0; border-radius: 0 0 .2rem .2rem; }
 
 .table .bg-child-2 { padding-left: 23px !important; }
 .table .bg-child-3 { padding-left: 38px !important; }

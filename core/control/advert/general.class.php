@@ -29,5 +29,7 @@ class GENERAL_ADVERT {
         if (file_exists(BG_PATH_LANG . $this->config['lang'] . DS . 'advert' . DS . $GLOBALS['route']['bg_mod'] . '.php')) {
             $this->obj_tpl->lang['mod'] = fn_include(BG_PATH_LANG . $this->config['lang'] . DS . 'advert' . DS . $GLOBALS['route']['bg_mod'] . '.php');
         }
+
+        $GLOBALS['obj_plugin']->trigger('action_pub_init'); //前台初始化时触发
     }
 }

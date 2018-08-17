@@ -54,14 +54,14 @@ function fn_getIp() {
 
 
 /** 验证码校对
- * fn_seccode function.
+ * fn_captcha function.
  *
  * @access public
  * @return void
  */
-function fn_seccode() {
-    $_str_seccode = strtolower(fn_post('seccode'));
-    if ($_str_seccode != fn_session('seccode')) {
+function fn_captcha() {
+    $_str_captcha = strtolower(fn_post('captcha'));
+    if ($_str_captcha != fn_session('captcha')) {
         return false;
     } else {
         return true;
@@ -286,11 +286,17 @@ function fn_page($num_count, $num_per = BG_DEFAULT_PERPAGE, $method = 'get') {
  * @param string $method (default: '')
  * @return void
  */
-function fn_jsonEncode($arr_json = '', $method = '') {
+function fn_jsonEncode($arr_json = '', $encode = false) {
+    if ($encode) {
+        $_str_encode = 'encode';
+    } else {
+        $_str_encode = '';
+    }
+
     if (fn_isEmpty($arr_json)) {
         $str_json = '';
     } else {
-        $arr_json = fn_eachArray($arr_json, $method);
+        $arr_json = fn_eachArray($arr_json, $_str_encode);
         //print_r($method);
         $str_json = json_encode($arr_json); //json编码
     }
@@ -307,13 +313,20 @@ function fn_jsonEncode($arr_json = '', $method = '') {
  * @param string $method (default: '')
  * @return void
  */
-function fn_jsonDecode($str_json = '', $method = '') {
+function fn_jsonDecode($str_json = '', $decode = false) {
+    if ($decode) {
+        $_str_decode = 'decode';
+    } else {
+        $_str_decode = '';
+    }
+
     if (fn_isEmpty($str_json)) {
         $arr_json = array();
     } else {
         $arr_json = json_decode($str_json, true); //json解码
-        $arr_json = fn_eachArray($arr_json, $method);
+        $arr_json = fn_eachArray($arr_json, $_str_decode);
     }
+
     return $arr_json;
 }
 
@@ -329,11 +342,11 @@ function fn_jsonDecode($str_json = '', $method = '') {
  */
 function fn_eachArray($arr, $method = 'encode') {
     $_is_magic = get_magic_quotes_gpc();
-    if (is_array($arr)) {
+    if (is_array($arr) && !fn_isEmpty($arr)) {
         foreach ($arr as $_key=>$_value) {
-            if (is_array($_value)) {
+            if (is_array($_value) && !fn_isEmpty($_value)) {
                 $arr[$_key] = fn_eachArray($_value, $method);
-            } else {
+            } else if (!fn_isEmpty($_value)) {
                 switch ($method) {
                     case 'encode':
                         if ($_is_magic) {
@@ -362,11 +375,14 @@ function fn_eachArray($arr, $method = 'encode') {
                         $arr[$_key] = $_str;
                     break;
                 }
+            } else {
+                $arr[$_key] = '';
             }
         }
     } else {
         $arr = array();
     }
+
     return $arr;
 }
 
@@ -381,16 +397,7 @@ function fn_eachArray($arr, $method = 'encode') {
  * @return void
  */
 function fn_baigoCrypt($str, $salt) {
-    $_obj_dir   = new CLASS_DIR();
-
-    $_str_rand  = fn_rand();
-
-    if (!file_exists(BG_PATH_CACHE . 'sys' . DS . 'crypt_key_pub.php')) {
-        $_str_key = '<?php return \'' . $_str_rand . '\';';
-        $_obj_dir->put_file(BG_PATH_CACHE . 'sys' . DS . 'crypt_key_pub.php', $_str_key);
-    }
-
-    $key_pub = fn_include(BG_PATH_CACHE . 'sys' . DS . 'crypt_key_pub.php');
+    $key_pub = $GLOBALS['obj_base']->key_pub;;
 
     $_str           = md5($str);
     $_salt          = md5($salt); //用 md5 加密盐
@@ -481,7 +488,7 @@ function fn_cookie($key, $method = 'get', $value = '', $tm = 3600, $path = '') {
         break;
 
         case 'unset':
-            setcookie($key . '_' . BG_SITE_SSIN, '', time() - 3600);
+            setcookie($key . '_' . BG_SITE_SSIN, null, time() - 3600, $path);
         break;
 
         default:

@@ -2,7 +2,7 @@
     'pathInclude'    => BG_PATH_TPLSYS . 'console' . DS . 'default' . DS . 'include' . DS
 );
 
-include($cfg['pathInclude'] . "result_head.php");
+include($cfg['pathInclude'] . 'result_head.php');
     $_str_msg   = '';
     $_str_rcode = '';
 
@@ -19,11 +19,10 @@ include($cfg['pathInclude'] . "result_head.php");
     }
 
     $_arr_tpl = array(
-        "rcode"  => $_str_rcode,
-        "msg"    => $_str_msg,
+        'rcode'  => $_str_rcode,
+        'msg'    => $_str_msg,
     );
 
     $_arr_tplData = array_merge($this->tplData, $_arr_tpl);
 
     exit(json_encode($_arr_tplData)); //输出错误信息
- ?>

@@ -15,7 +15,8 @@ class CLASS_UPLOAD {
     public $mimeRows   = array();
 
     function __construct() { //构造函数
-        $this->obj_dir    = new CLASS_DIR();
+        $this->obj_file          = new CLASS_FILE();
+        $this->obj_file->perms   = 0755;
     }
 
 
@@ -58,16 +59,16 @@ class CLASS_UPLOAD {
      * @return void
      */
     function upload_pre() {
-        $this->mediaFiles = $_FILES['media_files'];
+        $this->attachFiles = $_FILES['attach_files'];
 
         //是否上传文件校验
-        if (!is_uploaded_file($this->mediaFiles['tmp_name'])) {
+        if (!is_uploaded_file($this->attachFiles['tmp_name'])) {
             return array(
                 'rcode' => 'x070206',
             );
         }
 
-        switch ($this->mediaFiles['error']) { //返回错误
+        switch ($this->attachFiles['error']) { //返回错误
             case 1:
                 return array(
                     'rcode' => 'x100201',
@@ -102,34 +103,51 @@ class CLASS_UPLOAD {
 
 
         $_obj_finfo               = new finfo();
-        $this->mediaFiles['mime'] = $_obj_finfo->file($this->mediaFiles['tmp_name'], FILEINFO_MIME_TYPE);
+        $this->attachFiles['mime'] = $_obj_finfo->file($this->attachFiles['tmp_name'], FILEINFO_MIME_TYPE);
 
-        if ($this->mediaFiles['mime'] == 'CDF V2 Document, corrupt: Can\'t expand summary_info') { //如果无法识别则以浏览器报告的 mime 为准
-            $this->mediaFiles['mime'] = $this->mediaFiles['type'];
+        if ($this->attachFiles['mime'] == 'CDF V2 Document, corrupt: Can\'t expand summary_info') { //如果无法识别则以浏览器报告的 mime 为准
+            $this->attachFiles['mime'] = $this->attachFiles['type'];
         }
 
-        $_str_ext                 = $this->mimeRows[$this->mediaFiles['mime']];
-        $this->mediaFiles['ext']  = strtolower($_str_ext); //扩展名
+        $_str_ext = strtolower(pathinfo($this->attachFiles['name'], PATHINFO_EXTENSION)); //取得扩展名
 
-        if (!array_key_exists($this->mediaFiles['mime'], $this->mimeRows)) { //是否允许
+        //扩展名与 MIME 不符的情况下, 反向查找, 如果允许, 则更改扩展名
+        if (!isset($this->mimeRows[$_str_ext]) || !in_array($this->attachFiles['mime'], $this->mimeRows[$_str_ext])) {
+            foreach ($this->mimeRows as $_key_allow=>$_value_allow) {
+                if (in_array($this->attachFiles['mime'], $_value_allow)) {
+                    $_str_ext = $_key_allow;
+                    break;
+                }
+            }
+        }
+
+        if (!isset($this->mimeRows[$_str_ext])) { //该扩展名的 mime 数组是否存在
+            return array(
+                'rcode' => 'x070207',
+            );
+        }
+
+        if (!in_array($this->attachFiles['mime'], $this->mimeRows[$_str_ext])) { //是否允许
             return array(
                 'rcode' => 'x070202',
             );
         }
 
-        if ($this->mediaFiles['size'] > $this->uploadSize) { //是否超过尺寸
+        if ($this->attachFiles['size'] > $this->uploadSize) { //是否超过尺寸
             return array(
                 'rcode' => 'x070203',
             );
         }
 
+        $this->attachFiles['ext'] = $_str_ext;
+
         return array(
-            'media_tmp'     => $this->mediaFiles['tmp_name'],
-            'media_ext'     => $this->mediaFiles['ext'],
-            'media_mime'    => $this->mediaFiles['mime'],
-            'media_name'    => $this->mediaFiles['name'],
-            'media_size'    => $this->mediaFiles['size'],
-            'rcode'         => 'y100201',
+            'attach_tmp'     => $this->attachFiles['tmp_name'],
+            'attach_ext'     => $this->attachFiles['ext'],
+            'attach_mime'    => $this->attachFiles['mime'],
+            'attach_name'    => $this->attachFiles['name'],
+            'attach_size'    => $this->attachFiles['size'],
+            'rcode'          => 'y100201',
         );
     }
 
@@ -139,28 +157,28 @@ class CLASS_UPLOAD {
      *
      * @access public
      * @param mixed $tm_time 上传时间
-     * @param mixed $num_mediaId 文件ID
+     * @param mixed $num_attachId 文件ID
      * @return void
      */
-    function upload_submit($tm_time, $num_mediaId) {
+    function upload_submit($tm_time, $num_attachId) {
 
-        $this->mediaPath  = BG_PATH_MEDIA . date('Y', $tm_time) . DS . date('m', $tm_time) . DS;
-        $_str_mediaPre    = BG_URL_MEDIA;
-        $_str_mediaUrl    = $_str_mediaPre . date('Y', $tm_time) . '/' . date('m', $tm_time) . '/';
+        $this->attachPath  = BG_PATH_ATTACH . date('Y', $tm_time) . DS . date('m', $tm_time) . DS;
+        $_str_attachPre    = BG_URL_ATTACH;
+        $_str_attachUrl    = $_str_attachPre . date('Y', $tm_time) . '/' . date('m', $tm_time) . '/';
 
-        if (!$this->obj_dir->mk_dir($this->mediaPath)) { //建目录失败
+        if (!$this->obj_file->dir_mk($this->attachPath)) { //建目录失败
             return array(
                 'rcode' => 'x100101',
             );
         }
 
-        $this->mediaName = $num_mediaId; //原始文件名
+        $this->attachName = $num_attachId; //原始文件名
 
-        move_uploaded_file($this->mediaFiles['tmp_name'], $this->mediaPath . $this->mediaName . '.' . $this->mediaFiles['ext']); //将上传的文件移到指定路径
+        move_uploaded_file($this->attachFiles['tmp_name'], $this->attachPath . $this->attachName . '.' . $this->attachFiles['ext']); //将上传的文件移到指定路径
 
         return array(
-            'media_path' => $this->mediaPath . $this->mediaName . '.' . $this->mediaFiles['ext'],
-            'media_url'  => $_str_mediaUrl . $this->mediaName . '.' . $this->mediaFiles['ext'],
+            'attach_path' => $this->attachPath . $this->attachName . '.' . $this->attachFiles['ext'],
+            'attach_url'  => $_str_attachUrl . $this->attachName . '.' . $this->attachFiles['ext'],
             'rcode'      => 'y070401',
         );
     }
@@ -170,17 +188,17 @@ class CLASS_UPLOAD {
      * upload_del function.
      *
      * @access public
-     * @param mixed $arr_media 预删除的文件数组
+     * @param mixed $arr_attach 预删除的文件数组
      * @return void
      */
-    function upload_del($arr_media) {
-        foreach ($arr_media as $_key=>$_value) {
-            $_str_filePath = date('Y', $_value['media_time']) . DS . date('m', $_value['media_time']) . DS . $_value['media_id'] . '.' . $_value['media_ext'];
+    function upload_del($arr_attach) {
+        foreach ($arr_attach as $_key=>$_value) {
+            $_str_filePath = date('Y', $_value['attach_time']) . DS . date('m', $_value['attach_time']) . DS . $_value['attach_id'] . '.' . $_value['attach_ext'];
 
             //print_r($_str_filePath);
             //exit;
 
-            $this->obj_dir->del_file(BG_PATH_MEDIA . $_str_filePath);
+            $this->obj_file->file_del(BG_PATH_ATTACH . $_str_filePath);
         }
     }
 

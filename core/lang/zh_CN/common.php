@@ -27,6 +27,8 @@ return array(
     'label' => array(
         'month'         => '月', //月
         'submitting'    => '正在提交 ...',
+        'errPlugin'     => '经插件过滤的数据错误',
+        'errInput'      => '输入错误，请检查！',
     ),
 
     'pm' => array(
@@ -38,7 +40,7 @@ return array(
 
     'profile' => array(
         'info'      => array(
-            'icon'  => 'user',
+            'icon'  => 'person',
             'title' => '个人资料',
         ),
         'prefer'    => array(
@@ -46,11 +48,11 @@ return array(
             'title' => '偏好设置',
         ),
         'pass'      => array(
-            'icon'  => 'lock',
+            'icon'  => 'key',
             'title' => '密码',
         ),
         'qa'        => array(
-            'icon'  => 'question-sign',
+            'icon'  => 'lock-locked',
             'title' => '密保问题',
         ),
         'mailbox'   => array(
@@ -93,37 +95,37 @@ return array(
 
         'x030404' => '<h4>数据库未正确设置：</h4>
             <ol>
-                <li><a href="' . BG_URL_INSTALL . 'index.php?mod=install&act=dbconfig">返回重新设置</a></li>
+                <li><a href="' . BG_URL_INSTALL . 'index.php?m=install&a=dbconfig">返回重新设置</a></li>
             </ol>',
 
         'x030408' => '<h4>如需重新安装，请执行如下步骤：</h4>
             <ol>
                 <li>删除 ' . BG_URL_SSO . 'config/installed.php 文件</li>
-                <li>重新运行 <a href="' . BG_URL_INSTALL . 'index.php?mod=install&act=ssoAuto">' . BG_URL_INSTALL . 'index.php?mod=install&act=ssoAuto</a></li>
+                <li>重新运行 <a href="' . BG_URL_INSTALL . 'index.php?m=install&a=ssoAuto">' . BG_URL_INSTALL . 'index.php?m=install&a=ssoAuto</a></li>
             </ol>',
 
         'x030417' => '<h4>未通过服务器环境检查，安装无法继续：</h4>
             <ol>
-                <li>重新检查环境 <a href="' . BG_URL_INSTALL . 'index.php?mod=install">' . BG_URL_INSTALL . 'index.php?mod=install</a></li>
+                <li>重新检查环境 <a href="' . BG_URL_INSTALL . 'index.php?m=install">' . BG_URL_INSTALL . 'index.php?m=install</a></li>
                 <li>根据检查结果，正确安装所必需的 PHP 扩展库。</li>
             </ol>',
 
         'x030418' => '<h4>未通过服务器环境检查，升级无法继续：</h4>
             <ol>
-                <li>重新检查环境 <a href="' . BG_URL_INSTALL . 'index.php?mod=upgrade">' . BG_URL_INSTALL . 'index.php?mod=upgrade</a></li>
+                <li>重新检查环境 <a href="' . BG_URL_INSTALL . 'index.php?m=upgrade">' . BG_URL_INSTALL . 'index.php?m=upgrade</a></li>
                 <li>根据检查结果，正确安装所必需的 PHP 扩展库。</li>
             </ol>',
 
         'x030420' => '<h4>SSO 未正确上传</h4>
             <ol>
                 <li>重新检查 SSO 是否已完整上传至 ' . BG_PATH_SSO . '</li>
-                <li>重新运行 <a href="' . BG_URL_INSTALL . 'index.php?mod=install&act=ssoAuto">' . BG_URL_INSTALL . 'index.php?mod=install&act=ssoAuto</a></li>
+                <li>重新运行 <a href="' . BG_URL_INSTALL . 'index.php?m=install&a=ssoAuto">' . BG_URL_INSTALL . 'index.php?m=install&a=ssoAuto</a></li>
             </ol>',
 
         'x030421' => '<h4>SSO 未正确上传</h4>
             <ol>
                 <li>重新检查 SSO 是否已完整上传至 ' . BG_PATH_SSO . '</li>
-                <li>重新运行 <a href="' . BG_URL_INSTALL . 'index.php?mod=install&act=ssoAdmin">' . BG_URL_INSTALL . 'index.php?mod=install&act=ssoAdmin</a></li>
+                <li>重新运行 <a href="' . BG_URL_INSTALL . 'index.php?m=install&a=ssoAdmin">' . BG_URL_INSTALL . 'index.php?m=install&a=ssoAdmin</a></li>
             </ol>',
     ),
 );

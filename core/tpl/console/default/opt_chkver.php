@@ -5,71 +5,67 @@
     'baigoValidator' => 'true',
     'baigoSubmit'    => 'true',
     'pathInclude'    => BG_PATH_TPLSYS . 'console' . DS . 'default' . DS . 'include' . DS,
-    'str_url'        => BG_URL_CONSOLE . "index.php?mod=opt&act=chkver"
+    'str_url'        => BG_URL_CONSOLE . 'index.php?m=opt&a=chkver'
 );
 
 include($cfg['pathInclude'] . 'console_head.php'); ?>
 
-    <div class="form-group">
-        <ul class="nav nav-pills bg-nav-pills">
-            <li>
-                <a href="<?php echo BG_URL_HELP; ?>index.php?mod=console&act=opt#chkver" target="_blank">
-                    <span class="glyphicon glyphicon-question-sign"></span>
-                    <?php echo $this->lang['mod']['href']['help']; ?>
-                </a>
-            </li>
-        </ul>
-    </div>
-
-    <form name="opt_chkver" id="opt_chkver">
-
-        <input type="hidden" name="<?php echo $this->common['tokenRow']['name_session']; ?>" value="<?php echo $this->common['tokenRow']['token']; ?>">
-        <input type="hidden" name="act" value="chkver">
-
-        <div class="bg-submit-box"></div>
-
-        <div class="form-group">
-            <button type="button" class="btn btn-info bg-submit"><?php echo $this->lang['mod']['btn']['chkver']; ?></button>
-        </div>
-    </form>
+    <ul class="nav nav-pills mb-3">
+        <li class="nav-item">
+            <a href="<?php echo BG_URL_HELP; ?>index.php?m=console&a=opt#chkver" class="nav-link" target="_blank">
+                <span class="badge badge-pill badge-primary">
+                    <span class="oi oi-question-mark"></span>
+                </span>
+                <?php echo $this->lang['mod']['href']['help']; ?>
+            </a>
+        </li>
+    </ul>
 
     <?php if (isset($this->tplData['latest_ver']['prd_pub']) && $this->tplData['installed_pub'] < $this->tplData['latest_ver']['prd_pub']) { ?>
         <div class="alert alert-warning">
-            <span class="glyphicon glyphicon-warning-sign"></span>
+            <span class="oi oi-warning"></span>
             <?php echo $this->lang['mod']['text']['haveNewVer']; ?>
         </div>
     <?php } else { ?>
         <div class="alert alert-success">
-            <span class="glyphicon glyphicon-heart"></span>
+            <span class="oi oi-heart"></span>
             <?php echo $this->lang['mod']['text']['isNewVer']; ?>
         </div>
     <?php } ?>
 
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <?php echo $this->lang['mod']['label']['installVer']; ?>
+    <form name="opt_chkver" id="opt_chkver">
+        <input type="hidden" name="<?php echo $this->common['tokenRow']['name_session']; ?>" value="<?php echo $this->common['tokenRow']['token']; ?>">
+        <input type="hidden" name="a" value="chkver">
+
+        <div class="card">
+            <div class="card-header">
+                <?php echo $this->lang['mod']['label']['installVer']; ?>
+            </div>
+            <div class="card-body">
+                <dl>
+                    <dt><?php echo $this->lang['mod']['label']['installVer']; ?></dt>
+                    <dd><?php echo BG_INSTALL_VER; ?></dd>
+                    <dt><?php echo $this->lang['mod']['label']['pubTime']; ?></dt>
+                    <dd><?php echo date(BG_SITE_DATE, $this->tplData['installed_pub']); ?></dd>
+                    <dt><?php echo $this->lang['mod']['label']['installTime']; ?></dt>
+                    <dd><?php echo date(BG_SITE_DATE . ' ' . BG_SITE_TIMESHORT, BG_INSTALL_TIME); ?></dd>
+                </dl>
+
+                <div class="bg-submit-box"></div>
+            </div>
+
+            <div class="card-footer">
+                <button type="button" class="btn btn-info bg-submit">
+                    <span class="oi oi-reload"></span>
+                    <?php echo $this->lang['mod']['btn']['chkver']; ?>
+                </button>
+            </div>
         </div>
-        <table class="table">
-            <tbody>
-                <tr>
-                    <td class="nowrap bg-td-lg"><?php echo $this->lang['mod']['label']['installVer']; ?></td>
-                    <td><?php echo BG_INSTALL_VER; ?></td>
-                </tr>
-                <tr>
-                    <td class="nowrap bg-td-lg"><?php echo $this->lang['mod']['label']['pubTime']; ?></td>
-                    <td><?php echo date(BG_SITE_DATE, $this->tplData['installed_pub']); ?></td>
-                </tr>
-                <tr>
-                    <td class="nowrap bg-td-lg"><?php echo $this->lang['mod']['label']['installTime']; ?></td>
-                    <td><?php echo date(BG_SITE_DATE . ' ' . BG_SITE_TIMESHORT, BG_INSTALL_TIME); ?></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+    </form>
 
     <?php if (isset($this->tplData['latest_ver']['prd_pub']) && $this->tplData['installed_pub'] < $this->tplData['latest_ver']['prd_pub']) { ?>
-        <div class="panel panel-warning">
-            <div class="panel-heading">
+        <div class="card card-warning">
+            <div class="card-header">
                 <?php echo $this->lang['mod']['label']['latestVer']; ?>
             </div>
             <table class="table">
@@ -83,11 +79,11 @@ include($cfg['pathInclude'] . 'console_head.php'); ?>
                         <td><?php echo date(BG_SITE_DATE, $this->tplData['latest_ver']['prd_pub']); ?></td>
                     </tr>
                     <tr>
-                        <td class="nowrap bg-td-lg"><?php echo $this->lang['mod']['label']['announcement']; ?></td>
+                        <td class="nowrap bg-td-lg"><?php echo $this->lang['mod']['label']['announce']; ?></td>
                         <td><a href="<?php echo $this->tplData['latest_ver']['prd_announcement']; ?>" target="_blank"><?php echo $this->tplData['latest_ver']['prd_announcement']; ?></a></td>
                     </tr>
                     <tr>
-                        <td class="nowrap bg-td-lg"><?php echo $this->lang['mod']['label']['downloadUrl']; ?></td>
+                        <td class="nowrap bg-td-lg"><?php echo $this->lang['mod']['label']['downUrl']; ?></td>
                         <td><a href="<?php echo $this->tplData['latest_ver']['prd_download']; ?>" target="_blank"><?php echo $this->tplData['latest_ver']['prd_download']; ?></a></td>
                     </tr>
                 </tbody>
@@ -99,7 +95,7 @@ include($cfg['pathInclude'] . 'console_foot.php'); ?>
 
     <script type="text/javascript">
     var opts_submit_form = {
-        ajax_url: "<?php echo BG_URL_CONSOLE; ?>request.php?mod=opt",
+        ajax_url: "<?php echo BG_URL_CONSOLE; ?>index.php?m=opt&c=request",
         msg_text: {
             submitting: "<?php echo $this->lang['common']['label']['submitting']; ?>"
         }
@@ -113,4 +109,4 @@ include($cfg['pathInclude'] . 'console_foot.php'); ?>
     });
     </script>
 
-<?php include($cfg['pathInclude'] . 'html_foot.php'); ?>
+<?php include('include' . DS . 'html_foot.php');

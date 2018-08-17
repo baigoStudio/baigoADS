@@ -47,8 +47,8 @@ return array(
         'advertPutShow'   => '展示数不超过',
         'advertPutHit'    => '点击数不超过',
         'advertPercent'   => '展现几率',
-        'advertMedia'     => '图片',
-        'advertMediaNote' => '您也可以直接输入图片 ID',
+        'advertAttach'     => '图片',
+        'advertAttachNote' => '您也可以直接输入图片 ID',
         'advertContent'   => '文字内容',
         'advertShow'      => '总展示数',
         'advertHit'       => '总点击数',
@@ -64,7 +64,7 @@ return array(
     ),
 
     'type' => array(
-        'media'   => '图片',
+        'attach'  => '图片',
         'text'    => '文字',
     ),
 
@@ -73,7 +73,7 @@ return array(
         'show'    => '按展示数',
         'hit'     => '按点击数',
         'none'    => '无限制',
-        'subs'    => '替补广告',
+        'backup'  => '替补广告',
     ),
 
     /*------选择项------*/

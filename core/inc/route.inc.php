@@ -15,40 +15,42 @@ return array(
             'advert',
             'posi',
             'stat',
-            'media',
+            'attach',
             'admin',
             'link',
             'opt',
+            'plugin',
             'profile',
             'pm',
             'login',
             'forgot',
-            'seccode'
+            'captcha'
         ),
         'request' => array(
             'advert',
             'posi',
-            'media',
+            'attach',
             'admin',
             'link',
             'opt',
+            'plugin',
             'profile',
             'pm',
             'login',
             'forgot',
-            'seccode',
+            'captcha',
             'token'
         ),
     ),
     'advert' => array(
+        'request' => array(
+            'advert',
+        ),
         'ui' => array(
             'advert',
         ),
     ),
     'api' => array(
-        'api' => array(
-            'advert',
-        ),
         'sso' => array(
             'notify',
             'sync',

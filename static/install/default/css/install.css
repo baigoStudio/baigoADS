@@ -1,0 +1,2 @@
+.bg-list-group :first-child { border-top: none; }
+.bg-list-group :last-child { border-bottom: none; }

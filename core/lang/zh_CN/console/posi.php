@@ -61,9 +61,10 @@ return array(
         'contentType'     => '广告内容',
         'posiScript'      => '广告脚本',
         'posiPlugin'      => '插件名',
+        'posiPluginNote'  => '此处指广告脚本的 jQuery 插件名',
         'posiSelector'    => '默认选择器',
         'posiOption'      => '选项：',
-        'isPercent'       => '允许几率展现',
+        'isPercent'       => '允许按几率展现',
         'dataUrl'         => '广告数据 URL',
     ),
 
@@ -73,7 +74,7 @@ return array(
     ),
 
     'type' => array(
-        'media'   => '图片',
+        'attach'  => '图片',
         'text'    => '文字',
     ),
 

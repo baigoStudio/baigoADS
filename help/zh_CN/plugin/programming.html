@@ -1,0 +1,271 @@
+<h3>PHP 主文件</h3>
+<p>
+    文件名必须为 action.php，此文件必须包含一个 PHP 类，名称必须为 <code>PLUGIN_插件类名</code>，类名应当注意是否重名。
+</p>
+<p>
+    系统实例化该类时，会通过参数将 <mark>插件对象</mark> 引用到构造函数中，以便插件调用相关方法。关于 <mark>插件对象</mark> 请点此 <a href="{$BG_URL_HELP}index.php?m=plugin&a=obj_plugin">查看</a>。
+</p>
+
+<div>&nbsp;</div>
+<h5>示例代码</h5>
+<p>
+<pre class="border rounded"><code class="language-php">/** 规则
+* 1. 本插件类的文件名必须是 action.php
+* 2. 插件类的名称必须是 PLUGIN_类名 英文大写
+* 3. 用户设置键名为 $obj_plugin-&gt;opt[类名] 英文小写
+*/
+
+/**
+* 这是一个 Hello 简单插件的实现
+*/
+if (!class_exists('PLUGIN_HELLO')) { //防止类重复
+    class PLUGIN_HELLO {
+
+        public $opts = array();
+
+        //构造函数的参数是 obj_plugin 的引用
+        function __construct(&amp;$obj_plugin) {
+            //注册这个插件
+            //第一个参数是 钩子 的名称
+            //第二个参数是 本类 的引用
+            //第三个是插件所执行的 方法（函数）
+            $obj_plugin-&gt;register('hello', $this, 'say_hello');
+
+            if (isset($obj_plugin-&gt;opt['hello'])) {
+                $this-&gt;opts = $obj_plugin-&gt;opt['hello']; //用户对本插件的设置
+            }
+        }
+
+
+        function say_hello() {
+            echo 'Hello World!';
+        }
+    }
+}</code></pre>
+</p>
+
+<div>&nbsp;</div>
+<div class="text-right">
+    <a href="#top">
+        <span class="oi oi-chevron-top"></span>
+        top
+    </a>
+</div>
+<hr>
+<div>&nbsp;</div>
+
+<a name="config"></a>
+<h3>插件的描述文件</h3>
+<p>
+    文件名必须为 config.php，此文件直接返回数组。
+</p>
+
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th class="text-nowrap">键名</th>
+                    <th class="text-nowrap">类型</th>
+                    <th class="text-nowrap">必需</th>
+                    <th class="text-nowrap">说明</th>
+                    <th>备注</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-nowrap">name</td>
+                    <td class="text-nowrap">string</td>
+                    <td class="text-nowrap">true</td>
+                    <td class="text-nowrap">插件名</td>
+                    <td>插件的名称。</td>
+                </tr>
+                <tr>
+                    <td class="text-nowrap">class</td>
+                    <td class="text-nowrap">string</td>
+                    <td class="text-nowrap">true</td>
+                    <td class="text-nowrap">PHP 类名</td>
+                    <td>安装插件以后，系统会自动实例化该类，生成一个对象。</td>
+                </tr>
+                <tr>
+                    <td class="text-nowrap">version</td>
+                    <td class="text-nowrap">string</td>
+                    <td class="text-nowrap">true</td>
+                    <td class="text-nowrap">版本</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="text-nowrap">author</td>
+                    <td class="text-nowrap">string</td>
+                    <td class="text-nowrap">true</td>
+                    <td class="text-nowrap">作者</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="text-nowrap">detail</td>
+                    <td class="text-nowrap">string</td>
+                    <td class="text-nowrap">false</td>
+                    <td class="text-nowrap">说明</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="text-nowrap">plugin_url</td>
+                    <td class="text-nowrap">string</td>
+                    <td class="text-nowrap">false</td>
+                    <td class="text-nowrap">插件网址</td>
+                    <td>由该开发者自行设立，介绍插件的使用方法等。</td>
+                </tr>
+                <tr>
+                    <td class="text-nowrap">author_url</td>
+                    <td class="text-nowrap">string</td>
+                    <td class="text-nowrap">false</td>
+                    <td class="text-nowrap">作者网址</td>
+                    <td>由该开发者自行设立，介绍作者等。</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+<div>&nbsp;</div>
+
+<div>&nbsp;</div>
+<h5>示例代码</h5>
+<p>
+<pre class="border rounded"><code class="language-php">return array(
+    'name'       =&gt; 'hello', //插件名称, 推荐使用英文、数字、下划线（必需）
+    'class'      =&gt; 'hello', //类名称, 只能为英文小写、数字（必需）
+    'version'    =&gt; '1.0', //版本（必需）
+    'author'     =&gt; 'Baigo', //作者（必需）
+    'detail'     =&gt; '本插件为一个开发示例', //说明
+    'plugin_url' =&gt; 'http://www.baigo.net/cms/plugin/hello', //插件地址
+    'author_url' =&gt; 'http://www.baigo.net', //作者地址
+);</code></pre>
+</p>
+
+<div>&nbsp;</div>
+<div class="text-right">
+    <a href="#top">
+        <span class="oi oi-chevron-top"></span>
+        top
+    </a>
+</div>
+<hr>
+<div>&nbsp;</div>
+
+<a name="opts"></a>
+<h3>插件的配置文件</h3>
+<p>
+    文件名必须为 opts.php，此文件直接返回数组。该文件会自动在后台管理的插件设置表单中添加选项，用户保存后在插件目录生成 opts.json 文件。
+</p>
+
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th class="text-nowrap">键名</th>
+                    <th class="text-nowrap">类型</th>
+                    <th class="text-nowrap">必需</th>
+                    <th class="text-nowrap">说明</th>
+                    <th>备注</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-nowrap">type</td>
+                    <td class="text-nowrap">string</td>
+                    <td class="text-nowrap">true</td>
+                    <td class="text-nowrap">类型</td>
+                    <td>可选 text, textarea, select, radio。</td>
+                </tr>
+                <tr>
+                    <td class="text-nowrap">min</td>
+                    <td class="text-nowrap">int</td>
+                    <td class="text-nowrap">true</td>
+                    <td class="text-nowrap">最短长度</td>
+                    <td>用户设置时需要输入内容的最短长度。</td>
+                </tr>
+                <tr>
+                    <td class="text-nowrap">default</td>
+                    <td class="text-nowrap">string</td>
+                    <td class="text-nowrap">true</td>
+                    <td class="text-nowrap">默认值</td>
+                    <td>生成表单时，该值自动填充表单。</td>
+                </tr>
+                <tr>
+                    <td class="text-nowrap">label</td>
+                    <td class="text-nowrap">string</td>
+                    <td class="text-nowrap">false</td>
+                    <td class="text-nowrap">说明文字</td>
+                    <td>表单说明。</td>
+                </tr>
+                <tr>
+                    <td class="text-nowrap">format</td>
+                    <td class="text-nowrap">string</td>
+                    <td class="text-nowrap">false</td>
+                    <td class="text-nowrap">输入格式</td>
+                    <td>用户设置时，输入内容的格式限制，可选 text, int, digit。</td>
+                </tr>
+                <tr>
+                    <td class="text-nowrap">note</td>
+                    <td class="text-nowrap">string</td>
+                    <td class="text-nowrap">false</td>
+                    <td class="text-nowrap">备注</td>
+                    <td>备注。</td>
+                </tr>
+                <tr>
+                    <td class="text-nowrap">option</td>
+                    <td class="text-nowrap">array</td>
+                    <td class="text-nowrap">false</td>
+                    <td class="text-nowrap">选项</td>
+                    <td>当 type 类型为 select、radio 时，该项为必需。请注意：select 和 radio 的结构是不同的，详情请查看示例代码。</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+<div>&nbsp;</div>
+<h5>示例代码</h5>
+<p>
+<pre class="border rounded"><code class="language-php">return array(
+    'text' =&gt; array(
+        'type'      =&gt; 'text', //可选 text, textarea, select, radio
+        'label'     =&gt; '文本框',
+        'format'    =&gt; 'int', //可选 text, int, digit
+        'min'       =&gt; 1, //最短
+        'default'   =&gt; 100, //默认值
+        'note'      =&gt; '备注', //备注
+    ),
+    'textarea' =&gt; array(
+        'type'      =&gt; 'textarea',
+        'label'     =&gt; '文本域',
+        'format'    =&gt; 'text',
+        'min'       =&gt; 0,
+        'default'   =&gt; '默认值',
+    ),
+    'select' =&gt; array(
+        'type'      =&gt; 'select',
+        'label'     =&gt; '下拉菜单',
+        'min'       =&gt; 1,
+        'default'   =&gt; 'opt_1',
+        'option'    =&gt; array(
+            'opt_1' =&gt; '选项-1',
+            'opt_2' =&gt; '选项-2',
+            'opt_3' =&gt; '选项-3',
+        ),
+    ),
+    'radio' =&gt; array(
+        'type'       =&gt; 'radio',
+        'label'      =&gt; '单选',
+        'min'        =&gt; 1,
+        'default'    =&gt; 'opt_1',
+        'option'     =&gt; array(
+            'opt_1'  =&gt; array(
+                'value'    =&gt; '选项-1',
+                'note'     =&gt; '选项备注', //备注
+            ),
+            'opt_2'  =&gt; array(
+                'value'    =&gt; '选项-2',
+            ),
+        ),
+    ),
+);</code></pre>
+</p>

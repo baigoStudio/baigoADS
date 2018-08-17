@@ -1,20 +1,22 @@
-    <?php if (isset($cfg['baigoValidator'])) { ?>
+    <?php $GLOBALS['obj_plugin']->trigger('action_console_foot_before'); //后台界面底部触发
+
+    if (isset($cfg['baigoValidator'])) { ?>
         <!--表单验证 js-->
-        <script src="<?php echo BG_URL_STATIC; ?>lib/baigoValidator/baigoValidator.min.js" type="text/javascript"></script>
+        <script src="<?php echo BG_URL_STATIC; ?>lib/baigoValidator/2.2.5/baigoValidator.min.js" type="text/javascript"></script>
     <?php }
 
     if (isset($cfg['baigoSubmit'])) { ?>
         <!--表单 ajax 提交 js-->
-        <script src="<?php echo BG_URL_STATIC; ?>lib/baigoSubmit/baigoSubmit.min.js" type="text/javascript"></script>
+        <script src="<?php echo BG_URL_STATIC; ?>lib/baigoSubmit/2.0.5/baigoSubmit.min.js" type="text/javascript"></script>
     <?php }
 
     if (isset($cfg['reloadImg'])) { ?>
         <!--重新载入图片 js-->
         <script type="text/javascript">
         $(document).ready(function(){
-            $(".seccodeBtn").click(function(){
-                var imgSrc = "<?php echo BG_URL_CONSOLE; ?>index.php?mod=seccode&act=make&" + new Date().getTime() + "at" + Math.random();
-                $(".seccodeImg").attr('src', imgSrc);
+            $(".captchaBtn").click(function(){
+                var imgSrc = "<?php echo BG_URL_CONSOLE; ?>index.php?m=captcha&a=make&" + new Date().getTime() + "at" + Math.random();
+                $(".captchaImg").attr('src', imgSrc);
             });
         });
         </script>
@@ -22,16 +24,16 @@
 
     if (isset($cfg['baigoCheckall'])) { ?>
         <!--全选 js-->
-        <script src="<?php echo BG_URL_STATIC; ?>lib/baigoCheckall/baigoCheckall.min.js" type="text/javascript"></script>
+        <script src="<?php echo BG_URL_STATIC; ?>lib/baigoCheckall/1.0.3/baigoCheckall.min.js" type="text/javascript"></script>
     <?php }
 
     if (isset($cfg['baigoClear'])) { ?>
         <!--表单 ajax 提交 js-->
-        <script src="<?php echo BG_URL_STATIC; ?>lib/baigoClear/baigoClear.min.js" type="text/javascript"></script>
+        <script src="<?php echo BG_URL_STATIC; ?>lib/baigoClear/1.0.8/baigoClear.min.js" type="text/javascript"></script>
     <?php }
 
     if (isset($cfg['upload'])) { ?>
-        <script src="<?php echo BG_URL_STATIC; ?>lib/webuploader/webuploader.html5only.min.js" type="text/javascript"></script>
+        <script src="<?php echo BG_URL_STATIC; ?>lib/webuploader/0.1.5/webuploader.html5only.min.js" type="text/javascript"></script>
     <?php }
 
     if (isset($cfg['prism'])) { ?>
@@ -40,7 +42,7 @@
 
     if (isset($cfg['datepicker'])) { ?>
         <!--日历插件-->
-        <script src="<?php echo BG_URL_STATIC; ?>lib/datetimepicker/jquery.datetimepicker.js" type="text/javascript"></script>
+        <script src="<?php echo BG_URL_STATIC; ?>lib/datetimepicker/2.3.0/jquery.datetimepicker.js" type="text/javascript"></script>
         <script type="text/javascript">
         var opts_datetimepicker = {
             lang: "<?php echo $this->config['lang']; ?>",
@@ -91,7 +93,7 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">
                             <?php echo $this->lang['common']['btn']['ok']; ?>
                         </button>
                     </div>
@@ -101,7 +103,7 @@
 
         <script type="text/javascript">
         function tokenReload() {
-            $.getJSON("<?php echo BG_URL_CONSOLE; ?>request.php?mod=token&act=make", function(result){
+            $.getJSON("<?php echo BG_URL_CONSOLE; ?>index.php?m=token&c=request&a=make", function(result){
                 if (result.rcode == 'y020102') {
                     $("#box_pm_new").text(result.pm_count);
                 } else {
@@ -120,8 +122,33 @@
         </script>
     <?php } ?>
 
-    <script src="<?php echo BG_URL_STATIC; ?>lib/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-    <script src="<?php echo BG_URL_STATIC; ?>lib/baigoAccordion/baigoAccordion.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+    $(document).ready(function(){
+        $(".bg-accordion .collapse").on("shown.bs.collapse", function(){
+            var _key = $(this).data("key");
+            $("#bg-caret-" + _key).attr("class", "oi oi-chevron-right");
+        });
 
+        $(".bg-accordion .collapse").on("hidden.bs.collapse", function(){
+            var _key = $(this).data("key");
+            $("#bg-caret-" + _key).attr("class", "oi oi-chevron-bottom");
+        });
+    });
+    </script>
+
+    <script src="<?php echo BG_URL_STATIC; ?>lib/popper/1.12.9/popper.min.js" type="text/javascript"></script>
+    <script src="<?php echo BG_URL_STATIC; ?>lib/bootstrap/4.1.3/js/bootstrap.min.js" type="text/javascript"></script>
+
+    <!--
+        <?php echo PRD_ADS_POWERED, ' ';
+        if (BG_DEFAULT_UI == 'default') {
+            echo PRD_ADS_NAME;
+        } else {
+            echo BG_DEFAULT_UI, ' ADS ';
+        }
+        echo PRD_ADS_VER; ?>
+    -->
+
+    <?php $GLOBALS['obj_plugin']->trigger('action_console_foot_after'); //后台界面底部触发 ?>
 </body>
 </html>

@@ -31,7 +31,7 @@ return array(
         'statMonth'       => '月份',
         'statDay'         => '日期',
 
-        'posi'            => '广告位',
+        'posi'            => '隶属广告位',
         'posiName'        => '广告位名称',
         'contentType'     => '广告内容',
 
@@ -55,7 +55,7 @@ return array(
     ),
 
     'type' => array(
-        'media'   => '图片',
+        'attach'  => '图片',
         'text'    => '文字',
     ),
 

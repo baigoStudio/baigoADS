@@ -20,11 +20,12 @@ return array(
     'label' => array(
         'username'      => '用户名', //用户名
         'password'      => '密码', //密码
-        'seccode'       => '验证码', //验证码
+        'captcha'       => '验证码', //验证码
         'submitting'    => '正在登录 ...',
     ),
 
     'href' => array(
+        'help'      => '帮助',
         'login'     => '直接登录',
         'forgot'    => '忘记密码',
         'jumping'   => '正在跳转',
@@ -33,7 +34,7 @@ return array(
 
     'btn' => array(
         'login'     => '登录', //登录
-        'seccode'   => '看不清', //验证码
+        'captcha'   => '看不清', //验证码
     ),
 
     'text' => array(

@@ -1,0 +1,74 @@
+<h3>广告数组</h3>
+
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th class="text-nowrap">名称</th>
+                    <th class="text-nowrap">类型</th>
+                    <th class="text-nowrap">说明</th>
+                    <th>备注</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-nowrap">advert_id</td>
+                    <td class="text-nowrap">int</td>
+                    <td class="text-nowrap">广告 ID</td>
+                    <td>添加广告时，ID 为 0。</td>
+                </tr>
+                <tr>
+                    <td class="text-nowrap">advert_name</td>
+                    <td class="text-nowrap">string</td>
+                    <td class="text-nowrap">广告名称</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="text-nowrap">advert_content</td>
+                    <td class="text-nowrap">string</td>
+                    <td class="text-nowrap">广告文字内容</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="text-nowrap">advert_href</td>
+                    <td class="text-nowrap">string</td>
+                    <td class="text-nowrap">广告链接地址</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="text-nowrap">attachRow</td>
+                    <td class="text-nowrap">array</td>
+                    <td class="text-nowrap">图片信息</td>
+                    <td>详情请查看 <a href="{$BG_URL_HELP}index.php?m=script&a=data#attachRow" target="_blank">attachRow</a>。</td>
+                </tr>
+                <tr>
+                    <td class="text-nowrap">rcode</td>
+                    <td class="text-nowrap">string</td>
+                    <td class="text-nowrap">返回代码</td>
+                    <td>详情请查看 <a href="{$BG_URL_HELP}index.php?m=tpl&a=rcode" target="_blank">返回代码</a>。</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+<div>&nbsp;</div>
+
+<h5>数据示例</h5>
+<p>
+<pre class="border rounded"><code class="language-php">Array (
+    [advert_id] =&gt; 82 //广告 ID
+    [advert_name] =&gt; Banner_5 //广告名称
+    [advert_note] =&gt;  //备注
+    [advert_href] =&gt; http://www.domain.com/advert/index.php?m=advert&amp;a=url&amp;advert_id=5 //广告链接
+    [rcode] =&gt; y080102 //返回代码
+    [attachRow] =&gt; ( //图片信息
+        [attach_id] =&gt; 4, //图片 ID
+        [attach_name] =&gt; 20080228_fa178442e062486695ad9OcYaxbrb2Qv.jpg //图片原始文件名
+        [attach_ext] =&gt; jpg //图片扩展名
+        [attach_mime] =&gt; image/jpeg //MIME
+        [attach_size] =&gt; 62308, //图片大小
+        [attach_url] =&gt; http://www.domain.com/attach/2015/09/4.jpg //图片 URL
+        [rcode] =&gt; y070102 //返回代码
+    )
+)</code></pre>
+</p>

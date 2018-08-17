@@ -4,7 +4,7 @@
     "selector": "#adsJumbotron",
     "isPercent": "enable",
     "count": 1,
-    "type": "media",
+    "type": "attach",
     "note": "本脚本需要 jQuery 支持",
     "opts": [
         {

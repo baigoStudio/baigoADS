@@ -25,14 +25,14 @@
 
     <h4>脚本文件示例</h4>
     <p>
-<pre><code class="language-javascript">(function($){
-    $.fn.adsBanner = function(options) {
+<pre class="border rounded"><code class="language-javascript">(function($){
+    $.fn.adsBanner = function(options) { //定义为 jQuery 插件
         &quot;use strict&quot;;
         var thisObj = $(this); //定义当前对象
         var _parent_id = thisObj.attr(&quot;id&quot;); //获取父容器 ID
         var _posiRow; //广告位数组
         var _str_advert; //广告 HTML
-        var _str_media; //广告媒体 HTML
+        var _str_attach; //广告媒体 HTML
         var _str_href; //广告链接
 
         var defaults = {
@@ -60,13 +60,13 @@
                         _str_href = _result.advertRows[0].advert_href;
                     }
 
-                    if (typeof _posiRow.posi_type != &quot;undefined&quot; &amp;&amp; _posiRow.posi_type == &quot;media&quot; &amp;&amp; typeof _result.advertRows[0].mediaRow.media_url != &quot;undefined&quot;) {
-                        _str_media = &quot;&lt;img src='&quot; + _result.advertRows[0].mediaRow.media_url + &quot;' width='100%'&gt;&quot;;
+                    if (typeof _posiRow.posi_type != &quot;undefined&quot; &amp;&amp; _posiRow.posi_type == &quot;attach&quot; &amp;&amp; typeof _result.advertRows[0].attachRow.attach_url != &quot;undefined&quot;) {
+                        _str_attach = &quot;&lt;img src='&quot; + _result.advertRows[0].attachRow.attach_url + &quot;' width='100%'&gt;&quot;;
                     } else if (typeof _result.advertRows[0].advert_content != &quot;undefined&quot;) {
-                        _str_media = _result.advertRows[0].advert_content;
+                        _str_attach = _result.advertRows[0].advert_content;
                     }
 
-                    _str_advert = &quot;&lt;a href='&quot; + _str_href + &quot;' target='_blank'&gt;&quot; + _str_media + &quot;&lt;/a&gt;&quot;;
+                    _str_advert = &quot;&lt;a href='&quot; + _str_href + &quot;' target='_blank'&gt;&quot; + _str_attach + &quot;&lt;/a&gt;&quot;;
 
                     $(&quot;#&quot; + _parent_id + &quot; .bannerChild&quot;).html(_str_advert);
                 }

@@ -18,7 +18,7 @@ class GENERAL_CONSOLE {
     function __construct() { //构造函数
         $this->config   = $GLOBALS['obj_base']->config;
 
-        $this->obj_dir          = new CLASS_DIR();
+        $this->obj_file          = new CLASS_FILE();
         $this->obj_tpl          = new CLASS_TPL(BG_PATH_TPLSYS . 'console' . DS . BG_DEFAULT_UI); //初始化视图对象
 
         $this->obj_tpl->opt         = $GLOBALS['obj_config']->arr_opt; //系统设置配置文件
@@ -51,6 +51,10 @@ class GENERAL_CONSOLE {
             'status'    => $_mdl_pm->arr_status,
             'type'      => $_mdl_pm->arr_type,
         );
+
+        $this->mdl_admin     = new MODEL_ADMIN(); //设置管理员对象
+
+        $GLOBALS['obj_plugin']->trigger('action_console_init'); //管理后台初始化时触发
     }
 
 
@@ -69,18 +73,29 @@ class GENERAL_CONSOLE {
 
         if (fn_isEmpty(fn_session('admin_id')) || fn_isEmpty(fn_session('admin_ssin_time')) || fn_isEmpty(fn_session('admin_hash')) || $_num_ssinTimeDiff < time() || fn_isEmpty(fn_cookie('admin_id')) || fn_isEmpty(fn_cookie('admin_ssin_time')) || fn_isEmpty(fn_cookie('admin_hash')) || $_num_cookieTimeDiff < time()) {
             $this->ssin_end();
-            $_arr_adminRow['rcode'] = 'x020402';
+            return array(
+                'rcode' => 'x020402',
+            );
+        }
+
+        $_arr_adminRow  = $this->mdl_admin->mdl_read(fn_session('admin_id'));
+        if ($_arr_adminRow['rcode'] != 'y020102') {
+            $this->ssin_end();
             return $_arr_adminRow;
         }
 
-        $_mdl_admin     = new MODEL_ADMIN(); //设置管理员对象
-
-        $_arr_adminRow  = $_mdl_admin->mdl_read(fn_session('admin_id'));
+        if ($_arr_adminRow['admin_status'] == 'disable') {
+            $this->ssin_end();
+            return array(
+                'rcode' => 'x020401',
+            );
+        }
 
         if ($this->hash_process($_arr_adminRow) != fn_session('admin_hash') || $this->hash_process($_arr_adminRow) != fn_cookie('admin_hash')){
             $this->ssin_end();
-            $_arr_adminRow['rcode'] = 'x020403';
-            return $_arr_adminRow;
+            return array(
+                'rcode' => 'x020403',
+            );
         }
 
         fn_session('admin_ssin_time', 'mk', time());
@@ -93,20 +108,22 @@ class GENERAL_CONSOLE {
 
 
     function ssin_login($num_adminId, $str_accessToken, $tm_accessExpire, $str_refreshToken, $tm_refreshExpire) {
-        $_mdl_admin    = new MODEL_ADMIN(); //设置管理员对象
-        $_arr_adminRow = $_mdl_admin->mdl_read($num_adminId); //本地数据库处理
+        $_arr_adminRow = $this->mdl_admin->mdl_read($num_adminId); //本地数据库处理
 
         if ($_arr_adminRow['rcode'] != 'y020102') {
+            $this->ssin_end();
             return $_arr_adminRow;
         }
 
         if ($_arr_adminRow['admin_status'] == 'disable') {
+            $this->ssin_end();
             return array(
                 'rcode' => 'x020401',
             );
         }
 
-        $_arr_loginRow = $_mdl_admin->mdl_login($num_adminId, $str_accessToken, $tm_accessExpire, $str_refreshToken, $tm_refreshExpire);
+        $_arr_loginRow = $this->mdl_admin->mdl_login($num_adminId, $str_accessToken, $tm_accessExpire, $str_refreshToken, $tm_refreshExpire);
+        $_arr_loginRow['admin_name'] = $_arr_adminRow['admin_name'];
 
         fn_session('admin_id', 'mk', $num_adminId);
         fn_session('admin_ssin_time', 'mk', time());
@@ -130,9 +147,9 @@ class GENERAL_CONSOLE {
         fn_session('admin_id', 'unset');
         fn_session('admin_ssin_time', 'unset');
         fn_session('admin_hash', 'unset');
-        fn_cookie('admin_id', 'unset');
-        fn_cookie('admin_ssin_time', 'unset');
-        fn_cookie('admin_hash', 'unset');
+        fn_cookie('admin_id', 'unset', '', '', BG_URL_CONSOLE);
+        fn_cookie('admin_ssin_time', 'unset', '', '', BG_URL_CONSOLE);
+        fn_cookie('admin_hash', 'unset', '', '', BG_URL_CONSOLE);
     }
 
 
@@ -143,7 +160,7 @@ class GENERAL_CONSOLE {
         if (file_exists(BG_PATH_CONFIG . 'installed.php')) { //如果新文件存在
             fn_include(BG_PATH_CONFIG . 'installed.php'); //载入
         } else if (file_exists(BG_PATH_CONFIG . 'is_install.php')) { //如果旧文件存在
-            $this->obj_dir->copy_file(BG_PATH_CONFIG . 'is_install.php', BG_PATH_CONFIG . 'installed.php'); //拷贝
+            $this->obj_file->file_copy(BG_PATH_CONFIG . 'is_install.php', BG_PATH_CONFIG . 'installed.php'); //拷贝
             fn_include(BG_PATH_CONFIG . 'installed.php'); //载入
         } else { //如已安装文件不存在
             $_str_rcode = 'x030415';
@@ -152,7 +169,7 @@ class GENERAL_CONSOLE {
 
         if (defined('BG_INSTALL_PUB') && PRD_ADS_PUB > BG_INSTALL_PUB) { //如果小于当前版本
             $_str_rcode = 'x030416';
-            $_str_jump  = BG_URL_INSTALL . 'index.php?mod=upgrade';
+            $_str_jump  = BG_URL_INSTALL . 'index.php?m=upgrade';
         }
 
         if (!fn_isEmpty($_str_rcode)) {
@@ -179,11 +196,12 @@ class GENERAL_CONSOLE {
         $_str_jump  = '';
 
         if ($arr_adminLogged['rcode'] != 'y020102') {
+            $this->ssin_end();
             $_str_rcode = $arr_adminLogged['rcode'];
 
             if ($GLOBALS['view'] != 'iframe') {
                 $_str_forwart   = fn_forward(fn_server('REQUEST_URI'));
-                $_str_jump      = BG_URL_CONSOLE . 'index.php?mod=login&forward=' . $_str_forwart;
+                $_str_jump      = BG_URL_CONSOLE . 'index.php?m=login&forward=' . $_str_forwart;
             }
         }
 
@@ -214,6 +232,6 @@ class GENERAL_CONSOLE {
 
 
     private function hash_process($arr_adminRow) {
-        return fn_baigoCrypt($arr_adminRow['admin_time_login'] . fn_server('HTTP_USER_AGENT'), $arr_adminRow['admin_ip']);
+        return fn_baigoCrypt($arr_adminRow['admin_id'] . $arr_adminRow['admin_name'] . $arr_adminRow['admin_time_login'], $arr_adminRow['admin_ip']);
     }
 }

@@ -13,11 +13,24 @@ if (!defined('IN_BAIGO')) {
 class CLASS_BASE {
 
     public $config; //配置
+    public $key_pub;
 
     function __construct() { //构造函数
-        //$this->getUi(); //获取界面类型
+        $this->obj_file = new CLASS_FILE();
+
+        $this->getKeyPub();
         $this->getLang(); //获取当前语言
         $this->setTimezone(); //设置时区
+    }
+
+    function getKeyPub() {
+        if (!file_exists(BG_PATH_CACHE . 'sys' . DS . 'crypt_key_pub.php')) {
+            $_str_rand  = fn_rand();
+            $_str_key   = '<?php return \'' . $_str_rand . '\';';
+            $this->obj_file->file_put(BG_PATH_CACHE . 'sys' . DS . 'crypt_key_pub.php', $_str_key);
+        }
+
+        $this->key_pub = fn_include(BG_PATH_CACHE . 'sys' . DS . 'crypt_key_pub.php');
     }
 
     /*============设置语言============

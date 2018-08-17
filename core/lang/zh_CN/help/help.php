@@ -12,6 +12,7 @@ return array(
         'doc'       => '开发文档',
         'tpl'       => '模板文档',
         'script'    => '广告脚本文档',
+        'plugin'    => '插件文档',
     ),
 
     'label' => array(
@@ -25,7 +26,7 @@ return array(
 
     'setup'     => array(
         'outline'     => '安装概述',
-        'phplib'         => '服务器环境检查',
+        'phplib'      => '服务器环境检查',
         'dbconfig'    => '数据库设置',
         'dbtable'     => '创建数据表',
         'base'        => '基本设置',
@@ -37,7 +38,7 @@ return array(
 
     'upgrade'     => array(
         'outline'     => '升级概述',
-        'phplib'         => '服务器环境检查',
+        'phplib'      => '服务器环境检查',
         'dbconfig'    => '数据库设置',
         'dbtable'     => '升级数据库',
         'base'        => '基本设置',
@@ -62,10 +63,11 @@ return array(
     'console'     => array(
         'outline' => '后台概述',
         'advert'  => '广告管理',
-        'media'   => '图片管理',
+        'attach'  => '图片管理',
         'posi'    => '广告位管理',
         'admin'   => '管理员',
         'link'    => '链接',
+        'plugin'  => '插件管理',
         'opt'     => '系统设置',
     ),
 
@@ -79,7 +81,21 @@ return array(
 
     'tpl'     => array(
         'outline'   => '模板概述',
+        'common'    => '通用资源',
         'error'     => '错误',
         'rcode'     => '返回代码',
+    ),
+
+    'plugin' => array(
+        'outline'       => '插件概述',
+        'create'        => '创建插件',
+        'programming'   => '编写插件',
+        'obj_plugin'    => '插件对象',
+        'data'          => '保存插件数据',
+        'class_file'    => '文件系统类',
+        'obj_db'        => '数据库对象',
+        'hook'          => '插件钩子',
+        'action'        => '动作 Action',
+        'filter'        => '过滤器 Filter',
     ),
 );

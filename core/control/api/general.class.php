@@ -112,10 +112,12 @@ class GENERAL_API {
             $_arr_tpl['msg'] = $_str_msg;
         }
 
+        //print_r($arr_tplData);
+
         $_arr_tplData = array_merge($arr_tplData, $_arr_tpl);
 
         if ($is_encode) {
-            $_str_return = fn_jsonEncode($_arr_tplData, 'encode');
+            $_str_return = fn_jsonEncode($_arr_tplData, true);
         } else {
             $_str_return = json_encode($_arr_tplData);
         }
@@ -130,25 +132,23 @@ class GENERAL_API {
     }
 
     function notify_input($str_method = 'get', $chk_token = false) {
-
         switch ($str_method) {
             case 'post':
                 $_str_time                  = fn_post('time');
-                $_str_signature             = fn_post('signature');
+                $_str_sign                  = fn_post('sign');
                 $_str_code                  = fn_post('code');
-                $this->jsonp_callback       = fn_getSafe(fn_post('c'), 'txt', 'f');
-                $_arr_notifyInput['act']    = fn_getSafe(fn_post('act'), 'txt', '');
+                $this->jsonp_callback       = fn_getSafe(fn_post('callback'), 'txt', 'f');
+                $_arr_notifyInput['act']    = fn_getSafe($GLOBALS['route']['bg_act'], 'txt', '');
             break;
 
             default:
                 $_str_time                  = fn_get('time');
-                $_str_signature             = fn_get('signature');
+                $_str_sign                  = fn_get('sign');
                 $_str_code                  = fn_get('code');
-                $this->jsonp_callback       = fn_getSafe(fn_get('c'), 'txt', 'f');
-                $_arr_notifyInput['act']    = fn_getSafe(fn_get('act'), 'txt', '');
+                $this->jsonp_callback       = fn_getSafe(fn_get('callback'), 'txt', 'f');
+                $_arr_notifyInput['act']    = fn_getSafe($GLOBALS['route']['bg_act'], 'txt', '');
             break;
         }
-
 
         $_arr_time = fn_validate($_str_time, 1, 0);
         switch ($_arr_time['status']) {
@@ -163,8 +163,8 @@ class GENERAL_API {
             break;
         }
 
-        $_arr_signature = fn_validate($_str_signature, 1, 0);
-        switch ($_arr_signature['status']) {
+        $_arr_sign = fn_validate($_str_sign, 1, 0);
+        switch ($_arr_sign['status']) {
             case 'too_short':
                 return array(
                     'rcode' => 'x220203',
@@ -172,7 +172,7 @@ class GENERAL_API {
             break;
 
             case 'ok':
-                $_arr_notifyInput['signature'] = $_arr_signature['str'];
+                $_arr_notifyInput['sign'] = $_arr_sign['str'];
             break;
         }
 

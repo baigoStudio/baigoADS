@@ -21,6 +21,7 @@ return array(
     'href' => array(
         'forgot'    => '忘记密码',
         'login'     => '直接登录',
+        'help'      => '帮助',
     ),
 
     'label' => array(
@@ -28,7 +29,7 @@ return array(
         'answer'        => '回答',
         'passNew'       => '新密码', //密码
         'passConfirm'   => '确认密码', //密码
-        'seccode'       => '验证码',
+        'captcha'       => '验证码',
     ),
 
     /*------长篇文字------*/
@@ -40,6 +41,6 @@ return array(
         'submit'  => '提交',
         'prev'    => '上一步',
         'next'    => '下一步',
-        'seccode'   => '看不清', //验证码
+        'captcha'   => '看不清', //验证码
     ),
 );

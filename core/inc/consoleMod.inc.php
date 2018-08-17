@@ -37,16 +37,16 @@ return array(
             'stat'       => 'Statistics',
         ),
     ),
-    'media' => array(
+    'attach' => array(
         'main' => array(
             'title'  => 'Image',
-            'mod'    => 'media',
+            'mod'    => 'attach',
         ),
         'sub' => array(
             'list' => array(
                 'title'     => 'Image List',
-                'mod'       => 'media',
-                'act'   => 'list',
+                'mod'       => 'attach',
+                'act'       => 'list',
             ),
         ),
         'allow' => array(
@@ -126,6 +126,25 @@ return array(
             'add'    => 'Create',
             'edit'   => 'Edit',
             'del'    => 'Delete',
+        ),
+    ),
+    'plugin' => array(
+        'main' => array(
+            'title'  => 'Plug-in',
+            'mod'    => 'plug-in',
+        ),
+        'sub' => array(
+            'list' => array(
+                'title' => 'Plug-in Management',
+                'mod'   => 'plugin',
+                'act'   => 'list',
+            ),
+        ),
+        'allow' => array(
+            'browse'    => 'Browse',
+            'edit'      => 'Edit',
+            'install'   => 'Install',
+            'uninstall' => 'Uninstall',
         ),
     ),
 );

@@ -11,7 +11,7 @@
 
     <h4>示例代码</h4>
     <p>
-<pre><code class="language-markup">&lt;!DOCTYPE html&gt;
+<pre class="border rounded"><code class="language-markup">&lt;!DOCTYPE html&gt;
 &lt;html lang=&quot;zh&quot;&gt;
     &lt;head&gt;
         &lt;title&gt;advert&lt;/title&gt;
@@ -47,7 +47,7 @@
             _opts_ad_1 = { //定义选项
                 loading: &quot;&#27491;&#22312;&#36733;&#20837;&#24191;&#21578; ...&quot;, //载入消息
                 ..., //您还可以根据脚本自行添加选项
-                data_url: &quot;http://www.domain.com/api/api.php?mod=advert&amp;act=list&amp;posi_id=2&quot; //广告数据，此为必须项
+                data_url: &quot;http://www.domain.com/advert/index.php?m=advert&amp;c=request&amp;a=list&amp;posi_id=2&quot; //广告数据，此为必须项
             }
             $(&quot;#adsBanner_1&quot;).adsBanner(_opts_ad_1); //初始化脚本对象，此处的选择器请与显示容器的 ID 或者 CLASS 相对应
         });

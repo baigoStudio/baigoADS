@@ -1,0 +1,91 @@
+<h3>插件名称</h3>
+<p>
+    首先你需要想好这个插件是用来做什么的，然后你就可以为它起一个独一无二的名字。如果你不确定这个名字是否被使用过，你可以通过搜索引擎来搜索一下。大多数插件开发者为插件起的名字都能很直观地描述它的功能，例如：一个与天气有关的插件的名字中就应当包含“天气”两个字。插件的名字可以由多个字词组成。推荐使用英文、数字、下划线。
+</p>
+
+<div>&nbsp;</div>
+<div class="text-right">
+    <a href="#top">
+        <span class="oi oi-chevron-top"></span>
+        top
+    </a>
+</div>
+<hr>
+<div>&nbsp;</div>
+
+<h3>目录</h3>
+<p>
+    下一步就是根据你插件的名字，创建一个目录，目录必须由英文、数字组成，要注意重名的问题。因为用户在安装你的插件的时候，会默认把你的插件安装到一个叫 ./content/plugin/ 的目录下，如果两个插件的目录冲突了，那就会发生不可预见的错误。
+</p>
+
+<div>&nbsp;</div>
+<div class="text-right">
+    <a href="#top">
+        <span class="oi oi-chevron-top"></span>
+        top
+    </a>
+</div>
+<hr>
+<div>&nbsp;</div>
+
+<h3>文件组成</h3>
+<p>
+    你的插件中至少应当包含一个 PHP 主文件，文件名必须为 action.php，当然你也可以把它拆分成多个文件；一个插件的描述文件，文件名必须为 config.php；还可以包含配置文件 opts.php。另外还有 Javascript 文件、CSS 文件、图片文件以及语言文件等。同时，系统还会根据开发者的要求生成 opts.json 文件。
+</p>
+
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th class="text-nowrap">名称</th>
+                    <th class="text-nowrap">类型</th>
+                    <th class="text-nowrap">必需</th>
+                    <th>描述</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-nowrap">action.php</td>
+                    <td class="text-nowrap">php</td>
+                    <td class="text-nowrap">true</td>
+                    <td>PHP 主文件</td>
+                </tr>
+                <tr>
+                    <td class="text-nowrap">config.php</td>
+                    <td class="text-nowrap">php</td>
+                    <td class="text-nowrap">true</td>
+                    <td>插件的描述</td>
+                </tr>
+                <tr>
+                    <td class="text-nowrap">opts.php</td>
+                    <td class="text-nowrap">php</td>
+                    <td class="text-nowrap">false</td>
+                    <td>插件的配置</td>
+                </tr>
+                <tr>
+                    <td class="text-nowrap">opts.json</td>
+                    <td class="text-nowrap">json</td>
+                    <td class="text-nowrap">false</td>
+                    <td>用户对本插件的设置，由系统生成。</td>
+                </tr>
+                <tr>
+                    <td class="text-nowrap">readme.txt</td>
+                    <td class="text-nowrap">txt</td>
+                    <td class="text-nowrap">false</td>
+                    <td>说明文档。</td>
+                </tr>
+                <tr>
+                    <td class="text-nowrap">license.txt</td>
+                    <td class="text-nowrap">txt</td>
+                    <td class="text-nowrap">false</td>
+                    <td>版权信息。</td>
+                </tr>
+                <tr>
+                    <td class="text-nowrap">其他文件</td>
+                    <td class="text-nowrap">...</td>
+                    <td class="text-nowrap">false</td>
+                    <td>&nbsp;</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>

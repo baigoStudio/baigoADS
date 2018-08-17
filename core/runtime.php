@@ -30,9 +30,9 @@ function fn_include($str_path, $type = 'require') {
         }
     } else {
         if (defined('BG_DEBUG_SYS') && BG_DEBUG_SYS > 0) {
-            $_str_msg = 'File &quot;' . $str_path . '&quot; not exists';
+            $_str_msg = 'File &quot;' . $str_path . '&quot; does not exist';
         } else {
-            $_str_msg = 'File not exists';
+            $_str_msg = 'File does not exist';
         }
 
         exit('{"rcode":"x","msg":"Fatal Error: ' . $_str_msg . '!"}');
@@ -55,6 +55,14 @@ if (!defined('BG_SITE_TPL')) {
 
 if (!defined('BG_DB_PORT')) {
     define('BG_DB_PORT', '3306');
+}
+
+if (!defined('BG_PATH_CONTENT')) {
+    define('BG_PATH_CONTENT', BG_PATH_ROOT . 'content' . DS);
+}
+
+if (!defined('BG_PATH_PLUGIN')) {
+    define('BG_PATH_PLUGIN', BG_PATH_CONTENT . 'plugin' . DS);
 }
 
 fn_include(BG_PATH_INC . 'version.inc.php'); //版本
@@ -89,6 +97,8 @@ class CLASS_RUNTIME {
 
         if (isset($this->arr_set['db'])) { //连接数据库
             $this->setDatabase();
+            $GLOBALS['obj_plugin'] = new CLASS_PLUGIN();
+            $GLOBALS['obj_plugin']->trigger('action_sys_runtime'); //系统初始化时触发
         }
 
         if (isset($this->arr_set['ssin'])) {  //启动会话
@@ -102,20 +112,26 @@ class CLASS_RUNTIME {
 
     //主请求方法，主要目的是拆分URL请求
     private function callHook() {
+        $GLOBALS['route'] = array(
+            'bg_mod'    => fn_getSafe(fn_get('m'), 'txt', ''),
+            'bg_ctrl'   => fn_getSafe(fn_get('c'), 'txt', 'ui'),
+            'bg_act'    => fn_getSafe(fn_request('a'), 'txt', ''),
+        );
+
         switch (BG_APP) {
             case 'help':
-                $GLOBALS['route']['bg_mod']   = fn_getSafe(fn_request('mod'), 'txt', 'intro');
-                $GLOBALS['route']['bg_act']   = fn_getSafe(fn_request('act'), 'txt', 'outline');
+                $GLOBALS['route']['bg_mod']   = fn_getSafe($GLOBALS['route']['bg_mod'], 'txt', 'intro');
+                $GLOBALS['route']['bg_act']   = fn_getSafe($GLOBALS['route']['bg_act'], 'txt', 'outline');
             break;
 
             case 'install':
-                $GLOBALS['route']['bg_mod']   = fn_getSafe(fn_request('mod'), 'txt', 'setup');
-                $GLOBALS['route']['bg_act']   = fn_getSafe(fn_request('act'), 'txt', 'phplib');
+                $GLOBALS['route']['bg_mod']   = fn_getSafe($GLOBALS['route']['bg_mod'], 'txt', 'setup');
+                $GLOBALS['route']['bg_act']   = fn_getSafe($GLOBALS['route']['bg_act'], 'txt', 'phplib');
             break;
 
             default:
-                $GLOBALS['route']['bg_mod']   = fn_getSafe(fn_request('mod'), 'txt', 'advert');
-                $GLOBALS['route']['bg_act']   = fn_getSafe(fn_request('act'), 'txt', 'list');
+                $GLOBALS['route']['bg_mod']   = fn_getSafe($GLOBALS['route']['bg_mod'], 'txt', 'advert');
+                $GLOBALS['route']['bg_act']   = fn_getSafe($GLOBALS['route']['bg_act'], 'txt', 'list');
             break;
         }
 
@@ -124,19 +140,16 @@ class CLASS_RUNTIME {
         }
 
         $_arr_routeAllow    = fn_include(BG_PATH_INC . 'route.inc.php'); //允许的 app、类型、模块
-        if (file_exists(BG_PATH_CONFIG . 'route.inc.php')) {
-            $_arr_routeExt = fn_include(BG_PATH_CONFIG . 'route.inc.php'); //扩展的 app、类型、模块
-        }
 
         if (!array_key_exists(BG_APP, $_arr_routeAllow)) {
             exit('{"rcode":"x","msg":"Fatal Error: Not Allowed App!"}');
         }
 
-        if (!array_key_exists(BG_TYPE, $_arr_routeAllow[BG_APP])) {
-            exit('{"rcode":"x","msg":"Fatal Error: Not Allowed Type!"}');
+        if (!array_key_exists($GLOBALS['route']['bg_ctrl'], $_arr_routeAllow[BG_APP])) {
+            exit('{"rcode":"x","msg":"Fatal Error: Not Allowed Controller!"}');
         }
 
-        if (!in_array($GLOBALS['route']['bg_mod'], $_arr_routeAllow[BG_APP][BG_TYPE])) {
+        if (!in_array($GLOBALS['route']['bg_mod'], $_arr_routeAllow[BG_APP][$GLOBALS['route']['bg_ctrl']])) {
             exit('{"rcode":"x","msg":"Fatal Error: Not Allowed Module!"}');
         }
     }
@@ -163,9 +176,9 @@ class CLASS_RUNTIME {
             break;
             case 'model':
                 if (isset($_arr_class[2]) && !fn_isEmpty($_arr_class[2])) {
-                    fn_include(BG_PATH_MODEL . $_arr_class[1] . '_' . $_arr_class[2] . '.class.php'); //载入数据模型
+                    fn_include(BG_PATH_MODEL . $_arr_class[1] . '_' . $_arr_class[2] . '.mdl.php'); //载入数据模型
                 } else {
-                    fn_include(BG_PATH_MODEL . $_arr_class[1] . '.class.php'); //载入数据模型
+                    fn_include(BG_PATH_MODEL . $_arr_class[1] . '.mdl.php'); //载入数据模型
                 }
             break;
             case 'general':
@@ -173,9 +186,9 @@ class CLASS_RUNTIME {
             break;
             case 'control':
                 if (isset($_arr_class[3]) && !fn_isEmpty($_arr_class[3])) {
-                    fn_include(BG_PATH_CONTROL . $_arr_class[1] . DS . $_arr_class[2] . DS . $_arr_class[3] . '.class.php'); //载入数据模型
+                    fn_include(BG_PATH_CONTROL . $_arr_class[1] . DS . $_arr_class[2] . DS . $_arr_class[3] . '.ctrl.php'); //载入数据模型
                 } else {
-                    fn_include(BG_PATH_CONTROL . $_arr_class[1] . DS . $_arr_class[2] . '.class.php'); //载入数据模型
+                    fn_include(BG_PATH_CONTROL . $_arr_class[1] . DS . $_arr_class[2] . '.ctrl.php'); //载入数据模型
                 }
             break;
         }
@@ -212,13 +225,13 @@ class CLASS_RUNTIME {
 $obj_runtime = new CLASS_RUNTIME(); //调度
 
 //载入模块
-if (file_exists(BG_PATH_MODULE . BG_APP . DS . BG_TYPE . DS . $GLOBALS['route']['bg_mod'] . '.mod.php')) {
-    require(BG_PATH_MODULE . BG_APP . DS . BG_TYPE . DS . $GLOBALS['route']['bg_mod'] . '.mod.php');
+if (file_exists(BG_PATH_MODULE . BG_APP . DS . $GLOBALS['route']['bg_ctrl'] . DS . $GLOBALS['route']['bg_mod'] . '.mod.php')) {
+    require(BG_PATH_MODULE . BG_APP . DS . $GLOBALS['route']['bg_ctrl'] . DS . $GLOBALS['route']['bg_mod'] . '.mod.php');
 } else {
     if (defined('BG_DEBUG_SYS') && BG_DEBUG_SYS > 0) {
-        $_str_msg = 'Module &quot;' . BG_PATH_MODULE . BG_APP . DS . BG_TYPE . DS . $GLOBALS['route']['bg_mod'] . '.mod.php&quot; not exists';
+        $_str_msg = 'Module &quot;' . BG_PATH_MODULE . BG_APP . DS . $GLOBALS['route']['bg_ctrl'] . DS . $GLOBALS['route']['bg_mod'] . '.mod.php&quot; does not exist';
     } else {
-        $_str_msg = 'Module not exists';
+        $_str_msg = 'Module does not exist';
     }
 
     exit('{"rcode":"x","msg":"Fatal Error: ' . $_str_msg . '!"}');

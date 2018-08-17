@@ -14,7 +14,7 @@ return array(
     'advert' => array(
         'main' => array(
             'title'  => '广告管理',
-            'icon'   => 'grain',
+            'icon'   => 'bullhorn',
         ),
         'sub' => array(
             'list' => '所有广告',
@@ -29,10 +29,10 @@ return array(
             'stat'       => '统计',
         ),
     ),
-    'media' => array(
+    'attach' => array(
         'main' => array(
             'title'  => '图片管理',
-            'icon'   => 'picture',
+            'icon'   => 'image',
         ),
         'sub' => array(
             'list' => '所有图片',
@@ -63,7 +63,7 @@ return array(
     'admin' => array(
         'main' => array(
             'title'  => '管理员',
-            'icon'   => 'user',
+            'icon'   => 'person',
         ),
         'sub' => array(
             'list' => '所有管理员',
@@ -80,7 +80,7 @@ return array(
     'link' => array(
         'main' => array(
             'title'  => '链接',
-            'icon'   => 'link',
+            'icon'   => 'link-intact',
         ),
         'sub' => array(
             'list' => '链接管理',
@@ -90,6 +90,21 @@ return array(
             'add'    => '创建',
             'edit'   => '编辑',
             'del'    => '删除',
+        ),
+    ),
+    'plugin' => array(
+        'main' => array(
+            'title'  => '插件',
+            'icon'   => 'puzzle-piece',
+        ),
+        'sub' => array(
+            'list' => '插件管理',
+        ),
+        'allow' => array(
+            'browse'    => '浏览',
+            'edit'      => '编辑',
+            'install'   => '安装',
+            'uninstall' => '卸载',
         ),
     ),
 );

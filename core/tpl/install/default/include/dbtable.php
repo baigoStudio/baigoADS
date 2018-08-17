@@ -1,17 +1,20 @@
-    <div class="form-group">
+    <ul class="list-group list-group-flush bg-list-group mb-3">
         <?php foreach ($this->tplData['db_rcode'] as $key=>$value) {
-            if ($value['status'] == "y") {
-                $str_css   = "text-success";
-                $str_icon  = "ok-sign";
+            if ($value['status'] == 'y') {
+                $str_css   = 'success';
+                $str_icon  = 'circle-check';
             } else {
-                $str_css   = "text-danger";
-                $str_icon  = "remove-sign";
+                $str_css   = 'danger';
+                $str_icon  = 'circle-x';
             } ?>
-            <p class="<?php echo $str_css; ?>">
-                <span class="glyphicon glyphicon-<?php echo $str_icon; ?>"></span>
-                <?php echo $this->lang['rcode'][$value['rcode']]; ?>
-                &nbsp;&nbsp;
-                [ <?php echo $value['rcode']; ?> ]
-            </p>
+            <li class="list-group-item d-flex justify-content-between">
+                <span>
+                    <span class="oi oi-<?php echo $str_icon; ?> text-<?php echo $str_css; ?>"></span>
+                    <?php echo $this->lang['rcode'][$value['rcode']]; ?>
+                </span>
+                <span class="badge badge-<?php echo $str_css; ?>">
+                    <?php echo $value['rcode']; ?>
+                </span>
+            </li>
         <?php } ?>
-    </div>
+    </ul>

@@ -49,6 +49,14 @@ class CLASS_CONFIG {
                 'default'   => 1 * 60 * 1000,
                 'kind'      => 'num',
             ),
+            'BG_NAME_CONTENT'           => array(
+                'default'   => 'content',
+                'kind'      => 'str',
+            ),
+            'BG_NAME_PLUGIN'        => array(
+                'default'   => 'plugin',
+                'kind'      => 'str',
+            ),
             'BG_NAME_CACHE'             => array(
                 'default'   => 'cache',
                 'kind'      => 'str',
@@ -57,8 +65,8 @@ class CLASS_CONFIG {
                 'default'   => 'tpl',
                 'kind'      => 'str',
             ),
-            'BG_NAME_MEDIA'             => array(
-                'default'   => 'media',
+            'BG_NAME_ATTACH'             => array(
+                'default'   => 'attach',
                 'kind'      => 'str',
             ),
             'BG_NAME_SSO'               => array(
@@ -129,20 +137,28 @@ class CLASS_CONFIG {
                 'default'   => 'realpath(__DIR__ . \'/../\') . DS',
                 'kind'      => 'const',
             ),
+            'BG_PATH_CONTENT' => array(
+                'default'   => 'BG_PATH_ROOT . BG_NAME_CONTENT . DS',
+                'kind'      => 'const',
+            ),
+            'BG_PATH_PLUGIN'          => array(
+                'default'   => 'BG_PATH_CONTENT . BG_NAME_PLUGIN . DS',
+                'kind'      => 'const',
+            ),
+            'BG_PATH_CACHE'             => array(
+                'default'   => 'BG_PATH_CONTENT . BG_NAME_CACHE . DS',
+                'kind'      => 'const',
+            ),
+            'BG_PATH_TPL'               => array(
+                'default'   => 'BG_PATH_CONTENT . BG_NAME_TPL . DS',
+                'kind'      => 'const',
+            ),
             'BG_PATH_HELP'              => array(
                 'default'   => 'BG_PATH_ROOT . BG_NAME_HELP . DS',
                 'kind'      => 'const',
             ),
-            'BG_PATH_CACHE'             => array(
-                'default'   => 'BG_PATH_ROOT . BG_NAME_CACHE . DS',
-                'kind'      => 'const',
-            ),
-            'BG_PATH_TPL'               => array(
-                'default'   => 'BG_PATH_ROOT . BG_NAME_TPL . DS',
-                'kind'      => 'const',
-            ),
-            'BG_PATH_MEDIA'             => array(
-                'default'   => 'BG_PATH_ROOT . BG_NAME_MEDIA . DS',
+            'BG_PATH_ATTACH'             => array(
+                'default'   => 'BG_PATH_ROOT . BG_NAME_ATTACH . DS',
                 'kind'      => 'const',
             ),
             'BG_PATH_SSO'               => array(
@@ -209,8 +225,8 @@ class CLASS_CONFIG {
                 'default'   => 'BG_URL_ROOT . BG_NAME_ADVERT . \'/\'',
                 'kind'      => 'const',
             ),
-            'BG_URL_MEDIA'              => array(
-                'default'   => 'BG_URL_ROOT . BG_NAME_MEDIA . \'/\'',
+            'BG_URL_ATTACH'              => array(
+                'default'   => 'BG_URL_ROOT . BG_NAME_ATTACH . \'/\'',
                 'kind'      => 'const',
             ),
             'BG_URL_SSO'                => array(
@@ -389,6 +405,13 @@ class CLASS_CONFIG {
                         'format'     => 'text',
                         'min'        => 1,
                         'default'    => '',
+                        'kind'      => 'str',
+                    ),
+                    'BG_SSO_APPSECRET' => array(
+                        'type'      => 'str',
+                        'format'    => 'text',
+                        'min'       => 16,
+                        'default'   => '',
                         'kind'      => 'str',
                     ),
                     'BG_SSO_SYNC' => array(

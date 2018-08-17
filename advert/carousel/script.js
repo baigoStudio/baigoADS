@@ -11,7 +11,7 @@ License: http://www.opensource.org/licenses/mit-license.php
         var _parent_id = thisObj.attr("id");
         var _posiRow;
         var _str_advert;
-        var _str_media;
+        var _str_attach;
         var _str_href;
         var _num_posiId;
 
@@ -58,10 +58,10 @@ License: http://www.opensource.org/licenses/mit-license.php
                                 _str_href = _value.advert_href;
                             }
 
-                            if (typeof _posiRow.posi_type != "undefined" && _posiRow.posi_type == "media" && typeof _value.mediaRow.media_url != "undefined") {
-                                _str_media = "<img src='" + _value.mediaRow.media_url + "' width='100%'>";
+                            if (typeof _posiRow.posi_type != "undefined" && _posiRow.posi_type == "attach" && typeof _value.attachRow.attach_url != "undefined") {
+                                _str_attach = "<img src='" + _value.attachRow.attach_url + "' width='100%'>";
                             } else if (typeof _value.advert_content != "undefined") {
-                                _str_media = _value.advert_content;
+                                _str_attach = _value.advert_content;
                             }
 
                             _str_advert += "<div class='item";
@@ -69,10 +69,10 @@ License: http://www.opensource.org/licenses/mit-license.php
                                 _str_advert += " active";
                             }
 
-                            _str_advert += "'><a href='" + _str_href + "' target='_blank'>" + _str_media + "</a></div>";
+                            _str_advert += "'><a href='" + _str_href + "' target='_blank'>" + _str_attach + "</a></div>";
                         });
 
-                        _str_advert += "</div><a class='left carousel-control' href='#carousel_" + _num_posiId + "' data-slide='prev'><span class='glyphicon glyphicon-chevron-left' aria-hidden='true'></span><span class='sr-only'>Previous</span></a><a class='right carousel-control' href='#carousel_" + _num_posiId + "' data-slide='next'><span class='glyphicon glyphicon-chevron-right' aria-hidden='true'></span><span class='sr-only'>Next</span></a></div>";
+                        _str_advert += "</div><a class='left carousel-control' href='#carousel_" + _num_posiId + "' data-slide='prev'><span class='oi oi-chevron-left' aria-hidden='true'></span><span class='sr-only'>Previous</span></a><a class='right carousel-control' href='#carousel_" + _num_posiId + "' data-slide='next'><span class='oi oi-chevron-right' aria-hidden='true'></span><span class='sr-only'>Next</span></a></div>";
 
                         $("#" + _parent_id + " .carouselChild").html(_str_advert);
                     }

@@ -14,9 +14,9 @@ return array(
     'info'      => array(
         'title' => 'Profile',
     ),
-    'prefer'    => array(
+    /*'prefer'    => array(
         'title' => 'Preferences',
-    ),
+    ),*/
     'pass'      => array(
         'title' => 'Password',
     ),
