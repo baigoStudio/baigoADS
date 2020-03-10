@@ -1,0 +1,18 @@
+{
+    "speed": {
+        "title": "飘动速度",
+        "note": "更新位置的间隔（毫秒），数值越小速度越快。",
+        "var_default": "15",
+        "type": "text"
+    },
+    "pos_x": {
+        "title": "起始点 X",
+        "var_default": "0",
+        "type": "text"
+    },
+    "pos_y": {
+        "title": "起始点 Y",
+        "var_default": "0",
+        "type": "text"
+    }
+}

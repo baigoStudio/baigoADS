@@ -1,7 +1,0 @@
-@media (min-width: 768px) {
-    .bg-offcanvas { display: block !important; }
-}
-
-@media (max-width: 767px) {
-    .bg-accordion .card { border: 0 !important; margin: 0 -15px; }
-}

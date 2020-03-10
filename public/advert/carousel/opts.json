@@ -1,0 +1,31 @@
+{
+    "effect": {
+        "title": "切换效果",
+        "var_default": "slide",
+        "type": "select",
+        "option": {
+            "slide": "滑动",
+            "fade": "淡入淡出"
+        }
+    },
+    "control": {
+        "title": "显示控制按钮",
+        "var_default": "on",
+        "type": "switch"
+    },
+    "indicator": {
+        "title": "显示指针",
+        "var_default": "on",
+        "type": "switch"
+    },
+    "advert_name": {
+        "title": "显示广告名称",
+        "var_default": "on",
+        "type": "switch"
+    },
+    "caption": {
+        "title": "显示广告内容",
+        "var_default": "on",
+        "type": "switch"
+    }
+}

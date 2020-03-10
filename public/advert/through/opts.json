@@ -1,0 +1,11 @@
+{
+    "position": {
+        "title": "定位",
+        "var_default": "top",
+        "type": "select",
+        "option": {
+            "top": "上部",
+            "bottom": "底部"
+        }
+    }
+}

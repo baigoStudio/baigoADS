@@ -1,0 +1,4 @@
+.float-child { position: fixed; overflow: hidden; }
+.float-child img { width: 100%; }
+.float-child .btn-close a { background: #ccc; padding: 3px 5px; color: #666; text-decoration: none!important; }
+.float-child .btn-close a:hover { background: #666; color: #ccc; }

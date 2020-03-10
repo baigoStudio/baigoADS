@@ -1,0 +1,54 @@
+{
+    "position": {
+        "title": "定位",
+        "var_default": "right-bottom",
+        "type": "select",
+        "option": {
+            "left-top": "左上",
+            "right-top": "右上",
+            "left-bottom": "左下",
+            "right-bottom": "右下"
+        }
+    },
+    "top": {
+        "title": "上边距",
+        "note": "定位为 左上、右上 时有效",
+        "var_default": "0",
+        "type": "text"
+    },
+    "bottom": {
+        "title": "下边距",
+        "note": "定位为 左下、右下 时有效",
+        "var_default": "0",
+        "type": "text"
+    },
+    "left": {
+        "title": "左边距",
+        "note": "定位为 左上、左下 时有效",
+        "var_default": "0",
+        "type": "text"
+    },
+    "right": {
+        "title": "右边距",
+        "note": "定位为 右上、右下 时有效",
+        "var_default": "0",
+        "type": "text"
+    },
+    "remain": {
+        "title": "停留时间",
+        "note": "毫秒",
+        "var_default": "10000",
+        "type": "text"
+    },
+    "speed": {
+        "title": "展开收起速度",
+        "var_default": "slow",
+        "type": "select_input",
+        "note": "选择或输入毫秒",
+        "option": {
+            "slow": "慢",
+            "normal": "普通",
+            "fast": "快"
+        }
+    }
+}

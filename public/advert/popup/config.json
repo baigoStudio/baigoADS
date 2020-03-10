@@ -1,0 +1,14 @@
+{
+    "name": "弹窗",
+    "require": [
+        {
+            "url": "{:DIR_STATIC}lib/jquery/1.11.1/jquery.min.js",
+            "type": "js"
+        }
+    ],
+    "is_percent": "enable",
+    "count": 1,
+    "loading": "正在加载广告 ...",
+    "close": "关闭",
+    "note": "本脚本需要 jQuery 支持"
+}

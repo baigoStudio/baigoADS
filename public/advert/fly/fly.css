@@ -1,0 +1,4 @@
+.fly-child { position: absolute; overflow: hidden; }
+.fly-child img { width: 100%; }
+.fly-child .btn-close a { background: #ccc; padding: 3px 5px; color: #666; text-decoration: none!important; }
+.fly-child .btn-close a:hover { background: #666; color: #ccc; }

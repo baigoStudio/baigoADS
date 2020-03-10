@@ -1,0 +1,6 @@
+.popup-child { position: fixed; overflow: hidden; display: none; }
+.popup-child img { width: 100%; }
+
+.popup-child .btn-close { position: absolute; }
+.popup-child .btn-close a { display: block; background: #ccc; padding: 3px 5px; color: #666; text-decoration: none!important; }
+.popup-child .btn-close a:hover { background: #666; color: #ccc; }

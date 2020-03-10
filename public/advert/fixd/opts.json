@@ -1,0 +1,37 @@
+{
+    "position": {
+        "title": "定位",
+        "var_default": "left-top",
+        "type": "select",
+        "option": {
+            "left-top": "左上",
+            "right-top": "右上",
+            "left-bottom": "左下",
+            "right-bottom": "右下"
+        }
+    },
+    "top": {
+        "title": "上边距",
+        "note": "定位为 左上、右上 时有效",
+        "var_default": "50px",
+        "type": "text"
+    },
+    "bottom": {
+        "title": "下边距",
+        "note": "定位为 左下、右下 时有效",
+        "var_default": "50px",
+        "type": "text"
+    },
+    "left": {
+        "title": "左边距",
+        "note": "定位为 左上、左下 时有效",
+        "var_default": "10px",
+        "type": "text"
+    },
+    "right": {
+        "title": "右边距",
+        "note": "定位为 右上、右下 时有效",
+        "var_default": "10px",
+        "type": "text"
+    }
+}
