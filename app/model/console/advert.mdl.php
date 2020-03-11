@@ -62,6 +62,15 @@ class Advert extends Advert_Base {
             break;
         }
 
+        if ($this->inputSubmit['advert_id'] > 0) {
+            $_str_hook = 'edit'; //编辑文章时触发
+        } else {
+            $_str_hook = 'add';
+        }
+
+        $_mix_result      = Plugin::listen('filter_console_advert_' . $_str_hook, $_arr_advertData);
+        $_arr_advertData  = Plugin::resultProcess($_arr_advertData, $_mix_result);
+
         $_mix_vld = $this->validate($_arr_advertData, '', 'submit_db');
 
         if ($_mix_vld !== true) {

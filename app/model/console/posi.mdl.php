@@ -31,7 +31,6 @@ class Posi extends Posi_Base {
         $_arr_posiData = array(
             'posi_name'         => $this->inputSubmit['posi_name'],
             'posi_count'        => $this->inputSubmit['posi_count'],
-            'posi_script'       => $this->inputSubmit['posi_script'],
             'posi_status'       => $this->inputSubmit['posi_status'],
             'posi_script'       => $this->inputSubmit['posi_script'],
             'posi_box_perfix'   => $this->inputSubmit['posi_box_perfix'],
@@ -40,6 +39,15 @@ class Posi extends Posi_Base {
             'posi_is_percent'   => $this->inputSubmit['posi_is_percent'],
             'posi_note'         => $this->inputSubmit['posi_note'],
         );
+
+        if ($this->inputSubmit['posi_id'] > 0) {
+            $_str_hook = 'edit'; //编辑文章时触发
+        } else {
+            $_str_hook = 'add';
+        }
+
+        $_mix_result    = Plugin::listen('filter_console_posi_' . $_str_hook, $_arr_posiData);
+        $_arr_posiData  = Plugin::resultProcess($_arr_posiData, $_mix_result);
 
         $_mix_vld = $this->validate($_arr_posiData, '', 'submit_db');
 

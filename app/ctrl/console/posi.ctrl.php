@@ -473,7 +473,7 @@ class Posi extends Ctrl {
             return $this->fetchJson($_arr_inputDelete['msg'], $_arr_inputDelete['rcode']);
         }
 
-        Plugin::listen('action_console_posi_status', $_arr_inputDelete['posi_ids']); //删除链接时触发
+        Plugin::listen('action_console_posi_delete', $_arr_inputDelete['posi_ids']); //删除链接时触发
 
         $_arr_deleteResult = $this->mdl_posi->delete();
 

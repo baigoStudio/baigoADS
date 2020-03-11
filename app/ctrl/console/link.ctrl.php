@@ -268,7 +268,7 @@ class Link extends Ctrl {
             return $this->fetchJson($_arr_inputDelete['msg'], $_arr_inputDelete['rcode']);
         }
 
-        Plugin::listen('action_console_link_status', $_arr_inputDelete['link_ids']); //删除链接时触发
+        Plugin::listen('action_console_link_delete', $_arr_inputDelete['link_ids']); //删除链接时触发
 
         $_arr_deleteResult = $this->mdl_link->delete();
 
