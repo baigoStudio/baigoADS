@@ -30,8 +30,8 @@ abstract class Connector {
     private $configDebug;
     private $isConfig;
 
-    protected $_table       = '';
-    protected $_tableTemp   = '';
+    protected $_table       = array();
+    protected $_tableTemp   = array();
     protected $_field       = '';
     protected $_force       = '';
     protected $_join        = '';
