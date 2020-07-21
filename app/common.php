@@ -9,8 +9,8 @@ defined('IN_GINKGO') or exit('Access denied');
 
 define('PRD_ADS_NAME', 'baigo ADS');
 define('PRD_ADS_URL', 'http://www.baigo.net/ads/');
-define('PRD_ADS_VER', '3.0-beta-1');
-define('PRD_ADS_PUB', 20200310);
+define('PRD_ADS_VER', '3.0-beta-2');
+define('PRD_ADS_PUB', 20200721);
 define('PRD_ADS_HELP', 'http://doc.baigo.net/ads/');
 define('PRD_VER_CHECK', 'http://www.baigo.net/ver_check/check.php');
 
