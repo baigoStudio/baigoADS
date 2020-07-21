@@ -15,7 +15,7 @@ return array(
     'Send'                                      => '发送',
     'Sending'                                   => '正在发送 ...',
     'Submitting'                                => '正在提交 ...',
-    'Key word'                                  => '关键词',
+    'Keyword'                                  => '关键词',
     'Bulk'                                      => '群发',
     'To'                                        => '至',
     'Reset'                                     => '清除',

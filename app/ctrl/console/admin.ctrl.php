@@ -219,7 +219,7 @@ class Admin extends Ctrl {
             }
 
             if (!Func::isEmpty($_arr_userSubmit)) {
-                $_arr_editResult = $this->obj_user->edit($_arr_adminRow['admin_id'], 'user_id', $_arr_userSubmit);
+                $_arr_editResult = $this->obj_user->edit($_arr_inputSubmit['admin_id'], 'user_id', $_arr_userSubmit);
             }
         } else {
             if (!isset($this->adminAllow['admin']['add']) && !$this->isSuper) {

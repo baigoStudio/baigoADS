@@ -58,7 +58,7 @@ class Login extends Ctrl {
 
         $_str_forward = $this->redirect()->restore();
 
-        if (Func::isEmpty($_str_forward) || $_str_forward == $this->url['route_console'] . 'login/sync/' || !stristr($_str_forward, $this->url['route_console'])) {
+        if (Func::isEmpty($_str_forward) || stristr($_str_forward, 'sync') || !stristr($_str_forward, 'console')) {
             $_str_forward = $this->url['route_console'];
         }
 
@@ -66,7 +66,7 @@ class Login extends Ctrl {
 
         $_arr_sync = array();
 
-        if (isset($this->adminLogged['admin_prefer']['sync']['sync']) && $this->adminLogged['admin_prefer']['sync']['sync'] == 'on') {
+        if (isset($this->adminLogged['admin_prefer']['sync']['sync']) && $this->adminLogged['admin_prefer']['sync']['sync'] === 'on') {
             $_arr_syncSubmit = array(
                 'user_id'           => $this->adminLogged['admin_id'],
                 'user_access_token' => $this->adminLogged['admin_access_token'],
@@ -134,7 +134,7 @@ class Login extends Ctrl {
     }
 
     function logout() {
-        $this->sessionEnd('logout', true);
+        $this->obj_auth->end(true);
 
         return $this->redirect($this->url['route_console']);
     }

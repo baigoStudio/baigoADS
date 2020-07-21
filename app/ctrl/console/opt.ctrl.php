@@ -42,7 +42,7 @@ class Opt extends Ctrl {
         );
 
         if ($this->routeOrig['act'] == 'base') {
-            $_arr_tplData['tplRows']  = File::instance()->dirList(GK_APP_TPL . 'index');
+            $_arr_tplData['tplRows']  = File::instance()->dirList(BG_TPL_INDEX);
 
             $_str_configTimezone    = BG_PATH_CONFIG . 'console' . DS . 'timezone' . GK_EXT_INC;
             $_arr_timezoneRows      = Config::load($_str_configTimezone, 'timezone', 'console');
@@ -70,7 +70,24 @@ class Opt extends Ctrl {
         }
 
         foreach ($_arr_consoleAct as $_key=>$_value) {
-            $_arr_consoleAct[$_key]['this'] = $this->config['var_extra'][$this->routeOrig['act']][$_key];
+            if (isset($this->config['var_extra'][$this->routeOrig['act']][$_key])) {
+                $_arr_consoleAct[$_key]['this'] = $this->config['var_extra'][$this->routeOrig['act']][$_key];
+            } else {
+                $_arr_consoleAct[$_key]['this'] = '';
+            }
+
+            if (isset($_value['option']) && is_array($_value['option'])) {
+                foreach ($_value['option'] as $_key_opt=>$_value_opt) {
+                    if (isset($_value['date_param'])) {
+                        $_str_replace = date($_key_opt);
+                    } else {
+                        $_str_replace = $_key_opt;
+                    }
+
+                    $_arr_consoleAct[$_key]['lang_replace'][$_key_opt] = $_str_replace;
+                    $_arr_consoleAct[$_key]['lang_replace']['value']   = $_str_replace;
+                }
+            }
         }
 
         $_arr_tplData['consoleOpt'] = $_arr_consoleAct;
@@ -222,19 +239,29 @@ class Opt extends Ctrl {
             return $this->error('You do not have permission', 'x030301');
         }
 
-        $_arr_base      = Config::get('base', 'var_extra');
-        $_arr_installed = Config::get('installed'); //当前安装的
-        $_arr_latest    = $this->mdl_opt->chkver();
+        if (isset($this->config['ui_ctrl']['update_check']) && $this->config['ui_ctrl']['update_check'] != 'on') {
+            return $this->error('Check for updated module being disabled', 'x030301');
+        }
 
-        $_arr_installed['prd_installed_pub_datetime']   = date($_arr_base['site_date'], strtotime($_arr_installed['prd_installed_pub']));
-        $_arr_installed['prd_installed_datetime']       = date($_arr_base['site_date'] . ' ' . $_arr_base['site_time_short'], $_arr_installed['prd_installed_time']);
+        $_arr_configBase    = Config::get('base', 'var_extra');
+        $_arr_installed     = Config::get('installed'); //当前安装的
+        $_arr_latest        = $this->mdl_opt->chkver();
 
-        //$_arr_version['prd_ads_pub_datetime']   = date($_arr_base['site_date'], strtotime(PRD_ADS_PUB));
-        $_arr_latest['prd_pub_datetime']        = date($_arr_base['site_date'], strtotime($_arr_latest['prd_pub']));
+        if (!isset($_arr_installed['prd_installed_pub'])) {
+            $_arr_installed['prd_installed_pub'] = PRD_ADS_PUB;
+        }
+
+        if (!isset($_arr_latest['prd_pub'])) {
+            $_arr_latest['prd_pub'] = PRD_ADS_PUB;
+        }
+
+        $_arr_installed['prd_installed_pub_datetime']   = date($_arr_configBase['site_date'], strtotime($_arr_installed['prd_installed_pub']));
+        $_arr_installed['prd_installed_datetime']       = date($_arr_configBase['site_date'] . ' ' . $_arr_configBase['site_time_short'], $_arr_installed['prd_installed_time']);
+
+        $_arr_latest['prd_pub_datetime']        = date($_arr_configBase['site_date'], strtotime($_arr_latest['prd_pub']));
 
         $_arr_tplData = array(
             'installed' => $_arr_installed,
-            //'version'   => $_arr_version,
             'latest'    => $_arr_latest,
             'token'     => $this->obj_request->token(),
         );
@@ -260,6 +287,10 @@ class Opt extends Ctrl {
 
         if (!isset($this->adminAllow['opt']['chkver']) && !$this->isSuper) { //判断权限
             return $this->fetchJson('You do not have permission', 'x030301');
+        }
+
+        if (isset($this->config['ui_ctrl']['update_check']) && $this->config['ui_ctrl']['update_check'] != 'on') {
+            return $this->fetchJson('Check for updated module being disabled', 'x030301');
         }
 
         $_arr_inputCommon = $this->mdl_opt->inputCommon();

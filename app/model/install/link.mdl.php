@@ -86,6 +86,23 @@ class Link extends Model {
     }
 
 
+    function createIndex() {
+        $_str_rcode       = 'y240109';
+        $_str_msg         = 'Create index successfully';
+
+        $_num_count  = $this->index('order')->create(array('link_order' , 'link_id'));
+
+        if ($_num_count === false) {
+            $_str_rcode = 'x240109';
+            $_str_msg   = 'Create index failed';
+        }
+
+        return array(
+            'rcode' => $_str_rcode, //更新成功
+            'msg'   => $_str_msg,
+        );
+    }
+
 
     function alterTable() {
         $_arr_alter = $this->alterProcess($this->create);

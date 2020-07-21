@@ -13,7 +13,7 @@ return array(
     'Error'                                 => '错误',
     'System already installed'              => '系统已安装',
     'Need to upgrade'                       => '需要执行升级程序',
-    'PDO (The PHP Data Objects)'            => 'PDO (PHP 数据对象)',
+    'PDO (The PHP Data Objects) for MySQL'  => 'PDO (PHP 数据对象) MySQL 驱动',
     'GD Library (Image Processing and GD)'  => 'GD 库 (图像处理和 GD)',
     'MBString (Multibyte String)'           => 'MBString (多字节字符串)',
     'cURL (Client URL Library)'             => 'cURL (Client URL)',
@@ -32,7 +32,12 @@ return array(
             <li>重新运行 <a href="{:route_install}">{:route_install}</a></li>
         </ol>',
 
-    'x030203' => '<h5>请选择安装方式：</h5>
+    'x030203' => '<h5>安全码错误：</h5>
+        <p>
+            点击选择安装方式 <a href="{:route_install}index/type/">{:route_install}index/type/</a> 重新生成安全码
+        </p>',
+
+    'x030204' => '<h5>请选择安装方式：</h5>
         <p>
             点击选择安装方式 <a href="{:route_install}index/type/">{:route_install}index/type/</a>
         </p>',

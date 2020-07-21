@@ -20,5 +20,7 @@ abstract class Ctrl extends Ctrl_Base {
         parent::c_init();
 
         Plugin::listen('action_pub_init'); //管理后台初始化时触发
+
+        $this->obj_view->setPath(BG_TPL_INDEX . $this->configBase['site_tpl']);
     }
 }

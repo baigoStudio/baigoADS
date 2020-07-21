@@ -27,6 +27,12 @@
                     'Stat_Posi',
                 ),
             ),
+            'index' => array(
+                'title' => 'Create index',
+                'lists' => array(
+                    'Link',
+                ),
+            ),
         ),
         'upgrade' => array(
             'table' => array(
@@ -50,6 +56,12 @@
                     'Advert',
                     'Attach',
                     'Posi',
+                ),
+            ),
+            'index' => array(
+                'title' => 'Create index',
+                'lists' => array(
+                    'Link',
                 ),
             ),
         ),

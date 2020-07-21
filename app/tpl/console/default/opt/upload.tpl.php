@@ -10,7 +10,7 @@
 include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
 
     <form name="opt_form" id="opt_form" action="<?php echo $route_console; ?>opt/upload-submit/">
-        <input type="hidden" name="__token__" value="<?php echo $token; ?>">
+        <input type="hidden" name="<?php echo $token['name']; ?>" value="<?php echo $token['value']; ?>">
 
         <div class="card">
             <div class="card-body">
@@ -18,24 +18,23 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
                     <label>
                         <?php echo $lang->get('Upload size limit'); ?> <span class="text-danger">*</span>
                     </label>
-                    <input type="text" value="<?php echo $config['var_extra']['upload']['limit_size']; ?>" name="limit_size" id="limit_size" class="form-control">
-                    <small class="form-text" id="msg_limit_size"><?php echo $lang->get('Please check the next item'); ?></small>
-                </div>
-
-                <div class="form-group">
-                    <label>
-                        <?php echo $lang->get('Upload size unit'); ?> <span class="text-danger">*</span>
-                    </label>
-                    <select name="limit_unit" id="limit_unit"  class="form-control">
-                        <option<?php if ($config['var_extra']['upload']['limit_unit'] == 'kb') { ?> selected<?php } ?> value="kb">
-                            <?php echo $lang->get('KB'); ?>
-                        </option>
-                        <option<?php if ($config['var_extra']['upload']['limit_unit'] == 'mb') { ?> selected<?php } ?> value="mb">
-                            <?php echo $lang->get('MB'); ?>
-                        </option>
-                    </select>
-
-                    <small class="form-text" id="msg_limit_unit"></small>
+                    <div class="form-row">
+                        <div class="col-xl-11 col-8">
+                            <input type="text" value="<?php echo $config['var_extra']['upload']['limit_size']; ?>" name="limit_size" id="limit_size" class="form-control">
+                        </div>
+                        <div class="col-xl-1 col-4">
+                            <select name="limit_unit" id="limit_unit"  class="form-control">
+                                <option<?php if ($config['var_extra']['upload']['limit_unit'] == 'kb') { ?> selected<?php } ?> value="kb">
+                                    <?php echo $lang->get('KB'); ?>
+                                </option>
+                                <option<?php if ($config['var_extra']['upload']['limit_unit'] == 'mb') { ?> selected<?php } ?> value="mb">
+                                    <?php echo $lang->get('MB'); ?>
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <small class="form-text" id="msg_limit_size"></small>
+                    <small class="form-text" id="msg_limit_count"></small>
                 </div>
 
                 <div class="form-group">
@@ -97,7 +96,7 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
 
                     <div class="form-group">
                         <div class="custom-control custom-switch">
-                            <input type="checkbox" id="ftp_pasv" name="ftp_pasv" <?php if ($config['var_extra']['upload']['ftp_pasv'] == 'on') { ?>checked<?php } ?> value="on" class="custom-control-input">
+                            <input type="checkbox" id="ftp_pasv" name="ftp_pasv" <?php if ($config['var_extra']['upload']['ftp_pasv'] === 'on') { ?>checked<?php } ?> value="on" class="custom-control-input">
                             <label for="ftp_pasv" class="custom-control-label">
                                 <?php echo $lang->get('Passive mode'); ?>
                             </label>

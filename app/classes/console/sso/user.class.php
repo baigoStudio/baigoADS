@@ -62,6 +62,13 @@ class User extends Sso {
 
         //print_r($this->obj_http->getResult());
 
+        if (!isset($_arr_get['rcode'])) {
+            return array(
+                'rcode' => 'x030201',
+                'msg'   => 'Missing rcode',
+            );
+        }
+
         if ($_arr_get['rcode'] != 'y010102') {
             return $_arr_get;
         }
@@ -135,6 +142,13 @@ class User extends Sso {
         $_arr_get     = $this->obj_http->request($this->urlPrefix . 'edit/', $_arr_ssoData, 'post'); //提交
 
         //print_r($this->obj_http->getResult());
+
+        if (!isset($_arr_get['rcode'])) {
+            return array(
+                'rcode' => 'x030201',
+                'msg'   => 'Missing rcode',
+            );
+        }
 
         return $_arr_get;
     }

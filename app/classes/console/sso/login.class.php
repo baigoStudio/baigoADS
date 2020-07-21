@@ -61,6 +61,13 @@ class Login extends Sso {
 
         //print_r($this->obj_http->getResult());
 
+        if (!isset($_arr_get['rcode'])) {
+            return array(
+                'rcode' => 'x030201',
+                'msg'   => 'Missing rcode',
+            );
+        }
+
         if ($_arr_get['rcode'] != 'y010103') {
             return $_arr_get;
         }

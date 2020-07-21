@@ -135,15 +135,10 @@ License: http://www.opensource.org/licenses/mit-license.php
                         '</div>';
 
                         $(opts.selector.tag_list).append(_tag_item);
+
                         tag_list.push(tag_name);
                         process.putVal();
                         process.inputEmpty();
-
-                        $('[data-act="remove"]').click(function(){
-                            var tag = $(this).data('tag');
-                            //console.log(tag);
-                            el.remove(tag);
-                        })
                     }
                 }
             },
@@ -183,6 +178,12 @@ License: http://www.opensource.org/licenses/mit-license.php
                 return tag_list;
             }
         };
+
+        $(opts.selector.tag_list).on('click', '[data-act="remove"]', function(){
+            var tag = $(this).data('tag');
+            //console.log(tag);
+            el.remove(tag);
+        });
 
         return el;
     };

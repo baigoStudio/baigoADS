@@ -9,7 +9,7 @@
 include($cfg['pathInclude'] . 'index_head' . GK_EXT_TPL); ?>
 
     <form name="over_form" id="over_form" action="<?php echo $route_install; ?>index/over-submit/">
-        <input type="hidden" name="__token__" value="<?php echo $token; ?>">
+        <input type="hidden" name="<?php echo $token['name']; ?>" value="<?php echo $token['value']; ?>">
 
         <?php if (!empty($sso_installed)) { ?>
             <div class="alert alert-warning">

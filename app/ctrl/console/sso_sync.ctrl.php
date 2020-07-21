@@ -71,7 +71,7 @@ class Sso_Sync extends Ctrl_Sso {
         $_arr_adminRow['admin_refresh_token']   = $_arr_inputSync['user_refresh_token'];
         $_arr_adminRow['admin_refresh_expire']  = $_arr_inputSync['user_refresh_expire'];
 
-        $_arr_ssinRresult = $this->sessionLogin($_arr_adminRow, 'remember');
+        $_arr_ssinRresult = $this->sessionLogin($_arr_adminRow, 'remember', 'sync');
 
         if ($_arr_ssinRresult['rcode'] != 'y020401') {
             return $_arr_ssinRresult;

@@ -111,9 +111,7 @@ class Attach extends Attach_Base {
 
         $_arr_attachResult = array_replace_recursive($_arr_return, $_arr_attachData);
 
-        $_arr_attachResult = $this->rowProcess($_arr_attachResult);
-
-        return $_arr_attachResult;
+        return $this->rowProcess($_arr_attachResult);
     }
 
 
@@ -186,121 +184,6 @@ class Attach extends Attach_Base {
         return $_arr_yearRows;
     }
 
-
-    /*function check($attachUrl) {
-        $_arr_articleSelect = array(
-            'article_id',
-        );
-
-        $_arr_where    = '`article_attach_id`=' . $num_attachId;
-
-        $_arr_order = array(
-            array('article_id', 'ASC'),
-        );
-
-        //print_r($_arr_where . '<br>');
-        $_arr_articleRows = $this->selectData('article', $_arr_articleSelect, $_arr_where, '', $_arr_order, 1, 0);
-
-        //print_r($_arr_articleRows);
-        if (isset($_arr_articleRows[0])) {
-            return array(
-                'attach_id' => $num_attachId,
-                'rcode'     => 'y070406',
-            );
-        }
-
-        $_arr_where    = '`article_excerpt` LIKE \'%' . $_str_chk . '%\'';
-        //print_r($_arr_where . '<br>');
-        $_arr_articleRows = $this->selectData('article', $_arr_articleSelect, $_arr_where, '', $_arr_order, 1, 0);
-
-        //print_r($_arr_articleRows);
-        if (isset($_arr_articleRows[0])) {
-            return array(
-                'attach_id' => $num_attachId,
-                'rcode' => 'y070406',
-            );
-        }
-
-        $_arr_where    = '`article_content` LIKE \'%' . $_str_chk . '%\'';
-        //print_r($_arr_where . '<br>');
-        $_arr_articleRows = $this->selectData('article_content', $_arr_articleSelect, $_arr_where, '', $_arr_order, 1, 0);
-
-        //print_r($_arr_articleRows);
-        if (isset($_arr_articleRows[0])) {
-            return array(
-                'attach_id' => $num_attachId,
-                'rcode' => 'y070406',
-            );
-        }
-
-        $_arr_cateSelect = array(
-            'cate_id',
-        );
-
-        $_arr_where    = '`cate_content` LIKE \'%' . $_str_chk . '%\'';
-
-        $_arr_order = array(
-            array('cate_id', 'ASC'),
-        );
-
-        //print_r($_arr_where . '<br>');
-        $_arr_cateRows = $this->selectData('cate', $_arr_cateSelect, $_arr_where, '', $_arr_order, 1, 0);
-
-        //print_r($_arr_cateRows);
-        if (isset($_arr_cateRows[0])) {
-            return array(
-                'attach_id' => $num_attachId,
-                'rcode' => 'y070406',
-            );
-        }
-
-        $_arr_specSelect = array(
-            'spec_id',
-        );
-
-        $_arr_where    = '`spec_content` LIKE \'%' . $_str_chk . '%\'';
-
-        $_arr_order = array(
-            array('spec_id', 'ASC'),
-        );
-
-        //print_r($_arr_where . '<br>');
-        $_arr_specRows = $this->selectData('spec', $_arr_specSelect, $_arr_where, '', $_arr_order, 1, 0);
-
-        //print_r($_arr_specRows);
-        if (isset($_arr_specRows[0])) {
-            return array(
-                'attach_id' => $num_attachId,
-                'rcode'     => 'y070406',
-            );
-        }
-
-        $_arr_customSelect = array(
-            'value_id',
-        );
-
-        $_arr_where   = '`value_custom_value`=' . $num_attachId;
-        //print_r($_arr_where . '<br>');
-
-        $_arr_order = array(
-            array('value_id', 'ASC'),
-        );
-
-        $_arr_customRows = $this->selectData('custom_value', $_arr_customSelect, $_arr_where, '', $_arr_order, 1, 0);
-
-        //print_r($_arr_customRows);
-        if (isset($_arr_customRows[0])) {
-            return array(
-                'attach_id' => $num_attachId,
-                'rcode'     => 'y070406',
-            );
-        }
-
-        return array(
-            'attach_id'  => $num_attachId,
-            'rcode'      => 'x070406',
-        );
-    }*/
 
 
     function box() {

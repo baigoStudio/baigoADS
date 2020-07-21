@@ -54,7 +54,7 @@
             <form name="pm_form" id="pm_form" action="<?php echo $route_console; ?>pm/revoke/">
                 <input type="hidden" name="act" id="act" value="revoke">
                 <input type="hidden" name="pm_ids[]" id="pm_id_0" value="<?php echo $pmRow['pm_send_id']; ?>">
-                <input type="hidden" name="__token__" value="<?php echo $token; ?>">
+                <input type="hidden" name="<?php echo $token['name']; ?>" value="<?php echo $token['value']; ?>">
                 <button type="submit" class="btn btn-info btn-sm"><?php echo $lang->get('Revoke'); ?></button>
             </form>
         <?php } ?>

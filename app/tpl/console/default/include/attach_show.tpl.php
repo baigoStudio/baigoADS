@@ -14,7 +14,7 @@
                         </div>
 
                         <form name="attach_fix" id="attach_fix" action="<?php echo $route_console; ?>attach/fix/">
-                            <input type="hidden" name="__token__" value="<?php echo $token; ?>">
+                            <input type="hidden" name="<?php echo $token['name']; ?>" value="<?php echo $token['value']; ?>">
                             <input type="hidden" name="attach_id" id="attach_id" value="<?php echo $attachRow['attach_id']; ?>">
 
                             <div class="form-group">

@@ -54,7 +54,7 @@ class Opt {
     function inputDbconfig() {
         $_arr_inputParam = array(
             'host'      => array('txt', 'localhost'),
-            'port'      => array('num', 3306),
+            'port'      => array('int', 3306),
             'name'      => array('txt', ''),
             'user'      => array('txt', ''),
             'pass'      => array('txt', ''),

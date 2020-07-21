@@ -33,10 +33,10 @@ class Attach extends Model {
         $_str_dirAttach     = str_ireplace(DS, '/', $_str_dirAttach);
         $_str_dirAttach     = Func::fixDs($_str_dirAttach, '/');
 
-        $this->urlPrefix    = Func::fixDs($this->obj_request->root(), '/') . $_str_dirAttach;
+        $this->urlPrefix    = $this->obj_request->root() . $_str_dirAttach;
 
         if (!Func::isEmpty($this->configUpload['ftp_host']) && !Func::isEmpty($this->configUpload['url_prefix'])) {
-            $this->urlPrefix = $this->configUpload['url_prefix'] . '/';
+            $this->urlPrefix = Func::fixDs($this->configUpload['url_prefix'], '/');
         }
     }
 
@@ -46,17 +46,15 @@ class Attach extends Model {
             'attach_id',
         );
 
-        $_arr_attachRow = $this->readProcess($mix_attach, $str_by, $arr_select);
-
-        return $_arr_attachRow;
+        return $this->readProcess($mix_attach, $str_by, $arr_select);
     }
 
 
     function read($mix_attach, $str_by = 'attach_id', $arr_select = array()) {
         $_arr_attachRow = $this->readProcess($mix_attach, $str_by, $arr_select);
 
-        if ($_arr_attachRow['rcode'] == 'y070102') {
-            $_arr_attachRow = $this->rowProcess($_arr_attachRow);
+        if ($_arr_attachRow['rcode'] != 'y070102') {
+            return $_arr_attachRow;
         }
 
         return $_arr_attachRow;
@@ -96,6 +94,7 @@ class Attach extends Model {
         }
 
         $_arr_attachRow['rcode'] = 'y070102';
+        $_arr_attachRow['msg']   = '';
 
         return $_arr_attachRow;
     }

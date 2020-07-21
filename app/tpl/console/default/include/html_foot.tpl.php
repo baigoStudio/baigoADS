@@ -9,17 +9,17 @@
 
     if (isset($cfg['baigoValidate'])) { ?>
         <!--表单验证 js-->
-        <script src="{:DIR_STATIC}lib/baigoValidate/3.0.0/baigoValidate.min.js" type="text/javascript"></script>
+        <script src="{:DIR_STATIC}lib/baigoValidate/3.0.1/baigoValidate.min.js" type="text/javascript"></script>
     <?php }
 
     if (isset($cfg['baigoSubmit'])) { ?>
         <!--表单 ajax 提交 js-->
-        <script src="{:DIR_STATIC}lib/baigoSubmit/2.1.0/baigoSubmit.min.js" type="text/javascript"></script>
+        <script src="{:DIR_STATIC}lib/baigoSubmit/2.1.1/baigoSubmit.min.js" type="text/javascript"></script>
     <?php }
 
     if (isset($cfg['baigoDialog']) || isset($cfg['upload'])) { ?>
         <!--表单 ajax 提交 js-->
-        <script src="{:DIR_STATIC}lib/baigoDialog/1.0.0/baigoDialog.min.js" type="text/javascript"></script>
+        <script src="{:DIR_STATIC}lib/baigoDialog/1.0.1/baigoDialog.min.js" type="text/javascript"></script>
     <?php }
 
     if (isset($cfg['baigoQuery'])) { ?>

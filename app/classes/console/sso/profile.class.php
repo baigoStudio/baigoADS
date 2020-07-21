@@ -55,6 +55,13 @@ class Profile extends Sso {
 
         $_arr_get     = $this->obj_http->request($this->urlPrefix . 'info/', $_arr_ssoData, 'post'); //提交
 
+        if (!isset($_arr_get['rcode'])) {
+            return array(
+                'rcode' => 'x030201',
+                'msg'   => 'Missing rcode',
+            );
+        }
+
         return $_arr_get;
     }
 
@@ -85,6 +92,13 @@ class Profile extends Sso {
         $_arr_ssoData = array_replace_recursive($this->dataCommon, $_arr_sso);
 
         $_arr_get     = $this->obj_http->request($this->urlPrefix . 'pass/', $_arr_ssoData, 'post'); //提交
+
+        if (!isset($_arr_get['rcode'])) {
+            return array(
+                'rcode' => 'x030201',
+                'msg'   => 'Missing rcode',
+            );
+        }
 
         return $_arr_get;
     }
@@ -120,6 +134,13 @@ class Profile extends Sso {
 
         //print_r($this->obj_http->getResult());
 
+        if (!isset($_arr_get['rcode'])) {
+            return array(
+                'rcode' => 'x030201',
+                'msg'   => 'Missing rcode',
+            );
+        }
+
         return $_arr_get;
     }
 
@@ -151,6 +172,13 @@ class Profile extends Sso {
 
         $_arr_get     = $this->obj_http->request($this->urlPrefix . 'mailbox/', $_arr_ssoData, 'post'); //提交
 
+        if (!isset($_arr_get['rcode'])) {
+            return array(
+                'rcode' => 'x030201',
+                'msg'   => 'Missing rcode',
+            );
+        }
+
         return $_arr_get;
     }
 
@@ -180,7 +208,15 @@ class Profile extends Sso {
         $_arr_ssoData = array_replace_recursive($this->dataCommon, $_arr_sso);
 
         $_arr_get     = $this->obj_http->request($this->urlPrefix . 'token/', $_arr_ssoData, 'post'); //提交
+
         //print_r($this->obj_http->getResult());
+
+        if (!isset($_arr_get['rcode'])) {
+            return array(
+                'rcode' => 'x030201',
+                'msg'   => 'Missing rcode',
+            );
+        }
 
         if ($_arr_get['rcode'] != 'y010103') {
             return $_arr_get;

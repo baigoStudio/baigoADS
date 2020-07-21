@@ -39,7 +39,6 @@ return array(
     'Choose at least one {:attr}'                                       => '至少选择一项 {:attr}',
     'Not allowed to edit'                                               => '禁止修改',
     'Form token error'                                                  => '表单令牌错误',
-    'Please select a status'                                            => '请选择状态',
     'Administrator already exists'                                      => '管理员已存在',
     'You do not have permission'                                        => '您没有权限',
     'User not found, please use add administrator'                  => '用户不存在，请使用添加管理员',

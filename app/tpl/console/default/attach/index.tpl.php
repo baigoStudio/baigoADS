@@ -24,7 +24,7 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
             </a>
             <?php if ($attachCount['recycle'] > 0) { ?>
                 <a href="<?php echo $route_console; ?>attach/index/box/recycle/" class="nav-link<?php if ($search['box'] == 'recycle') { ?> disabled<?php } ?>">
-                    <?php echo $lang->get('Trash'); ?>
+                    <?php echo $lang->get('Recycle'); ?>
                     <span class="badge badge-pill badge-<?php if ($search['box'] == 'recycle') { ?>secondary<?php } else { ?>primary<?php } ?>"><?php echo $attachCount['recycle']; ?></span>
                 </a>
             <?php }
@@ -38,7 +38,7 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
         </nav>
         <form name="attach_search" id="attach_search" class="d-none d-lg-inline-block" action="<?php echo $route_console; ?>attach/index/">
             <div class="input-group mb-3">
-                <input type="text" name="key" class="form-control" value="<?php echo $search['key']; ?>" placeholder="<?php echo $lang->get('Key word'); ?>">
+                <input type="text" name="key" class="form-control" value="<?php echo $search['key']; ?>" placeholder="<?php echo $lang->get('Keyword'); ?>">
                 <span class="input-group-append">
                     <button class="btn btn-outline-secondary" type="submit">
                         <span class="fas fa-search"></span>
@@ -84,7 +84,7 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
         <div class="mb-3 text-right">
             <?php if (!empty($search['key'])) { ?>
                 <span class="badge badge-info">
-                    <?php echo $lang->get('Key word'); ?>:
+                    <?php echo $lang->get('Keyword'); ?>:
                     <?php echo $search['key']; ?>
                 </span>
             <?php }
@@ -142,7 +142,7 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
                     </div>
 
                     <form name="attach_empty" id="attach_empty" action="<?php echo $route_console; ?>attach/empty-recycle/">
-                        <input type="hidden" name="__token__" value="<?php echo $token; ?>">
+                        <input type="hidden" name="<?php echo $token['name']; ?>" value="<?php echo $token['value']; ?>">
                         <button type="submit" class="btn btn-danger">
                             <span class="fas fa-trash-alt"></span>
                             <?php echo $lang->get('Empty'); ?>
@@ -155,7 +155,7 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
                     </div>
 
                     <form name="attach_clear" id="attach_clear" action="<?php echo $route_console; ?>attach/clear/">
-                        <input type="hidden" name="__token__" value="<?php echo $token; ?>">
+                        <input type="hidden" name="<?php echo $token['name']; ?>" value="<?php echo $token['value']; ?>">
                         <input type="hidden" name="act_clear" id="act_clear" value="clear">
                         <button type="submit" class="btn btn-warning">
                             <span class="fas fa-trash-alt"></span>
@@ -168,7 +168,7 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
     </div>
 
     <form name="attach_list" id="attach_list" action="<?php echo $route_console; ?>attach/box/">
-        <input type="hidden" name="__token__" value="<?php echo $token; ?>">
+        <input type="hidden" name="<?php echo $token['name']; ?>" value="<?php echo $token['value']; ?>">
 
         <div class="table-responsive">
             <table class="table table-striped border bg-white">
@@ -233,7 +233,7 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
                                         <?php } else { ?>
                                             <a href="javascript:void(0);" data-id="<?php echo $value['attach_id']; ?>" class="text-danger attach_recycle mr-2">
                                                 <span class="fas fa-trash"></span>
-                                                <?php echo $lang->get('Trash'); ?>
+                                                <?php echo $lang->get('Recycle'); ?>
                                             </a>
                                         <?php }
 
@@ -308,7 +308,7 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
                             <option value="normal"><?php echo $lang->get('Restore'); ?></option>
                             <option value="delete"><?php echo $lang->get('Delete'); ?></option>
                         <?php } else { ?>
-                            <option value="recycle"><?php echo $lang->get('Move to trash'); ?></option>
+                            <option value="recycle"><?php echo $lang->get('Move to recycle'); ?></option>
                         <?php } ?>
                     </select>
                     <span class="input-group-append">
@@ -324,7 +324,7 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
     </form>
 
     <form name="attach_fix" id="attach_fix" action="<?php echo $route_console; ?>attach/fix/">
-        <input type="hidden" name="__token__" value="<?php echo $token; ?>">
+        <input type="hidden" name="<?php echo $token['name']; ?>" value="<?php echo $token['value']; ?>">
         <input type="hidden" name="attach_id" id="attach_id" value="0">
     </form>
 
@@ -397,7 +397,7 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
                     break;
 
                     case 'recycle':
-                        obj_dialog.confirm('<?php echo $lang->get('Are you sure move to trash?'); ?>', function(result){
+                        obj_dialog.confirm('<?php echo $lang->get('Are you sure move to recycle?'); ?>', function(result){
                             if (result) {
                                 obj_submit_list.formSubmit('<?php echo $route_console; ?>attach/box/');
                             }
@@ -442,10 +442,10 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
             $('#attach_list').submit();
         });
 
-        $("#attach_list").baigoCheckall();
+        $('#attach_list').baigoCheckall();
 
-        var obj_empty = $("#attach_empty").baigoClear(opts_clear);
-        $("#attach_empty").submit(function(){
+        var obj_empty = $('#attach_empty').baigoClear(opts_clear);
+        $('#attach_empty').submit(function(){
             obj_dialog.confirm('<?php echo $lang->get('Warning! This operation is not recoverable!'); ?>', function(result){
                 if (result) {
                     obj_empty.clearSubmit();
@@ -453,8 +453,8 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
             });
         });
 
-        var obj_clear  = $("#attach_clear").baigoClear(opts_clear);
-        $("#attach_clear").submit(function(){
+        var obj_clear  = $('#attach_clear').baigoClear(opts_clear);
+        $('#attach_clear').submit(function(){
             obj_dialog.confirm('<?php echo $lang->get('Warning! This operation will take a long time!'); ?>', function(result){
                 if (result) {
                     obj_clear.clearSubmit();

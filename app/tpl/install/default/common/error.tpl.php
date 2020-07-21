@@ -45,7 +45,7 @@ include($cfg['pathInclude'] . 'html_head' . GK_EXT_TPL); ?>
                 </div>
             </div>
 
-            <?php if (!isset($ui_ctrl['copyright']) || $ui_ctrl['copyright'] == 'on') { ?>
+            <?php if (!isset($ui_ctrl['copyright']) || $ui_ctrl['copyright'] === 'on') { ?>
                 <div class="mt-3 text-right">
                     <span class="d-none d-lg-inline-block">Powered by</span>
                     <a href="<?php echo PRD_ADS_URL; ?>" target="_blank"><?php echo PRD_ADS_NAME; ?></a>

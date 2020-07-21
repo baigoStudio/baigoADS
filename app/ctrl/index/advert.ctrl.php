@@ -40,8 +40,6 @@ class Advert extends Ctrl {
             return $this->error($_arr_advertRow['msg'], $_arr_advertRow['rcode']);
         }
 
-        //print_r($_arr_advertRow);
-
         if (($_arr_advertRow['advert_type'] == 'date' && $_arr_advertRow['advert_opt'] < GK_NOW) || ($_arr_advertRow['advert_type'] == 'show' && $_arr_advertRow['advert_opt'] < $_arr_advertRow['advert_count_show']) || ($_arr_advertRow['advert_type'] == 'hit' && $_arr_advertRow['advert_opt'] < $_arr_advertRow['advert_count_hit'])) {
             return $this->error('Ad invalidation', 'x080401');
         }

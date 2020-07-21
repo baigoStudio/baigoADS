@@ -10,7 +10,7 @@
 include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
 
     <form name="profile_form" id="profile_form" action="<?php echo $route_console; ?>profile/prefer-submit/">
-        <input type="hidden" name="__token__" value="<?php echo $token; ?>">
+        <input type="hidden" name="<?php echo $token['name']; ?>" value="<?php echo $token['value']; ?>">
 
         <div class="row">
             <div class="col-xl-9">
@@ -82,7 +82,7 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
 
                                             case 'switch': ?>
                                                 <div class="custom-control custom-switch">
-                                                    <input type="checkbox" name="admin_prefer[<?php echo $key; ?>][<?php echo $key_s; ?>]" id="admin_prefer_<?php echo $key; ?>_<?php echo $key_s; ?>" <?php if ($value_s['this'] == 'on') { ?>checked<?php } ?> value="on" class="custom-control-input">
+                                                    <input type="checkbox" name="admin_prefer[<?php echo $key; ?>][<?php echo $key_s; ?>]" id="admin_prefer_<?php echo $key; ?>_<?php echo $key_s; ?>" <?php if ($value_s['this'] === 'on') { ?>checked<?php } ?> value="on" class="custom-control-input">
                                                     <label for="admin_prefer_<?php echo $key; ?>_<?php echo $key_s; ?>" class="custom-control-label">
                                                         <?php echo $lang->get($value_s['title']); ?>
                                                     </label>

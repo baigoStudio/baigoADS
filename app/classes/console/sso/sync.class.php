@@ -59,6 +59,13 @@ class Sync extends Sso {
 
         //print_r($this->obj_http->getResult());
 
+        if (!isset($_arr_get['rcode'])) {
+            return array(
+                'rcode' => 'x030201',
+                'msg'   => 'Missing rcode',
+            );
+        }
+
         return $_arr_get;
     }
 }

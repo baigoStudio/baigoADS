@@ -10,6 +10,7 @@
 * [升级](./overview/upgrade.md)
 * [手动安装](./overview/manual.md)
 * [高级部署](./overview/advance.md)
+* [常见问题](./overview/faq.md)
 * [更新日志](./overview/changelog.md)
 
 

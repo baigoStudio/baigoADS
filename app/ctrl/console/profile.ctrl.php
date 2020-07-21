@@ -97,10 +97,7 @@ class Profile extends Ctrl {
             return $this->error('You do not have permission', 'x020305');
         }
 
-        $_str_configPrefer  = BG_PATH_CONFIG . 'console' . DS . 'prefer' . GK_EXT_INC;
-        $_arr_preferRows    = Config::load($_str_configPrefer, 'prefer', 'console');
-
-        $_arr_preferRows['excerpt']['lists']['type']['option'] = $this->config['console']['excerpt'];
+        $_arr_preferRows    = Config::get('prefer', 'console.profile');
 
         foreach ($_arr_preferRows as $_key=>$_value) {
             foreach ($_value['lists'] as $_key_s=>$_value_s) {
@@ -223,12 +220,7 @@ class Profile extends Ctrl {
             return $this->error('You do not have permission', 'x020305');
         }
 
-        $_str_configSecqa  = BG_PATH_CONFIG . 'console' . DS . 'secqa' . GK_EXT_INC;
-        $_arr_secqaRows    = Config::load($_str_configSecqa, 'secqa', 'console');
-
-        $_str_current   = $this->obj_lang->getCurrent();
-        $_str_langPath  = GK_APP_LANG . $_str_current .  DS . 'console' . DS . 'secqa' . GK_EXT_LANG;
-        $this->obj_lang->load($_str_langPath, 'console.secqa');
+        $_arr_secqaRows    = Config::get('secqa', 'console.profile');
 
         $_arr_userRow = $this->obj_user->read($this->adminLogged['admin_id']);
 

@@ -32,7 +32,7 @@ class Posi extends Model {
             $_arr_configRoute['posi'] = '';
         }
 
-        $this->urlPrefix    = $this->obj_request->baseUrl(true) . '/' . $_arr_configRoute['posi'] . '/';
+        $this->urlPrefix    = $this->obj_request->baseUrl(true) . $_arr_configRoute['posi'] . '/';
     }
 
 
@@ -41,9 +41,7 @@ class Posi extends Model {
             'posi_id',
         );
 
-        $_arr_posiRow = $this->read($mix_posi, $str_by, $num_notId, $_arr_posiSelect);
-
-        return $_arr_posiRow;
+        return $this->readProcess($mix_posi, $str_by, $num_notId, $_arr_posiSelect);
     }
 
 
@@ -58,6 +56,17 @@ class Posi extends Model {
      * @return void
      */
     function read($mix_posi, $str_by = 'posi_id', $num_notId = 0, $arr_select = array()) {
+        $_arr_posiRow = $this->readProcess($mix_posi, $str_by, $num_notId, $_arr_posiSelect);
+
+        if ($_arr_posiRow['rcode'] != 'y040102') {
+            return $_arr_posiRow;
+        }
+
+        return $this->rowProcess($_arr_posiRow);
+    }
+
+
+    function readProcess($mix_posi, $str_by = 'posi_id', $num_notId = 0, $arr_select = array()) {
         if (Func::isEmpty($arr_select)) {
             $arr_select = array(
                 'posi_id',
@@ -88,7 +97,7 @@ class Posi extends Model {
         $_arr_posiRow['rcode'] = 'y040102';
         $_arr_posiRow['msg']   = '';
 
-        return $this->rowProcess($_arr_posiRow);
+        return $_arr_posiRow;
     }
 
 

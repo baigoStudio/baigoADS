@@ -25,7 +25,7 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
     </nav>
 
     <form name="posi_form" id="posi_form" action="<?php echo $route_console; ?>posi/opts-submit/">
-        <input type="hidden" name="__token__" value="<?php echo $token; ?>">
+        <input type="hidden" name="<?php echo $token['name']; ?>" value="<?php echo $token['value']; ?>">
         <input type="hidden" name="posi_id" id="posi_id" value="<?php echo $posiRow['posi_id']; ?>">
 
         <div class="row">
@@ -52,12 +52,12 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
                                 $_arr_rule[$_key]['format'] = $_value['format'];
                             }
 
-                            $_arr_attr[$_key]  = $lang->get($_value['title']);
+                            $_arr_attr[$_key]  = $_value['title'];
                             ?>
                             <div class="form-group">
                                 <?php if ($_value['type'] != 'switch') { ?>
                                     <label>
-                                        <?php echo $lang->get($_value['title']);
+                                        <?php echo $_value['title'];
 
                                         if (isset($_value['require']) && $_value['require'] > 0) { ?> <span class="text-danger">*</span><?php } ?>
                                     </label>
@@ -68,7 +68,7 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
                                         <select name="posi_opts[<?php echo $_key; ?>]" id="posi_opts_<?php echo $_key; ?>"  class="form-control">
                                             <?php foreach ($_value['option'] as $_key_opt=>$_value_opt) { ?>
                                                 <option<?php if ($posiRow['posi_opts'][$_key] == $_key_opt) { ?> selected<?php } ?> value="<?php echo $_key_opt; ?>">
-                                                    <?php echo $lang->get($_value_opt); ?>
+                                                    <?php echo $_value_opt; ?>
                                                 </option>
                                             <?php } ?>
                                         </select>
@@ -78,13 +78,17 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
                                         <div class="input-group">
                                             <input type="text" value="<?php echo $posiRow['posi_opts'][$_key]; ?>" name="posi_opts[<?php echo $_key; ?>]" id="posi_opts_<?php echo $_key; ?>" class="form-control">
                                             <span class="input-group-append">
-                                                <select id="select_<?php echo $_key; ?>" class="custom-select bg-custom-select">
+                                                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown">
+                                                    <?php echo $lang->get('Please select'); ?>
+                                                </button>
+
+                                                <div class="dropdown-menu">
                                                     <?php foreach ($_value['option'] as $_key_opt=>$_value_opt) { ?>
-                                                        <option<?php if ($posiRow['posi_opts'][$_key] == $_key_opt) { ?> selected<?php } ?> value="<?php echo $_key_opt; ?>">
-                                                            <?php echo $lang->get($_value_opt); ?>
-                                                        </option>
+                                                        <button class="dropdown-item bg-select-input" data-value="<?php echo $_key_opt; ?>" data-target="#posi_opts_<?php echo $_key; ?>" type="button">
+                                                            <?php echo $_value_opt; ?>
+                                                        </button>
                                                     <?php } ?>
-                                                </select>
+                                                </div>
                                             </span>
                                         </div>
                                     <?php break;
@@ -95,11 +99,11 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
                                                 <div class="form-check <?php if (!isset($_value_opt['note'])) { ?>form-check-inline<?php } ?>">
                                                     <input type="radio"<?php if ($posiRow['posi_opts'][$_key] == $_key_opt) { ?> checked<?php } ?> value="<?php echo $_key_opt; ?>" name="posi_opts[<?php echo $_key; ?>]" id="posi_opts_<?php echo $_key; ?>_<?php echo $_key_opt; ?>" class="form-check-input">
                                                     <label for="posi_opts_<?php echo $_key; ?>_<?php echo $_key_opt; ?>" class="form-check-label">
-                                                        <?php echo $lang->get($_value_opt['value']); ?>
+                                                        <?php echo $_value_opt['value']; ?>
                                                     </label>
 
                                                     <?php if (isset($_value_opt['note'])) { ?>
-                                                        <small class="form-text"><?php echo $lang->get($_value_opt['note']); ?></small>
+                                                        <small class="form-text"><?php echo $_value_opt['note']; ?></small>
                                                     <?php } ?>
                                                 </div>
                                             <?php } ?>
@@ -109,9 +113,9 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
 
                                     case 'switch': ?>
                                         <div class="custom-control custom-switch">
-                                            <input type="checkbox" id="posi_opts_<?php echo $_key; ?>" name="posi_opts[<?php echo $_key; ?>]" <?php if ($posiRow['posi_opts'][$_key] == 'on') { ?>checked<?php } ?> value="on" class="custom-control-input">
+                                            <input type="checkbox" id="posi_opts_<?php echo $_key; ?>" name="posi_opts[<?php echo $_key; ?>]" <?php if ($posiRow['posi_opts'][$_key] === 'on') { ?>checked<?php } ?> value="on" class="custom-control-input">
                                             <label for="posi_opts_<?php echo $_key; ?>" class="custom-control-label">
-                                                <?php echo $lang->get($_value['title']); ?>
+                                                <?php echo $_value['title']; ?>
                                             </label>
                                         </div>
                                     <?php break;
@@ -128,7 +132,7 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
                                 <small class="form-text" id="msg_<?php echo $_key; ?>"></small>
 
                                 <?php if (isset($_value['note'])) { ?>
-                                    <small class="form-text"><?php echo $lang->get($_value['note']); ?></small>
+                                    <small class="form-text"><?php echo $_value['note']; ?></small>
                                 <?php } ?>
                             </div>
                         <?php } ?>
@@ -191,16 +195,11 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
             }
         });
 
-        <?php foreach ($scriptOpts as $_key=>$_value) {
-            switch ($_value['type']) {
-                case 'select_input': ?>
-                    $('#select_<?php echo $_key; ?>').change(function(){
-                        var _val_<?php echo $_key; ?> = $(this).val();
-                        $('#posi_opts_<?php echo $_key; ?>').val(_val_<?php echo $_key; ?>);
-                    });
-                <?php break;
-            }
-        } ?>
+        $('.bg-select-input').click(function(){
+            var _val    = $(this).data('value');
+            var _target = $(this).data('target');
+            $(_target).val(_val);
+        });
     });
     </script>
 <?php include($cfg['pathInclude'] . 'html_foot' . GK_EXT_TPL);

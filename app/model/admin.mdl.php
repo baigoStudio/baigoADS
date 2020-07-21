@@ -30,9 +30,7 @@ class Admin extends Model {
             'admin_id',
         );
 
-        $_arr_adminRow = $this->read($mix_admin, $str_by, $num_notId, $_arr_adminSelect);
-
-        return $_arr_adminRow;
+        return $this->readProcess($mix_admin, $str_by, $num_notId, $_arr_adminSelect);
     }
 
 
@@ -46,6 +44,18 @@ class Admin extends Model {
      * @return void
      */
     function read($mix_admin, $str_by = 'admin_id', $num_notId = 0, $arr_select = array()) {
+        $_arr_adminRow = $this->readProcess($mix_admin, $str_by, $num_notId, $_arr_adminSelect);
+
+        if ($_arr_adminRow['rcode'] != 'y020102') {
+            return $_arr_adminRow;
+        }
+
+        return $this->rowProcess($_arr_adminRow);
+    }
+
+
+
+    function readProcess($mix_admin, $str_by = 'admin_id', $num_notId = 0, $arr_select = array()) {
         if (Func::isEmpty($arr_select)) {
             $arr_select = array(
                 'admin_id',
@@ -84,9 +94,8 @@ class Admin extends Model {
         $_arr_adminRow['rcode']   = 'y020102';
         $_arr_adminRow['msg']     = '';
 
-        return $this->rowProcess($_arr_adminRow);
+        return $_arr_adminRow;
     }
-
 
 
     /** 列出

@@ -7,7 +7,7 @@
                 <?php } ?>
             </div>
 
-            <?php if (!isset($ui_ctrl['copyright']) || $ui_ctrl['copyright'] == 'on') { ?>
+            <?php if (!isset($ui_ctrl['copyright']) || $ui_ctrl['copyright'] === 'on') { ?>
                 <div class="mt-5">
                     <hr>
                     <div class="d-flex justify-content-between">

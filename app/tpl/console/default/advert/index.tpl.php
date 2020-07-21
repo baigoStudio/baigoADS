@@ -21,7 +21,7 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
         </nav>
         <form name="advert_search" id="advert_search" class="d-none d-lg-block" action="<?php echo $route_console; ?>advert/index/">
             <div class="input-group mb-3">
-                <input type="text" name="key" value="<?php echo $search['key']; ?>" placeholder="<?php echo $lang->get('Key word'); ?>" class="form-control">
+                <input type="text" name="key" value="<?php echo $search['key']; ?>" placeholder="<?php echo $lang->get('Keyword'); ?>" class="form-control">
                 <span class="input-group-append">
                     <button class="btn btn-outline-secondary" type="submit">
                         <span class="fas fa-search"></span>
@@ -43,7 +43,6 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
                             </option>
                         <?php } ?>
                     </select>
-
                     <select name="status" class="custom-select">
                         <option value=""><?php echo $lang->get('All status'); ?></option>
                         <?php foreach ($status as $key=>$value) { ?>
@@ -57,11 +56,11 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
         </form>
     </div>
 
-    <?php if (!empty($search['key']) || !empty($search['status'])) { ?>
+    <?php if (!empty($search['key']) || !empty($search['status']) || isset($posiRow['posi_name'])) { ?>
         <div class="mb-3 text-right">
             <?php if (!empty($search['key'])) { ?>
                 <span class="badge badge-info">
-                    <?php echo $lang->get('Key word'); ?>:
+                    <?php echo $lang->get('Keyword'); ?>:
                     <?php echo $search['key']; ?>
                 </span>
             <?php }
@@ -70,6 +69,13 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
                 <span class="badge badge-info">
                     <?php echo $lang->get('Status'); ?>:
                     <?php echo $lang->get($search['status']); ?>
+                </span>
+            <?php }
+
+            if (isset($posiRow['posi_name'])) { ?>
+                <span class="badge badge-info">
+                    <?php echo $lang->get('Ad position'); ?>:
+                    <?php echo $posiRow['posi_name']; ?>
                 </span>
             <?php } ?>
 
@@ -81,7 +87,7 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
     <?php } ?>
 
     <form name="advert_list" id="advert_list" action="<?php echo $route_console; ?>advert/status/">
-        <input type="hidden" name="__token__" value="<?php echo $token; ?>">
+        <input type="hidden" name="<?php echo $token['name']; ?>" value="<?php echo $token['value']; ?>">
 
         <div class="table-responsive">
             <table class="table table-striped border bg-white">
@@ -263,8 +269,8 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
             }
         });
 
-        var obj_cache = $("#advert_cache").baigoSubmit(opts_submit_list);
-        $("#advert_cache").submit(function(){
+        var obj_cache = $('#advert_cache').baigoSubmit(opts_submit_list);
+        $('#advert_cache').submit(function(){
             obj_cache.formSubmit();
         });
 

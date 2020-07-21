@@ -16,7 +16,9 @@
             <div class="navbar-nav mr-auto d-none d-lg-block">
                 <a href="<?php echo $route_console; ?>" class="nav-link">
                     <span class="fas fa-tachometer-alt"></span>
-                    <?php echo $config['var_extra']['base']['site_name']; ?>
+                    <?php if (isset($config['var_extra']['base']['site_name'])) {
+                        echo $config['var_extra']['base']['site_name'];
+                    } ?>
                 </a>
             </div>
             <div class="navbar-nav mr-auto d-none d-lg-block">
@@ -60,7 +62,7 @@
                         } ?>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
-                        <?php foreach ($config['console']['profile'] as $_key=>$_value) { ?>
+                        <?php foreach ($config['console']['profile_mod'] as $_key=>$_value) { ?>
                             <a href="<?php echo $route_console; ?>profile/<?php echo $_key; ?>/" class="dropdown-item<?php if (isset($cfg['menu_active']) && $cfg['menu_active'] == 'profile' && isset($cfg['sub_active']) && $cfg['sub_active'] == $_key) { ?> active<?php } ?>">
                                 <?php if (isset($_value['icon'])) { ?>
                                     <span class="fas fa-<?php echo $_value['icon']; ?> fa-fw"></span>

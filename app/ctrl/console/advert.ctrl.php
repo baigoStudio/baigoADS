@@ -61,7 +61,14 @@ class Advert extends Ctrl {
 
         $_arr_search = $this->obj_request->param($_arr_searchParam);
 
-        $_arr_search['posi_id'] = $_arr_search['posi'];
+        $_arr_posiRow  = array();
+
+        if ($_arr_search['posi'] > 0) {
+            $_arr_posiRow = $this->mdl_posi->read($_arr_search['posi']);
+            if (isset($_arr_posiRow['posi_id'])) {
+                $_arr_search['posi_id'] = $_arr_search['posi'];
+            }
+        }
 
         $_num_advertCount   = $this->mdl_advert->count($_arr_search); //统计记录数
         $_arr_pageRow       = $this->obj_request->pagination($_num_advertCount); //取得分页数据
@@ -77,6 +84,7 @@ class Advert extends Ctrl {
             'pageRow'       => $_arr_pageRow,
             'search'        => $_arr_search,
             'advertRows'    => $_arr_advertRows,
+            'posiRow'       => $_arr_posiRow,
             'posiRows'      => $_arr_posiRows,
             'token'         => $this->obj_request->token(),
         );

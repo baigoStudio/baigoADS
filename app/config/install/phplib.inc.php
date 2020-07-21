@@ -8,8 +8,8 @@
 defined('IN_GINKGO') or exit('Access denied');
 
 return array(
-    'pdo' => array(
-        'title'     => 'PDO (The PHP Data Objects)',
+    'pdo_mysql' => array(
+        'title'     => 'PDO (The PHP Data Objects) for MySQL',
         'installed' => false,
     ),
     'gd' => array(

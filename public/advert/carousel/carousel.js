@@ -61,7 +61,7 @@ License: http://www.opensource.org/licenses/mit-license.php
 
                     _str_advert += '" data-ride="carousel">';
 
-                        if (_posiOpts.indicator == 'on') {
+                        if (_posiOpts.indicator === 'on') {
                              _str_advert += '<ol class="carousel-indicators">';
 
                                 $.each(_result.advertRows, function(_key, _value){
@@ -104,10 +104,10 @@ License: http://www.opensource.org/licenses/mit-license.php
 
                                 '<a href="' + _str_href + '" target="_blank">' + _str_content + '</a>';
 
-                                if (_posiOpts.caption == 'on') {
+                                if (_posiOpts.caption === 'on') {
                                     _str_advert += '<div class="carousel-caption d-none d-md-block">';
 
-                                        if (_posiOpts.advert_name == 'on') {
+                                        if (_posiOpts.advert_name === 'on') {
                                             _str_advert += '<h5>' + _value.advert_name + '</h5>';
                                         }
 
@@ -123,7 +123,7 @@ License: http://www.opensource.org/licenses/mit-license.php
 
                         _str_advert += '</div>';
 
-                        if (_posiOpts.control == 'on') {
+                        if (_posiOpts.control === 'on') {
                             _str_advert += '<a class="carousel-control-prev" href="#posi' + _posiRow.posi_id + '-carousel" data-slide="prev">' +
                                 '<span class="carousel-control-prev-icon" aria-hidden="true"></span>' +
                                 '<span class="sr-only">Previous</span>' +

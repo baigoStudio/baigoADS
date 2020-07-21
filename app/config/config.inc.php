@@ -34,7 +34,6 @@
     'var_extra' => array(
         'base' => array( //设置默认值
             'site_name'         => 'baigo ADS',
-            'site_perpage'      => 30,
             'site_date'         => 'Y-m-d',
             'site_date_short'   => 'm-d',
             'site_time'         => 'H:i:s',

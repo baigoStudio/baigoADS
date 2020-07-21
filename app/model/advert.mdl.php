@@ -21,14 +21,14 @@ class Advert extends Model {
     public $arr_type    = array('date', 'show', 'hit', 'none', 'backup');
 
     function m_init() { //构造函数
-        $_arr_configRoute  = Config::get('route', 'index');
+        $_arr_configRoute   = Config::get('route', 'index');
         $this->configBase   = Config::get('base', 'var_extra');
 
         if (!isset($_arr_configRoute['advert'])) {
             $_arr_configRoute['advert'] = '';
         }
 
-        $this->urlPrefix    = $this->obj_request->baseUrl(true) . '/' . $_arr_configRoute['advert'] . '/';
+        $this->urlPrefix    = $this->obj_request->baseUrl(true) . $_arr_configRoute['advert'] . '/';
     }
 
 
@@ -37,9 +37,7 @@ class Advert extends Model {
             'advert_id',
         );
 
-        $_arr_advertRow = $this->read($mix_advert, $str_by = 'advert_id', $num_notId, $_arr_advertSelect);
-
-        return $_arr_advertRow;
+        return $this->readProcess($mix_advert, $str_by = 'advert_id', $num_notId, $_arr_advertSelect);
     }
 
 
@@ -54,6 +52,17 @@ class Advert extends Model {
      * @return void
      */
     function read($mix_advert, $str_by = 'advert_id', $num_notId = 0, $arr_select = array()) {
+        $_arr_advertRow = $this->readProcess($mix_advert, $str_by = 'advert_id', $num_notId, $_arr_advertSelect);
+
+        if ($_arr_advertRow['rcode'] != 'y080102') {
+            return $_arr_advertRow;
+        }
+
+        return $this->rowProcess($_arr_advertRow);
+    }
+
+
+    function readProcess($mix_advert, $str_by = 'advert_id', $num_notId = 0, $arr_select = array()) {
         if (Func::isEmpty($arr_select)) {
             $arr_select = array(
                 'advert_id',
@@ -90,7 +99,7 @@ class Advert extends Model {
         $_arr_advertRow['rcode'] = 'y080102';
         $_arr_advertRow['msg']   = '';
 
-        return $this->rowProcess($_arr_advertRow);
+        return $_arr_advertRow;
     }
 
 

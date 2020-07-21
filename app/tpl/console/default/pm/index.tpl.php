@@ -17,7 +17,7 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
         <?php include($cfg['pathInclude'] . 'pm_menu' . GK_EXT_TPL); ?>
         <form name="pm_search" id="pm_search" class="d-none d-lg-inline-block" action="<?php echo $route_console; ?>pm/index/">
             <div class="input-group mb-3">
-                <input type="text" name="key" value="<?php echo $search['key']; ?>" placeholder="<?php echo $lang->get('Key word'); ?>" class="form-control">
+                <input type="text" name="key" value="<?php echo $search['key']; ?>" placeholder="<?php echo $lang->get('Keyword'); ?>" class="form-control">
                 <span class="input-group-append">
                     <button class="btn btn-outline-secondary" type="submit">
                         <span class="fas fa-search"></span>
@@ -28,7 +28,7 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
     </div>
 
     <form name="pm_list" id="pm_list" action="<?php echo $route_console; ?>pm/status/">
-        <input type="hidden" name="__token__" value="<?php echo $token; ?>">
+        <input type="hidden" name="<?php echo $token['name']; ?>" value="<?php echo $token['value']; ?>">
 
         <div class="table-responsive">
             <table class="table table-striped border bg-white">

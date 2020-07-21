@@ -55,8 +55,6 @@ class Opt extends Opt_Base {
 
 
     function over() {
-        $_arr_configVer   = Config::get('version');
-
         $_arr_outPut = array(
             'prd_installed_ver'     => PRD_ADS_VER,
             'prd_installed_pub'     => PRD_ADS_PUB,

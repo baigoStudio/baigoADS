@@ -168,7 +168,7 @@ License: http://www.opensource.org/licenses/mit-license.php
 
                         switch (key) {
                             case 'require':
-                                if (value == true || value == 'true') {
+                                if (value === true || value === 'true') {
                                     _arr_ruleReturn[key] = {
                                         type: key,
                                         rule: value

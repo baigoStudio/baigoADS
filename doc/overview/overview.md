@@ -14,7 +14,8 @@ baigo ADS 是采用 PHP + MySQL 开发的广告管理发布系统。PHP 与 MySQ
 
 baigo ADS 可随时加入用户自己开发的广告插件，扩展广告的展示方式。
 
-> v3.0 起，基于 baigo 自主开发的框架 —— ginkgo 进行开发。
+`3.0` 起，基于 baigo 自主开发的框架 —— ginkgo 进行开发。
 
+* [项目主页](https://www.baigo.net/ads/)
 * [演示](https://demo.baigo.net/ads/index.php/console/)
-* [下载](https://www.baigo.net/ads/)
+* [下载](https://www.baigo.net/cate/baigoADS/download/)

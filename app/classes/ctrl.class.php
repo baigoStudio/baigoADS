@@ -7,6 +7,7 @@
 namespace app\classes;
 
 use ginkgo\Ctrl as Gk_Ctrl;
+use ginkgo\App;
 use ginkgo\Loader;
 use ginkgo\Route;
 use ginkgo\Config;
@@ -29,45 +30,25 @@ abstract class Ctrl extends Gk_Ctrl {
     protected function c_init($param = array()) { //构造函数
         $this->configProcess();
         $this->pathProcess();
-
-        $this->config = Config::get();
+        $this->configAdd();
 
         if ($this->obj_request->isAjax() && $this->obj_request->isPost()) {
-            $this->isAjaxPost = true;
+            $this->isAjaxPost   = true;
+            $this->isPost       = true;
         }
 
         if ($this->obj_request->isPost()) {
             $this->isPost = true;
         }
 
-        if (isset($this->config['module']['ftp']) && ($this->config['module']['ftp'] === true || $this->config['module']['ftp'] == 'true')) {
+        if (isset($this->config['module']['ftp']) && ($this->config['module']['ftp'] === true || $this->config['module']['ftp'] === 'true')) {
             $this->ftpOpen = true;
         }
 
-        $_arr_configUi = Config::get('ui_ctrl');
-
-        if (!isset($_arr_configUi['logo_console_login']) || Func::isEmpty($_arr_configUi['logo_console_login'])) {
-            $_arr_configUi['logo_console_login'] = '{:DIR_STATIC}ads/image/logo_purple.svg';
-        }
-
-        if (!isset($_arr_configUi['logo_console_head']) || Func::isEmpty($_arr_configUi['logo_console_head'])) {
-            $_arr_configUi['logo_console_head'] = '{:DIR_STATIC}ads/image/logo_white.svg';
-        }
-
-        if (!isset($_arr_configUi['logo_console_foot']) || Func::isEmpty($_arr_configUi['logo_console_foot'])) {
-            $_arr_configUi['logo_console_foot'] = '{:DIR_STATIC}ads/image/logo_white.svg';
-        }
-
-        if (!isset($_arr_configUi['logo_index']) || Func::isEmpty($_arr_configUi['logo_index'])) {
-            $_arr_configUi['logo_index'] = '{:DIR_STATIC}ads/image/logo_purple.svg';
-        }
-
-        if (!isset($_arr_configUi['logo_install']) || Func::isEmpty($_arr_configUi['logo_install'])) {
-            $_arr_configUi['logo_install'] = '{:DIR_STATIC}ads/image/logo_purple.svg';
-        }
+        App::setTimezone($this->configBase['site_timezone']);
 
         $_arr_data = array(
-            'ui_ctrl'       => $_arr_configUi,
+            'ui_ctrl'       => $this->configUi,
             'ftp_open'      => $this->ftpOpen,
             'config'        => $this->config,
             'route'         => $this->route,
@@ -76,9 +57,6 @@ abstract class Ctrl extends Gk_Ctrl {
         );
 
         $this->generalData = array_replace_recursive($this->generalData, $_arr_data);
-
-        $this->configBase   = Config::get('base', 'var_extra');
-        $this->configVisit  = Config::get('visit', 'var_extra');
     }
 
 
@@ -115,12 +93,56 @@ abstract class Ctrl extends Gk_Ctrl {
         return $_arr_data;
     }
 
-    protected function configProcess() {
-        $_str_pathRoute  = BG_PATH_CONFIG . $this->route['mod'] . DS . 'common' . GK_EXT_INC;
+    private function configAdd() {
+        $_arr_config        = Config::get();
+        $_arr_configUi      = Config::get('ui_ctrl');
 
-        if (Func::isFile($_str_pathRoute)) {
-            Config::load($_str_pathRoute, $this->route['mod']);
+        $_arr_convention    = Loader::load(BG_PATH_CONFIG . 'convention' . GK_EXT_INC);
+
+        $_arr_config = array_replace_recursive($_arr_convention, $_arr_config);
+
+        if (isset($_arr_configUi['update_check']) && $_arr_configUi['update_check'] != 'on') {
+            //print_r('dis');
+            Config::delete('chkver', 'console.opt');
+            if (isset($_arr_config['console']['opt']['chkver'])) {
+                unset($_arr_config['console']['opt']['chkver']);
+            }
         }
+
+        if (!isset($_arr_configUi['logo_console_login']) || Func::isEmpty($_arr_configUi['logo_console_login'])) {
+            $_arr_configUi['logo_console_login'] = '{:DIR_STATIC}ads/image/logo_purple.svg';
+        }
+
+        if (!isset($_arr_configUi['logo_console_head']) || Func::isEmpty($_arr_configUi['logo_console_head'])) {
+            $_arr_configUi['logo_console_head'] = '{:DIR_STATIC}ads/image/logo_white.svg';
+        }
+
+        if (!isset($_arr_configUi['logo_console_foot']) || Func::isEmpty($_arr_configUi['logo_console_foot'])) {
+            $_arr_configUi['logo_console_foot'] = '{:DIR_STATIC}ads/image/logo_white.svg';
+        }
+
+        if (!isset($_arr_configUi['logo_index']) || Func::isEmpty($_arr_configUi['logo_index'])) {
+            $_arr_configUi['logo_index'] = '{:DIR_STATIC}ads/image/logo_purple.svg';
+        }
+
+        if (!isset($_arr_configUi['logo_install']) || Func::isEmpty($_arr_configUi['logo_install'])) {
+            $_arr_configUi['logo_install'] = '{:DIR_STATIC}ads/image/logo_purple.svg';
+        }
+
+        $this->config   = $_arr_config;
+        $this->configUi = $_arr_configUi;
+
+        Config::set($_arr_config);
+
+        $this->configBase   = $_arr_config['var_extra']['base'];
+    }
+
+    protected function configProcess() {
+        $_str_pathMod   = BG_PATH_CONFIG . $this->route['mod'] . DS . 'common' . GK_EXT_INC;
+        Config::load($_str_pathMod, $this->route['mod']);
+
+        $_str_pathCtrl  = BG_PATH_CONFIG . $this->route['mod'] . DS . $this->route['ctrl'] . GK_EXT_INC;
+        Config::load($_str_pathCtrl, $this->route['ctrl'], $this->route['mod']);
 
         if ($this->route['mod'] != 'index') {
             $_str_configIndex   = BG_PATH_CONFIG . 'index' . DS . 'common' . GK_EXT_INC;
@@ -133,9 +155,9 @@ abstract class Ctrl extends Gk_Ctrl {
 
 
     protected function pathProcess() {
-        $_str_dirRoot       = Func::fixDs($this->obj_request->root(), '/');
-        $_str_urlRoot       = Func::fixDs($this->obj_request->baseUrl(true), '/');
-        $_str_routeRoot     = Func::fixDs($this->obj_request->baseUrl(), '/');
+        $_str_dirRoot       = $this->obj_request->root();
+        $_str_urlRoot       = $this->obj_request->baseUrl(true);
+        $_str_routeRoot     = $this->obj_request->baseUrl();
 
         Route::setExclude('page_belong');
 

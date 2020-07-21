@@ -55,6 +55,13 @@ class Pm extends Sso {
 
         //print_r($this->obj_http->getResult());
 
+        if (!isset($_arr_get['rcode'])) {
+            return array(
+                'rcode' => 'x030201',
+                'msg'   => 'Missing rcode',
+            );
+        }
+
         return $_arr_get;
     }
 
@@ -86,6 +93,13 @@ class Pm extends Sso {
         $_arr_ssoData = array_replace_recursive($this->dataCommon, $_arr_sso);
 
         $_arr_get     = $this->obj_http->request($this->urlPrefix . 'status/', $_arr_ssoData, 'post'); //提交
+
+        if (!isset($_arr_get['rcode'])) {
+            return array(
+                'rcode' => 'x030201',
+                'msg'   => 'Missing rcode',
+            );
+        }
 
         return $_arr_get;
     }
@@ -120,6 +134,13 @@ class Pm extends Sso {
 
         //print_r($this->obj_http->getResult());
 
+        if (!isset($_arr_get['rcode'])) {
+            return array(
+                'rcode' => 'x030201',
+                'msg'   => 'Missing rcode',
+            );
+        }
+
         return $_arr_get;
     }
 
@@ -153,6 +174,13 @@ class Pm extends Sso {
 
         //print_r($this->obj_http->getResult());
 
+        if (!isset($_arr_get['rcode'])) {
+            return array(
+                'rcode' => 'x030201',
+                'msg'   => 'Missing rcode',
+            );
+        }
+
         return $_arr_get;
     }
 
@@ -183,6 +211,13 @@ class Pm extends Sso {
         $_arr_ssoData = array_replace_recursive($this->dataCommon, $_arr_sso);
 
         $_arr_get     = $this->obj_http->request($this->urlPrefix . 'read/', $_arr_ssoData, 'get'); //提交
+
+        if (!isset($_arr_get['rcode'])) {
+            return array(
+                'rcode' => 'x030201',
+                'msg'   => 'Missing rcode',
+            );
+        }
 
         if ($_arr_get['rcode'] != 'y110102') {
             return $_arr_get;
@@ -238,6 +273,13 @@ class Pm extends Sso {
 
         //print_r($this->obj_http->getResult());
 
+        if (!isset($_arr_get['rcode'])) {
+            return array(
+                'rcode' => 'x030201',
+                'msg'   => 'Missing rcode',
+            );
+        }
+
         if ($_arr_get['rcode'] != 'y110102') {
             return $_arr_get;
         }
@@ -285,7 +327,15 @@ class Pm extends Sso {
         $_arr_ssoData = array_replace_recursive($this->dataCommon, $_arr_sso);
 
         $_arr_get     = $this->obj_http->request($this->urlPrefix . 'check/', $_arr_ssoData, 'get'); //提交
+
         //print_r($this->obj_http->getResult());
+
+        if (!isset($_arr_get['rcode'])) {
+            return array(
+                'rcode' => 'x030201',
+                'msg'   => 'Missing rcode',
+            );
+        }
 
         return $_arr_get;
     }

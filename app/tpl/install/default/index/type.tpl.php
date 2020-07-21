@@ -11,7 +11,7 @@ include($cfg['pathInclude'] . 'index_head' . GK_EXT_TPL); ?>
 
     <form name="type_form" id="type_form" action="<?php echo $route_install; ?>index/type-submit/">
         <input type="hidden" name="act" value="sso">
-        <input type="hidden" name="__token__" value="<?php echo $token; ?>">
+        <input type="hidden" name="<?php echo $token['name']; ?>" value="<?php echo $token['value']; ?>">
 
         <div class="alert alert-info">
             <?php echo $lang->get('baigo SSO is an Single Sign On system, baigo ADS dependent on this system.'); ?>

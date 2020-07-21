@@ -26,7 +26,7 @@
             var opts_wu = {
                 //附加表单数据
                 formData: {
-                    __token__: '<?php echo $token; ?>'
+                    <?php echo $token['name']; ?>: '<?php echo $token['value']; ?>'
                 },
                 server: '<?php echo $route_console; ?>attach/upload/', //文件接收服务端
                 pick: '#upload_select', //选择按钮

@@ -27,7 +27,7 @@
         <div class="clearfix" id="attach_search">
             <div class="float-right">
                 <div class="input-group input-group-sm mb-3">
-                    <input type="text" name="search_key" id="search_key" placeholder="<?php echo $lang->get('Key word'); ?>" class="form-control">
+                    <input type="text" name="search_key" id="search_key" placeholder="<?php echo $lang->get('Keyword'); ?>" class="form-control">
                     <span class="input-group-append">
                         <button class="btn btn-outline-secondary" type="button" id="search_btn">
                             <span class="fas fa-search"></span>

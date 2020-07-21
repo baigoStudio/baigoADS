@@ -25,7 +25,7 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
         </nav>
         <form name="link_search" id="link_search" class="d-none d-lg-block" action="<?php echo $route_console; ?>link/index/">
             <div class="input-group mb-3">
-                <input type="text" name="key" value="<?php echo $search['key']; ?>" placeholder="<?php echo $lang->get('Key word'); ?>" class="form-control">
+                <input type="text" name="key" value="<?php echo $search['key']; ?>" placeholder="<?php echo $lang->get('Keyword'); ?>" class="form-control">
                 <span class="input-group-append">
                     <button class="btn btn-outline-secondary" type="submit">
                         <span class="fas fa-search"></span>
@@ -56,7 +56,7 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
         <div class="mb-3 text-right">
             <?php if (!empty($search['key'])) { ?>
                 <span class="badge badge-info">
-                    <?php echo $lang->get('Key word'); ?>:
+                    <?php echo $lang->get('Keyword'); ?>:
                     <?php echo $search['key']; ?>
                 </span>
             <?php }
@@ -78,7 +78,7 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
     <div class="card bg-light mb-3">
         <div class="card-body">
             <form name="link_cache" id="link_cache" action="<?php echo $route_console; ?>link/cache/">
-                <input type="hidden" name="__token__" value="<?php echo $token; ?>">
+                <input type="hidden" name="<?php echo $token['name']; ?>" value="<?php echo $token['value']; ?>">
                 <button type="submit" class="btn btn-primary">
                     <span class="fas fa-redo-alt"></span>
                     <?php echo $lang->get('Refresh cache'); ?>
@@ -88,7 +88,7 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
     </div>
 
     <form name="link_list" id="link_list" action="<?php echo $route_console; ?>link/status/">
-        <input type="hidden" name="__token__" value="<?php echo $token; ?>">
+        <input type="hidden" name="<?php echo $token['name']; ?>" value="<?php echo $token['value']; ?>">
 
         <div class="table-responsive">
             <table class="table table-striped border bg-white">
@@ -266,8 +266,8 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
             }
         });
 
-        var obj_cache = $("#link_cache").baigoSubmit(opts_submit_list);
-        $("#link_cache").submit(function(){
+        var obj_cache = $('#link_cache').baigoSubmit(opts_submit_list);
+        $('#link_cache').submit(function(){
             obj_cache.formSubmit();
         });
 
