@@ -8,9 +8,12 @@ namespace app\model\console;
 
 use app\model\Attach as Attach_Base;
 use ginkgo\Func;
+use ginkgo\Arrays;
 
 //不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access Denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 /*-------------附件模型-------------*/
 class Attach extends Attach_Base {
@@ -26,20 +29,16 @@ class Attach extends Attach_Base {
      * @return void
      */
     function submit() {
-        $_tm_time = GK_NOW;
         $_num_attachId = 0;
 
-        $_arr_attachData = array(
-            'attach_time'   => $_tm_time,
-            'attach_box'    => 'normal',
-        );
+        $_arr_attachData = array();
 
         if (isset($this->inputSubmit['attach_id'])) {
             $_num_attachId  = $this->inputSubmit['attach_id'];
         }
 
-        if (isset($this->inputSubmit['attach_name'])) {
-            $_arr_attachData['attach_name']     = $this->inputSubmit['attach_name'];
+        if (isset($this->inputSubmit['attach_note'])) {
+            $_arr_attachData['attach_note']     = $this->inputSubmit['attach_note'];
         }
 
         if (isset($this->inputSubmit['attach_ext'])) {
@@ -58,7 +57,24 @@ class Attach extends Attach_Base {
             $_arr_attachData['attach_size']     = $this->inputSubmit['attach_size'];
         }
 
-        $_mix_vld = $this->validate($_arr_attachData, '', 'submit_db');
+        if (isset($this->inputSubmit['attach_box'])) {
+            $_arr_attachData['attach_box'] = $this->inputSubmit['attach_box'];
+        }
+
+        $_arr_return    = array();
+        $_arr_attachRow = array();
+
+        if ($_num_attachId > 0) {
+            $_str_vld = 'submit_edit_db';
+        } else {
+            $_str_vld = 'submit_add_db';
+
+            if (isset($this->inputSubmit['attach_name'])) {
+                $_arr_attachData['attach_name']     = $this->inputSubmit['attach_name'];
+            }
+        }
+
+        $_mix_vld = $this->validate($_arr_attachData, '', $_str_vld);
 
         if ($_mix_vld !== true) {
             return array(
@@ -69,47 +85,26 @@ class Attach extends Attach_Base {
         }
 
         if ($_num_attachId > 0) {
-            $_num_count     = $this->where('attach_id', '=', $_num_attachId)->update($_arr_attachData); //更新数据
-            if ($_num_count > 0) {
-                $_str_rcode = 'y070103'; //更新成功
-                $_str_msg   = 'Update attachment successfully';
-            } else {
-                $_str_rcode = 'x070103';
-                $_str_msg   = 'Did not make any changes';
-            }
+            $_arr_return    = $this->updateProcess($_arr_attachData, $_num_attachId);
+            $_arr_attachRow = $this->check($_num_attachId);
         } else {
+            $_arr_attachData['attach_time'] = GK_NOW;
+
             $_arr_attachRow = $this->check('reserve', 'attach_box');
 
             if ($_arr_attachRow['rcode'] == 'x070102') {
-                $_num_attachId = $this->insert($_arr_attachData);
-
-                if ($_num_attachId > 0) { //数据库插入是否成功
-                    $_str_rcode = 'y070101';
-                    $_str_msg   = 'Upload attachment successfully';
-                } else {
-                    $_str_rcode = 'x070101';
-                    $_str_msg   = 'Upload attachment failed';
-                }
+                $_arr_return = $this->insertProcess($_arr_attachData);
             } else {
-                $_num_attachId  = $_arr_attachRow['attach_id'];
-                $_num_count     = $this->where('attach_id', '=', $_num_attachId)->update($_arr_attachData); //更新数据
-                if ($_num_count > 0) {
-                    $_str_rcode = 'y070101';
-                    $_str_msg   = 'Upload attachment successfully';
-                } else {
-                    $_str_rcode = 'x070101';
-                    $_str_msg   = 'Upload attachment failed';
+                $_arr_return = $this->updateProcess($_arr_attachData, $_arr_attachRow['attach_id']);
+
+                if ($_arr_return['attach_id'] > 0) { //数据库插入是否成功
+                    $_arr_return['rcode'] = 'y070101';
+                    $_arr_return['msg']   = 'Add attachment successfully';
                 }
             }
         }
 
-        $_arr_return = array(
-            'attach_id' => $_num_attachId,
-            'rcode'     => $_str_rcode,
-            'msg'       => $_str_msg,
-        );
-
-        $_arr_attachResult = array_replace_recursive($_arr_return, $_arr_attachData);
+        $_arr_attachResult = array_replace_recursive($_arr_attachRow, $_arr_attachData, $_arr_return);
 
         return $this->rowProcess($_arr_attachResult);
     }
@@ -161,9 +156,7 @@ class Attach extends Attach_Base {
             'DISTINCT `attach_ext`',
         );
 
-        $_arr_attachRows = $this->where('LENGTH(`attach_ext`)', '>', 0, 'attach_ext')->limit(100)->select($_arr_attachSelect);
-
-        return $_arr_attachRows;
+        return $this->where('LENGTH(`attach_ext`)', '>', 0, 'attach_ext')->limit(100)->select($_arr_attachSelect);
     }
 
 
@@ -179,9 +172,7 @@ class Attach extends Attach_Base {
             'DISTINCT FROM_UNIXTIME(`attach_time`, \'%Y\') AS `attach_year`',
         );
 
-        $_arr_yearRows = $this->where('attach_time', '>', 0, 'attach_time')->order('attach_time', 'ASC')->limit(100)->select($_arr_attachSelect);
-
-        return $_arr_yearRows;
+        return $this->where('attach_time', '>', 0)->order('attach_time', 'ASC')->select($_arr_attachSelect);
     }
 
 
@@ -280,22 +271,34 @@ class Attach extends Attach_Base {
     function inputSubmit() {
         $_arr_inputParam = array(
             'attach_id'         => array('int', 0),
-            'attach_name'       => array('txt', ''),
-            'attach_ext'        => array('txt', ''),
-            'attach_mime'       => array('txt', ''),
-            'attach_box'        => array('txt', ''),
-            'attach_album_ids'  => array('arr', array()),
-            '__token__'         => array('txt', ''),
+            'attach_name'       => array('str', ''),
+            'attach_note'       => array('str', ''),
+            'attach_ext'        => array('str', ''),
+            'attach_mime'       => array('str', ''),
+            'attach_box'        => array('str', ''),
+            '__token__'         => array('str', ''),
         );
 
         $_arr_inputSubmit = $this->obj_request->post($_arr_inputParam);
 
-        $_mix_vld = $this->validate($_arr_inputSubmit, '', 'submit');
+        if ($_arr_inputSubmit['attach_id'] > 0) {
+            $_arr_attachRow = $this->check($_arr_inputSubmit['attach_id']);
+
+            if ($_arr_attachRow['rcode'] != 'y070102') {
+                return $_arr_attachRow;
+            }
+
+            $_str_vld = 'submit_edit';
+        } else {
+            $_str_vld = 'submit_add';
+        }
+
+        $_mix_vld = $this->validate($_arr_inputSubmit, '', $_str_vld);
 
         if ($_mix_vld !== true) {
             return array(
-                'rcode'     => 'x070201',
-                'msg'       => end($_mix_vld),
+                'rcode' => 'x070201',
+                'msg'   => end($_mix_vld),
             );
         }
 
@@ -357,12 +360,6 @@ class Attach extends Attach_Base {
     }
 
 
-    /**
-     * fn_thumbDo function.
-     *
-     * @access public
-     * @return void
-     */
     function inputBox() {
         $_arr_inputParam = array(
             'attach_ids' => array('arr', array()),
@@ -374,7 +371,7 @@ class Attach extends Attach_Base {
 
         //print_r($_arr_inputBox);
 
-        $_arr_inputBox['attach_ids'] = Func::arrayFilter($_arr_inputBox['attach_ids']);
+        $_arr_inputBox['attach_ids'] = Arrays::filter($_arr_inputBox['attach_ids']);
 
         $_mix_vld = $this->validate($_arr_inputBox, '', 'status');
 
@@ -392,6 +389,7 @@ class Attach extends Attach_Base {
         return $_arr_inputBox;
     }
 
+
     function inputDelete() {
         $_arr_inputParam = array(
             'attach_ids' => array('arr', array()),
@@ -402,7 +400,7 @@ class Attach extends Attach_Base {
 
         //print_r($_arr_inputDelete);
 
-        $_arr_inputDelete['attach_ids'] = Func::arrayFilter($_arr_inputDelete['attach_ids']);
+        $_arr_inputDelete['attach_ids'] = Arrays::filter($_arr_inputDelete['attach_ids']);
 
         $_mix_vld = $this->validate($_arr_inputDelete, '', 'delete');
 
@@ -428,5 +426,46 @@ class Attach extends Attach_Base {
         $arr_attachRow['attach_path']       = GK_PATH_ATTACH . $_str_attachNamePath;
 
         return $arr_attachRow;
+    }
+
+
+    private function insertProcess($arr_attachData) {
+        $_num_attachId = $this->insert($arr_attachData);
+
+        //print_r($_num_attachId);
+
+        if ($_num_attachId > 0) { //数据库插入是否成功
+            $_str_rcode = 'y070101';
+            $_str_msg   = 'Add attachment successfully';
+        } else {
+            $_str_rcode = 'x070101';
+            $_str_msg   = 'Add attachment failed';
+        }
+
+        return array(
+            'attach_id' => $_num_attachId,
+            'rcode'     => $_str_rcode,
+            'msg'       => $_str_msg,
+        );
+    }
+
+
+    private function updateProcess($arr_attachData, $num_attachId) {
+        $_num_count = $this->where('attach_id', '=', $num_attachId)->update($arr_attachData);
+
+        if ($_num_count > 0) {
+            $_str_rcode = 'y070103'; //更新成功
+            $_str_msg   = 'Update attachment successfully';
+        } else {
+            $_str_rcode = 'x070103';
+            $_str_msg   = 'Did not make any changes';
+        }
+
+        return array(
+            'attach_id' => $num_attachId,
+            'count'     => $_num_count,
+            'rcode'     => $_str_rcode,
+            'msg'       => $_str_msg,
+        );
     }
 }

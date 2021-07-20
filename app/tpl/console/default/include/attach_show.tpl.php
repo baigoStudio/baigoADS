@@ -1,7 +1,7 @@
                         <div class="form-group">
                             <label><?php echo $lang->get('Path'); ?></label>
                             <div>
-                                <img src="{:DIR_STATIC}image/loading.gif" data-src="<?php echo $attachRow['attach_url']; ?>" data-toggle="async" alt="<?php echo $value['attach_name']; ?>" class="img-fluid">
+                                <img src="{:DIR_STATIC}image/loading.gif" data-src="<?php echo $attachRow['attach_url']; ?>" data-toggle="async" alt="<?php echo $attachRow['attach_name']; ?>" class="img-fluid">
                             </div>
 
                             <div>
@@ -22,7 +22,7 @@
                                     <span class="fas fa-redo-alt"></span>
                                     <?php echo $lang->get('Fix it'); ?>
                                 </button>
-                                <small class="form-text"><?php echo $lang->get('If the path or thumbnail is not found, you can try to fix it.'); ?></small>
+                                <small class="form-text"><?php echo $lang->get('If the path is not found, you can try to fix it.'); ?></small>
                             </div>
                         </form>
 
@@ -56,6 +56,11 @@
                         <div class="form-group">
                             <label><?php echo $lang->get('Time'); ?></label>
                             <div class="form-text"><?php echo $attachRow['attach_time_format']['date_time']; ?></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label><?php echo $lang->get('Note'); ?></label>
+                            <div class="form-text"><?php echo $attachRow['attach_note']; ?></div>
                         </div>
 
                         <div class="form-group">

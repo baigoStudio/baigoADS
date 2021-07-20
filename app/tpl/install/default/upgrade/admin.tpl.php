@@ -62,7 +62,7 @@ include($cfg['pathInclude'] . 'upgrade_head' . GK_EXT_TPL);
                 length: '1,30',
                 format: 'alpha_dash',
                 ajax: {
-                    url: '<?php echo $route_install; ?>upgrade/admin_check/'
+                    url: '<?php echo $route_install; ?>upgrade/admin-check/'
                 }
             },
             admin_pass: {

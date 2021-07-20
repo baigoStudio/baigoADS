@@ -7,9 +7,12 @@ namespace app\model\console;
 
 use app\model\Pm as Pm_Base;
 use ginkgo\Func;
+use ginkgo\Arrays;
 
 // 不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 /*-------------短消息模型-------------*/
 class Pm extends Pm_Base {
@@ -127,7 +130,7 @@ class Pm extends Pm_Base {
 
         $_arr_inputStatus = $this->obj_request->post($_arr_inputParam);
 
-        $_arr_inputStatus['pm_ids'] = Func::arrayFilter($_arr_inputStatus['pm_ids']);
+        $_arr_inputStatus['pm_ids'] = Arrays::filter($_arr_inputStatus['pm_ids']);
 
         $_mix_vld = $this->validate($_arr_inputStatus, '', 'status');
 
@@ -154,7 +157,7 @@ class Pm extends Pm_Base {
 
         $_arr_inputDelete = $this->obj_request->post($_arr_inputParam);
 
-        $_arr_inputDelete['pm_ids'] = Func::arrayFilter($this->inputDelete['pm_ids']);
+        $_arr_inputDelete['pm_ids'] = Arrays::filter($this->inputDelete['pm_ids']);
 
         $_mix_vld = $this->validate($_arr_inputDelete, '', 'delete');
 

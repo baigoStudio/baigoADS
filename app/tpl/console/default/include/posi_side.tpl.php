@@ -8,16 +8,16 @@
                             </div>
 
                             <div class="form-group">
-                                <label><?php echo $lang->get('Ad position'); ?></label>
-                                <div class="form-text"><?php echo $posiRow['posi_name']; ?></div>
-                            </div>
-
-                            <div class="form-group">
                                 <label><?php echo $lang->get('Status'); ?></label>
                                 <div class="form-text">
                                     <?php $str_status = $posiRow['posi_status'];
                                     include($cfg['pathInclude'] . 'status_process' . GK_EXT_TPL); ?>
                                 </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label><?php echo $lang->get('Ad position'); ?></label>
+                                <div class="form-text"><?php echo $posiRow['posi_name']; ?></div>
                             </div>
 
                             <div class="form-group">

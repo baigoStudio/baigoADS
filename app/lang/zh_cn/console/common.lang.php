@@ -5,7 +5,9 @@
 -----------------------------------------------------------------*/
 
 //不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 /*-------------------------通用-------------------------*/
 return array(
@@ -30,7 +32,7 @@ return array(
     'Private message'               => '站内短信',
     'Advertisement'                 => '广告',
     'Advertisement list'            => '所有广告',
-    'Add ad'                        => '投放广告',
+    'Add Ad'                        => '投放广告',
     'Image'                         => '图片',
     'Image list'                    => '所有图片',
     'Ad position'                   => '广告位',

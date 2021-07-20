@@ -5,7 +5,9 @@
 -----------------------------------------------------------------*/
 
 // 不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 /*-------------------------通用-------------------------*/
 return array(
@@ -42,7 +44,6 @@ return array(
     'Database host'                     => '数据库服务器',
     'Database settings'                 => '数据库设置',
     'Host port'                         => '服务器端口',
-    'Database debug'                    => '数据库调试模式',
     'Database set successful'           => '数据库设置成功',
     'Database set failed'               => '数据库设置失败',
     'Email'                             => '邮箱地址',

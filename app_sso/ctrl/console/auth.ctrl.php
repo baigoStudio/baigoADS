@@ -11,7 +11,9 @@ use ginkgo\Loader;
 use ginkgo\Func;
 
 // 不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 class Auth extends Ctrl {
 
@@ -117,8 +119,8 @@ class Auth extends Ctrl {
 
             if ($_arr_userRow['rcode'] != 'y010102') {
                 $_arr_return = array(
-                    'rcode' => $_arr_userRow['rcode'],
-                    'error' => $this->obj_lang->get('User not found, please use add administrator'),
+                    'rcode'     => $_arr_userRow['rcode'],
+                    'error_msg' => $this->obj_lang->get('User not found, please use add administrator'),
                 );
             } else {
                 $_arr_adminRow = $this->mdl_auth->check($_arr_userRow['user_id']);
@@ -127,8 +129,8 @@ class Auth extends Ctrl {
 
                 if ($_arr_adminRow['rcode'] == 'y020102') {
                     $_arr_return = array(
-                        'rcode' => 'x020404',
-                        'error' => $this->obj_lang->get('Administrator already exists'),
+                        'rcode'     => 'x020404',
+                        'error_msg' => $this->obj_lang->get('Administrator already exists'),
                     );
                 }
             }

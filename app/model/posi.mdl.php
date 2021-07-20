@@ -8,13 +8,16 @@ namespace app\model;
 
 use app\classes\Model;
 use ginkgo\Func;
+use ginkgo\Strings;
 use ginkgo\Cache;
-use ginkgo\Json;
+use ginkgo\Arrays;
 use ginkgo\Config;
 use ginkgo\File;
 
 //不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 /*-------------广告位类-------------*/
 class Posi extends Model {
@@ -23,6 +26,8 @@ class Posi extends Model {
     public $arr_isPercent   = array('enable', 'disabled');
 
     function m_init() { //构造函数
+        parent::m_init();
+
         $_arr_configRoute  = Config::get('route', 'index');
 
         $this->obj_file     = File::instance();
@@ -32,7 +37,8 @@ class Posi extends Model {
             $_arr_configRoute['posi'] = '';
         }
 
-        $this->urlPrefix    = $this->obj_request->baseUrl(true) . $_arr_configRoute['posi'] . '/';
+        $this->urlPrefixScript = $this->obj_request->root(true) . $_arr_configRoute['advert'] . '/';
+        $this->urlPrefixData   = $this->obj_request->baseUrl(true) . $_arr_configRoute['posi'] . '/';
     }
 
 
@@ -56,7 +62,7 @@ class Posi extends Model {
      * @return void
      */
     function read($mix_posi, $str_by = 'posi_id', $num_notId = 0, $arr_select = array()) {
-        $_arr_posiRow = $this->readProcess($mix_posi, $str_by, $num_notId, $_arr_posiSelect);
+        $_arr_posiRow = $this->readProcess($mix_posi, $str_by, $num_notId, $arr_select);
 
         if ($_arr_posiRow['rcode'] != 'y040102') {
             return $_arr_posiRow;
@@ -106,13 +112,12 @@ class Posi extends Model {
      *
      * @access public
      * @param mixed $num_no
-     * @param int $num_except (default: 0)
+     * @param int $num_offset (default: 0)
      * @param string $str_key (default: '')
      * @param string $str_type (default: '')
      * @return void
      */
-    function lists($num_no, $num_except = 0, $arr_search = array()) {
-
+    function lists($pagination = 0, $arr_search = array()) {
         $_arr_posiSelect = array(
             'posi_id',
             'posi_name',
@@ -126,13 +131,13 @@ class Posi extends Model {
             'posi_note',
         );
 
-        $_arr_where = $this->queryProcess($arr_search);
+        $_arr_where         = $this->queryProcess($arr_search);
+        $_arr_pagination    = $this->paginationProcess($pagination);
+        $_arr_getData       = $this->where($_arr_where)->order('posi_id', 'DESC')->limit($_arr_pagination['limit'], $_arr_pagination['length'])->paginate($_arr_pagination['perpage'], $_arr_pagination['current'])->select($_arr_posiSelect);
 
-        $_arr_posiRows = $this->where($_arr_where)->order('posi_id', 'DESC')->limit($num_except, $num_no)->select($_arr_posiSelect);
+        //print_r($_arr_getData);
 
-        //print_r($_arr_posiRows);
-
-        return $_arr_posiRows;
+        return $_arr_getData;
 
     }
 
@@ -148,9 +153,7 @@ class Posi extends Model {
     function count($arr_search = array()) {
         $_arr_where = $this->queryProcess($arr_search);
 
-        $_num_count = $this->where($_arr_where)->count(); //查询数据
-
-        return $_num_count;
+        return $this->where($_arr_where)->count();
     }
 
 
@@ -183,9 +186,9 @@ class Posi extends Model {
     function scriptConfigProcess($str_dir) {
         $_str_configPath = BG_PATH_ADVERT . $str_dir . DS . 'config.json';
 
-        if (Func::isFile($_str_configPath)) {
+        if (File::fileHas($_str_configPath)) {
             $_str_scriptConfig = $this->obj_file->fileRead($_str_configPath); //定义配置
-            $_arr_scriptConfig = Json::decode($_str_scriptConfig);
+            $_arr_scriptConfig = Arrays::fromJson($_str_scriptConfig);
         } else {
             $_arr_scriptConfig = array();
         }
@@ -203,11 +206,11 @@ class Posi extends Model {
         }
 
         if (!isset($_arr_scriptConfig['require'])) {
-            $_arr_scriptConfig['require'] = array();
+            $_arr_scriptConfig['require'] = '';
         }
 
         if (!isset($_arr_scriptConfig['func_init']) || Func::isEmpty($_arr_scriptConfig['func_init'])) {
-            $_arr_scriptConfig['func_init'] = 'ads' . Func::toHump($str_dir, '_');
+            $_arr_scriptConfig['func_init'] = 'ads' . Strings::toHump($str_dir, '_');
         }
 
         if (!isset($_arr_scriptConfig['box_perfix']) || Func::isEmpty($_arr_scriptConfig['box_perfix'])) {
@@ -246,62 +249,42 @@ class Posi extends Model {
             $_arr_scriptConfig['css_name'] .= '.css';
         }
 
-        foreach ($_arr_scriptConfig['require'] as $_key=>$_value) {
-            if (is_array($_value)) {
-                if (!isset($_value['url'])) {
-                    $_value['url'] = '';
+        if (is_array($_arr_scriptConfig['require'])) {
+            if (isset($_arr_scriptConfig['require']['url'])) {
+
+                if (!isset($_arr_scriptConfig['require']['type']) || $_arr_scriptConfig['require']['type'] == 'auto' || Func::isEmpty($_arr_scriptConfig['require']['type'])) {
+                    $_arr_scriptConfig['require']['type'] = $this->requireTypeProcess($_arr_scriptConfig['require']['url']);
                 }
-
-                if (!isset($_value['type']) || $_value['type'] == 'auto') {
-                    if (Func::isEmpty($_value['url'])) {
-                        $_value['type'] = 'css';
-                    } else {
-                        $_str_ext = pathinfo($_value['url'], PATHINFO_EXTENSION);
-                        $_str_ext = strtolower($_str_ext);
-
-                        switch ($_str_ext) {
-                            case 'js':
-                                $_value['type'] = 'js';
-                            break;
-
-                            default:
-                                $_value['type'] = 'css';
-                            break;
+            } else {
+                foreach ($_arr_scriptConfig['require'] as $_key=>&$_value) {
+                    if (is_array($_value)) {
+                        if (!isset($_value['url'])) {
+                            $_value['url'] = '';
                         }
-                    }
-                } else {
-                    $_value['type'] = 'css';
-                }
 
-                $_arr_scriptConfig['require'][$_key]  = $_value;
-            } else if (is_scalar($_value)) {
-                if (Func::isEmpty($_value)) {
-                    $_value['type'] = 'css';
-                } else {
-                    $_str_ext = pathinfo($_value, PATHINFO_EXTENSION);
-                    $_str_ext = strtolower($_str_ext);
-
-                    switch ($_str_ext) {
-                        case 'js':
-                            $_str_type = 'js';
-                        break;
-
-                        default:
-                            $_str_type = 'css';
-                        break;
+                        if (!isset($_value['type']) || $_value['type'] == 'auto' || Func::isEmpty($_value['type'])) {
+                            $_value['type'] = $this->requireTypeProcess($_value['url']);
+                        }
+                    } else if (is_string($_value)) {
+                        $_value = array(
+                            'url'  => $_value,
+                            'type' => $this->requireTypeProcess($_value),
+                        );
                     }
                 }
-
-                $_arr_scriptConfig['require'][$_key] = array(
-                    'url'  => $_value,
-                    'type' => $_str_type,
-                );
             }
+        } else if (is_string($_arr_scriptConfig['require'])) {
+            $_arr_scriptConfig['require'] = array(
+                'url'  => $_arr_scriptConfig['require'],
+                'type' => $this->requireTypeProcess($_arr_scriptConfig['require']),
+            );
         }
 
         $_arr_scriptConfig['script_path']       = BG_PATH_ADVERT . $str_dir . DS . $_arr_scriptConfig['script_name'];
         $_arr_scriptConfig['script_url_name']   = $str_dir . '/' . $_arr_scriptConfig['script_name'];
         $_arr_scriptConfig['css_url_name']      = $str_dir . '/' . $_arr_scriptConfig['css_name'];
+        $_arr_scriptConfig['script_url']        = $this->urlPrefixScript . $_arr_scriptConfig['script_url_name'];
+        $_arr_scriptConfig['css_url']           = $this->urlPrefixScript . $_arr_scriptConfig['css_url_name'];
         $_arr_scriptConfig['opts_path']         = BG_PATH_ADVERT . $str_dir . DS . 'opts.json';
 
         return $_arr_scriptConfig;
@@ -309,12 +292,12 @@ class Posi extends Model {
 
 
     function scriptOptsProcess($str_optsPath) {
-        if (Func::isFile($str_optsPath)) {
-            $_str_scriptOpts = $this->obj_file->fileRead($str_optsPath); //定义配置
-            $_arr_scriptOpts = Json::decode($_str_scriptOpts);
-        } else {
-            $_arr_scriptOpts = array();
+        if (!File::fileHas($str_optsPath)) {
+            return false;
         }
+
+        $_str_scriptOpts = $this->obj_file->fileRead($str_optsPath); //定义配置
+        $_arr_scriptOpts = Arrays::fromJson($_str_scriptOpts);
 
         if (!Func::isEmpty($_arr_scriptOpts)) {
             foreach ($_arr_scriptOpts as $_key=>$_value) {
@@ -352,7 +335,7 @@ class Posi extends Model {
         }
 
         if (isset($arr_posiRow['posi_opts'])) {
-            $arr_posiRow['posi_opts']      = Json::decode($arr_posiRow['posi_opts']); //json解码
+            $arr_posiRow['posi_opts']      = Arrays::fromJson($arr_posiRow['posi_opts']); //json解码
         } else {
             $arr_posiRow['posi_opts']      = array();
         }
@@ -367,15 +350,15 @@ class Posi extends Model {
 
         switch ($_str_selectorType) {
             case '.';
-                $arr_posiRow['posi_box_attr'] = 'class=&quot;' . str_replace('.', '', $arr_posiRow['posi_selector']) . '&quot;';
+                $arr_posiRow['posi_box_attr'] = 'class="' . str_replace('.', '', $arr_posiRow['posi_selector']) . '"';
             break;
 
             case '#';
-                $arr_posiRow['posi_box_attr'] = 'id=&quot;' . str_replace('#', '', $arr_posiRow['posi_selector']) . '&quot;';
+                $arr_posiRow['posi_box_attr'] = 'id="' . str_replace('#', '', $arr_posiRow['posi_selector']) . '"';
             break;
         }
 
-        $arr_posiRow['posi_data_url']      = $this->urlPrefix . $arr_posiRow['posi_id'];
+        $arr_posiRow['posi_data_url']      = $this->urlPrefixData . $arr_posiRow['posi_id'];
 
         return $arr_posiRow;
     }
@@ -398,8 +381,26 @@ class Posi extends Model {
             'status'    => 'enable',
         );
 
-        $_arr_posiRows = $this->lists(1000, 0, $_arr_search);
+        $_arr_getData = $this->lists(array(1000, 'limit'), $_arr_search);
 
-        return $this->obj_cache->write('posi_lists', $_arr_posiRows);
+        return $this->obj_cache->write('posi_lists', $_arr_getData);
+    }
+
+
+    protected function requireTypeProcess($_value = '') {
+        $_str_type = 'css';
+
+        if (!Func::isEmpty($_value)) {
+            $_str_ext = pathinfo($_value, PATHINFO_EXTENSION);
+            $_str_ext = strtolower($_str_ext);
+
+            switch ($_str_ext) {
+                case 'js':
+                    $_str_type = 'js';
+                break;
+            }
+        }
+
+        return $_str_type;
     }
 }

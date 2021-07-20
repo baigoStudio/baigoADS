@@ -10,7 +10,9 @@ use app\classes\index\Ctrl;
 use ginkgo\Loader;
 
 //不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 class Advert extends Ctrl {
 
@@ -41,12 +43,16 @@ class Advert extends Ctrl {
         }
 
         if (($_arr_advertRow['advert_type'] == 'date' && $_arr_advertRow['advert_opt'] < GK_NOW) || ($_arr_advertRow['advert_type'] == 'show' && $_arr_advertRow['advert_opt'] < $_arr_advertRow['advert_count_show']) || ($_arr_advertRow['advert_type'] == 'hit' && $_arr_advertRow['advert_opt'] < $_arr_advertRow['advert_count_hit'])) {
-            return $this->error('Ad invalidation', 'x080401');
+            return $this->error('Ad invalidation', 'x080402');
         }
 
         $this->mdl_advert->stat($_num_advertId, true);
         $this->mdl_statAdvert->submit($_num_advertId, true);
         $this->mdl_statPosi->submit($_arr_advertRow['advert_posi_id'], true);
+
+        if (Func::isEmpty($_arr_advertRow['advert_url']) || $_arr_advertRow['advert_url'] == '#') {
+            return $this->error('Invalid URL', 'x080402');
+        }
 
         return $this->redirect($_arr_advertRow['advert_url']);
     }

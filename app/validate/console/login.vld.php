@@ -9,7 +9,9 @@ namespace app\validate\console;
 use ginkgo\Validate;
 
 //不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 /*-------------管理员模型-------------*/
 class Login extends Validate {
@@ -59,7 +61,7 @@ class Login extends Validate {
         );
 
         $_arr_formatMsg = array(
-            'alpha_number'  => $this->obj_lang->get('{:attr} must be numeric'),
+            'alpha_number'  => $this->obj_lang->get('{:attr} must be alpha-numeric'),
             'alpha_dash'    => $this->obj_lang->get('{:attr} must be alpha-numeric, dash, underscore'),
         );
 

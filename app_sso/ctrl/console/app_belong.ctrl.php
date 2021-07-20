@@ -11,7 +11,9 @@ use ginkgo\Loader;
 use ginkgo\Db;
 
 // 不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 class App_Belong extends Ctrl {
 
@@ -63,7 +65,7 @@ class App_Belong extends Ctrl {
 
         $_num_userCount  = $this->mdl_user->count($_arr_search); //统计记录数
         $_arr_pageRow    = $this->obj_request->pagination($_num_userCount); //取得分页数据
-        $_arr_userRows   = $this->mdl_user->lists($this->config['var_default']['perpage'], $_arr_pageRow['except'], $_arr_search); //列出
+        $_arr_userRows   = $this->mdl_user->lists($this->config['var_default']['perpage'], $_arr_pageRow['offset'], $_arr_search); //列出
 
         $_arr_searchBelong = array(
             'app_id' => $_arr_appRow['app_id'],
@@ -73,7 +75,7 @@ class App_Belong extends Ctrl {
 
         $_num_userCountBelong   = $this->mdl_userAppView->count($_arr_searchBelong); //统计记录数
         $_arr_pageRowBelong     = $this->obj_request->pagination($_num_userCountBelong, 0, 'get', $_str_pageParamBelong); //取得分页数据
-        $_arr_userRowsBelong    = $this->mdl_userAppView->lists($this->config['var_default']['perpage'], $_arr_pageRowBelong['except'], $_arr_searchBelong); //列出
+        $_arr_userRowsBelong    = $this->mdl_userAppView->lists($this->config['var_default']['perpage'], $_arr_pageRowBelong['offset'], $_arr_searchBelong); //列出
 
         $_arr_tplData = array(
             'appRow'            => $_arr_appRow,

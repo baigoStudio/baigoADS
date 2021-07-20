@@ -12,9 +12,12 @@ use ginkgo\Func;
 use ginkgo\Html;
 use ginkgo\Plugin;
 use ginkgo\Ubbcode;
+use ginkgo\Strings;
 
 // 不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 class Pm extends Ctrl {
 
@@ -54,7 +57,7 @@ class Pm extends Ctrl {
 
         $_num_pmCount   = $this->mdl_pm->count($_arr_search); //统计记录数
         $_arr_pageRow   = $this->obj_request->pagination($_num_pmCount); //取得分页数据
-        $_arr_pmRows    = $this->mdl_pm->lists($this->config['var_default']['perpage'], $_arr_pageRow['except'], $_arr_search); //列出
+        $_arr_pmRows    = $this->mdl_pm->lists($this->config['var_default']['perpage'], $_arr_pageRow['offset'], $_arr_search); //列出
 
         foreach ($_arr_pmRows as $_key=>$_value) {
             $_arr_pmRows[$_key]['toUser']   = $this->mdl_user->read($_value['pm_to']);
@@ -204,15 +207,15 @@ class Pm extends Ctrl {
 
             case 'bulk_range_reg':
                 $_arr_search = array(
-                    'begin_time'  => Func::strtotime($_arr_inputBulk['pm_to_begin_reg']),
-                    'end_time'    => Func::strtotime($_arr_inputBulk['pm_to_end_reg']),
+                    'begin_time'  => Strings::toTime($_arr_inputBulk['pm_to_begin_reg']),
+                    'end_time'    => Strings::toTime($_arr_inputBulk['pm_to_end_reg']),
                 );
             break;
 
             case 'bulk_range_login':
                 $_arr_search = array(
-                    'begin_login'  => Func::strtotime($_arr_inputBulk['pm_to_begin_login']),
-                    'end_login'    => Func::strtotime($_arr_inputBulk['pm_to_end_login']),
+                    'begin_login'  => Strings::toTime($_arr_inputBulk['pm_to_begin_login']),
+                    'end_login'    => Strings::toTime($_arr_inputBulk['pm_to_end_login']),
                 );
             break;
         }

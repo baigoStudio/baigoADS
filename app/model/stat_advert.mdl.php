@@ -10,7 +10,9 @@ use app\classes\Model;
 use ginkgo\Func;
 
 //不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 /*-------------应用归属-------------*/
 class Stat_Advert extends Model {
@@ -38,7 +40,7 @@ class Stat_Advert extends Model {
     }
 
 
-    function lists($num_no, $num_except = 0, $arr_search = array()) {
+    function lists($pagination = 0, $arr_search = array()) {
         $_arr_statSelect = array(
             'stat_advert_id',
             'stat_date',
@@ -46,11 +48,11 @@ class Stat_Advert extends Model {
             'stat_count_hit',
         );
 
-        $_arr_where = $this->queryProcess($arr_search);
+        $_arr_where         = $this->queryProcess($arr_search);
+        $_arr_pagination    = $this->paginationProcess($pagination);
+        $_arr_getData       = $this->where($_arr_where)->order('stat_id', 'DESC')->limit($_arr_pagination['limit'], $_arr_pagination['length'])->paginate($_arr_pagination['perpage'], $_arr_pagination['current'])->select($_arr_statSelect);
 
-        $_arr_statRows = $this->where($_arr_where)->order('stat_id', 'DESC')->limit($num_except, $num_no)->select($_arr_statSelect);
-
-        return $_arr_statRows;
+        return $_arr_getData;
     }
 
 
@@ -58,9 +60,7 @@ class Stat_Advert extends Model {
 
         $_arr_where = $this->queryProcess($arr_search);
 
-        $_num_statCount = $this->where($_arr_where)->count(); //查询数据
-
-        return $_num_statCount;
+        return $this->where($_arr_where)->count();
     }
 
 

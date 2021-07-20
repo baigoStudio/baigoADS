@@ -7,11 +7,12 @@
 namespace app\model\console;
 
 use app\model\Admin as Admin_Base;
-use ginkgo\Json;
-use ginkgo\Func;
+use ginkgo\Arrays;
 
 //不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 /*-------------管理员模型-------------*/
 class Admin extends Admin_Base {
@@ -75,12 +76,12 @@ class Admin extends Admin_Base {
             );
         }
 
-        $_arr_adminData['admin_allow']            = Json::encode($_arr_adminData['admin_allow']);
-        $_arr_adminData['admin_allow_profile']    = Json::encode($_arr_adminData['admin_allow_profile']);
+        $_arr_adminData['admin_allow']            = Arrays::toJson($_arr_adminData['admin_allow']);
+        $_arr_adminData['admin_allow_profile']    = Arrays::toJson($_arr_adminData['admin_allow_profile']);
 
         if ($_arr_adminRow['rcode'] == 'x020102') {
             $_num_adminId   = $this->insert($_arr_adminData); //更新数据
-            if ($_num_adminId > 0) {
+            if ($_num_adminId >= 0) {
                 $_str_rcode = 'y020101'; //插入成功
                 $_str_msg   = 'Add administrator successfully';
             } else {
@@ -105,7 +106,6 @@ class Admin extends Admin_Base {
             'msg'        => $_str_msg,
         );
     }
-
 
 
     /** 编辑状态
@@ -231,7 +231,7 @@ class Admin extends Admin_Base {
 
         //print_r($_arr_inputStatus);
 
-        $_arr_inputStatus['admin_ids'] = Func::arrayFilter($_arr_inputStatus['admin_ids']);
+        $_arr_inputStatus['admin_ids'] = Arrays::filter($_arr_inputStatus['admin_ids']);
 
         $_mix_vld = $this->validate($_arr_inputStatus, '', 'status');
 
@@ -260,7 +260,7 @@ class Admin extends Admin_Base {
 
         //print_r($_arr_inputDelete);
 
-        $_arr_inputDelete['admin_ids'] = Func::arrayFilter($_arr_inputDelete['admin_ids']);
+        $_arr_inputDelete['admin_ids'] = Arrays::filter($_arr_inputDelete['admin_ids']);
 
         $_mix_vld = $this->validate($_arr_inputDelete, '', 'delete');
 

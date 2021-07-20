@@ -7,9 +7,12 @@
 namespace app\model\api;
 
 use ginkgo\Func;
+use ginkgo\Arrays;
 
 // 不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 /*-------------用户模型-------------*/
 class App_Combine_View extends App {
@@ -37,7 +40,7 @@ class App_Combine_View extends App {
 
         if (isset($arr_search['combine_ids']) && !Func::isEmpty($arr_search['combine_ids'])) {
             $arr_search['combine_ids'][]    = 0;
-            $arr_search['combine_ids']      = Func::arrayFilter($arr_search['combine_ids']);
+            $arr_search['combine_ids']      = Arrays::filter($arr_search['combine_ids']);
             $_arr_where[] = array('belong_combine_id', 'IN', $arr_search['combine_ids'], 'belong_combine_ids');
         }
 

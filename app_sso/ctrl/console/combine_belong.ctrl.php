@@ -11,7 +11,9 @@ use ginkgo\Loader;
 use ginkgo\Db;
 
 // 不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 class Combine_Belong extends Ctrl {
 
@@ -64,7 +66,7 @@ class Combine_Belong extends Ctrl {
 
         $_num_appCount   = $this->mdl_app->count($_arr_search); //统计记录数
         $_arr_pageRow    = $this->obj_request->pagination($_num_appCount); //取得分页数据
-        $_arr_appRows    = $this->mdl_app->lists($this->config['var_default']['perpage'], $_arr_pageRow['except'], $_arr_search); //列出
+        $_arr_appRows    = $this->mdl_app->lists($this->config['var_default']['perpage'], $_arr_pageRow['offset'], $_arr_search); //列出
 
         $_arr_searchBelong = array(
             'combine_id' => $_arr_combineRow['combine_id'],
@@ -74,7 +76,7 @@ class Combine_Belong extends Ctrl {
 
         $_num_appCountBelong    = $this->mdl_appCombineView->count($_arr_searchBelong); //统计记录数
         $_arr_pageRowBelong     = $this->obj_request->pagination($_num_appCountBelong, 0, 'get', $_str_pageParamBelong); //取得分页数据
-        $_arr_appRowsBelong     = $this->mdl_appCombineView->lists($this->config['var_default']['perpage'], $_arr_pageRowBelong['except'], $_arr_searchBelong); //列出
+        $_arr_appRowsBelong     = $this->mdl_appCombineView->lists($this->config['var_default']['perpage'], $_arr_pageRowBelong['offset'], $_arr_searchBelong); //列出
 
         $_arr_tplData = array(
             'combineRow'        => $_arr_combineRow,

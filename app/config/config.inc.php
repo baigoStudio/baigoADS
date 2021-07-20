@@ -8,6 +8,7 @@
     'tpl' => array(
         'path'      => 'default',
     ),
+    'debug' => true,
     'session' => array(
         'autostart'     => true,
         'name'          => 'baigoADSssinID',

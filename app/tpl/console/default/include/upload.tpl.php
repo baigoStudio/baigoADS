@@ -39,7 +39,8 @@
                 },
                 fileNumLimit: <?php echo $config['var_extra']['upload']['limit_count']; ?>, //队列限制
                 fileSingleSizeLimit: <?php echo $limit_size; ?>, //单个尺寸限制
-                resize: false //不压缩 image
+                resize: false, //不压缩 image
+                compress: false //不压缩 image
             };
 
             function queuedTpl(_key, _file, _msg) {

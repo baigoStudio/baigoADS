@@ -5,7 +5,9 @@
 -----------------------------------------------------------------*/
 
 //不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 /*-------------------------通用-------------------------*/
 return array(
@@ -28,7 +30,8 @@ return array(
     'Administrator not found'   => '管理员不存在',
     'Help'                      => '帮助',
     'Token'                     => '表单令牌',
-    'Keyword'                  => '关键词',
+    'Info from SSO'             => '来自 SSO 的信息',
+    'Keyword'                   => '关键词',
     'All'                       => '全部',
     'Close'                     => '关闭',
     'OK'                        => '确定',

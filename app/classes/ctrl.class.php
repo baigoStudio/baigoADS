@@ -14,7 +14,9 @@ use ginkgo\Config;
 use ginkgo\Func;
 
 //不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 /*-------------控制中心通用控制器-------------*/
 abstract class Ctrl extends Gk_Ctrl {
@@ -146,10 +148,7 @@ abstract class Ctrl extends Gk_Ctrl {
 
         if ($this->route['mod'] != 'index') {
             $_str_configIndex   = BG_PATH_CONFIG . 'index' . DS . 'common' . GK_EXT_INC;
-
-            if (Func::isFile($_str_configIndex)) {
-                Config::load($_str_configIndex, 'index');
-            }
+            Config::load($_str_configIndex, 'index');
         }
     }
 
@@ -170,6 +169,7 @@ abstract class Ctrl extends Gk_Ctrl {
             'url_root'      => $_str_urlRoot,
             'url_index'     => $_str_routeRoot . 'index/',
             'route_root'    => $_str_routeRoot,
+            'route_index'   => $_str_routeRoot . 'index/',
             'route_install' => $_str_routeRoot . 'install/',
             'route_console' => $_str_routeRoot . 'console/',
             'route_misc'    => $_str_routeRoot . 'misc/',

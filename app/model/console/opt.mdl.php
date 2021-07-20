@@ -10,11 +10,14 @@ use app\model\Opt as Opt_Base;
 use ginkgo\Loader;
 use ginkgo\Config;
 use ginkgo\Func;
+use ginkgo\File;
 use ginkgo\Http;
 use ginkgo\Html;
 
 //不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 /*-------------设置项模型-------------*/
 class Opt extends Opt_Base {
@@ -117,7 +120,7 @@ class Opt extends Opt_Base {
     }
 
     function chkver() {
-        if (!Func::isFile($this->pathLatest)) {
+        if (!File::fileHas($this->pathLatest)) {
             $this->latest();
         }
 
@@ -201,5 +204,32 @@ class Opt extends Opt_Base {
         $this->inputSubmit = $_arr_inputSubmit;
 
         return $_arr_inputSubmit;
+    }
+
+
+    function inputData() {
+        $_arr_inputParam = array(
+            'type'      => array('str', ''),
+            'model'     => array('str', ''),
+            '__token__' => array('str', ''),
+        );
+
+        $_arr_inputData = $this->obj_request->post($_arr_inputParam);
+
+        $_is_vld = $this->vld_opt->scene('data')->verify($_arr_inputData);
+
+        if ($_is_vld !== true) {
+            $_arr_message = $this->vld_opt->getMessage();
+            return array(
+                'rcode' => 'x030201',
+                'msg'   => end($_arr_message),
+            );
+        }
+
+        $_arr_inputData['rcode'] = 'y030201';
+
+        $this->inputData = $_arr_inputData;
+
+        return $_arr_inputData;
     }
 }

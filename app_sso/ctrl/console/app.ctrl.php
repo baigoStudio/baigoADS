@@ -12,13 +12,15 @@ use ginkgo\Func;
 use ginkgo\Config;
 use ginkgo\Crypt;
 use ginkgo\Sign;
-use ginkgo\Json;
+use ginkgo\Arrays;
 use ginkgo\Http;
 use ginkgo\Html;
 use ginkgo\Log;
 
 // 不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 class App extends Ctrl {
 
@@ -55,7 +57,7 @@ class App extends Ctrl {
 
         $_num_appCount  = $this->mdl_app->count($_arr_search); //统计记录数
         $_arr_pageRow   = $this->obj_request->pagination($_num_appCount); //取得分页数据
-        $_arr_appRows   = $this->mdl_app->lists($this->config['var_default']['perpage'], $_arr_pageRow['except'], $_arr_search); //列出
+        $_arr_appRows   = $this->mdl_app->lists($this->config['var_default']['perpage'], $_arr_pageRow['offset'], $_arr_search); //列出
 
         $_arr_tplData = array(
             'pageRow'   => $_arr_pageRow,
@@ -344,7 +346,7 @@ class App extends Ctrl {
             'timestamp' => GK_NOW,
         );
 
-        $_str_src       = Json::encode($_arr_src);
+        $_str_src       = Arrays::toJson($_arr_src);
 
         $_str_appKey    = Crypt::crypt($_arr_appRow['app_key'], $_arr_appRow['app_name']);
         $_str_encrypt   = Crypt::encrypt($_str_src, $_str_appKey, $_arr_appRow['app_secret']);

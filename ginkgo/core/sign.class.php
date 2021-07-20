@@ -7,7 +7,9 @@
 namespace ginkgo;
 
 // 不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 // 签名类
 class Sign {
@@ -22,7 +24,7 @@ class Sign {
      * @param bool $is_upper (default: true) 是否大写
      * @return 签名
      */
-    static function make($string, $salt = '', $is_upper = true) {
+    public static function make($string, $salt = '', $is_upper = true) {
         $_str_sign = md5($string . $salt);
         if ($is_upper) {
             $_str_sign = strtoupper($_str_sign);
@@ -41,7 +43,7 @@ class Sign {
      * @param bool $is_upper (default: true) 是否大写
      * @return 验证结果
      */
-    static function check($string, $sign, $salt = '', $is_upper = true) {
+    public static function check($string, $sign, $salt = '', $is_upper = true) {
         $_str_signChk = self::make($string, $salt, $is_upper);
 
         /*print_r($_str_signChk);

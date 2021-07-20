@@ -7,12 +7,14 @@
 namespace app\classes\console\sso;
 
 use app\classes\Sso;
-use ginkgo\Json;
+use ginkgo\Arrays;
 use ginkgo\Sign;
 use ginkgo\Crypt;
 
 //不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access Denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 /*-------------单点登录类-------------*/
 class Base extends Sso {
@@ -29,7 +31,7 @@ class Base extends Sso {
             'timestamp' => GK_NOW,
         );
 
-        $_str_crypt   = Json::encode($_arr_crypt);
+        $_str_crypt   = Arrays::toJson($_arr_crypt);
 
         $_str_encrypt = Crypt::encrypt($_str_crypt, $this->config['app_key'], $this->config['app_secret']);
 
@@ -59,7 +61,7 @@ class Base extends Sso {
             'timestamp' => GK_NOW,
         );
 
-        $_str_crypt   = Json::encode($_arr_crypt);
+        $_str_crypt   = Arrays::toJson($_arr_crypt);
 
         $_str_encrypt = Crypt::encrypt($_str_crypt, $this->config['app_key'], $this->config['app_secret']);
 

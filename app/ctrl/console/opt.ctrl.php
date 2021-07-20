@@ -12,7 +12,9 @@ use ginkgo\Config;
 use ginkgo\File;
 
 //不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 class Opt extends Ctrl {
 
@@ -228,6 +230,88 @@ class Opt extends Ctrl {
     }
 
 
+    function dataUpgrade() {
+        $_mix_init = $this->init();
+
+        if ($_mix_init !== true) {
+            return $this->error($_mix_init['msg'], $_mix_init['rcode']);
+        }
+
+        if (!isset($this->adminAllow['opt']['dbconfig']) && !$this->isSuper) { //判断权限
+            return $this->error('You do not have permission', 'x030301');
+        }
+
+        $_str_configInstall = BG_PATH_CONFIG . 'install' . DS . 'common' . GK_EXT_INC;
+        $_arr_installRows   = Config::load($_str_configInstall, 'common', 'install');
+
+        $_arr_tplData = array(
+            'config_upgrade'    => $_arr_installRows['data']['upgrade'],
+            'token'             => $this->obj_request->token(),
+        );
+
+        $_arr_tpl = array_replace_recursive($this->generalData, $_arr_tplData);
+
+        $this->assign($_arr_tpl);
+
+        return $this->fetch();
+    }
+
+
+    function dataSubmit() {
+        $_mix_init = $this->init();
+
+        if ($_mix_init !== true) {
+            return $this->fetchJson($_mix_init['msg'], $_mix_init['rcode']);
+        }
+
+        if (!$this->isAjaxPost) {
+            return $this->fetchJson('Access denied', '', 405);
+        }
+
+        if (!isset($this->adminAllow['opt']['dbconfig']) && !$this->isSuper) { //判断权限
+            return $this->fetchJson('You do not have permission', 'x030301');
+        }
+
+        $_arr_inputData = $this->mdl_opt->inputData();
+
+        if ($_arr_inputData['rcode'] != 'y030201') {
+            return $this->fetchJson($_arr_inputData['msg'], $_arr_inputData['rcode']);
+        }
+
+        switch ($_arr_inputData['type']) {
+            case 'index':
+                $_arr_dataResult = $this->createIndex($_arr_inputData['model']);
+            break;
+
+            case 'view':
+                $_arr_dataResult = $this->createView($_arr_inputData['model']);
+            break;
+
+            case 'alter':
+                $_arr_dataResult = $this->alterTable($_arr_inputData['model']);
+            break;
+
+            case 'rename':
+                $_arr_dataResult = $this->renameTable($_arr_inputData['model']);
+            break;
+
+            case 'copy':
+                $_arr_dataResult = $this->copyTable($_arr_inputData['model']);
+            break;
+
+            case 'drop':
+                $_arr_dataResult = $this->dropColumn($_arr_inputData['model']);
+            break;
+
+            default:
+                $_arr_dataResult = $this->createTable($_arr_inputData['model']);
+            break;
+        }
+
+        return $this->fetchJson($_arr_dataResult['msg'], $_arr_dataResult['rcode']);
+    }
+
+
     function chkver() {
         $_mix_init = $this->init();
 
@@ -302,5 +386,82 @@ class Opt extends Ctrl {
         $_arr_latestResult = $this->mdl_opt->latest('manual');
 
         return $this->fetchJson($_arr_latestResult['msg'], $_arr_latestResult['rcode']);
+    }
+
+
+    protected function createTable($table) {
+        $_mdl_table          = Loader::model($table, '', 'install');
+        $_arr_createResult   = $_mdl_table->createTable();
+
+       return array(
+            'rcode'   => $_arr_createResult['rcode'],
+            'msg'     => $_arr_createResult['msg'],
+        );
+    }
+
+
+    protected function createIndex($index) {
+        $_mdl_index          = Loader::model($index, '', 'install');
+        $_arr_createResult   = $_mdl_index->createIndex();
+
+        return array(
+            'rcode'   => $_arr_createResult['rcode'],
+            'msg'     => $_arr_createResult['msg'],
+        );
+    }
+
+
+    protected function createView($view) {
+        $_mdl_view           = Loader::model($view, '', 'install');
+        $_arr_createResult   = $_mdl_view->createView();
+
+        return array(
+            'rcode'   => $_arr_createResult['rcode'],
+            'msg'     => $_arr_createResult['msg'],
+        );
+    }
+
+
+    protected function alterTable($table) {
+        $_mdl_table          = Loader::model($table, '', 'install');
+        $_arr_alterResult    = $_mdl_table->alterTable();
+
+       return array(
+            'rcode'   => $_arr_alterResult['rcode'],
+            'msg'     => $_arr_alterResult['msg'],
+        );
+    }
+
+
+    protected function copyTable($table) {
+        $_mdl_table         = Loader::model($table, '', 'install');
+        $_arr_copyResult    = $_mdl_table->copyTable();
+
+       return array(
+            'rcode'   => $_arr_copyResult['rcode'],
+            'msg'     => $_arr_copyResult['msg'],
+        );
+    }
+
+
+    protected function renameTable($table) {
+        $_mdl_table          = Loader::model($table, '', 'install');
+        $_arr_renmaeResult   = $_mdl_table->renameTable();
+
+       return array(
+            'rcode'   => $_arr_renmaeResult['rcode'],
+            'msg'     => $_arr_renmaeResult['msg'],
+        );
+    }
+
+
+    protected function dropColumn($table) {
+        $_mdl_table        = Loader::model($table, '', 'install');
+        $_arr_dropResult   = $_mdl_table->dropColumn();
+
+       return array(
+            'rcode'   => $_arr_dropResult['rcode'],
+            'msg'     => $_arr_dropResult['msg'],
+        );
     }
 }

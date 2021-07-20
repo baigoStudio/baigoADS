@@ -9,7 +9,9 @@ namespace app\validate\console;
 use ginkgo\Validate;
 
 //不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 /*-------------管理员模型-------------*/
 class Attach extends Validate {
@@ -21,6 +23,9 @@ class Attach extends Validate {
         ),
         'attach_name' => array(
             'length'   => '1,1000',
+        ),
+        'attach_note' => array(
+            'max'   => 1000,
         ),
         'attach_ext' => array(
             'length'   => '1,5',
@@ -45,20 +50,31 @@ class Attach extends Validate {
     );
 
     protected $scene    = array(
-        'submit_db' => array(
+        'submit_add' => array(
             'attach_name',
+            'attach_note',
+            'attach_ext',
+            'attach_mime',
+        ),
+        'submit_edit' => array(
+            'attach_note',
+            'attach_ext',
+            'attach_mime',
+        ),
+        'submit_add_db' => array(
+            'attach_name',
+            'attach_note',
+            'attach_ext',
+            'attach_mime',
+        ),
+        'submit_edit_db' => array(
+            'attach_note',
             'attach_ext',
             'attach_mime',
         ),
         'move' => array(
             'attach_ids',
             'cate_id' => array(
-                '>' => 0,
-            ),
-            '__token__',
-        ),
-        'regen' => array(
-            'thumb_id' => array(
                 '>' => 0,
             ),
             '__token__',

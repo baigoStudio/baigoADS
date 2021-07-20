@@ -5,7 +5,9 @@
 -----------------------------------------------------------------*/
 
 // 不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 /*----------后台管理模块----------*/
 return array(
@@ -101,13 +103,6 @@ return array(
             'title'  => 'Validation token',
             'ctrl'   => 'verify',
             'icon'   => 'file-alt',
-        ),
-        'lists' => array(
-            'index' => array(
-                'title' => 'Token list',
-                'ctrl'  => 'verify',
-                'act'   => 'index',
-            ),
         ),
         'allow' => array(
             'verify'    => 'Validation token',

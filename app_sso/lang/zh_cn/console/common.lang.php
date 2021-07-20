@@ -5,7 +5,9 @@
 -----------------------------------------------------------------*/
 
 // 不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 /*-------------------------通用-------------------------*/
 return array(
@@ -49,8 +51,8 @@ return array(
     'System settings'                   => '系统设置',
     'Base settings'                     => '基本设置',
     'Register settings'                 => '注册设置',
-    'SMTP Settings'                     => 'SMTP 设置',
-    'Mail template settings'            => '邮件模板设置',
+    'Email sending settings'            => '邮件发送设置',
+    'Email template settings'           => '邮件模板设置',
     'Database settings'                 => '数据库设置',
     'Check for updates'                 => '检查更新',
     'Profile'                           => '个人设置',

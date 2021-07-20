@@ -5,7 +5,9 @@
 -----------------------------------------------------------------*/
 
 // 不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 /*-------------------------通用-------------------------*/
 return array(
@@ -22,8 +24,8 @@ return array(
     'Signature is incorrect'                => '签名错误',
     'JSON Code'                             => 'JSON 代码',
     'Encrypted code'                        => '加密码',
-    'App not found'                 => '应用不存在',
-    'App is disabled'               => '应用被禁用',
+    'App not found'                         => '应用不存在',
+    'App is disabled'                       => '应用被禁用',
     'Your IP address is not allowed'        => 'IP 地址不在允许范围内',
     'Your IP address is forbidden'          => 'IP 地址被禁止',
     '{:attr} require'                       => '{:attr} 是必需的',

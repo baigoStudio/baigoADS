@@ -57,7 +57,10 @@ include($cfg['pathInclude'] . 'index_head' . GK_EXT_TPL);
         rules: {
             admin_name: {
                 length: '1,30',
-                format: 'alpha_dash'
+                format: 'alpha_dash',
+                ajax: {
+                    url: '<?php echo $route_install; ?>index/admin-check/'
+                }
             },
             admin_pass: {
                 require: true
@@ -112,7 +115,7 @@ include($cfg['pathInclude'] . 'index_head' . GK_EXT_TPL);
     };
 
     $(document).ready(function(){
-        var obj_validate_form    = $('#admin_form').baigoValidate(opts_validate_form);
+        var obj_validate_form     = $('#admin_form').baigoValidate(opts_validate_form);
         var obj_submit_form       = $('#admin_form').baigoSubmit(opts_submit_form);
         $('#admin_form').submit(function(){
             if (obj_validate_form.verify()) {

@@ -7,11 +7,12 @@ namespace app\model\api;
 
 use app\model\Pm as Pm_Base;
 use ginkgo\Func;
-use ginkgo\Config;
 use ginkgo\Plugin;
 
 // 不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 /*-------------用户模型-------------*/
 class Pm extends Pm_Base {
@@ -19,14 +20,6 @@ class Pm extends Pm_Base {
     public $inputRead;
     public $inputCheck;
     public $inputLists;
-    public $configBase;
-
-    function m_init() { //构造函数
-        parent::m_init();
-
-        $this->configBase       = Config::get('base', 'var_extra');
-    }
-
 
     function send() {
         $_arr_pmData = array(
@@ -43,8 +36,7 @@ class Pm extends Pm_Base {
             $_arr_pmData['pm_title'] = mb_substr($_arr_pmData['pm_content'], 0, 30);
         }
 
-        $_mix_result    = Plugin::listen('filter_api_pm_send', $_arr_pmData); //编辑文章时触发
-        $_arr_pmData    = Plugin::resultProcess($_arr_pmData, $_mix_result);
+        $_arr_pmData    = Plugin::listen('filter_api_pm_send', $_arr_pmData); //编辑文章时触发
 
         $_mix_vld = $this->validate($_arr_pmData, '', 'send_db');
 
@@ -88,16 +80,13 @@ class Pm extends Pm_Base {
      */
     function inputRead($arr_data) {
         $_arr_inputParam = array(
-            'pm_id'             => array('int', 0),
+            'user_id'           => array('int', 0),
             'user_access_token' => array('txt', ''),
+            'pm_id'             => array('int', 0),
             'timestamp'         => array('int', 0),
         );
 
         $_arr_inputRead  = $this->obj_request->fillParam($arr_data, $_arr_inputParam);
-
-        $_arr_inputUserCommon  = $this->inputUserCommon($arr_data);
-
-        $_arr_inputRead  = array_replace_recursive($_arr_inputRead, $_arr_inputUserCommon);
 
         $_mix_vld = $this->validate($_arr_inputRead, '', 'read');
 
@@ -124,6 +113,7 @@ class Pm extends Pm_Base {
      */
     function inputLists($arr_data) {
         $_arr_inputParam = array(
+            'user_id'           => array('int', 0),
             'user_access_token' => array('txt', ''),
             'pm_type'           => array('txt', ''),
             'pm_status'         => array('txt', ''),
@@ -135,10 +125,6 @@ class Pm extends Pm_Base {
         );
 
         $_arr_inputLists  = $this->obj_request->fillParam($arr_data, $_arr_inputParam);
-
-        $_arr_inputUserCommon   = $this->inputUserCommon($arr_data);
-
-        $_arr_inputLists  = array_replace_recursive($_arr_inputLists, $_arr_inputUserCommon);
 
         $_mix_vld = $this->validate($_arr_inputLists, '', 'lists');
 
@@ -159,6 +145,7 @@ class Pm extends Pm_Base {
 
     function inputSend($arr_data) {
         $_arr_inputParam = array(
+            'user_id'           => array('int', 0),
             'user_access_token' => array('txt', ''),
             'pm_to_name'        => array('txt', ''),
             'pm_title'          => array('txt', ''),
@@ -167,10 +154,6 @@ class Pm extends Pm_Base {
         );
 
         $_arr_inputSend   = $this->obj_request->fillParam($arr_data, $_arr_inputParam);
-
-        $_arr_inputUserCommon   = $this->inputUserCommon($arr_data);
-
-        $_arr_inputSend   = array_replace_recursive($_arr_inputSend, $_arr_inputUserCommon);
 
         $_mix_vld = $this->validate($_arr_inputSend, '', 'send');
 
@@ -190,15 +173,12 @@ class Pm extends Pm_Base {
 
     function inputCheck($arr_data) {
         $_arr_inputParam = array(
+            'user_id'           => array('int', 0),
             'user_access_token' => array('txt', ''),
             'timestamp'         => array('int', 0),
         );
 
         $_arr_inputCheck  = $this->obj_request->fillParam($arr_data, $_arr_inputParam);
-
-        $_arr_inputUserCommon   = $this->inputUserCommon($arr_data);
-
-        $_arr_inputCheck  = array_replace_recursive($_arr_inputCheck, $_arr_inputUserCommon);
 
         $_mix_vld = $this->validate($_arr_inputCheck, '', 'check');
 
@@ -219,6 +199,7 @@ class Pm extends Pm_Base {
 
     function inputStatus($arr_data) {
         $_arr_inputParam = array(
+            'user_id'           => array('int', 0),
             'user_access_token' => array('txt', ''),
             'pm_status'         => array('txt', ''),
             'pm_ids'            => array('arr', array()),
@@ -226,10 +207,6 @@ class Pm extends Pm_Base {
         );
 
         $_arr_inputStatus   = $this->obj_request->fillParam($arr_data, $_arr_inputParam);
-
-        $_arr_inputUserCommon     = $this->inputUserCommon($arr_data);
-
-        $_arr_inputStatus   = array_replace_recursive($_arr_inputStatus, $_arr_inputUserCommon);
 
         $_mix_vld = $this->validate($_arr_inputStatus, '', 'status');
 
@@ -250,16 +227,13 @@ class Pm extends Pm_Base {
 
     function inputDelete($arr_data) {
         $_arr_inputParam = array(
+            'user_id'           => array('int', 0),
             'user_access_token' => array('txt', ''),
             'pm_ids'            => array('arr', array()),
             'timestamp'         => array('int', 0),
         );
 
         $_arr_inputDelete   = $this->obj_request->fillParam($arr_data, $_arr_inputParam);
-
-        $_arr_inputUserCommon     = $this->inputUserCommon($arr_data);
-
-        $_arr_inputDelete   = array_replace_recursive($_arr_inputDelete, $_arr_inputUserCommon);
 
         $_mix_vld = $this->validate($_arr_inputDelete, '', 'delete');
 
@@ -277,4 +251,3 @@ class Pm extends Pm_Base {
         return $_arr_inputDelete;
     }
 }
-

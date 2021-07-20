@@ -1,7 +1,7 @@
 <?php $cfg = array(
     'title'             => $lang->get('Login'),
     'active'            => 'login',
-    'baigoValidate'    => 'true',
+    'baigoValidate'     => 'true',
     'baigoSubmit'       => 'true',
     'captchaReload'     => 'true',
     'tooltip'           => 'true',
@@ -51,7 +51,6 @@ include($cfg['pathInclude'] . 'login_head' . GK_EXT_TPL); ?>
         <button type="submit" class="btn btn-purple btn-block">
             <?php echo $lang->get('Login'); ?>
         </button>
-
     </form>
 
 <?php include($cfg['pathInclude'] . 'login_foot' . GK_EXT_TPL); ?>
@@ -119,7 +118,11 @@ include($cfg['pathInclude'] . 'login_head' . GK_EXT_TPL); ?>
 
         $('#login_form').submit(function(){
             if (obj_validate_form.verify()) {
-                obj_submit_form.formSubmit();
+                obj_submit_form.formSubmit(false, function(result){
+                    if (typeof result.rcode == 'undefined' || result.rcode != 'y020401') {
+                        captchaReload();
+                    }
+                });
             }
         });
     });

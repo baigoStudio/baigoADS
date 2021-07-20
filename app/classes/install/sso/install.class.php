@@ -9,13 +9,16 @@ namespace app\classes\install\sso;
 use app\classes\Sso;
 use ginkgo\Loader;
 use ginkgo\Config;
-use ginkgo\Json;
+use ginkgo\Arrays;
 use ginkgo\Sign;
 use ginkgo\Func;
+use ginkgo\File;
 use ginkgo\Crypt;
 
 //不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access Denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 /*-------------单点登录类-------------*/
 class Install extends Sso {
@@ -35,7 +38,7 @@ class Install extends Sso {
             'secret'    => $this->security['secret'],
         );
 
-        $_str_code = Json::encode($_arr_code);
+        $_str_code = Arrays::toJson($_arr_code);
 
         $_arr_data = array(
             'key'   => $this->security['key'],
@@ -63,10 +66,9 @@ class Install extends Sso {
 
     function dbconfig($dbconfig) {
         $dbconfig['prefix']      = 'sso_';
-        $dbconfig['debug']       = false;
         $dbconfig['timestamp']   = GK_NOW;
 
-        $_str_crypt = Json::encode($dbconfig);
+        $_str_crypt = Arrays::toJson($dbconfig);
 
         $_str_encrypt = Crypt::encrypt($_str_crypt, $this->security['key'], $this->security['secret']);
 
@@ -106,7 +108,7 @@ class Install extends Sso {
             'timestamp' => GK_NOW,
         );
 
-        $_str_crypt = Json::encode($_arr_crypt);
+        $_str_crypt = Arrays::toJson($_arr_crypt);
 
         $_str_encrypt = Crypt::encrypt($_str_crypt, $this->security['key'], $this->security['secret']);
 
@@ -156,7 +158,7 @@ class Install extends Sso {
             'timestamp' => GK_NOW,
         );
 
-        $_str_crypt = Json::encode($_arr_crypt);
+        $_str_crypt = Arrays::toJson($_arr_crypt);
 
         $_str_encrypt = Crypt::encrypt($_str_crypt, $this->security['key'], $this->security['secret']);
 
@@ -199,7 +201,7 @@ class Install extends Sso {
             'timestamp'     => GK_NOW,
         );
 
-        $_str_crypt = Json::encode($_arr_crypt);
+        $_str_crypt = Arrays::toJson($_arr_crypt);
 
         $_str_encrypt = Crypt::encrypt($_str_crypt, $this->security['key'], $this->security['secret']);
 
@@ -250,7 +252,7 @@ class Install extends Sso {
             'timestamp'         => GK_NOW,
         );
 
-        $_str_crypt = Json::encode($_arr_crypt);
+        $_str_crypt = Arrays::toJson($_arr_crypt);
 
         $_str_encrypt = Crypt::encrypt($_str_crypt, $this->security['key'], $this->security['secret']);
 
@@ -312,7 +314,7 @@ class Install extends Sso {
             );
         }
 
-        $_arr_return = Json::decode($_str_decrypt);
+        $_arr_return = Arrays::fromJson($_str_decrypt);
 
         if (!isset($_arr_return['timestamp'])) {
             return array(
@@ -355,7 +357,7 @@ class Install extends Sso {
             'secret'    => Func::rand(16),
         );
 
-        if (Func::isFile($_str_path)) {
+        if (File::fileHas($_str_path)) {
             $_arr_security  = Loader::load($_str_path);
 
             if (!isset($_arr_security['key']) || !isset($_arr_security['secret'])) {

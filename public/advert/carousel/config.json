@@ -6,11 +6,11 @@
             "type": "js"
         },
         {
-            "url": "{:DIR_STATIC}lib/bootstrap/4.3.1/css/bootstrap.min.css",
+            "url": "{:DIR_STATIC}lib/bootstrap/4.5.2/css/bootstrap.min.css",
             "type": "css"
         },
         {
-            "url": "{:DIR_STATIC}lib/bootstrap/4.3.1/js/bootstrap.bundle.min.js",
+            "url": "{:DIR_STATIC}lib/bootstrap/4.5.2/js/bootstrap.bundle.min.js",
             "type": "js"
         }
     ],

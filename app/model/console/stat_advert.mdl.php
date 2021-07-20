@@ -9,7 +9,9 @@ namespace app\model\console;
 use app\model\Stat_Advert as Stat_Advert_Base;
 
 //不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 /*-------------应用归属-------------*/
 class Stat_Advert extends Stat_Advert_Base {
@@ -41,9 +43,7 @@ class Stat_Advert extends Stat_Advert_Base {
 
         $_arr_where   = $this->queryProcess($arr_search);
 
-        $_arr_yearRows = $this->where($_arr_where)->order('stat_date', 'DESC')->limit(100)->select($_arr_statSelect);
-
-        return $_arr_yearRows;
+        return $this->where($_arr_where)->order('stat_date', 'DESC')->limit(100)->select($_arr_statSelect);
     }
 
 
@@ -75,9 +75,7 @@ class Stat_Advert extends Stat_Advert_Base {
 
         $_arr_where   = $this->queryProcess($arr_search);
 
-        $_arr_monthRows = $this->where($_arr_where)->order('stat_date', 'DESC')->limit(100)->select($_arr_statSelect);
-
-        return $_arr_monthRows;
+        return $this->where($_arr_where)->order('stat_date', 'DESC')->limit(100)->select($_arr_statSelect);
     }
 
 
@@ -90,11 +88,7 @@ class Stat_Advert extends Stat_Advert_Base {
 
         $_arr_where   = $this->queryProcess($arr_search);
 
-        //print_r($_arr_where);
-
-        $_arr_dayRows = $this->where($_arr_where)->order('stat_date', 'DESC')->limit(100)->select($_arr_statSelect);
-
-        return $_arr_dayRows;
+        return $this->where($_arr_where)->order('stat_date', 'DESC')->limit(100)->select($_arr_statSelect);
     }
 
 
@@ -107,8 +101,6 @@ class Stat_Advert extends Stat_Advert_Base {
 
         $_arr_where   = $this->queryProcess($arr_search);
 
-        $_num_percentSum = $this->where($_arr_where)->sum($_str_sum);
-
-        return $_num_percentSum;
+        return $this->where($_arr_where)->sum($_str_sum);
     }
 }

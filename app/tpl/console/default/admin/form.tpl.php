@@ -10,7 +10,7 @@ $cfg = array(
     'title'             => $lang->get('Administrator', 'console.common') . ' &raquo; ' . $title_sub,
     'menu_active'       => 'admin',
     'sub_active'        => $str_sub,
-    'baigoValidate'    => 'true',
+    'baigoValidate'     => 'true',
     'baigoSubmit'       => 'true',
     'baigoCheckall'     => 'true',
     'pathInclude'       => $path_tpl . 'include' . DS,
@@ -109,19 +109,6 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
                         <?php } ?>
 
                         <div class="form-group">
-                            <label><?php echo $lang->get('Type'); ?> <span class="text-danger">*</span></label>
-                            <?php foreach ($type as $key=>$value) { ?>
-                                <div class="form-check">
-                                    <input type="radio" name="admin_type" id="admin_type_<?php echo $value; ?>" value="<?php echo $value; ?>" <?php if ($adminRow['admin_type'] == $value) { ?>checked<?php } ?> class="form-check-input">
-                                    <label for="admin_type_<?php echo $value; ?>" class="form-check-label">
-                                        <?php echo $lang->get($value); ?>
-                                    </label>
-                                </div>
-                            <?php } ?>
-                            <small class="form-text" id="msg_admin_type"></small>
-                        </div>
-
-                        <div class="form-group">
                             <label><?php echo $lang->get('Status'); ?> <span class="text-danger">*</span></label>
                             <?php foreach ($status as $key=>$value) { ?>
                                 <div class="form-check">
@@ -132,6 +119,19 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
                                 </div>
                             <?php } ?>
                             <small class="form-text" id="msg_admin_status"></small>
+                        </div>
+
+                        <div class="form-group">
+                            <label><?php echo $lang->get('Type'); ?> <span class="text-danger">*</span></label>
+                            <?php foreach ($type as $key=>$value) { ?>
+                                <div class="form-check">
+                                    <input type="radio" name="admin_type" id="admin_type_<?php echo $value; ?>" value="<?php echo $value; ?>" <?php if ($adminRow['admin_type'] == $value) { ?>checked<?php } ?> class="form-check-input">
+                                    <label for="admin_type_<?php echo $value; ?>" class="form-check-label">
+                                        <?php echo $lang->get($value); ?>
+                                    </label>
+                                </div>
+                            <?php } ?>
+                            <small class="form-text" id="msg_admin_type"></small>
                         </div>
 
                         <div class="form-group">
@@ -152,11 +152,15 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
                         </button>
                     </div>
                 </div>
+
+                <?php if ($adminRow['admin_id'] > 0) {
+                    include($cfg['pathInclude'] . 'user_info' . GK_EXT_TPL);
+                } ?>
             </div>
         </div>
     </form>
 
-<?php include($cfg['pathInclude'] . 'console_foot' . GK_EXT_TPL); ?>
+<?php include($cfg['pathInclude'] . 'console_foot' . GK_EXT_TPL); ?>a
 
     <script type="text/javascript">
     var opts_validate_form = {

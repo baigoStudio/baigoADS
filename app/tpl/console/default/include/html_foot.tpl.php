@@ -9,17 +9,17 @@
 
     if (isset($cfg['baigoValidate'])) { ?>
         <!--表单验证 js-->
-        <script src="{:DIR_STATIC}lib/baigoValidate/3.0.1/baigoValidate.min.js" type="text/javascript"></script>
+        <script src="{:DIR_STATIC}lib/baigoValidate/3.1.0/baigoValidate.min.js" type="text/javascript"></script>
     <?php }
 
     if (isset($cfg['baigoSubmit'])) { ?>
         <!--表单 ajax 提交 js-->
-        <script src="{:DIR_STATIC}lib/baigoSubmit/2.1.1/baigoSubmit.min.js" type="text/javascript"></script>
+        <script src="{:DIR_STATIC}lib/baigoSubmit/2.1.3/baigoSubmit.min.js" type="text/javascript"></script>
     <?php }
 
     if (isset($cfg['baigoDialog']) || isset($cfg['upload'])) { ?>
         <!--表单 ajax 提交 js-->
-        <script src="{:DIR_STATIC}lib/baigoDialog/1.0.1/baigoDialog.min.js" type="text/javascript"></script>
+        <script src="{:DIR_STATIC}lib/baigoDialog/1.1.0/baigoDialog.min.js" type="text/javascript"></script>
     <?php }
 
     if (isset($cfg['baigoQuery'])) { ?>
@@ -121,6 +121,13 @@
             scrollInput: false,
             mask: true
         };
+    <?php }
+
+    if (isset($cfg['captchaReload'])) { ?>
+        function captchaReload() {
+            var imgSrc = '<?php echo $route_misc; ?>captcha/index/' + new Date().getTime() + '/' + Math.random() + '/';
+            $('.bg-captcha-img').attr('src', imgSrc);
+        }
     <?php } ?>
 
     $(document).ready(function(){
@@ -147,8 +154,7 @@
 
         if (isset($cfg['captchaReload'])) { ?>
             $('.bg-captcha-btn, .bg-captcha-img').click(function(){
-                var imgSrc = '<?php echo $route_misc; ?>captcha/index/' + new Date().getTime() + '/' + Math.random() + '/';
-                $('.bg-captcha-img').attr('src', imgSrc);
+                captchaReload();
             });
         <?php }
 
@@ -165,12 +171,12 @@
 
         $('.collapse').on('shown.bs.collapse', function(){
             var _key = $(this).data('key');
-            $('#bg-caret-' + _key).attr('class', 'fas fa-chevron-up');
+            $('#bg-caret-' + _key).attr('class', 'fas fa-chevron-down');
         });
 
         $('.collapse').on('hidden.bs.collapse', function(){
             var _key = $(this).data('key');
-            $('#bg-caret-' + _key).attr('class', 'fas fa-chevron-down');
+            $('#bg-caret-' + _key).attr('class', 'fas fa-chevron-right');
         });
 
         <?php if (!isset($cfg['no_loading'])) { ?>
@@ -179,7 +185,7 @@
     });
     </script>
 
-    <script src="{:DIR_STATIC}lib/bootstrap/4.3.1/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+    <script src="{:DIR_STATIC}lib/bootstrap/4.5.2/js/bootstrap.bundle.min.js" type="text/javascript"></script>
 
     <!-- Powered by <?php echo PRD_ADS_NAME, ' ', PRD_ADS_VER; ?> -->
 

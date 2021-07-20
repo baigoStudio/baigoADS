@@ -9,11 +9,13 @@ namespace app\classes\console;
 use ginkgo\Loader;
 use ginkgo\Crypt;
 use ginkgo\Sign;
-use ginkgo\Json;
+use ginkgo\Arrays;
 use ginkgo\Func;
 
 //不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 
 /*-------------安装通用控制器-------------*/
@@ -96,7 +98,7 @@ class Ctrl_Sso extends Ctrl {
             );
         }
 
-        $_arr_decryptRow = Json::decode($_str_decrypt);
+        $_arr_decryptRow = Arrays::fromJson($_str_decrypt);
 
         $this->decryptRow = $_arr_decryptRow;
 
@@ -105,5 +107,4 @@ class Ctrl_Sso extends Ctrl {
             'msg'   => $this->obj_lang->get($_str_msg, 'console.common'),
         );
     }
-
 }

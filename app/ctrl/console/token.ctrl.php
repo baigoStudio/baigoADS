@@ -10,7 +10,9 @@ use app\classes\console\Ctrl;
 use ginkgo\Loader;
 
 //不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 class Token extends Ctrl {
 
@@ -34,7 +36,7 @@ class Token extends Ctrl {
                 $this->tokenProcess();
             }
 
-            $_arr_pmCount   = $this->obj_pm->check($this->adminLogged['admin_id'], 'user_id', $this->adminLogged['admin_access_token']);
+            $_arr_pmCount   = $this->obj_pm->check($this->adminLogged['admin_id'], $this->adminLogged['admin_access_token']);
             if ($_arr_pmCount['rcode'] == 'y110102') {
                 $_num_pmCount = $_arr_pmCount['pm_count'];
             } else {
@@ -59,7 +61,7 @@ class Token extends Ctrl {
 
 
     private function tokenProcess() {
-        $_arr_userRefresh = $this->obj_profile->tokenRefresh($this->adminLogged['admin_id'], 'user_id', $this->adminLogged['admin_refresh_token']); //过期时间小于1分钟，则刷新口令
+        $_arr_userRefresh = $this->obj_profile->tokenRefresh($this->adminLogged['admin_id'], $this->adminLogged['admin_refresh_token']); //过期时间小于1分钟，则刷新口令
 
         //print_r($_arr_userRefresh);
 

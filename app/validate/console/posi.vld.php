@@ -9,7 +9,9 @@ namespace app\validate\console;
 use ginkgo\Validate;
 
 //不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 /*-------------管理员模型-------------*/
 class Posi extends Validate {
@@ -85,6 +87,12 @@ class Posi extends Validate {
             'posi_is_percent',
         ),
         'opts' => array(
+            'posi_id' => array(
+                '>' => 0,
+            ),
+            '__token__',
+        ),
+        'duplicate' => array(
             'posi_id' => array(
                 '>' => 0,
             ),

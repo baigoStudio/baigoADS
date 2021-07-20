@@ -8,13 +8,46 @@ namespace app\model\console;
 
 use app\model\Posi as Posi_Base;
 use ginkgo\Func;
-use ginkgo\Json;
+use ginkgo\Arrays;
+use ginkgo\Plugin;
 
 //不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 /*-------------广告位类-------------*/
 class Posi extends Posi_Base {
+
+    function duplicate() {
+        $_arr_posiData = array(
+            'posi_name',
+            'posi_count',
+            'posi_status',
+            'posi_script',
+            'posi_box_perfix',
+            'posi_loading',
+            'posi_close',
+            'posi_is_percent',
+            'posi_note',
+        );
+
+        $_num_posiId = $this->where('posi_id', '=', $this->inputDuplicate['posi_id'])->duplicate($_arr_posiData);
+
+        if ($_num_posiId > 0) { //数据库更新是否成功
+            $_str_rcode = 'y040112';
+            $_str_msg   = 'Duplicate position successfully';
+        } else {
+            $_str_rcode = 'x040112';
+            $_str_msg   = 'Duplicate position failed';
+        }
+
+        return array(
+            'posi_id'   => $_num_posiId,
+            'rcode'     => $_str_rcode,
+            'msg'       => $_str_msg,
+        );
+    }
 
     /**
      * mdl_submit function.
@@ -46,8 +79,7 @@ class Posi extends Posi_Base {
             $_str_hook = 'add';
         }
 
-        $_mix_result    = Plugin::listen('filter_console_posi_' . $_str_hook, $_arr_posiData);
-        $_arr_posiData  = Plugin::resultProcess($_arr_posiData, $_mix_result);
+        $_arr_posiData    = Plugin::listen('filter_console_posi_' . $_str_hook, $_arr_posiData);
 
         $_mix_vld = $this->validate($_arr_posiData, '', 'submit_db');
 
@@ -92,7 +124,7 @@ class Posi extends Posi_Base {
 
     function opts() {
         $_arr_posiData = array(
-            'posi_opts' => Json::encode($this->inputOpts['posi_opts']),
+            'posi_opts' => Arrays::toJson($this->inputOpts['posi_opts']),
         );
 
         $_num_count  = $this->where('posi_id', '=', $this->inputOpts['posi_id'])->update($_arr_posiData);
@@ -168,6 +200,37 @@ class Posi extends Posi_Base {
             'count' => $_num_count,
             'msg'   => $_str_msg,
         );
+    }
+
+
+    function inputDuplicate() {
+        $_arr_inputParam = array(
+            'posi_id'    => array('int', 0),
+            '__token__'  => array('str', ''),
+        );
+
+        $_arr_inputDuplicate = $this->obj_request->post($_arr_inputParam);
+
+        $_mix_vld = $this->validate($_arr_inputDuplicate, '', 'duplicate');
+
+        if ($_mix_vld !== true) {
+            return array(
+                'rcode' => 'x040201',
+                'msg'   => end($_mix_vld),
+            );
+        }
+
+        $_arr_posiRow = $this->check($_arr_inputDuplicate['posi_id']);
+
+        if ($_arr_posiRow['rcode'] != 'y040102') {
+            return $_arr_posiRow;
+        }
+
+        $_arr_inputDuplicate['rcode'] = 'y040201';
+
+        $this->inputDuplicate = $_arr_inputDuplicate;
+
+        return $_arr_inputDuplicate;
     }
 
 

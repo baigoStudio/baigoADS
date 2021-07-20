@@ -13,10 +13,12 @@ use ginkgo\Upload;
 use ginkgo\Image;
 use ginkgo\File;
 use ginkgo\Ftp;
-use ginkgo\Json;
+use ginkgo\Arrays;
 
 //不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 class Attach extends Ctrl {
 
@@ -48,8 +50,9 @@ class Attach extends Ctrl {
             $this->isSuper = true;
         }
 
-        $this->mdl_admin     = Loader::model('Admin');
+        $this->obj_upload    = Upload::instance();
 
+        $this->mdl_admin     = Loader::model('Admin');
         $this->mdl_attach    = Loader::model('Attach');
 
         $this->generalData['box']    = $this->mdl_attach->arr_box;
@@ -84,12 +87,10 @@ class Attach extends Ctrl {
 
         $_arr_search['admin_id'] = $_arr_search['admin'];
 
-        $_num_attachCount  = $this->mdl_attach->count($_arr_search); //统计记录数
-        $_arr_pageRow      = $this->obj_request->pagination($_num_attachCount); //取得分页数据
-        $_arr_attachRows   = $this->mdl_attach->lists($this->config['var_default']['perpage'], $_arr_pageRow['except'], $_arr_search); //列出
+        $_arr_getData   = $this->mdl_attach->lists($this->config['var_default']['perpage'], $_arr_search); //列出
 
-        foreach ($_arr_attachRows as $_key=>$_value) {
-            $_arr_attachRows[$_key]['adminRow'] = $this->mdl_admin->read($_value['attach_admin_id']);
+        foreach ($_arr_getData['dataRows'] as $_key=>&$_value) {
+            $_value['adminRow'] = $this->mdl_admin->read($_value['attach_admin_id']);
         }
 
         $_arr_searchAll = array(
@@ -107,22 +108,20 @@ class Attach extends Ctrl {
         $_arr_attachCount['all']        = $this->mdl_attach->count($_arr_searchAll);
         $_arr_attachCount['recycle']    = $this->mdl_attach->count($_arr_searchRecycle);
         $_arr_attachCount['reserve']    = $this->mdl_attach->count($_arr_searchReserve);
-        $_arr_yearRows                  = $this->mdl_attach->year(100);
+        $_arr_yearRows                  = $this->mdl_attach->year();
         $_arr_extRows                   = $this->mdl_attach->ext();
 
         $_arr_tplData = array(
-            'pageRow'       => $_arr_pageRow,
             'search'        => $_arr_search,
+            'pageRow'       => $_arr_getData['pageRow'],
+            'attachRows'    => $_arr_getData['dataRows'],
             'attachCount'   => $_arr_attachCount,
-            'attachRows'    => $_arr_attachRows,
             'yearRows'      => $_arr_yearRows, //目录列表
             'extRows'       => $_arr_extRows, //扩展名列表
             'token'         => $this->obj_request->token(),
         );
 
         $_arr_tpl = array_replace_recursive($this->generalData, $_arr_tplData);
-
-        //print_r($_arr_attachRows);
 
         $this->assign($_arr_tpl);
 
@@ -141,7 +140,7 @@ class Attach extends Ctrl {
             return $this->error('You do not have permission', 'x070301');
         }
 
-        $_arr_yearRows  = $this->mdl_attach->year(100);
+        $_arr_yearRows  = $this->mdl_attach->year();
         $_arr_extRows   = $this->mdl_attach->ext();
 
         $_arr_tplData = array(
@@ -152,7 +151,62 @@ class Attach extends Ctrl {
 
         $_arr_tpl = array_replace_recursive($this->generalData, $_arr_tplData);
 
-        //print_r($_arr_attachRows);
+        $this->assign($_arr_tpl);
+
+        return $this->fetch();
+    }
+
+
+    function form() {
+        $_mix_init = $this->init();
+
+        if ($_mix_init !== true) {
+            return $this->error($_mix_init['msg'], $_mix_init['rcode']);
+        }
+
+        $_num_attachId = 0;
+
+        if (isset($this->param['id'])) {
+            $_num_attachId = $this->obj_request->input($this->param['id'], 'int', 0);
+        }
+
+        if ($_num_attachId > 0) {
+            if (!isset($this->adminAllow['attach']['edit']) && !$this->isSuper) { //判断权限
+                return $this->error('You do not have permission', 'x070303');
+            }
+
+            $_arr_attachRow = $this->mdl_attach->read($_num_attachId);
+
+            if ($_arr_attachRow['rcode'] != 'y070102') {
+                return $this->error($_arr_attachRow['msg'], $_arr_attachRow['rcode']);
+            }
+
+            if (File::fileHas($_arr_attachRow['attach_path'])) {
+                $_arr_attachRow['attach_exists'] = 'exists';
+            } else {
+                $_arr_attachRow['attach_exists'] = 'notfound';
+            }
+
+            $_arr_adminRow = $this->mdl_admin->read($_arr_attachRow['attach_admin_id']);
+        } else {
+            if (!isset($this->adminAllow['attach']['add']) && !$this->isSuper) { //判断权限
+                return $this->error('You do not have permission', 'x070302');
+            }
+
+            $_arr_attachRow = array(
+                'attach_id' => 0,
+            );
+
+            $_arr_adminRow = array();
+        }
+
+        $_arr_tplData = array(
+            'attachRow'     => $_arr_attachRow,
+            'adminRow'      => $_arr_adminRow,
+            'token'         => $this->obj_request->token(),
+        );
+
+        $_arr_tpl = array_replace_recursive($this->generalData, $_arr_tplData);
 
         $this->assign($_arr_tpl);
 
@@ -187,7 +241,7 @@ class Attach extends Ctrl {
             return $this->error($_arr_attachRow['msg'], $_arr_attachRow['rcode']);
         }
 
-        if (Func::isFile($_arr_attachRow['attach_path'])) {
+        if (File::fileHas($_arr_attachRow['attach_path'])) {
             $_arr_attachRow['attach_exists'] = 'exists';
         } else {
             $_arr_attachRow['attach_exists'] = 'notfound';
@@ -202,8 +256,6 @@ class Attach extends Ctrl {
         );
 
         $_arr_tpl = array_replace_recursive($this->generalData, $_arr_tplData);
-
-        //print_r($_arr_attachRows);
 
         $this->assign($_arr_tpl);
 
@@ -237,18 +289,42 @@ class Attach extends Ctrl {
 
         $_arr_search['box'] = 'normal';
 
-        $_num_perPage      = 12;
-        $_num_attachCount  = $this->mdl_attach->count($_arr_search); //统计记录数
-        $_arr_pageRow      = $this->obj_request->pagination($_num_attachCount, $_num_perPage); //取得分页数据
-        $_arr_attachRows   = $this->mdl_attach->lists($_num_perPage, $_arr_pageRow['except'], $_arr_search); //列出
+        $_arr_getData   = $this->mdl_attach->lists(12, $_arr_search); //列出
 
         $_arr_tplData = array(
-            'pageRow'       => $_arr_pageRow,
             'search'        => $_arr_search,
-            'attachRows'    => $_arr_attachRows,
+            'pageRow'       => $_arr_getData['pageRow'],
+            'attachRows'    => $_arr_getData['dataRows'],
         );
 
         return $this->json($_arr_tplData);
+    }
+
+
+    function submit() {
+        $_mix_init = $this->init();
+
+        if ($_mix_init !== true) {
+            return $this->fetchJson($_mix_init['msg'], $_mix_init['rcode']);
+        }
+
+        if (!$this->isAjaxPost) {
+            return $this->fetchJson('Access denied', '', 405);
+        }
+
+        $_arr_inputSubmit = $this->mdl_attach->inputSubmit();
+
+        if ($_arr_inputSubmit['rcode'] != 'y070201') {
+            return $this->fetchJson($_arr_inputSubmit['msg'], $_arr_inputSubmit['rcode']);
+        }
+
+        if (!isset($this->adminAllow['attach']['edit']) && !$this->isSuper) {
+            return $this->fetchJson('You do not have permission', 'x070303');
+        }
+
+        $_arr_submitResult = $this->mdl_attach->submit();
+
+        return $this->fetchJson($_arr_submitResult['msg'], $_arr_submitResult['rcode']);
     }
 
 
@@ -263,7 +339,7 @@ class Attach extends Ctrl {
             return $this->fetchJson('Access denied', '', 405);
         }
 
-        if (!isset($this->adminAllow['attach']['upload']) && !$this->isSuper) {
+        if (!isset($this->adminAllow['attach']['add']) && !$this->isSuper) {
             return $this->fetchJson('You do not have permission', 'x070302');
         }
 
@@ -277,23 +353,23 @@ class Attach extends Ctrl {
             return $this->fetchJson($_arr_inputUpload['msg'], $_arr_inputUpload['rcode']);
         }
 
-        $_obj_upload       = Upload::instance();
+        $this->obj_upload->setMime($this->mimeRows);
 
-        $_obj_upload->setMime($this->mimeRows);
-
-        $_arr_fileInfo = $_obj_upload->create('attach_files');
+        $_arr_fileInfo = $this->obj_upload->create('attach_files');
 
         if (!$_arr_fileInfo) {
-            $_str_error = $_obj_upload->getError();
+            $_str_error = $this->obj_upload->getError();
             return $this->fetchJson($_str_error, 'x070403');
         }
 
         $this->mdl_attach->inputSubmit = array(
-            'attach_name'       => $_obj_upload->name(),
-            'attach_ext'        => $_obj_upload->ext(),
-            'attach_mime'       => $_obj_upload->mime(),
+            'attach_name'       => $this->obj_upload->getInfo('name'),
+            'attach_note'       => $this->obj_upload->getInfo('name'),
+            'attach_ext'        => $this->obj_upload->getInfo('ext'),
+            'attach_mime'       => $this->obj_upload->getInfo('mime'),
+            'attach_size'       => $this->obj_upload->getInfo('size'),
+            'attach_box'        => 'normal',
             'attach_admin_id'   => $this->adminLogged['admin_id'],
-            'attach_size'       => $_obj_upload->size(),
         );
 
         $_arr_submitResult = $this->mdl_attach->submit();
@@ -307,11 +383,11 @@ class Attach extends Ctrl {
 
         $_arr_attachPath = pathinfo($_arr_submitResult['attach_path']);
 
-        if (!$_obj_upload->move($_arr_attachPath['dirname'], $_arr_attachPath['basename'])) {
+        if (!$this->obj_upload->move($_arr_attachPath['dirname'], $_arr_attachPath['basename'])) {
             $this->mdl_attach->inputReserve['attach_id'] = $_arr_submitResult['attach_id'];
             $this->mdl_attach->reserve();
 
-            $_str_error = $_obj_upload->getError();
+            $_str_error = $this->obj_upload->getError();
 
             return $this->fetchJson($_str_error, 'x070401');
         }
@@ -344,7 +420,7 @@ class Attach extends Ctrl {
             return $this->fetchJson('Access denied', '', 405);
         }
 
-        if (!isset($this->adminAllow['attach']['upload']) && !$this->isSuper) {
+        if (!isset($this->adminAllow['attach']['add']) && !$this->isSuper) {
             return $this->fetchJson('You do not have permission', 'x070302');
         }
 
@@ -360,7 +436,7 @@ class Attach extends Ctrl {
             return $this->fetchJson($_arr_attachRow['msg'], $_arr_attachRow['rcode']);
         }
 
-        if (!Func::isFile($_arr_attachRow['attach_path'])) {
+        if (!File::fileHas($_arr_attachRow['attach_path'])) {
             $this->mdl_attach->inputReserve['attach_id'] = $_arr_attachRow['attach_id'];
             $this->mdl_attach->reserve();
 
@@ -440,20 +516,19 @@ class Attach extends Ctrl {
             'max_id'    => $_num_maxId,
         );
 
-        $_num_perPage     = 10;
-        $_num_attachCount = $this->mdl_attach->count($_arr_searchCount);
-        $_arr_pageRow     = $this->obj_request->pagination($_num_attachCount, $_num_perPage, 'post');
-        $_arr_attachRows  = $this->mdl_attach->lists($_num_perPage, 0, $_arr_searchList);
+        $_arr_getData  = $this->mdl_attach->lists(10, $_arr_searchList);
 
-        if (Func::isEmpty($_arr_attachRows)) {
+        if (Func::isEmpty($_arr_getData['dataRows'])) {
             $_str_status    = 'complete';
             $_str_msg       = 'Complete';
         } else {
-            foreach ($_arr_attachRows as $_key=>$_value) {
+            foreach ($_arr_getData['dataRows'] as $_key=>$_value) {
                 $_arr_attachRow = $this->mdl_attach->check($_value['attach_id'], $_value['attach_ext'], $_value['attach_time']);
-                //print_r($_arr_attachRow);
+
                 if ($_arr_attachRow['rcode'] == 'x070406') {
-                    //$_arr_boxResult = $this->mdl_attach->box();
+                    $this->mdl_attach->inputBox['act']           = 'recycle';
+                    $this->mdl_attach->inputBox['attach_ids']    = array($_value['attach_id']);
+                    $_arr_boxResult = $this->mdl_attach->box();
                 }
             }
             $_str_status    = 'loading';
@@ -462,7 +537,7 @@ class Attach extends Ctrl {
         }
 
         $_arr_return = array(
-            'count'     => $_arr_pageRow['total'],
+            'count'     => $_arr_getData['pageRow']['total'],
             'msg'       => $this->obj_lang->get($_str_msg),
             'status'    => $_str_status,
             'max_id'    => $_num_maxId,
@@ -534,14 +609,14 @@ class Attach extends Ctrl {
             'box' => 'recycle',
         );
 
-        $_arr_attachIds   = array();
-        $_num_perPage     = 10;
-        $_num_attachCount = $this->mdl_attach->count($_arr_search);
-        $_arr_pageRow     = $this->obj_request->pagination($_num_attachCount, $_num_perPage, 'post');
-        $_arr_attachRows  = $this->mdl_attach->lists(1000, 0, $_arr_search);
+        $_arr_attachIds = array();
+        $_arr_getData   = $this->mdl_attach->lists(10, $_arr_search);
 
-        if ($_num_attachCount > 0) {
-            foreach ($_arr_attachRows as $_key=>$_value) {
+        if (Func::isEmpty($_arr_getData['dataRows'])) {
+            $_str_status     = 'complete';
+            $_str_msg        = 'Complete';
+        } else {
+            foreach ($_arr_getData['dataRows'] as $_key=>$_value) {
                 $_arr_attachIds[] = $_value['attach_id'];
             }
 
@@ -560,9 +635,6 @@ class Attach extends Ctrl {
 
             $_str_status     = 'loading';
             $_str_msg        = 'Submitting';
-        } else {
-            $_str_status     = 'complete';
-            $_str_msg        = 'Complete';
         }
 
         $_arr_return = array(
@@ -603,9 +675,9 @@ class Attach extends Ctrl {
 
 
     private function deleteProcess($search) {
-        $_obj_file         = File::instance();
+        $_obj_file        = File::instance();
 
-        $_arr_attachRows  = $this->mdl_attach->lists(1000, 0, $search);
+        $_arr_attachRows  = $this->mdl_attach->lists(array(1000, 'limit'), $search);
 
         foreach ($_arr_attachRows as $_key=>$_value) {
             $_obj_file->fileDelete($_value['attach_path']);
@@ -652,34 +724,12 @@ class Attach extends Ctrl {
         }
 
         $this->mimeRows      = $_arr_mimes;
-        $this->allowExts     = Func::arrayFilter($_arr_allowExts);
-        $this->allowMimes    = Func::arrayFilter($_arr_allowMimes);
-
-        //print_r($this->allowMimes);
-        $_str_limitUnit = strtolower($this->config['var_extra']['upload']['limit_unit']);
-        $_num_sizeUnit  = 1;
-
-        switch ($_str_limitUnit) { //初始化单位
-            case 'b':
-                $_num_sizeUnit = 1;
-            break;
-
-            case 'kb':
-                $_num_sizeUnit = 1024;
-            break;
-
-            case 'mb':
-                $_num_sizeUnit = 1024 * 1024;
-            break;
-
-            case 'gb':
-                $_num_sizeUnit = 1024 * 1024 * 1024;
-            break;
-        }
+        $this->allowExts     = Arrays::filter($_arr_allowExts);
+        $this->allowMimes    = Arrays::filter($_arr_allowMimes);
 
         $this->generalData['allow_exts']    = implode(',', $this->allowExts);
         $this->generalData['allow_mimes']   = implode(',', $this->allowMimes);
-        $this->generalData['limit_size']    = $this->config['var_extra']['upload']['limit_size'] * $_num_sizeUnit;
+        $this->generalData['limit_size']    = $this->obj_upload->limitSize;
 
         return parent::init();
     }

@@ -5,7 +5,9 @@
 -----------------------------------------------------------------*/
 
 //不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 /*-------------------------通用-------------------------*/
 return array(
@@ -30,6 +32,7 @@ return array(
     'Ad CSS'                                => '广告 CSS',
     'Ad code'                               => '广告代码',
     'Ad management'                         => '广告管理',
+    'Duplicate'                             => '克隆',
     'auto'                                  => '自动识别',
     'Text of loading'                       => '加载信息',
     'Text of close'                         => '关闭文字',
@@ -42,7 +45,7 @@ return array(
     'Dependent'                             => '依赖',
     'Help'                                  => '帮助',
     'Token'                                 => '表单令牌',
-    'Keyword'                              => '关键词',
+    'Keyword'                               => '关键词',
     'All'                                   => '全部',
     'Close'                                 => '关闭',
     'OK'                                    => '确定',
@@ -71,6 +74,8 @@ return array(
     'Refresh cache successfully'                    => '更新缓存成功',
     'Refresh cache failed'                          => '更新缓存失败',
     'Successfully updated {:count} positions'       => '成功更新 {:count} 个广告位',
+    'Duplicate position successfully'               => '克隆广告位成功',
+    'Duplicate position failed'                     => '克隆广告位失败',
     'Did not make any changes'                      => '未做任何修改',
     'Delete'                                        => '删除',
     'Successfully deleted {:count} positions'       => '成功删除 {:count} 个广告位',
@@ -87,12 +92,12 @@ return array(
     'Choose at least one {:attr}'                   => '至少选择一项 {:attr}',
     'Are you sure to delete?'                       => '确认删除吗？此操作不可恢复',
     'You do not have permission'                    => '您没有权限',
-    'Initialization function name of the ad script' => '广角脚本的初始化函数名',
+    'Initialization function name of the Ad script' => '广角脚本的初始化函数名',
     '{:attr} require'                               => '{:attr} 是必需的',
     'Size of {:attr} must be {:rule}'               => '{:attr} 的长度必须在 {:rule} 之间',
     'Max size of {:attr} must be {:rule}'           => '{:attr} 最长 {:rule}',
     '{:attr} must be integer'                       => '{:attr} 必须为整数',
     '{:attr} not a valid url'                       => '{:attr} 格式不合法',
     'Support ID or class selectors, if only characters are filled in, it will be converted to an ID selector.' => '支持 ID 或 class 选择器，如果只填入字符，系统会转换为 ID 选择器。',
-    'This code is used to display ad, please use it according to the actual situation. It is recommended to place <mark>JavaScript</mark> and <mark>CSS</mark> between <code>&lt;head&gt;</code>, the <mark>Ad container</mark> where it needs to be displayed. Note: If the script is Depend on JS librarys such as jQuery, Bootstrap etc., you also need to import these librarys.' => '该代码用于显示广告，请根据实际情况灵活运用。建议将 <mark>JavaScript</mark> 和 <mark>CSS</mark> 放置在 <code>&lt;head&gt;</code> 之间，<mark>广告容器</mark> 放置在需要显示的位置。注意：如果脚本依赖 JS 库，如 jQuery、Bootstrap 等，还需要引入这些库。',
+    'This code is used to display Ad, please use it according to the actual situation. It is recommended to place <mark>JavaScript</mark> and <mark>CSS</mark> between <code>&lt;head&gt;</code>, the <mark>Ad container</mark> where it needs to be displayed. Note: If the script is Depend on JS librarys such as jQuery, Bootstrap etc., you also need to import these librarys.' => '该代码用于显示广告，请根据实际情况灵活运用。建议将 <mark>JavaScript</mark> 和 <mark>CSS</mark> 放置在 <code>&lt;head&gt;</code> 之间，<mark>广告容器</mark> 放置在需要显示的位置。注意：如果脚本依赖 JS 库，如 jQuery、Bootstrap 等，还需要引入这些库。',
 );

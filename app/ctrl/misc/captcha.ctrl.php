@@ -7,50 +7,57 @@
 namespace app\ctrl\misc;
 
 use ginkgo\Request;
-use ginkgo\Session;
 use ginkgo\Lang;
-use ginkgo\Json;
-use ginkgo\Captcha as CaptchaGen;
+use ginkgo\Arrays;
+use ginkgo\Captcha as Captcha_Gen;
 
 //不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 class Captcha {
 
-    function __construct($arr_param = array()) {
-        $this->obj_captcha = CaptchaGen::instance();
+    function __construct($param = array()) {
+        $this->obj_captcha  = Captcha_Gen::instance();
+        $this->obj_request  = Request::instance();
+
+        if (isset($param['id'])) {
+            $param['id'] = $this->obj_request->input($param['id'], 'str', '');
+        } else {
+            $param['id'] = '';
+        }
+
+        $this->param = $param;
     }
 
     public function index() {
-        $this->obj_captcha->set();
-
-        return $this->obj_captcha->create();
+        return $this->obj_captcha->create($param['id']);
     }
 
     public function check() {
-        $_obj_request  = Request::instance();
         $_obj_lang     = Lang::instance();
 
-        $_route        = $_obj_request->route();
+        $_route        = $this->obj_request->route();
 
         $_obj_lang->range($_route['mod'] . '.' . $_route['ctrl']);
         $_str_current       = $_obj_lang->getCurrent();
         $_str_langPath      = GK_APP_LANG . $_str_current . DS . $_route['mod'] . DS . $_route['ctrl'] . GK_EXT_LANG;
         $_obj_lang->load($_str_langPath);
 
-        $_str_captcha = strtolower($_obj_request->get('captcha'));
+        $_str_captcha = strtolower($this->obj_request->get('captcha'));
 
-        if ($this->obj_captcha->check($_str_captcha, '', false)) {
+        if ($this->obj_captcha->check($_str_captcha, $this->param['id'], false)) {
             $_arr_return = array(
                 'msg'   => '',
             );
         } else {
             $_arr_return = array(
                 'rcode' => 'x030202',
-                'error' => $_obj_lang->get('Captcha is incorrect'),
+                'error_msg' => $_obj_lang->get('Captcha is incorrect'),
             );
         }
 
-        return Json::encode($_arr_return);
+        return Arrays::toJson($_arr_return);
     }
 }

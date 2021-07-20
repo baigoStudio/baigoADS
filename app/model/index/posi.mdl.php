@@ -7,10 +7,11 @@
 namespace app\model\index;
 
 use app\model\Posi as Posi_Base;
-use ginkgo\Func;
 
 //不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 /*-------------广告位类-------------*/
 class Posi extends Posi_Base {

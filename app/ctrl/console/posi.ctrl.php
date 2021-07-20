@@ -10,18 +10,21 @@ use app\classes\console\Ctrl;
 use ginkgo\Loader;
 use ginkgo\Plugin;
 use ginkgo\File;
-use ginkgo\Json;
+use ginkgo\Arrays;
 use ginkgo\Func;
+use ginkgo\Html;
 
 //不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 class Posi extends Ctrl {
 
     protected function c_init($param = array()) {
         parent::c_init();
 
-        $this->obj_file         = File::instance();
+        $this->obj_file    = File::instance();
 
         $this->mdl_attach  = Loader::model('Attach');
         $this->mdl_advert  = Loader::model('Advert');
@@ -49,36 +52,22 @@ class Posi extends Ctrl {
             'status'    => array('txt', ''),
         );
 
-        $_arr_search = $this->obj_request->param($_arr_searchParam);
+        $_arr_search    = $this->obj_request->param($_arr_searchParam);
+        $_arr_getData   = $this->mdl_posi->lists($this->config['var_default']['perpage'], $_arr_search); //列出
 
-        $_num_posiCount   = $this->mdl_posi->count($_arr_search); //统计记录数
-        $_arr_pageRow     = $this->obj_request->pagination($_num_posiCount); //取得分页数据
-        $_arr_posiRows    = $this->mdl_posi->lists($this->config['var_default']['perpage'], $_arr_pageRow['except'], $_arr_search); //列出
-
-        foreach ($_arr_posiRows as $_key=>$_value) {
-            $_arr_scriptConfigList = $this->mdl_posi->scriptConfigProcess($_value['posi_script']);
-
-            $_mix_scriptOpts = Func::isFile($_arr_scriptConfigList['opts_path']);
-
-            $_mix_scriptOpts = $this->mdl_posi->scriptOptsProcess($_arr_scriptConfigList['opts_path']);
-
-            if (Func::isEmpty($_mix_scriptOpts)) {
-                $_mix_scriptOpts = false;
-            }
-
-            $_arr_posiRows[$_key]['script_opts'] = $_mix_scriptOpts;
+        foreach ($_arr_getData['dataRows'] as $_key=>&$_value) {
+            $_arr_scriptConfigList  = $this->mdl_posi->scriptConfigProcess($_value['posi_script']);
+            $_value['script_opts']  = $this->mdl_posi->scriptOptsProcess($_arr_scriptConfigList['opts_path']);
         }
 
         $_arr_tplData = array(
-            'pageRow'    => $_arr_pageRow,
             'search'     => $_arr_search,
-            'posiRows'   => $_arr_posiRows,
+            'pageRow'    => $_arr_getData['pageRow'],
+            'posiRows'   => $_arr_getData['dataRows'],
             'token'      => $this->obj_request->token(),
         );
 
         $_arr_tpl = array_replace_recursive($this->generalData, $_arr_tplData);
-
-        //print_r($_arr_posiRows);
 
         $this->assign($_arr_tpl);
 
@@ -114,10 +103,16 @@ class Posi extends Ctrl {
         }
 
         $_arr_adverts     = array();
-        $_arr_advertRows  = $this->mdl_advert->lists($_num_posiId);
+
+        $_arr_search = array(
+            'posi_id' => $_num_posiId,
+        );
+
+        $_arr_advertRows  = $this->mdl_advert->lists(array(1000, 'limit'), $_arr_search);
 
         if (Func::isEmpty($_arr_advertRows)) {
-            $_arr_adverts = $this->mdl_advert->lists($_num_posiId, 'backup');
+            $_arr_search['type']    = 'backup';
+            $_arr_adverts           = $this->mdl_advert->lists(array(1000, 'limit'), $_arr_search);
         } else {
             if ($_arr_posiRow['posi_is_percent'] == 'enable') {
                 foreach ($_arr_advertRows as $key=>$value) {
@@ -145,26 +140,17 @@ class Posi extends Ctrl {
         }
 
         $_arr_scriptConfig = $this->mdl_posi->scriptConfigProcess($_arr_posiRow['posi_script']);
+        $_mix_scriptOpts   = $this->mdl_posi->scriptOptsProcess($_arr_scriptConfig['opts_path']);
 
-        $_arr_scriptConfig['script_url']  = $this->url['dir_advert'] . $_arr_scriptConfig['script_url_name'];
-        $_arr_scriptConfig['css_url']     = $this->url['dir_advert'] . $_arr_scriptConfig['css_url_name'];
-
-        $_mix_scriptOpts = Func::isFile($_arr_scriptConfig['opts_path']);
-
-        $_mix_scriptOpts = $this->mdl_posi->scriptOptsProcess($_arr_scriptConfig['opts_path']);
-
-        if (Func::isEmpty($_mix_scriptOpts)) {
-            $_mix_scriptOpts = false;
-        }
-
-        $_arr_optsJosn = array(
+        $_arr_posiOpts = array(
             'data_url' => $_arr_posiRow['posi_data_url'],
+            'loading'  => $_arr_posiRow['posi_loading'],
         );
 
         if (is_array($_mix_scriptOpts) && !Func::isEmpty($_mix_scriptOpts)) {
             foreach ($_mix_scriptOpts as $_key=>$_value) {
                 if (isset($_arr_posiRow['posi_opts'][$_key])) {
-                    $_arr_optsJosn[$_key] = $_arr_posiRow['posi_opts'][$_key];
+                    $_arr_posiOpts[$_key] = $_arr_posiRow['posi_opts'][$_key];
                 }
             }
         }
@@ -172,16 +158,15 @@ class Posi extends Ctrl {
         //print_r($_mix_scriptOpts);
 
         $_arr_tplData = array(
+            'adCode'        => $this->adCodeProcess($_arr_posiRow, $_arr_scriptConfig, $_arr_posiOpts),
             'scriptOpts'    => $_mix_scriptOpts,
             'scriptConfig'  => $_arr_scriptConfig,
-            'optsJson'      => Json::encode($_arr_optsJosn),
             'posiRow'       => $_arr_posiRow,
             'advertRows'    => $_arr_adverts,
+            'token'         => $this->obj_request->token(),
         );
 
         $_arr_tpl = array_replace_recursive($this->generalData, $_arr_tplData);
-
-        //print_r($_arr_posiRows);
 
         $this->assign($_arr_tpl);
 
@@ -220,7 +205,7 @@ class Posi extends Ctrl {
 
             $_str_configPath = BG_PATH_ADVERT . $_arr_posiRow['posi_script'] . DS . 'config' . GK_EXT_INC;
 
-            if (Func::isFile($_str_configPath)) {
+            if (File::fileHas($_str_configPath)) {
                 $_arr_scriptConfig = Loader::load($_str_configPath); //定义配置
             } else {
                 $_arr_scriptConfig = array();
@@ -228,20 +213,11 @@ class Posi extends Ctrl {
 
             $_arr_scriptConfig = $this->mdl_posi->scriptConfigProcess($_arr_posiRow['posi_script']);
 
-            if (!Func::isFile($_arr_scriptConfig['script_path'])) {
+            if (!File::fileHas($_arr_scriptConfig['script_path'])) {
                 return $this->error('Ad script not found', 'x040102');
             }
 
-            $_arr_scriptConfig['script_url']  = $this->url['dir_advert'] . $_arr_scriptConfig['script_url_name'];
-            $_arr_scriptConfig['css_url']     = $this->url['dir_advert'] . $_arr_scriptConfig['css_url_name'];
-
-            $_mix_scriptOpts = Func::isFile($_arr_scriptConfig['opts_path']);
-
             $_mix_scriptOpts = $this->mdl_posi->scriptOptsProcess($_arr_scriptConfig['opts_path']);
-
-            if (Func::isEmpty($_mix_scriptOpts)) {
-                $_mix_scriptOpts = false;
-            }
         } else {
             if (!isset($this->adminAllow['posi']['add']) && !$this->isSuper) {
                 return $this->error('You do not have permission', 'x040302');
@@ -269,11 +245,9 @@ class Posi extends Ctrl {
             if (!Func::isEmpty($_str_dir)) {
                 $_arr_scriptConfig = $this->mdl_posi->scriptConfigProcess($_str_dir);
 
-                if (!Func::isFile($_arr_scriptConfig['script_path'])) {
+                if (!File::fileHas($_arr_scriptConfig['script_path'])) {
                     return $this->error('Ad script not found', 'x040102');
                 }
-
-                $_arr_scriptConfig['script_url']    = $this->url['dir_advert'] . $_arr_scriptConfig['script_url_name'];
 
                 $_arr_posiRow['posi_count']         = $_arr_scriptConfig['count'];
                 $_arr_posiRow['posi_box_perfix']    = $_arr_scriptConfig['box_perfix'];
@@ -288,9 +262,7 @@ class Posi extends Ctrl {
                 if ($_value['type'] != 'file') {
                     $_arr_scriptConfigList = $this->mdl_posi->scriptConfigProcess($_value['name']);
 
-                    $_arr_scriptConfigList['script_url']  = $this->url['dir_advert'] . $_arr_scriptConfigList['script_url_name'];
-
-                    if (Func::isFile($_arr_scriptConfigList['script_path'])) {
+                    if (File::fileHas($_arr_scriptConfigList['script_path'])) {
                         $_arr_scripts[$_value['name']] = $_arr_scriptConfigList;
                     }
                 }
@@ -304,13 +276,11 @@ class Posi extends Ctrl {
             'scriptConfig'   => $_arr_scriptConfig,
             'posiRow'        => $_arr_posiRow,
             'scriptRows'     => $_arr_scripts,
-            'scriptJson'     => Json::encode($_arr_scripts),
+            'scriptJson'     => Arrays::toJson($_arr_scripts),
             'token'          => $this->obj_request->token(),
         );
 
         $_arr_tpl = array_replace_recursive($this->generalData, $_arr_tplData);
-
-        //print_r($_arr_posiRows);
 
         $this->assign($_arr_tpl);
 
@@ -381,14 +351,11 @@ class Posi extends Ctrl {
 
         $_arr_scriptConfig = $this->mdl_posi->scriptConfigProcess($_arr_posiRow['posi_script']);
 
-        if (!Func::isFile($_arr_scriptConfig['script_path'])) {
+        if (!File::fileHas($_arr_scriptConfig['script_path'])) {
             return $this->error('Ad script not found', 'x040102');
         }
 
-        $_arr_scriptConfig['script_url']  = $this->url['dir_advert'] . $_arr_scriptConfig['script_url_name'];
-        $_arr_scriptConfig['css_url']     = $this->url['dir_advert'] . $_arr_scriptConfig['css_url_name'];
-
-        if (!Func::isFile($_arr_scriptConfig['opts_path'])) {
+        if (!File::fileHas($_arr_scriptConfig['opts_path'])) {
             return $this->error('There are no options to set', 'x040402');
         }
 
@@ -414,8 +381,6 @@ class Posi extends Ctrl {
         );
 
         $_arr_tpl = array_replace_recursive($this->generalData, $_arr_tplData);
-
-        //print_r($_arr_posiRows);
 
         $this->assign($_arr_tpl);
 
@@ -449,6 +414,33 @@ class Posi extends Ctrl {
         $this->cacheProcess();
 
         return $this->fetchJson($_arr_optsResult['msg'], $_arr_optsResult['rcode']);
+    }
+
+
+    function duplicate() {
+        $_mix_init = $this->init();
+
+        if ($_mix_init !== true) {
+            return $this->fetchJson($_mix_init['msg'], $_mix_init['rcode']);
+        }
+
+        if (!$this->isAjaxPost) {
+            return $this->fetchJson('Access denied', '', 405);
+        }
+
+        if (!isset($this->adminAllow['posi']['add']) && !$this->isSuper) {
+            return $this->fetchJson('You do not have permission', 'x040302');
+        }
+
+        $_arr_inputDuplicate = $this->mdl_posi->inputDuplicate();
+
+        if ($_arr_inputDuplicate['rcode'] != 'y040201') {
+            return $this->fetchJson($_arr_inputDuplicate['msg'], $_arr_inputDuplicate['rcode']);
+        }
+
+        $_arr_duplicateResult = $this->mdl_posi->duplicate();
+
+        return $this->fetchJson($_arr_duplicateResult['msg'], $_arr_duplicateResult['rcode']);
     }
 
 
@@ -552,7 +544,7 @@ class Posi extends Ctrl {
 
     private function cacheProcess() {
         $_arr_search['status']  = 'enable';
-        $_arr_posiRows          = $this->mdl_posi->lists(1000, 0, $_arr_search);
+        $_arr_posiRows          = $this->mdl_posi->lists(array(1000, 'limit'), $_arr_search);
 
         $_num_cacheSize = 0;
 
@@ -574,5 +566,66 @@ class Posi extends Ctrl {
             'rcode'     => $_str_rcode,
             'msg'       => $_str_msg,
         );
+    }
+
+
+    private function adCodeProcess($posiRow = array(), $scriptConfig = array(), $posiOpts = array()) {
+        $_str_code = '<!DOCTYPE html>' . PHP_EOL;
+
+        $_str_code .= '<html lang="' . $this->obj_lang->getCurrent() . '">' . PHP_EOL;
+            $_str_code .= '<head>' . PHP_EOL;
+                $_str_code .= '    <title>' . $posiRow['posi_name'] . '</title>' . PHP_EOL;
+                $_str_code .= PHP_EOL;
+
+                foreach ($scriptConfig['require'] as $_key=>$_value) {
+
+                    $_str_code .= '    <!-- ' . $this->obj_lang->get('Dependent') . ' - ' . $_key . ' begin -->' . PHP_EOL;
+                        switch ($_value['type']) {
+                            case 'js':
+                                $_str_code .= '    <script src="' . $_value['url'] . '" type="text/javascript"></script>' . PHP_EOL;
+                            break;
+
+                            default:
+                                $_str_code .= '    <link href="' . $_value['url'] . '" type="text/css" rel="stylesheet">' . PHP_EOL;
+                            break;
+                        }
+
+                    $_str_code .= '    <!-- ' . $this->obj_lang->get('Dependent'). ' - ' . $_key . ' end -->' . PHP_EOL;
+                    $_str_code .= PHP_EOL;
+
+                }
+
+                $_str_code .= '    <!-- ' . $this->obj_lang->get('Ad CSS') . ' begin -->' . PHP_EOL;
+                $_str_code .= '    <link href="' . $scriptConfig['css_url'] . '" type="text/css" rel="stylesheet">' . PHP_EOL;
+                $_str_code .= '    <!-- ' . $this->obj_lang->get('Ad CSS') . ' end -->' . PHP_EOL;
+                $_str_code .= PHP_EOL;
+
+                $_str_code .= '    <!-- ' . $this->obj_lang->get('Ad script') . ' begin -->' . PHP_EOL;
+                $_str_code .= '    <script src="' . $scriptConfig['script_url'] . '" type="text/javascript"></script>' . PHP_EOL;
+                $_str_code .= '    <!-- ' . $this->obj_lang->get('Ad script') . ' end -->' . PHP_EOL;
+
+            $_str_code .= '</head>' . PHP_EOL;
+            $_str_code .= '<body>' . PHP_EOL;
+
+                $_str_code .= '    <!-- ' . $this->obj_lang->get('Ad container') . ' begin -->' . PHP_EOL;
+                $_str_code .= '    <div ' . $posiRow['posi_box_attr'] . '></div>' . PHP_EOL;
+                $_str_code .= '    <!-- ' . $this->obj_lang->get('Ad container') . ' end -->' . PHP_EOL;
+                $_str_code .= PHP_EOL;
+
+                $_str_code .= '    <!-- ' . $this->obj_lang->get('Initialization') . ' begin -->' . PHP_EOL;
+                $_str_code .= '    <script type="text/javascript">' . PHP_EOL;
+                $_str_code .= '    opts_ad_' . $posiRow['posi_id'] . ' = ' . Arrays::toJson($posiOpts) . ';' . PHP_EOL;
+                $_str_code .= PHP_EOL;
+
+                $_str_code .= '    $(document).ready(function(){' . PHP_EOL;
+                    $_str_code .= '        $(\'' . $posiRow['posi_selector'] . '\').' . $scriptConfig['func_init'] . '(opts_ad_' . $posiRow['posi_id'] . ');' . PHP_EOL;
+                $_str_code .= '    });' . PHP_EOL;
+                $_str_code .= '    </script>' . PHP_EOL;
+                $_str_code .= '    <!-- ' . $this->obj_lang->get('Initialization') . ' end -->' . PHP_EOL;
+
+            $_str_code .= '</body>' . PHP_EOL;
+        $_str_code .= '</html>' . PHP_EOL;
+
+        return Html::encode($_str_code);
     }
 }

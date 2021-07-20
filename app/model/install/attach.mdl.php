@@ -11,7 +11,9 @@ use ginkgo\Loader;
 use ginkgo\Func;
 
 //不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 /*-------------管理员模型-------------*/
 class Attach extends Model {
@@ -67,8 +69,14 @@ class Attach extends Model {
                 'comment'   => '原始文件名',
                 'old'       => 'media_name',
             ),
+            'attach_note' => array(
+                'type'      => 'varchar(1000)',
+                'not_null'  => true,
+                'default'   => '',
+                'comment'   => '备注',
+            ),
             'attach_admin_id' => array(
-                'type'      => 'smallint(6)',
+                'type'      => 'int(11)',
                 'not_null'  => true,
                 'default'   => 0,
                 'comment'   => '上传用户 ID',

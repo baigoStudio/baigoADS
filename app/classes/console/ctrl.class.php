@@ -10,6 +10,7 @@ use app\classes\Ctrl as Ctrl_Base;
 use ginkgo\Route;
 use ginkgo\Loader;
 use ginkgo\Func;
+use ginkgo\File;
 use ginkgo\Session;
 use ginkgo\Cookie;
 use ginkgo\Config;
@@ -18,7 +19,9 @@ use ginkgo\Plugin;
 use ginkgo\Auth;
 
 //不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 
 /*-------------控制中心通用控制器-------------*/
@@ -151,7 +154,7 @@ abstract class Ctrl extends Ctrl_Base {
 
         $arr_adminRow = array_replace_recursive($arr_adminRow, $_arr_loginResult);
 
-        $this->obj_auth->write($arr_adminRow, true, $str_type, $str_remember, $this->url['route_console']);
+        $this->obj_auth->write($arr_adminRow, false, $str_type, $str_remember, $this->url['route_console']);
 
         return array(
             'rcode' => 'y020401',
@@ -197,7 +200,7 @@ abstract class Ctrl extends Ctrl_Base {
 
         $_str_configInstalled     = GK_APP_CONFIG . 'installed' . GK_EXT_INC;
 
-        if (Func::isFile($_str_configInstalled)) { //如果新文件存在
+        if (File::fileHas($_str_configInstalled)) { //如果新文件存在
             $_arr_installed       = Config::load($_str_configInstalled, 'installed');
 
             if (PRD_ADS_PUB > $_arr_installed['prd_installed_pub']) { //如果小于当前版本

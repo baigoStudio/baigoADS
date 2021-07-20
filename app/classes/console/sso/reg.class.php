@@ -9,10 +9,12 @@ namespace app\classes\console\sso;
 use app\classes\Sso;
 use ginkgo\Crypt;
 use ginkgo\Sign;
-use ginkgo\Json;
+use ginkgo\Arrays;
 
 //不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access Denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 /*-------------单点登录类-------------*/
 class Reg extends Sso {
@@ -44,7 +46,7 @@ class Reg extends Sso {
             'timestamp' => GK_NOW,
         );
 
-        $_str_crypt = Json::encode($_arr_crypt);
+        $_str_crypt = Arrays::toJson($_arr_crypt);
 
         $_str_encrypt = Crypt::encrypt($_str_crypt, $this->config['app_key'], $this->config['app_secret']);
 
@@ -109,7 +111,7 @@ class Reg extends Sso {
             'timestamp' => GK_NOW,
         );
 
-        $_str_crypt = Json::encode($_arr_crypt);
+        $_str_crypt = Arrays::toJson($_arr_crypt);
 
         $_str_encrypt = Crypt::encrypt($_str_crypt, $this->config['app_key'], $this->config['app_secret']);
 
@@ -146,17 +148,17 @@ class Reg extends Sso {
      *
      * @access public
      * @param mixed $str_userMail Email
-     * @param int $num_userId (default: 0) 当前用户ID（默认为0，忽略）
+     * @param int $num_notId (default: 0) 当前用户ID（默认为0，忽略）
      * @return 解码后数组 检查结果
      */
-    function chkmail($str_userMail, $num_userId = 0) {
+    function chkmail($str_userMail, $num_notId = 0) {
         $_arr_crypt = array(
             'user_mail' => $str_userMail,
-            'not_id'    => $num_userId,
+            'not_id'    => $num_notId,
             'timestamp' => GK_NOW,
         );
 
-        $_str_crypt = Json::encode($_arr_crypt);
+        $_str_crypt = Arrays::toJson($_arr_crypt);
 
         $_str_encrypt = Crypt::encrypt($_str_crypt, $this->config['app_key'], $this->config['app_secret']);
 

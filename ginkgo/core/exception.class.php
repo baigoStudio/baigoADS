@@ -7,7 +7,9 @@
 namespace ginkgo;
 
 // 不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 // 异常处理
 class Exception extends \Exception { // 继承 php 异常处理类
@@ -27,7 +29,7 @@ class Exception extends \Exception { // 继承 php 异常处理类
      * @param \Exception $previous (default: null) 上一个异常
      * @return void
      */
-    function __construct($message, $statusCode = 0, $code = 0, $file = '', $line = '', \Exception $previous = null) {
+    public function __construct($message, $statusCode = 0, $code = 0, $file = '', $line = '', \Exception $previous = null) {
         //print_r($statusCode);
         $this->message      = $message;
         $this->file         = $file;
@@ -44,7 +46,7 @@ class Exception extends \Exception { // 继承 php 异常处理类
      * @access public
      * @return http 状态码
      */
-    function getStatusCode() {
+    public function getStatusCode() {
         //print_r($this->statusCode);
         return $this->statusCode;
     }
@@ -57,7 +59,7 @@ class Exception extends \Exception { // 继承 php 异常处理类
      * @param array $data (default: array()) 内容
      * @return void
      */
-    function setData($name, $data = array()) {
+    public function setData($name, $data = array()) {
         $this->data[$name] = $data;
     }
 
@@ -68,7 +70,7 @@ class Exception extends \Exception { // 继承 php 异常处理类
      * @param string $name (default: '') 名称
      * @return 异常内容
      */
-    function getData($name = '') {
+    public function getData($name = '') {
         $_value = '';
         if (Func::isEmpty($name)) {
             $_value = $this->data;

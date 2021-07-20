@@ -8,11 +8,13 @@ namespace app\ctrl\api;
 use app\classes\api\Ctrl;
 use ginkgo\Loader;
 use ginkgo\Crypt;
-use ginkgo\Json;
+use ginkgo\Arrays;
 use ginkgo\Sign;
 
 // 不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 /*-------------用户类-------------*/
 class Sync extends Ctrl {
@@ -127,7 +129,7 @@ class Sync extends Ctrl {
             'user_access_expire',
         );
 
-        $_arr_userRow = $this->mdl_sync->read($arr_inputCheck['user_str'], $arr_inputCheck['user_by'], 0, $_arr_select);
+        $_arr_userRow = $this->mdl_sync->read($arr_inputCheck['user_id'], 'user_id', 0, $_arr_select);
 
         $this->userRow = $_arr_userRow;
 
@@ -147,7 +149,7 @@ class Sync extends Ctrl {
             $_arr_src['timestamp'] = GK_NOW;
 
             //unset($_arr_src['rcode']);
-            $_str_src              = Json::encode($_arr_src);
+            $_str_src              = Arrays::toJson($_arr_src);
             $_str_encrypt          = Crypt::encrypt($_str_src, $_str_appKey, $_value['app_secret']);
 
             if ($_str_encrypt !== false) {

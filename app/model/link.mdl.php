@@ -11,7 +11,9 @@ use ginkgo\Func;
 use ginkgo\Cache;
 
 //不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access Denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 /*-------------链接模型-------------*/
 class Link extends Model {
@@ -20,6 +22,8 @@ class Link extends Model {
     public $arr_status = array('enable', 'disabled');
 
     function m_init() { //构造函数
+        parent::m_init();
+
         $this->obj_cache  = Cache::instance();
     }
 
@@ -78,7 +82,7 @@ class Link extends Model {
      * @param string $str_type (default: '')
      * @return void
      */
-    function lists($num_no, $num_except = 0, $arr_search = array()) {
+    function lists($pagination = 0, $arr_search = array()) {
         $_arr_linkSelect = array(
             'link_id',
             'link_name',
@@ -88,11 +92,11 @@ class Link extends Model {
             'link_order',
         );
 
-        $_arr_where = $this->queryProcess($arr_search);
+        $_arr_where         = $this->queryProcess($arr_search);
+        $_arr_pagination    = $this->paginationProcess($pagination);
+        $_arr_getData       = $this->where($_arr_where)->order('link_order', 'ASC')->limit($_arr_pagination['limit'], $_arr_pagination['length'])->paginate($_arr_pagination['perpage'], $_arr_pagination['current'])->select($_arr_linkSelect);
 
-        $_arr_linkRows = $this->where($_arr_where)->order('link_order', 'ASC')->limit($num_except, $num_no)->select($_arr_linkSelect);
-
-        return $_arr_linkRows;
+        return $_arr_getData;
     }
 
 
@@ -100,9 +104,7 @@ class Link extends Model {
 
         $_arr_where  = $this->queryProcess($arr_search);
 
-        $_num_linkCount = $this->where($_arr_where)->count();
-
-        return $_num_linkCount;
+        return $this->where($_arr_where)->count();
     }
 
 
@@ -139,7 +141,7 @@ class Link extends Model {
         $_arr_search = array(
             'status'    => 'enable',
         );
-        $_arr_linkRows = $this->lists(1000, 0, $_arr_search);
+        $_arr_getData = $this->lists(array(1000, 'limit'), $_arr_search);
 
 
         return $this->obj_cache->write('link_lists', $_arr_linkRows);

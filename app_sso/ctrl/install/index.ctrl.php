@@ -13,7 +13,9 @@ use ginkgo\Crypt;
 use ginkgo\Func;
 
 // 不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 class Index extends Ctrl {
 
@@ -114,8 +116,8 @@ class Index extends Ctrl {
 
             if ($_arr_userRow['rcode'] == 'y010102') {
                 $_arr_return = array(
-                    'rcode' => 'x010404',
-                    'error' => $this->obj_lang->get('User already exists'),
+                    'rcode'     => 'x010404',
+                    'error_msg' => $this->obj_lang->get('User already exists'),
                 );
             }
         }

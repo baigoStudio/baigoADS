@@ -10,6 +10,7 @@
     'baigoDialog'    => 'true',
     'upload'         => 'true',
     'tooltip'        => 'true',
+    'popover'        => 'true',
     'imageAsync'     => 'true',
     'pathInclude'    => $path_tpl . 'include' . DS,
 );
@@ -184,7 +185,11 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
                         </th>
                         <th><?php echo $lang->get('Detail'); ?></th>
                         <th class="d-none d-lg-table-cell bg-td-md">
-                            <small><?php echo $lang->get('Administrator'); ?></small>
+                            <small>
+                                <?php echo $lang->get('Administrator'); ?>
+                                /
+                                <?php echo $lang->get('Note'); ?>
+                            </small>
                         </th>
                         <th class="d-none d-lg-table-cell bg-td-md text-right">
                             <small>
@@ -211,7 +216,7 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
                                     <span class="sr-only">Dropdown</span>
                                 </a>
                                 <div class="mb-2 text-wrap text-break">
-                                    <a href="javascript:void(0);" role="button" tabindex="0" data-trigger="focus" data-toggle="popover" data-placement="right" data-content="<a href='<?php echo $route_console; ?>attach/show/id/<?php echo $value['attach_id']; ?>/'><img src='<?php echo $value['attach_url']; ?>' class='img-fluid'></a>">
+                                    <a href="javascript:void(0);" tabindex="0" data-trigger="focus" data-toggle="popover" data-content="<img src='<?php echo $value['attach_url']; ?>' class='img-fluid'>">
                                         <?php echo $value['attach_name']; ?>
                                     </a>
                                 </div>
@@ -231,16 +236,19 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
                                                 <?php echo $lang->get('Delete'); ?>
                                             </a>
                                         <?php } else { ?>
-                                            <a href="javascript:void(0);" data-id="<?php echo $value['attach_id']; ?>" class="text-danger attach_recycle mr-2">
+                                            <a href="<?php echo $route_console; ?>attach/form/id/<?php echo $value['attach_id']; ?>/" class="mr-2">
+                                                <span class="fas fa-edit"></span>
+                                                <?php echo $lang->get('Edit'); ?>
+                                            </a>
+                                            <?php if ($value['attach_type'] == 'image') { ?>
+                                                <a href="javascript:void(0);" data-toggle="tooltip" data-placement="right" title="<?php echo $lang->get('Use when the image cannot be displayed'); ?>" data-id="<?php echo $value['attach_id']; ?>" class="mr-2 attach_fix">
+                                                    <span class="fas fa-sync-alt"></span>
+                                                    <?php echo $lang->get('Fix it'); ?>
+                                                </a>
+                                            <?php } ?>
+                                            <a href="javascript:void(0);" data-id="<?php echo $value['attach_id']; ?>" class="text-danger attach_recycle">
                                                 <span class="fas fa-trash"></span>
                                                 <?php echo $lang->get('Recycle'); ?>
-                                            </a>
-                                        <?php }
-
-                                        if ($value['attach_type'] == 'image') { ?>
-                                            <a href="javascript:void(0);" data-toggle="tooltip" data-placement="right" title="<?php echo $lang->get('Use when the image cannot be displayed'); ?>" data-id="<?php echo $value['attach_id']; ?>" class="attach_fix">
-                                                <span class="fas fa-sync-alt"></span>
-                                                <?php echo $lang->get('Fix it'); ?>
                                             </a>
                                         <?php } ?>
                                     </div>
@@ -259,6 +267,12 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
                                         </small>
                                     </dd>
                                     <dt class="col-3">
+                                        <small><?php echo $lang->get('Note'); ?></small>
+                                    </dt>
+                                    <dd class="col-9">
+                                        <small><?php echo $value['attach_note']; ?></small>
+                                    </dd>
+                                    <dt class="col-3">
                                         <small><?php echo $lang->get('Size'); ?></small>
                                     </dt>
                                     <dd class="col-9">
@@ -274,15 +288,18 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
                             </td>
                             <td class="d-none d-lg-table-cell bg-td-md">
                                 <small>
-                                    <?php if (isset($value['adminRow']['admin_name'])) { ?>
-                                        <a href="<?php echo $route_console; ?>attach/index/admin/<?php echo $value['attach_admin_id']; ?>/"><?php echo $value['adminRow']['admin_name']; ?></a>
-                                    <?php } else {
-                                        echo $lang->get('Unknown');
-                                    } ?>
+                                    <div class="mb-2">
+                                        <?php if (isset($value['adminRow']['admin_name'])) { ?>
+                                            <a href="<?php echo $route_console; ?>attach/index/admin/<?php echo $value['attach_admin_id']; ?>/"><?php echo $value['adminRow']['admin_name']; ?></a>
+                                        <?php } else {
+                                            echo $lang->get('Unknown');
+                                        } ?>
+                                    </div>
+                                    <div><?php echo $value['attach_note']; ?></div>
                                 </small>
                             </td>
                             <td class="d-none d-lg-table-cell bg-td-md text-right">
-                                <div>
+                                <div class="mb-2">
                                     <small><?php echo $value['attach_size_format']; ?></small>
                                 </div>
                                 <div>
@@ -460,10 +477,6 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
                     obj_clear.clearSubmit();
                 }
             });
-        });
-
-        $('[data-toggle="popover"]').popover({
-            html: true
         });
 
         var obj_query = $('#attach_search').baigoQuery();

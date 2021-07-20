@@ -7,11 +7,13 @@
 namespace app\model;
 
 use app\classes\Model;
-use ginkgo\Json;
+use ginkgo\Arrays;
 use ginkgo\Func;
 
 //不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 /*-------------管理员模型-------------*/
 class Admin extends Model {
@@ -21,6 +23,8 @@ class Admin extends Model {
     public $inputSubmit  = array();
 
     function m_init() { //构造函数
+        parent::m_init();
+
         $this->ip           = $this->obj_request->ip();
     }
 
@@ -44,7 +48,7 @@ class Admin extends Model {
      * @return void
      */
     function read($mix_admin, $str_by = 'admin_id', $num_notId = 0, $arr_select = array()) {
-        $_arr_adminRow = $this->readProcess($mix_admin, $str_by, $num_notId, $_arr_adminSelect);
+        $_arr_adminRow = $this->readProcess($mix_admin, $str_by, $num_notId, $arr_select);
 
         if ($_arr_adminRow['rcode'] != 'y020102') {
             return $_arr_adminRow;
@@ -103,11 +107,11 @@ class Admin extends Model {
      *
      * @access public
      * @param mixed $num_no
-     * @param int $num_except (default: 0)
+     * @param int $num_offset (default: 0)
      * @param array $arr_search (default: array())
      * @return void
      */
-    function lists($num_no, $num_except = 0, $arr_search = array()) {
+    function lists($pagination = 0, $arr_search = array()) {
         $_arr_adminSelect = array(
             'admin_id',
             'admin_name',
@@ -117,11 +121,11 @@ class Admin extends Model {
             'admin_type',
         );
 
-        $_arr_where = $this->queryProcess($arr_search);
+        $_arr_where         = $this->queryProcess($arr_search);
+        $_arr_pagination    = $this->paginationProcess($pagination);
+        $_arr_getData       = $this->where($_arr_where)->order('admin_id', 'DESC')->limit($_arr_pagination['limit'], $_arr_pagination['length'])->paginate($_arr_pagination['perpage'], $_arr_pagination['current'])->select($_arr_adminSelect); //查询数据
 
-        $_arr_adminRows = $this->where($_arr_where)->order('admin_id', 'DESC')->limit($num_except, $num_no)->select($_arr_adminSelect); //查询数据
-
-        return $_arr_adminRows;
+        return $_arr_getData;
     }
 
 
@@ -136,9 +140,7 @@ class Admin extends Model {
     function count($arr_search = array()) {
         $_arr_where = $this->queryProcess($arr_search);
 
-        $_num_adminCount = $this->where($_arr_where)->count(); //查询数据
-
-        return $_num_adminCount;
+        return $this->where($_arr_where)->count();
     }
 
 
@@ -226,7 +228,7 @@ class Admin extends Model {
 
     protected function rowProcess($arr_adminRow = array()) {
         if (isset($arr_adminRow['admin_allow'])) {
-            $arr_adminRow['admin_allow'] = Json::decode($arr_adminRow['admin_allow']); //json 解码
+            $arr_adminRow['admin_allow'] = Arrays::fromJson($arr_adminRow['admin_allow']); //json 解码
         } else {
             $arr_adminRow['admin_allow'] = array();
         }
@@ -234,19 +236,19 @@ class Admin extends Model {
         //print_r($arr_adminRow['admin_allow']);
 
         if (isset($arr_adminRow['admin_allow_profile'])) {
-            $arr_adminRow['admin_allow_profile'] = Json::decode($arr_adminRow['admin_allow_profile']); //json 解码
+            $arr_adminRow['admin_allow_profile'] = Arrays::fromJson($arr_adminRow['admin_allow_profile']); //json 解码
         } else {
             $arr_adminRow['admin_allow_profile'] = array();
         }
 
         if (isset($arr_adminRow['admin_shortcut'])) {
-            $arr_adminRow['admin_shortcut'] = Json::decode($arr_adminRow['admin_shortcut']); //json 解码
+            $arr_adminRow['admin_shortcut'] = Arrays::fromJson($arr_adminRow['admin_shortcut']); //json 解码
         } else {
             $arr_adminRow['admin_shortcut'] = array();
         }
 
         if (isset($arr_adminRow['admin_prefer'])) {
-            $arr_adminRow['admin_prefer'] = Json::decode($arr_adminRow['admin_prefer']); //json 解码
+            $arr_adminRow['admin_prefer'] = Arrays::fromJson($arr_adminRow['admin_prefer']); //json 解码
         } else {
             $arr_adminRow['admin_prefer'] = array();
         }

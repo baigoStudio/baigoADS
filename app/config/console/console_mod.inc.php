@@ -5,25 +5,27 @@
 -----------------------------------------------------------------*/
 
 //不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 /*----------后台管理模块----------*/
 return array(
     'advert' => array(
         'main' => array(
             'title'  => 'Advertisement',
-            'ctrl'    => 'advert',
+            'ctrl'   => 'advert',
             'icon'   => 'ad',
         ),
         'lists' => array(
             'index' => array(
                 'title' => 'Advertisement list',
-                'ctrl'   => 'advert',
+                'ctrl'  => 'advert',
                 'act'   => 'index',
             ),
             'form' => array(
-                'title' => 'Add ad',
-                'ctrl'   => 'advert',
+                'title' => 'Add Ad',
+                'ctrl'  => 'advert',
                 'act'   => 'form',
             ),
         ),
@@ -37,15 +39,8 @@ return array(
     'attach' => array(
         'main' => array(
             'title'  => 'Image',
-            'ctrl'    => 'attach',
+            'ctrl'   => 'attach',
             'icon'   => 'paperclip',
-        ),
-        'lists' => array(
-            'index' => array(
-                'title' => 'Image list',
-                'ctrl'   => 'attach',
-                'act'   => 'index',
-            ),
         ),
         'allow' => array(
             'browse'    => 'Browse',
@@ -56,18 +51,18 @@ return array(
     'posi' => array(
         'main' => array(
             'title'  => 'Ad position',
-            'ctrl'    => 'posi',
+            'ctrl'   => 'posi',
             'icon'   => 'flag',
         ),
         'lists' => array(
             'index' => array(
                 'title' => 'Position list',
-                'ctrl'   => 'posi',
+                'ctrl'  => 'posi',
                 'act'   => 'index',
             ),
             'form'      => array(
                 'title' => 'Add',
-                'ctrl'   => 'posi',
+                'ctrl'  => 'posi',
                 'act'   => 'form',
             ),
         ),
@@ -82,23 +77,23 @@ return array(
     'admin' => array(
         'main' => array(
             'title'  => 'Administrator',
-            'ctrl'    => 'admin',
+            'ctrl'   => 'admin',
             'icon'   => 'user-lock',
         ),
         'lists' => array(
             'index' => array(
                 'title' => 'Administrator list',
-                'ctrl'   => 'admin',
+                'ctrl'  => 'admin',
                 'act'   => 'index',
             ),
             'form' => array(
                 'title' => 'Add',
-                'ctrl'   => 'admin',
+                'ctrl'  => 'admin',
                 'act'   => 'form',
             ),
             'auth' => array(
                 'title' => 'Authorization',
-                'ctrl'   => 'auth',
+                'ctrl'  => 'auth',
                 'act'   => 'form',
             ),
         ),
@@ -112,13 +107,13 @@ return array(
     'link' => array(
         'main' => array(
             'title'  => 'Link',
-            'ctrl'    => 'link',
+            'ctrl'   => 'link',
             'icon'   => 'link',
         ),
         'lists' => array(
             'index' => array(
                 'title' => 'Link management',
-                'ctrl'   => 'link',
+                'ctrl'  => 'link',
                 'act'   => 'index',
             ),
         ),
@@ -132,13 +127,13 @@ return array(
     'plugin' => array(
         'main' => array(
             'title' => 'Plugin',
-            'ctrl'   => 'plugin',
+            'ctrl'  => 'plugin',
             'icon'  => 'puzzle-piece',
         ),
         'lists' => array(
             'index' => array(
                 'title' => 'Plugin management',
-                'ctrl'   => 'plugin',
+                'ctrl'  => 'plugin',
                 'act'   => 'index',
             ),
         ),

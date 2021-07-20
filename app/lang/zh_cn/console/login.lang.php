@@ -5,7 +5,9 @@
 -----------------------------------------------------------------*/
 
 //不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 /*-------------------------通用-------------------------*/
 return array(
@@ -19,6 +21,8 @@ return array(
     'Password'                          => '密码', //密码
     'Close'                             => '关闭',
     'OK'                                => '确定',
+    'Clear cookie'                      => '清除 Cookie',
+    'Clearing'                          => '正在清除 ...',
     'Captcha'                           => '验证码',
     'Captcha is incorrect'              => '验证码错误',
     'Form token error'                  => '表单令牌错误',

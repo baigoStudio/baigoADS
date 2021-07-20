@@ -9,11 +9,13 @@ namespace app\classes\console\sso;
 use app\classes\Sso;
 use ginkgo\Crypt;
 use ginkgo\Sign;
-use ginkgo\Json;
+use ginkgo\Arrays;
 use ginkgo\Func;
 
 //不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access Denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 /*-------------单点登录类-------------*/
 class User extends Sso {
@@ -29,19 +31,18 @@ class User extends Sso {
      * read function.
      *
      * @access public
-     * @param mixed $str_user ID（或用户名）
-     * @param string $str_by (default: 'user_id') 用何种方式读取（默认用ID）
+     * @param mixed $num_userId ID（或用户名）
      * @return 解码后数组 用户信息
      */
-    function read($str_user, $str_by = 'user_id') {
+    function read($num_userId) {
         $_arr_crypt = array(
-            $str_by     => $str_user,
+            'user_id'   => $num_userId,
             'timestamp' => GK_NOW,
         );
 
         //print_r($_arr_crypt);
 
-        $_str_crypt   = Json::encode($_arr_crypt);
+        $_str_crypt   = Arrays::toJson($_arr_crypt);
 
         $_str_encrypt = Crypt::encrypt($_str_crypt, $this->config['app_key'], $this->config['app_secret']);
 
@@ -95,18 +96,13 @@ class User extends Sso {
      * edit function.
      *
      * @access public
-     * @param mixed $str_user 用户名
-     * @param string $str_userPass (default: '') 密码
-     * @param string $str_userPassNew (default: '') 新密码
-     * @param string $str_userMail (default: '') Email
-     * @param string $str_userNick (default: '') 昵称
-     * @param string $str_by (default: 'user_name') 用何种方式编辑（默认用用户名）
+     * @param mixed $num_userId 用户名
      * @param string $str_checkPass (default: 'off') 是否验证密码（默认不验证）
      * @return 解码后数组 编辑结果
      */
-    function edit($str_user, $str_by = 'user_name', $arr_userSubmit = array()) {
+    function edit($num_userId, $arr_userSubmit = array()) {
         $_arr_crypt = array(
-            $str_by     => $str_user,
+            'user_id'   => $num_userId,
             'timestamp' => GK_NOW,
         );
 
@@ -122,7 +118,7 @@ class User extends Sso {
             $_arr_crypt['user_nick'] = $arr_userSubmit['user_nick'];
         }
 
-        $_str_crypt = Json::encode($_arr_crypt);
+        $_str_crypt = Arrays::toJson($_arr_crypt);
 
         $_str_encrypt = Crypt::encrypt($_str_crypt, $this->config['app_key'], $this->config['app_secret']);
 

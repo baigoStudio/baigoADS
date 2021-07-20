@@ -9,7 +9,9 @@ namespace app\model\index;
 use app\model\Attach as Attach_Base;
 
 //不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access Denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 /*-------------栏目模型-------------*/
 class Attach extends Attach_Base {
@@ -30,10 +32,6 @@ class Attach extends Attach_Base {
                 );
             } else {
                 $_arr_return['attach_url'] = $_arr_attachRow['attach_url'];
-
-                foreach ($_arr_attachRow['thumbRows'] as $_key=>$_value) {
-                    $_arr_return[$_value['thumb_call_key']] = $_value['thumb_url'];
-                }
             }
         } else {
             $_arr_return = $_arr_attachRow;

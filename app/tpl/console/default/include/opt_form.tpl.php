@@ -19,7 +19,7 @@
                             <label>
                                 <?php echo $lang->get($_value['title']);
 
-                                if (isset($_value['require']) && $_value['require'] > 0) { ?> <span class="text-danger">*</span><?php } ?>
+                                if (isset($_value['require']) && ($_value['require'] == true || $_value['require'] == 'true')) { ?> <span class="text-danger">*</span><?php } ?>
                             </label>
                         <?php }
 

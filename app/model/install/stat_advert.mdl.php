@@ -9,7 +9,9 @@ namespace app\model\install;
 use app\classes\install\Model;
 
 //不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 /*-------------应用归属-------------*/
 class Stat_Advert extends Model {

@@ -7,12 +7,28 @@
 namespace ginkgo\validate;
 
 use ginkgo\Func;
+use ginkgo\Strings;
 
 // 不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 // 验证规则
-class Rule {
+abstract class Rule {
+
+    protected static $instance; // 当前实例
+
+    protected function __construct() { }
+    protected function __clone() { }
+
+    public static function instance($config = array()) {
+        if (Func::isEmpty(self::$instance)) {
+            self::$instance = new static($config);
+        }
+        return self::$instance;
+    }
+
 
     /** 正则验证
      * regex function.
@@ -23,12 +39,12 @@ class Rule {
      * @param mixed $rule 规则
      * @return void
      */
-    static function regex($value, $rule) {
+    public function regex($value, $rule) {
         if (Func::isEmpty($value)) {
             return true;
         }
 
-        if (strpos($rule, '/') === false && !preg_match('/\/[imsU]{0,4}$/', $rule)) {
+        if (strpos($rule, '/') !== 0 && !preg_match('/\/[imsU]{0,4}$/', $rule)) {
             // 不是正则表达式则两端补上/
             $rule = '/^' . $rule . '$/';
         }
@@ -48,7 +64,7 @@ class Rule {
      * @param mixed $param (default: null) 参数
      * @return void
      */
-    static function filter($value, $rule, $param = null) {
+    public function filter($value, $rule, $param = null) {
         if (Func::isEmpty($value)) {
             return true;
         }
@@ -70,16 +86,17 @@ class Rule {
      * @param mixed $rule 规则
      * @return void
      */
-    static function leng($value, $rule) {
+    public function leng($value, $rule) {
         $_status = true;
 
         $_arr_rule = explode(',', $rule);
 
-        list($min, $max) = $_arr_rule;
+        $_min = $_arr_rule[0];
+        $_max = $_arr_rule[1];
 
-        if ($min > 0 && strlen($value) < $min) {
+        if ($_min > 0 && strlen($value) < $_min) {
             $_status = false;
-        } else if ($max > 0 && strlen($value) > $max) {
+        } else if ($_max > 0 && strlen($value) > $_max) {
             $_status = false;
         }
 
@@ -96,7 +113,7 @@ class Rule {
      * @param mixed $rule 规则
      * @return void
      */
-    static function min($value, $rule = 0) {
+    public function min($value, $rule = 0) {
         $_status = true;
 
         //print_r($rule);
@@ -117,7 +134,7 @@ class Rule {
      * @param mixed $rule 规则
      * @return void
      */
-    static function max($value, $rule = 0) {
+    public function max($value, $rule = 0) {
         $_status = true;
 
         //print_r($value);
@@ -138,7 +155,7 @@ class Rule {
      * @param mixed $rule 规则
      * @return void
      */
-    static function dateFormat($value, $rule) {
+    public function dateFormat($value, $rule) {
         if (Func::isEmpty($value)) {
             return true;
         }
@@ -158,24 +175,29 @@ class Rule {
      * @param mixed $rule 规则
      * @return void
      */
-    static function expire($value, $rule) {
+    public function expire($value, $rule) {
         if (Func::isEmpty($value)) {
             return true;
         }
 
         $_arr_rule = explode(',', $rule);
 
-        list($start, $end) = $_arr_rule;
+        $_start = $_arr_rule[0];
+        $_end   = $_arr_rule[1];
 
-        if (!is_numeric($start)) {
-            $start = Func::strtotime($start);
+        if (!is_numeric($_start)) {
+            $_start = Strings::toTime($_start);
         }
 
-        if (!is_numeric($end)) {
-            $end = Func::strtotime($end);
+        if (!is_numeric($_end)) {
+            $_end = Strings::toTime($_end);
         }
 
-        return GK_NOW >= $start && GK_NOW <= $end;
+        if (!is_numeric($value)) {
+            $value = Strings::toTime($value);
+        }
+
+        return $value >= $_start && $value <= $_end;
     }
 
 
@@ -188,17 +210,17 @@ class Rule {
      * @param mixed $rule 规则
      * @return void
      */
-    static function after($value, $rule) {
+    public function after($value, $rule) {
         if (Func::isEmpty($value)) {
             return true;
         }
 
         if (!is_numeric($value)) {
-            $value = Func::strtotime($value);
+            $value = Strings::toTime($value);
         }
 
         if (!is_numeric($rule)) {
-            $rule = Func::strtotime($rule);
+            $rule = Strings::toTime($rule);
         }
 
         return $value >= $rule;
@@ -213,8 +235,8 @@ class Rule {
      * @param mixed $rule 规则
      * @return void
      */
-    static function before($value, $rule) {
-        return !self::after($value, $rule);
+    public function before($value, $rule) {
+        return !$this->after($value, $rule);
     }
 
     /** 值是否在规定的选项内
@@ -226,7 +248,7 @@ class Rule {
      * @param mixed $rule 规则
      * @return void
      */
-    static function in($value, $rule) {
+    public function in($value, $rule) {
         if (Func::isEmpty($value)) {
             return true;
         }
@@ -246,8 +268,8 @@ class Rule {
      * @param mixed $rule 规则
      * @return void
      */
-    static function notIn($value, $rule) {
-        return !self::in($value, $_arr_rule);
+    public function notIn($value, $rule) {
+        return !$this->in($value, $_arr_rule);
     }
 
 
@@ -260,16 +282,17 @@ class Rule {
      * @param mixed $rule 规则
      * @return void
      */
-    static function between($value, $rule) {
+    public function between($value, $rule) {
         if (Func::isEmpty($value)) {
             return true;
         }
 
         $_arr_rule = explode(',', $rule);
 
-        list($min, $max) = $_arr_rule;
+        $_min = $_arr_rule[0];
+        $_max = $_arr_rule[1];
 
-        return $value >= $min && $value <= $max;
+        return $value >= $_min && $value <= $_max;
     }
 
 
@@ -282,8 +305,8 @@ class Rule {
      * @param mixed $rule 规则
      * @return void
      */
-    static function notBetween($value, $rule) {
-        return !self::between($value, $rule);
+    public function notBetween($value, $rule) {
+        return !$this->between($value, $rule);
     }
 
 
@@ -296,7 +319,7 @@ class Rule {
      * @param mixed $rule 规则
      * @return void
      */
-    static function gt($value, $rule) {
+    public function gt($value, $rule) {
         if (Func::isEmpty($value)) {
             return true;
         }
@@ -313,8 +336,8 @@ class Rule {
      * @param mixed $rule 规则
      * @return void
      */
-    static function lt($value, $rule) {
-        return !self::gt($value, $rule);
+    public function lt($value, $rule) {
+        return !$this->gt($value, $rule);
     }
 
 
@@ -327,7 +350,7 @@ class Rule {
      * @param mixed $rule 规则
      * @return void
      */
-    static function egt($value, $rule) {
+    public function egt($value, $rule) {
         if (Func::isEmpty($value)) {
             return true;
         }
@@ -344,7 +367,7 @@ class Rule {
      * @param mixed $rule 规则
      * @return void
      */
-    static function elt($value, $rule) {
+    public function elt($value, $rule) {
         if (Func::isEmpty($value)) {
             return true;
         }
@@ -362,12 +385,12 @@ class Rule {
      * @param mixed $rule 规则
      * @return void
      */
-    static function eq($value, $rule) {
+    public function eq($value, $rule) {
         if (Func::isEmpty($value)) {
             return true;
         }
 
-        return $value == $rule;
+        return $value === $rule;
     }
 
     /** 是否不等于某个值
@@ -379,7 +402,34 @@ class Rule {
      * @param mixed $rule 规则
      * @return void
      */
-    static function neq($value, $rule) {
-        return !self::eq($value, $rule);
+    public function neq($value, $rule) {
+        return !$this->eq($value, $rule);
+    }
+
+
+    /** 比较值是否相同
+     * confirm function.
+     *
+     * @access protected
+     * @param mixed $value 值
+     * @param mixed $rule 规则
+     * @param bool $is_different (default: false) 是否不同
+     * @return void
+     */
+    public function confirm($value, $rule) {
+        return $this->eq($value, $rule);
+    }
+
+    /** 比较值是否不同
+     * confirm function.
+     *
+     * @access protected
+     * @param mixed $value 值
+     * @param mixed $rule 规则
+     * @param bool $is_different (default: false) 是否不同
+     * @return void
+     */
+     public function different($value, $rule) {
+        return !$this->eq($value, $rule);
     }
 }

@@ -9,17 +9,16 @@ namespace app\validate\api;
 use ginkgo\Validate;
 
 // 不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 /*-------------管理员模型-------------*/
 class User extends Validate {
 
     protected $rule     = array(
-        'user_str' => array(
-            'require' => true,
-        ),
-        'user_by' => array(
-            'in' => 'user_id,user_name,user_mail',
+        'user_id' => array(
+            '>' => 0,
         ),
         'user_mail_new' => array(
             'max'    => 300,
@@ -41,8 +40,7 @@ class User extends Validate {
 
     protected $scene = array(
         'edit' => array(
-            'user_str',
-            'user_by',
+            'user_id',
             'user_mail_new',
             'user_nick',
             'user_contact',
@@ -56,8 +54,7 @@ class User extends Validate {
             'user_extend',
         ),
         'read' => array(
-            'user_str',
-            'user_by',
+            'user_id',
             'timestamp',
         ),
     );
@@ -65,7 +62,7 @@ class User extends Validate {
     function v_init() { //构造函数
 
         $_arr_attrName = array(
-            'user_str'      => $this->obj_lang->get('User ID, Username or Email'),
+            'user_id'       => $this->obj_lang->get('User ID'),
             'user_mail_new' => $this->obj_lang->get('Email'),
             'user_nick'     => $this->obj_lang->get('Nickname'),
             'user_note'     => $this->obj_lang->get('Note'),

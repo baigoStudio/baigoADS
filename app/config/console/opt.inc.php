@@ -12,7 +12,7 @@ return array(
             'site_date' => array(
                 'title'      => 'Date format',
                 'type'       => 'select_input',
-                'note'       => 'Select or fill in the format parameter of the <code>date</code> function',
+                'note'       => 'Select or type the format parameter of the <code>date</code> function',
                 'require'    => 'true',
                 'date_param' => 'true',
                 'option'     => array(
@@ -25,7 +25,7 @@ return array(
                 'title'      => 'Short date format',
                 'type'       => 'select_input',
                 'require'    => 'true',
-                'note'       => 'Select or fill in the format parameter of the <code>date</code> function',
+                'note'       => 'Select or type the format parameter of the <code>date</code> function',
                 'date_param' => 'true',
                 'option'     => array(
                     'm-d'    => '{:m-d}',
@@ -36,7 +36,7 @@ return array(
                 'title'      => 'Time format',
                 'type'       => 'select_input',
                 'require'    => 'true',
-                'note'       => 'Select or fill in the format parameter of the <code>date</code> function',
+                'note'       => 'Select or type the format parameter of the <code>date</code> function',
                 'date_param' => 'true',
                 'option'     => array(
                     'H:i:s'     => '{:H:i:s}',
@@ -47,7 +47,7 @@ return array(
                 'title'      => 'Short time format',
                 'type'       => 'select_input',
                 'require'    => 'true',
-                'note'       => 'Select or fill in the format parameter of the <code>date</code> function',
+                'note'       => 'Select or type the format parameter of the <code>date</code> function',
                 'date_param' => 'true',
                 'option'     => array(
                     'H:i'    => '{:H:i}',

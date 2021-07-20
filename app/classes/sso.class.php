@@ -8,13 +8,15 @@ namespace app\classes;
 
 use ginkgo\Sign;
 use ginkgo\Crypt;
-use ginkgo\Json;
+use ginkgo\Arrays;
 use ginkgo\Config;
 use ginkgo\Http;
 use ginkgo\Request;
 
 //不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access Denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 /*-------------单点登录类-------------*/
 class Sso {
@@ -55,7 +57,7 @@ class Sso {
         $_str_decrypt = Crypt::decrypt($str_code, $this->config['app_key'], $this->config['app_secret']);
 
         if ($_str_decrypt === false) {
-            return Crypt::getErrno();
+            return Crypt::getError();
         }
 
         //验证签名
@@ -66,7 +68,7 @@ class Sso {
             );
         }
 
-        $_arr_return = Json::decode($_str_decrypt);
+        $_arr_return = Arrays::fromJson($_str_decrypt);
 
         if (!isset($_arr_return['timestamp'])) {
             return array(

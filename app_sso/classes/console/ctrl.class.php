@@ -16,9 +16,12 @@ use ginkgo\Config;
 use ginkgo\Crypt;
 use ginkgo\Plugin;
 use ginkgo\Auth;
+use ginkgo\File;
 
 // 不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 /*-------------控制中心通用控制器-------------*/
 abstract class Ctrl extends Ctrl_Base {
@@ -159,7 +162,7 @@ abstract class Ctrl extends Ctrl_Base {
 
         $_str_configInstalled     = GK_APP_CONFIG . 'installed' . GK_EXT_INC;
 
-        if (Func::isFile($_str_configInstalled)) { //如果新文件存在
+        if (File::fileHas($_str_configInstalled)) { //如果新文件存在
             $_arr_installed = Config::load($_str_configInstalled, 'installed');
 
             if (PRD_SSO_PUB > $_arr_installed['prd_installed_pub']) { //如果小于当前版本

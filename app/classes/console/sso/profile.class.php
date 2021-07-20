@@ -8,12 +8,14 @@ namespace app\classes\console\sso;
 
 use app\classes\Sso;
 use ginkgo\Func;
-use ginkgo\Json;
+use ginkgo\Arrays;
 use ginkgo\Sign;
 use ginkgo\Crypt;
 
 //不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access Denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 /*-------------单点登录类-------------*/
 class Profile extends Sso {
@@ -25,9 +27,9 @@ class Profile extends Sso {
     }
 
 
-    function info($str_user, $str_by = 'user_name', $arr_userSubmit = array()) {
+    function info($num_userId, $arr_userSubmit = array()) {
         $_arr_crypt = array(
-            $str_by     => $str_user,
+            'user_id'   => $num_userId,
             'user_pass' => md5($arr_userSubmit['user_pass']),
             'timestamp' => GK_NOW,
         );
@@ -36,7 +38,7 @@ class Profile extends Sso {
             $_arr_crypt['user_nick'] = $arr_userSubmit['user_nick'];
         }
 
-        $_str_crypt = Json::encode($_arr_crypt);
+        $_str_crypt = Arrays::toJson($_arr_crypt);
 
         $_str_encrypt = Crypt::encrypt($_str_crypt, $this->config['app_key'], $this->config['app_secret']);
 
@@ -66,15 +68,15 @@ class Profile extends Sso {
     }
 
 
-    function pass($str_user, $str_by = 'user_name', $arr_userSubmit = array()) {
+    function pass($num_userId, $arr_userSubmit = array()) {
         $_arr_crypt = array(
-            $str_by         => $str_user,
+            'user_id'       => $num_userId,
             'user_pass'     => md5($arr_userSubmit['user_pass']),
             'user_pass_new' => md5($arr_userSubmit['user_pass_new']),
             'timestamp'     => GK_NOW,
         );
 
-        $_str_crypt = Json::encode($_arr_crypt);
+        $_str_crypt = Arrays::toJson($_arr_crypt);
 
         $_str_encrypt = Crypt::encrypt($_str_crypt, $this->config['app_key'], $this->config['app_secret']);
 
@@ -104,16 +106,16 @@ class Profile extends Sso {
     }
 
 
-    function secqa($str_user, $str_by = 'user_name', $arr_userSubmit = array()) {
+    function secqa($num_userId, $arr_userSubmit = array()) {
         $_arr_crypt = array(
-            $str_by         => $str_user,
+            'user_id'       => $num_userId,
             'user_pass'     => md5($arr_userSubmit['user_pass']),
             'user_sec_ques' => $arr_userSubmit['user_sec_ques'],
-            'user_sec_answ' => md5(Json::encode($arr_userSubmit['user_sec_answ'])),
+            'user_sec_answ' => md5(Arrays::toJson($arr_userSubmit['user_sec_answ'])),
             'timestamp'     => GK_NOW,
         );
 
-        $_str_crypt = Json::encode($_arr_crypt);
+        $_str_crypt = Arrays::toJson($_arr_crypt);
 
         $_str_encrypt = Crypt::encrypt($_str_crypt, $this->config['app_key'], $this->config['app_secret']);
 
@@ -145,15 +147,15 @@ class Profile extends Sso {
     }
 
 
-    function mailbox($str_user, $str_by = 'user_name', $arr_userSubmit = array()) {
+    function mailbox($num_userId, $arr_userSubmit = array()) {
         $_arr_crypt = array(
-            $str_by         => $str_user,
+            'user_id'       => $num_userId,
             'user_pass'     => md5($arr_userSubmit['user_pass']),
             'user_mail_new' => $arr_userSubmit['user_mail_new'],
             'timestamp'     => GK_NOW,
         );
 
-        $_str_crypt = Json::encode($_arr_crypt);
+        $_str_crypt = Arrays::toJson($_arr_crypt);
 
         $_str_encrypt = Crypt::encrypt($_str_crypt, $this->config['app_key'], $this->config['app_secret']);
 
@@ -183,14 +185,14 @@ class Profile extends Sso {
     }
 
 
-    function tokenRefresh($str_user, $str_by = 'user_name', $str_refreshToken = '') {
+    function tokenRefresh($num_userId, $str_refreshToken = '') {
         $_arr_crypt = array(
-            $str_by                 => $str_user,
+            'user_id'               => $num_userId,
             'user_refresh_token'    => md5($str_refreshToken),
             'timestamp'             => GK_NOW,
         );
 
-        $_str_crypt = Json::encode($_arr_crypt);
+        $_str_crypt = Arrays::toJson($_arr_crypt);
 
         $_str_encrypt = Crypt::encrypt($_str_crypt, $this->config['app_key'], $this->config['app_secret']);
 

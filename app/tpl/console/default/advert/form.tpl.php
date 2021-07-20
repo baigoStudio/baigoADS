@@ -67,7 +67,7 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
                                 <input type="text" id="advert_attach_src" readonly value="<?php echo $attachRow['attach_url']; ?>" class="form-control">
                                 <div class="input-group-append" id="button-addon4">
                                     <button type="button" class="btn btn-outline-secondary" data-target="#attach_modal" data-toggle="modal">
-                                        <span class="fas fa-picture"></span>
+                                        <span class="fas fa-image"></span>
                                         <?php echo $lang->get('Select'); ?>
                                     </button>
                                 </div>

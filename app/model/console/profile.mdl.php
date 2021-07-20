@@ -7,10 +7,12 @@
 namespace app\model\console;
 
 use app\model\Admin as Admin_Base;
-use ginkgo\Json;
+use ginkgo\Arrays;
 
 //不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 /*-------------管理员模型-------------*/
 class Profile extends Admin_Base {
@@ -92,7 +94,7 @@ class Profile extends Admin_Base {
             );
         }
 
-        $_arr_adminData['admin_prefer']    = Json::encode($_arr_adminData['admin_prefer']);
+        $_arr_adminData['admin_prefer']    = Arrays::toJson($_arr_adminData['admin_prefer']);
 
         $_num_count   = $this->where('admin_id', '=', $this->inputPrefer['admin_id'])->update($_arr_adminData); //更新数据
 
@@ -125,7 +127,7 @@ class Profile extends Admin_Base {
             );
         }
 
-        $_arr_adminData['admin_shortcut']    = Json::encode($_arr_adminData['admin_shortcut']);
+        $_arr_adminData['admin_shortcut']    = Arrays::toJson($_arr_adminData['admin_shortcut']);
 
         $_num_count   = $this->where('admin_id', '=', $this->inputShortcut['admin_id'])->update($_arr_adminData); //更新数据
         if ($_num_count > 0) {

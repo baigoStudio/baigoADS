@@ -6,11 +6,13 @@
 namespace app\model\api;
 
 use app\model\User as User_Base;
-use ginkgo\Json;
+use ginkgo\Arrays;
 use ginkgo\Func;
 
 // 不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 /*-------------用户模型-------------*/
 class User extends User_Base {
@@ -32,9 +34,7 @@ class User extends User_Base {
             'user_sec_ques',
         );
 
-        $_arr_userRow = $this->read($mix_user, $str_by, $num_notId, $_arr_select);
-
-        return $_arr_userRow;
+        return $this->read($mix_user, $str_by, $num_notId, $_arr_select);
     }
 
 
@@ -72,8 +72,8 @@ class User extends User_Base {
             );
         }
 
-        $_arr_userData['user_contact']    = Json::encode($_arr_userData['user_contact']);
-        $_arr_userData['user_extend']     = Json::encode($_arr_userData['user_extend']);
+        $_arr_userData['user_contact']    = Arrays::toJson($_arr_userData['user_contact']);
+        $_arr_userData['user_extend']     = Arrays::toJson($_arr_userData['user_extend']);
 
         $_num_count     = $this->where('user_id', '=', $this->inputEdit['user_id'])->update($_arr_userData); //更新数据
 
@@ -99,14 +99,11 @@ class User extends User_Base {
 
     function inputRead($arr_data) {
         $_arr_inputParam = array(
+            'user_id'    => array('int', 0),
             'timestamp'  => array('int', 0),
         );
 
         $_arr_inputRead  = $this->obj_request->fillParam($arr_data, $_arr_inputParam);
-
-        $_arr_inputUserCommon  = $this->inputUserCommon($arr_data);
-
-        $_arr_inputRead  = array_replace_recursive($_arr_inputRead, $_arr_inputUserCommon);
 
         $_mix_vld = $this->validate($_arr_inputRead, '', 'read');
 
@@ -127,6 +124,7 @@ class User extends User_Base {
 
     function inputEdit($arr_data) {
         $_arr_inputParam = array(
+            'user_id'       => array('int', 0),
             'user_pass'     => array('txt', ''),
             'user_nick'     => array('txt', ''),
             'user_mail_new' => array('txt', ''),
@@ -136,10 +134,6 @@ class User extends User_Base {
         );
 
         $_arr_inputEdit  = $this->obj_request->fillParam($arr_data, $_arr_inputParam);
-
-        $_arr_inputUserCommon  = $this->inputUserCommon($arr_data);
-
-        $_arr_inputEdit  = array_replace_recursive($_arr_inputEdit, $_arr_inputUserCommon);
 
         $_mix_vld = $this->validate($_arr_inputEdit, '', 'edit');
 
@@ -157,4 +151,3 @@ class User extends User_Base {
         return $_arr_inputEdit;
     }
 }
-

@@ -9,7 +9,9 @@ use ginkgo\Loader;
 use ginkgo\Request;
 
 //不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 /*-------------短消息模型-------------*/
 class Pm {

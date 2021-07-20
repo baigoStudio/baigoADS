@@ -7,10 +7,11 @@
 namespace app\model\index;
 
 use app\model\Advert as Advert_Base;
-use ginkgo\Func;
 
 //不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 /*-------------应用模型-------------*/
 class Advert extends Advert_Base {
@@ -63,7 +64,7 @@ class Advert extends Advert_Base {
     }
 
 
-    function lists($num_advertNo, $num_advertExcept = 0, $arr_search = array()) {
+    function lists($limit = 1000, $arr_search = array()) {
         $_arr_advertSelect = array(
             'advert_id',
             'advert_name',
@@ -80,19 +81,16 @@ class Advert extends Advert_Base {
             'advert_begin',
         );
 
-        $_arr_where = $this->queryProcess($arr_search);
+        $_arr_where         = $this->queryProcess($arr_search);
+        $_str_sql_1         = $this->where($_arr_where)->buildSql();
+        $_str_sql_2         = $this->whereOr($this->whereOr_1)->whereOr($this->whereOr_2)->whereOr($this->whereOr_3)->whereOr($this->whereOr_4)->buildSql();
 
-        $_str_sql_1 = $this->where($_arr_where)->buildSql();
-        $_str_sql_2 = $this->whereOr($this->whereOr_1)->whereOr($this->whereOr_2)->whereOr($this->whereOr_3)->whereOr($this->whereOr_4)->buildSql();
+        $_arr_getData       = $this->where($_str_sql_1)->whereAnd($_str_sql_2)->order('advert_id', 'DESC')->limit($limit)->select($_arr_advertSelect); //查询数据
 
-        $_arr_advertRows = $this->where($_str_sql_1)->whereAnd($_str_sql_2)->order('advert_id', 'DESC')->limit(1000)->select($_arr_advertSelect); //查询数据
-
-        //print_r($_arr_advertRows);
-
-        foreach ($_arr_advertRows as $_key=>$_value) {
-            $_arr_advertRows[$_key] = $this->rowProcess($_value);
+        foreach ($_arr_getData as $_key=>&$_value) {
+            $_value = $this->rowProcess($_value);
         }
 
-        return $_arr_advertRows;
+        return $_arr_getData;
     }
 }

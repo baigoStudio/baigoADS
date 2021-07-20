@@ -8,35 +8,41 @@ namespace app\model;
 
 use app\classes\Model;
 use ginkgo\Func;
+use ginkgo\Arrays;
+use ginkgo\Strings;
 use ginkgo\Config;
 use ginkgo\Loader;
 
 //不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access Denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 /*-------------附件模型-------------*/
 class Attach extends Model {
 
-    protected $urlPrefix;
-    private $configUpload;
     public $imageExts;
     public $arr_box         = array('normal', 'recycle', 'reserve');
 
+    public $urlPrefix;
+    private $configUpload;
+
     function m_init() { //构造函数
+        parent::m_init();
+
         $_arr_configImage   = Config::get('image');
 
         $this->imageExts    = array_keys($_arr_configImage);
         $this->configUpload = Config::get('upload', 'var_extra');
-        $this->configBase   = Config::get('base', 'var_extra');
-
-        $_str_dirAttach     = str_ireplace(GK_PATH_PUBLIC, '', GK_PATH_ATTACH);
-        $_str_dirAttach     = str_ireplace(DS, '/', $_str_dirAttach);
-        $_str_dirAttach     = Func::fixDs($_str_dirAttach, '/');
-
-        $this->urlPrefix    = $this->obj_request->root() . $_str_dirAttach;
 
         if (!Func::isEmpty($this->configUpload['ftp_host']) && !Func::isEmpty($this->configUpload['url_prefix'])) {
             $this->urlPrefix = Func::fixDs($this->configUpload['url_prefix'], '/');
+        } else {
+            $_str_dirAttach     = str_ireplace(GK_PATH_PUBLIC, '', GK_PATH_ATTACH);
+            $_str_dirAttach     = str_ireplace(DS, '/', $_str_dirAttach);
+            $_str_dirAttach     = Func::fixDs($_str_dirAttach, '/');
+
+            $this->urlPrefix = $this->obj_request->root(true) . $_str_dirAttach;
         }
     }
 
@@ -57,7 +63,7 @@ class Attach extends Model {
             return $_arr_attachRow;
         }
 
-        return $_arr_attachRow;
+        return $this->rowProcess($_arr_attachRow);
     }
 
 
@@ -73,6 +79,7 @@ class Attach extends Model {
             $arr_select = array(
                 'attach_id',
                 'attach_name',
+                'attach_note',
                 'attach_time',
                 'attach_ext',
                 'attach_mime',
@@ -105,17 +112,18 @@ class Attach extends Model {
      *
      * @access public
      * @param mixed $num_no
-     * @param int $num_except (default: 0)
+     * @param int $num_offset (default: 0)
      * @param string $str_year (default: '')
      * @param string $str_month (default: '')
      * @param string $str_ext (default: '')
      * @param int $num_adminId (default: 0)
      * @return void
      */
-    function lists($num_no, $num_except = 0, $arr_search = array(), $arr_order = array(array('attach_id', 'DESC'))) {
+    function lists($pagination = 0, $arr_search = array(), $arr_order = array(array('attach_id', 'DESC'))) {
         $_arr_attachSelect = array(
             'attach_id',
             'attach_name',
+            'attach_note',
             'attach_time',
             'attach_ext',
             'attach_mime',
@@ -124,17 +132,25 @@ class Attach extends Model {
             'attach_box',
         );
 
-        $_arr_where   = $this->queryProcess($arr_search);
+        $_arr_where         = $this->queryProcess($arr_search);
+        $_arr_pagination    = $this->paginationProcess($pagination);
+        $_arr_getData       = $this->where($_arr_where)->order($arr_order)->limit($_arr_pagination['limit'], $_arr_pagination['length'])->paginate($_arr_pagination['perpage'], $_arr_pagination['current'])->select($_arr_attachSelect);
 
-        $_arr_attachRows = $this->where($_arr_where)->order($arr_order)->limit($num_except, $num_no)->select($_arr_attachSelect);
+        if (isset($_arr_getData['dataRows'])) {
+            $_arr_eachData = &$_arr_getData['dataRows'];
+        } else {
+            $_arr_eachData = &$_arr_getData;
+        }
 
-        foreach ($_arr_attachRows as $_key=>$_value) {
-            $_arr_attachRows[$_key] = $this->rowProcess($_value);
+        if (!Func::isEmpty($_arr_eachData)) {
+            foreach ($_arr_eachData as $_key=>&$_value) {
+                $_value = $this->rowProcess($_value);
+            }
         }
 
         //$_arr_mimeImage = array_flip($this->imageExts);
 
-        return $_arr_attachRows;
+        return $_arr_getData;
     }
 
 
@@ -150,9 +166,8 @@ class Attach extends Model {
      */
     function count($arr_search = array()) {
         $_arr_where    = $this->queryProcess($arr_search);
-        $_num_attachCount = $this->where($_arr_where)->count();
 
-        return $_num_attachCount;
+        return $this->where($_arr_where)->count();
     }
 
 
@@ -167,7 +182,7 @@ class Attach extends Model {
         $_arr_where = array();
 
         if (isset($arr_search['key']) && !Func::isEmpty($arr_search['key'])) {
-            $_arr_where[] = array('attach_name|attach_id', 'LIKE', '%' . $arr_search['key'] . '%', 'key');
+            $_arr_where[] = array('attach_name|attach_note|attach_id', 'LIKE', '%' . $arr_search['key'] . '%', 'key');
         }
 
         if (isset($arr_search['year']) && !Func::isEmpty($arr_search['year'])) {
@@ -187,7 +202,7 @@ class Attach extends Model {
         }
 
         if (isset($arr_search['attach_ids']) && !Func::isEmpty($arr_search['attach_ids'])) {
-            $arr_search['attach_ids'] = Func::arrayFilter($arr_search['attach_ids']);
+            $arr_search['attach_ids'] = Arrays::filter($arr_search['attach_ids']);
 
             $_arr_where[] = array('attach_id', 'IN', $arr_search['attach_ids'], 'attach_ids');
         }
@@ -197,7 +212,7 @@ class Attach extends Model {
         }
 
         if (isset($arr_search['min_id']) && $arr_search['min_id'] > 0) {
-            $_arr_where[] = array('attach_id', '>' . $arr_search['min_id'], 'min_id');
+            $_arr_where[] = array('attach_id', '>', $arr_search['min_id'], 'min_id');
         }
 
         if (isset($arr_search['max_id']) && $arr_search['max_id'] > 0) {
@@ -241,7 +256,7 @@ class Attach extends Model {
         }
 
         $arr_attachRow['attach_time_format'] = $this->dateFormat($arr_attachRow['attach_time']);
-        $arr_attachRow['attach_size_format'] = Func::sizeFormat($arr_attachRow['attach_size']);
+        $arr_attachRow['attach_size_format'] = Strings::sizeFormat($arr_attachRow['attach_size']);
 
         return $arr_attachRow;
     }

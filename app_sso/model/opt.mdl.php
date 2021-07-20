@@ -11,7 +11,9 @@ use ginkgo\Request;
 use ginkgo\Config;
 
 // 不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 /*-------------设置项模型-------------*/
 class Opt {
@@ -31,7 +33,6 @@ class Opt {
             'pass'      => $this->inputDbconfig['pass'],
             'charset'   => $this->inputDbconfig['charset'],
             'prefix'    => $this->inputDbconfig['prefix'],
-            'debug'     => $this->inputDbconfig['debug'],
         );
 
         $_num_size   = Config::write(GK_APP_CONFIG . 'dbconfig' . GK_EXT_INC, $_arr_opt);
@@ -84,7 +85,6 @@ class Opt {
             'pass'      => array('txt', ''),
             'charset'   => array('txt', ''),
             'prefix'    => array('txt', ''),
-            'debug'     => array('txt', ''),
             '__token__' => array('txt', ''),
         );
 

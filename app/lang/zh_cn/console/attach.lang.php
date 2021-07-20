@@ -5,7 +5,9 @@
 -----------------------------------------------------------------*/
 
 //不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 /*-------------------------通用-------------------------*/
 return array(
@@ -72,8 +74,8 @@ return array(
     'Empty'                 => '清空',
 
     'Use when the image cannot be displayed'            => '图片无法显示时使用',
-    'Upload attachment successfully'                    => '上传图片成功',
-    'Upload attachment failed'                          => '上传图片失败',
+    'Add attachment successfully'                       => '上传图片成功',
+    'Add attachment failed'                          => '上传图片失败',
     'Image fixed successful'                            => '修复图片成功',
     'Successfully updated {:count} attachments'         => '成功更新 {:count} 个图片',
     'Update attachment successfully'                    => '更新图片成功',
@@ -87,7 +89,7 @@ return array(
     'Choose at least one item'                          => '至少选择一项',
     'Choose at least one {:attr}'                       => '至少选择一项 {:attr}',
     'Are you sure to delete?'                           => '确认删除吗？此操作不可恢复',
-    'Are you sure move to recycle?'                       => '确认放入回收站吗？',
+    'Are you sure move to recycle?'                     => '确认放入回收站吗？',
     'You do not have permission'                        => '您没有权限',
     'File size exceeds {:size}'                         => '文件大小超过了 {:size}',
     'File count exceeds {:count}'                       => '文件数量超过了 {:count}',
@@ -107,7 +109,6 @@ return array(
     'Upload temp dir not found'                         => '上传临时目录未找到',
     'File write error'                                  => '文件写入失败',
     'Unknown upload error'                              => '未知的上传错误',
-    'Failed to generate thumbnail'                      => '生成缩略图失败',
 
     'FTP Error: Cannot conect to {:ftp_host}'           => 'FTP 错误：无法连接至 {:ftp_host}',
     'FTP Error: Cannot login to  {:ftp_host}'           => 'FTP 错误：无法登录至 {:ftp_host}',
@@ -124,6 +125,6 @@ return array(
     'Warning! This operation is not recoverable!'       => '警告！此操作不可恢复！',
     'Warning! This operation will take a long time!'    => '警告！此操作将耗费较长时间！',
 
-    'If the path or thumbnail is not found, you can try to fix it.' => '如果路径未找到，您可以尝试修复。',
+    'If the path is not found, you can try to fix it.' => '如果路径未找到，您可以尝试修复。',
     'Uploading requires HTML5 support, please upgrade your browser' => '上传需要 HTML5 支持，请升级您的浏览器',
 );

@@ -11,7 +11,9 @@ use ginkgo\Loader;
 use ginkgo\Func;
 
 //不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 class Admin extends Ctrl {
 
@@ -19,6 +21,7 @@ class Admin extends Ctrl {
         parent::c_init();
 
         $this->obj_user     = Loader::classes('User', 'sso');
+        $this->obj_reg      = Loader::classes('Reg', 'sso');
 
         $this->mdl_admin    = Loader::model('Admin');
 
@@ -44,22 +47,17 @@ class Admin extends Ctrl {
             'type'      => array('txt', ''),
         );
 
-        $_arr_search = $this->obj_request->param($_arr_searchParam);
-
-        $_num_adminCount  = $this->mdl_admin->count($_arr_search); //统计记录数
-        $_arr_pageRow     = $this->obj_request->pagination($_num_adminCount); //取得分页数据
-        $_arr_adminRows   = $this->mdl_admin->lists($this->config['var_default']['perpage'], $_arr_pageRow['except'], $_arr_search); //列出
+        $_arr_search    = $this->obj_request->param($_arr_searchParam);
+        $_arr_getData   = $this->mdl_admin->lists($this->config['var_default']['perpage'], $_arr_search); //列出
 
         $_arr_tplData = array(
-            'pageRow'    => $_arr_pageRow,
             'search'     => $_arr_search,
-            'adminRows'  => $_arr_adminRows,
+            'pageRow'    => $_arr_getData['pageRow'],
+            'adminRows'  => $_arr_getData['dataRows'],
             'token'      => $this->obj_request->token(),
         );
 
         $_arr_tpl = array_replace_recursive($this->generalData, $_arr_tplData);
-
-        //print_r($_arr_adminRows);
 
         $this->assign($_arr_tpl);
 
@@ -106,8 +104,6 @@ class Admin extends Ctrl {
         );
 
         $_arr_tpl = array_replace_recursive($this->generalData, $_arr_tplData);
-
-        //print_r($_arr_adminRows);
 
         $this->assign($_arr_tpl);
 
@@ -174,8 +170,6 @@ class Admin extends Ctrl {
 
         $_arr_tpl = array_replace_recursive($this->generalData, $_arr_tplData);
 
-        //print_r($_arr_adminRows);
-
         $this->assign($_arr_tpl);
 
         return $this->fetch();
@@ -219,7 +213,7 @@ class Admin extends Ctrl {
             }
 
             if (!Func::isEmpty($_arr_userSubmit)) {
-                $_arr_editResult = $this->obj_user->edit($_arr_inputSubmit['admin_id'], 'user_id', $_arr_userSubmit);
+                $_arr_editResult = $this->obj_user->edit($_arr_inputSubmit['admin_id'], $_arr_userSubmit);
             }
         } else {
             if (!isset($this->adminAllow['admin']['add']) && !$this->isSuper) {
@@ -233,9 +227,7 @@ class Admin extends Ctrl {
                 'user_nick' => $_arr_inputSubmit['admin_nick'],
             );
 
-            $_obj_reg      = Loader::classes('Reg', 'sso');
-
-            $_arr_regResult = $_obj_reg->reg($_arr_userSubmit);
+            $_arr_regResult = $this->obj_reg->reg($_arr_userSubmit);
 
             $this->mdl_admin->inputSubmit['admin_id'] = $_arr_regResult['user_id'];
         }
@@ -322,19 +314,19 @@ class Admin extends Ctrl {
         $_str_adminName = $this->obj_request->get('admin_name');
 
         if (!Func::isEmpty($_str_adminName)) {
-            $_arr_userRow   = $this->obj_user->read($_str_adminName, 'user_name');
+            $_arr_userRow   = $this->obj_reg->chkname($_str_adminName);
 
-            if ($_arr_userRow['rcode'] == 'y010102') {
+            if ($_arr_userRow['rcode'] == 'x010404') {
                 $_arr_adminRow = $this->mdl_admin->check($_arr_userRow['user_id']);
                 if ($_arr_adminRow['rcode'] == 'y020102') {
                     $_arr_return = array(
-                        'rcode' => 'x020404',
-                        'error' => $this->obj_lang->get('Administrator already exists'),
+                        'rcode'     => 'x020404',
+                        'error_msg' => $this->obj_lang->get('Administrator already exists'),
                     );
                 } else {
                     $_arr_return = array(
-                        'rcode' => 'x010404',
-                        'error' => $this->obj_lang->get('User already exists, please use authorization as administrator'),
+                        'rcode'     => $_arr_userRow['rcode'],
+                        'error_msg' => $this->obj_lang->get('User already exists, please use authorization as administrator'),
                     );
                 }
             }
@@ -358,19 +350,19 @@ class Admin extends Ctrl {
         $_str_adminMail = $this->obj_request->get('admin_mail');
 
         if (!Func::isEmpty($_str_adminMail)) {
-            $_arr_userRow   = $this->obj_user->read($_str_adminMail, 'user_mail');
+            $_arr_userRow   = $this->obj_reg->chkmail($_str_adminMail);
 
-            if ($_arr_userRow['rcode'] == 'y010102') {
+            if ($_arr_userRow['rcode'] == 'x010404') {
                 $_arr_adminRow = $this->mdl_admin->check($_arr_userRow['user_id']);
                 if ($_arr_adminRow['rcode'] == 'y020102') {
                     $_arr_return = array(
-                        'rcode' => 'x020404',
-                        'error' => $this->obj_lang->get('Administrator already exists'),
+                        'rcode'     => 'x020404',
+                        'error_msg' => $this->obj_lang->get('Administrator already exists'),
                     );
                 } else {
                     $_arr_return = array(
-                        'rcode' => 'x010404',
-                        'error' => $this->obj_lang->get('User already exists, please use authorization as administrator'),
+                        'rcode'     => $_arr_userRow['rcode'],
+                        'error_msg' => $this->obj_lang->get('User already exists, please use authorization as administrator'),
                     );
                 }
             }

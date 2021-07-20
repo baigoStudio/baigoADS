@@ -10,10 +10,11 @@ use app\classes\console\Ctrl;
 use ginkgo\Loader;
 use ginkgo\Config;
 use ginkgo\Func;
-use ginkgo\Json;
 
 //不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 class Profile extends Ctrl {
 
@@ -72,15 +73,24 @@ class Profile extends Ctrl {
             return $this->fetchJson($_arr_inputInfo['msg'], $_arr_inputInfo['rcode']);
         }
 
-        $this->mdl_profile->inputInfo['admin_id'] = $this->adminLogged['admin_id'];
-
-        $_arr_infoResult = $this->mdl_profile->info();
+        $_arr_adminRow = $this->mdl_profile->check($this->adminLogged['admin_id']);
+        if ($_arr_adminRow['rcode'] != 'y020102') {
+            return $this->fetchJson($_arr_adminRow['msg'], $_arr_adminRow['rcode']);
+        }
 
         $_arr_userSubmit = array(
             'user_pass' => $_arr_inputInfo['admin_pass'],
             'user_nick' => $_arr_inputInfo['admin_nick'],
         );
-        $this->obj_profile->info($this->adminLogged['admin_id'], 'user_id', $_arr_userSubmit);
+        $_arr_infoResult = $this->obj_profile->info($this->adminLogged['admin_id'], $_arr_userSubmit);
+
+        if ($_arr_infoResult['rcode'] != 'y010103') {
+            return $this->fetchJson($_arr_infoResult['msg'], $_arr_infoResult['rcode']);
+        }
+
+        $this->mdl_profile->inputInfo['admin_id'] = $this->adminLogged['admin_id'];
+
+        $_arr_infoResult = $this->mdl_profile->info();
 
         return $this->fetchJson($_arr_infoResult['msg'], $_arr_infoResult['rcode']);
     }
@@ -203,7 +213,7 @@ class Profile extends Ctrl {
             'user_pass'     => $_arr_inputPass['admin_pass'],
             'user_pass_new' => $_arr_inputPass['admin_pass_new'],
         );
-        $_arr_passResult = $this->obj_profile->pass($this->adminLogged['admin_id'], 'user_id', $_arr_userSubmit);
+        $_arr_passResult = $this->obj_profile->pass($this->adminLogged['admin_id'], $_arr_userSubmit);
 
         return $this->json($_arr_passResult);
     }
@@ -270,7 +280,7 @@ class Profile extends Ctrl {
             'user_sec_ques' => $_arr_inputSecqa['admin_sec_ques'],
             'user_sec_answ' => $_arr_inputSecqa['admin_sec_answ'],
         );
-        $_arr_secqaResult = $this->obj_profile->secqa($this->adminLogged['admin_id'], 'user_id', $_arr_userSubmit);
+        $_arr_secqaResult = $this->obj_profile->secqa($this->adminLogged['admin_id'], $_arr_userSubmit);
 
         return $this->json($_arr_secqaResult);
     }
@@ -327,7 +337,7 @@ class Profile extends Ctrl {
             'user_pass'     => $_arr_inputMailbox['admin_pass'],
             'user_mail_new' => $_arr_inputMailbox['admin_mail_new'],
         );
-        $_arr_mailboxResult = $this->obj_profile->mailbox($this->adminLogged['admin_id'], 'user_id', $_arr_userSubmit);
+        $_arr_mailboxResult = $this->obj_profile->mailbox($this->adminLogged['admin_id'], $_arr_userSubmit);
 
         return $this->json($_arr_mailboxResult);
     }

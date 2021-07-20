@@ -9,11 +9,12 @@ namespace app\ctrl\console;
 use app\classes\console\Ctrl;
 use ginkgo\Loader;
 use ginkgo\Plugin;
-use ginkgo\Json;
 use ginkgo\Func;
 
 //不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 /*-------------管理员控制器-------------*/
 class Advert extends Ctrl {
@@ -70,28 +71,24 @@ class Advert extends Ctrl {
             }
         }
 
-        $_num_advertCount   = $this->mdl_advert->count($_arr_search); //统计记录数
-        $_arr_pageRow       = $this->obj_request->pagination($_num_advertCount); //取得分页数据
-        $_arr_advertRows    = $this->mdl_advert->lists($this->config['var_default']['perpage'], $_arr_pageRow['except'], $_arr_search); //列出
+        $_arr_getData    = $this->mdl_advert->lists($this->config['var_default']['perpage'], $_arr_search); //列出
 
         $_arr_searchPosi    = array(
             'status'    => 'enable'
         );
 
-        $_arr_posiRows  = $this->mdl_posi->lists(1000, 0, $_arr_searchPosi);
+        $_arr_posiRows  = $this->mdl_posi->lists(array(1000, 'limit'), $_arr_searchPosi);
 
         $_arr_tplData = array(
-            'pageRow'       => $_arr_pageRow,
             'search'        => $_arr_search,
-            'advertRows'    => $_arr_advertRows,
+            'pageRow'       => $_arr_getData['pageRow'],
+            'advertRows'    => $_arr_getData['dataRows'],
             'posiRow'       => $_arr_posiRow,
             'posiRows'      => $_arr_posiRows,
             'token'         => $this->obj_request->token(),
         );
 
         $_arr_tpl = array_replace_recursive($this->generalData, $_arr_tplData);
-
-        //print_r($_arr_advertRows);
 
         $this->assign($_arr_tpl);
 
@@ -149,8 +146,6 @@ class Advert extends Ctrl {
         );
 
         $_arr_tpl = array_replace_recursive($this->generalData, $_arr_tplData);
-
-        //print_r($_arr_advertRows);
 
         $this->assign($_arr_tpl);
 
@@ -218,7 +213,7 @@ class Advert extends Ctrl {
             'status'    => 'enable'
         );
 
-        $_arr_posiRows  = $this->mdl_posi->lists(1000, 0, $_arr_search);
+        $_arr_posiRows  = $this->mdl_posi->lists(array(1000, 'limit'), $_arr_search);
 
         if (Func::isEmpty($_arr_posiRows)) {
             return $this->error('Ad position has not created', 'x080401');
@@ -253,8 +248,6 @@ class Advert extends Ctrl {
         );
 
         $_arr_tpl = array_replace_recursive($this->generalData, $_arr_tplData);
-
-        //print_r($_arr_advertRows);
 
         $this->assign($_arr_tpl);
 

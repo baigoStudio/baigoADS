@@ -11,7 +11,9 @@ use ginkgo\Loader;
 use ginkgo\Func;
 
 //不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 class Posi extends Ctrl {
 
@@ -39,6 +41,10 @@ class Posi extends Ctrl {
 
         $_arr_posiRow = $this->mdl_posi->cache($_num_posiId);
 
+        if (!isset($_arr_posiRow['rcode'])) {
+            return $this->fetchJsonp('Missing rcode', 'x040102');
+        }
+
         if ($_arr_posiRow['rcode'] != 'y040102') {
             return $this->fetchJsonp($_arr_posiRow['msg'], $_arr_posiRow['rcode']);
         }
@@ -58,7 +64,7 @@ class Posi extends Ctrl {
         );
 
         $_arr_adverts       = array();
-        $_arr_advertRows    = $this->mdl_advert->lists(1000, 0, $_arr_search); //列出
+        $_arr_advertRows    = $this->mdl_advert->lists(1000, $_arr_search); //列出
 
         if (Func::isEmpty($_arr_advertRows)) {
             $_arr_search = array(
@@ -66,7 +72,7 @@ class Posi extends Ctrl {
                 'status'    => 'enable',
                 'type'      => 'backup',
             );
-            $_arr_adverts = $this->mdl_advert->lists(1000, 0, $_arr_search);
+            $_arr_adverts = $this->mdl_advert->lists(1000, $_arr_search);
         } else {
             if ($_arr_posiRow['posi_is_percent'] == 'enable') {
                 foreach ($_arr_advertRows as $_key=>$_value) {

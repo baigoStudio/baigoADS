@@ -8,11 +8,14 @@ namespace app\model;
 
 use app\classes\Model;
 use ginkgo\Func;
+use ginkgo\Arrays;
 use ginkgo\Config;
 use ginkgo\Html;
 
 //不能非法包含或直接执行
-defined('IN_GINKGO') or exit('Access denied');
+if (!defined('IN_GINKGO')) {
+    return 'Access denied';
+}
 
 /*-------------应用模型-------------*/
 class Advert extends Model {
@@ -21,8 +24,9 @@ class Advert extends Model {
     public $arr_type    = array('date', 'show', 'hit', 'none', 'backup');
 
     function m_init() { //构造函数
+        parent::m_init();
+
         $_arr_configRoute   = Config::get('route', 'index');
-        $this->configBase   = Config::get('base', 'var_extra');
 
         if (!isset($_arr_configRoute['advert'])) {
             $_arr_configRoute['advert'] = '';
@@ -52,7 +56,7 @@ class Advert extends Model {
      * @return void
      */
     function read($mix_advert, $str_by = 'advert_id', $num_notId = 0, $arr_select = array()) {
-        $_arr_advertRow = $this->readProcess($mix_advert, $str_by = 'advert_id', $num_notId, $_arr_advertSelect);
+        $_arr_advertRow = $this->readProcess($mix_advert, $str_by = 'advert_id', $num_notId, $arr_select);
 
         if ($_arr_advertRow['rcode'] != 'y080102') {
             return $_arr_advertRow;
@@ -106,9 +110,7 @@ class Advert extends Model {
     function sum($arr_search) {
         $_arr_where   = $this->queryProcess($arr_search);
 
-        $_num_sum = $this->where($_arr_where)->sum('advert_percent');
-
-        return $_num_sum;
+        return $this->where($_arr_where)->sum('advert_percent');
     }
 
 
@@ -118,13 +120,13 @@ class Advert extends Model {
      *
      * @access public
      * @param mixed $num_no
-     * @param int $num_except (default: 0)
+     * @param int $num_offset (default: 0)
      * @param string $str_key (default: '')
      * @param string $str_status (default: '')
      * @param string $str_sync (default: '')
      * @return void
      */
-    function lists($num_no, $num_except = 0, $arr_search = array()) {
+    function lists($pagination = 0, $arr_search = array()) {
         $_arr_advertSelect = array(
             'advert_id',
             'advert_name',
@@ -145,15 +147,11 @@ class Advert extends Model {
             'advert_approve_id',
         );
 
-        $_arr_where = $this->queryProcess($arr_search);
+        $_arr_where         = $this->queryProcess($arr_search);
+        $_arr_pagination    = $this->paginationProcess($pagination);
+        $_arr_getData       = $this->where($_arr_where)->order('advert_id', 'DESC')->limit($_arr_pagination['limit'], $_arr_pagination['length'])->paginate($_arr_pagination['perpage'], $_arr_pagination['current'])->select($_arr_advertSelect);
 
-        $_arr_order = array(
-            array('advert_id', 'DESC'),
-        );
-
-        $_arr_advertRows = $this->where($_arr_where)->order('advert_id', 'DESC')->limit($num_except, $num_no)->select($_arr_advertSelect);
-
-        return $_arr_advertRows;
+        return $_arr_getData;
     }
 
 
@@ -218,7 +216,7 @@ class Advert extends Model {
         }
 
         if (isset($arr_search['not_ids']) && !Func::isEmpty($arr_search['not_ids'])) {
-            $arr_search['not_ids'] = Func::arrayFilter($arr_search['not_ids']);
+            $arr_search['not_ids'] = Arrays::filter($arr_search['not_ids']);
 
             $_arr_where[] = array('advert_id', 'NOT IN', $arr_search['not_ids'], 'not_ids');
         }
@@ -255,12 +253,12 @@ class Advert extends Model {
             $arr_advertRow['advert_url'] = '';
         }
 
-        $arr_advertRow['advert_opt_time_format']   = $this->dateFormat($arr_advertRow['advert_opt']);
-        $arr_advertRow['advert_begin_format'] = $this->dateFormat($arr_advertRow['advert_begin']);
+        $arr_advertRow['advert_opt_time_format']    = $this->dateFormat($arr_advertRow['advert_opt']);
+        $arr_advertRow['advert_begin_format']       = $this->dateFormat($arr_advertRow['advert_begin']);
 
-        $arr_advertRow['advert_href'] = $this->urlPrefix . $arr_advertRow['advert_id'];
+        $arr_advertRow['advert_href']               = $this->urlPrefix . $arr_advertRow['advert_id'];
 
-        $arr_advertRow['advert_url'] = rawurldecode(Html::decode($arr_advertRow['advert_url'], 'url'));
+        $arr_advertRow['advert_url']                = rawurldecode(Html::decode($arr_advertRow['advert_url'], 'url'));
 
         return $arr_advertRow;
     }
