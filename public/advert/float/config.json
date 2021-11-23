@@ -2,7 +2,7 @@
     "name": "浮动",
     "require": [
         {
-            "url": "{:DIR_STATIC}lib/jquery/1.11.1/jquery.min.js",
+            "url": "{:DIR_STATIC}lib/jquery/1.12.4/jquery.min.js",
             "type": "js"
         }
     ],

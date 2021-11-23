@@ -10,97 +10,97 @@ use app\model\Stat_Posi as Stat_Posi_Base;
 
 //不能非法包含或直接执行
 if (!defined('IN_GINKGO')) {
-    return 'Access denied';
+  return 'Access denied';
 }
 
 /*-------------应用归属-------------*/
 class Stat_Posi extends Stat_Posi_Base {
 
-    function statYear($arr_search) {
-        $_arr_yearRows = $this->year($arr_search);
+  public function statYear($arr_search) {
+    $_arr_yearRows = $this->year($arr_search);
 
-        foreach ($_arr_yearRows as $_key=>$_value) {
-            $_arr_search = array(
-                'posi_id' => $arr_search['posi_id'],
-                'year'      => $_value['stat_year'],
-                'type'      => 'show',
-            );
-            $_arr_yearRows[$_key]['stat_count_show'] = $this->sum($_arr_search);
-            $_arr_search['type'] = 'hit';
-            $_arr_yearRows[$_key]['stat_count_hit']  = $this->sum($_arr_search);
-        }
-
-        return $_arr_yearRows;
+    foreach ($_arr_yearRows as $_key=>&$_value) {
+      $_arr_search = array(
+        'posi_id' => $arr_search['posi_id'],
+        'year'      => $_value['stat_year'],
+        'type'      => 'show',
+      );
+      $_value['stat_count_show'] = $this->sum($_arr_search);
+      $_arr_search['type'] = 'hit';
+      $_value['stat_count_hit']  = $this->sum($_arr_search);
     }
 
+    return $_arr_yearRows;
+  }
 
-    function year($arr_search) {
-        $_arr_statSelect = array(
-            'DISTINCT DATE_FORMAT(`stat_date`, \'%Y\') AS `stat_year`',
-        );
 
-        unset($arr_search['year'], $arr_search['month']);
+  public function year($arr_search) {
+    $_arr_statSelect = array(
+      'DISTINCT DATE_FORMAT(`stat_date`, \'%Y\') AS `stat_year`',
+    );
 
-        $_arr_where   = $this->queryProcess($arr_search);
+    unset($arr_search['year'], $arr_search['month']);
 
-        return $this->where($_arr_where)->order('stat_date', 'DESC')->limit(100)->select($_arr_statSelect);
+    $_arr_where   = $this->queryProcess($arr_search);
+
+    return $this->where($_arr_where)->order('stat_date', 'DESC')->limit(100)->select($_arr_statSelect);
+  }
+
+
+  public function statMonth($arr_search) {
+    $_arr_monthRows = $this->month($arr_search);
+
+    foreach ($_arr_monthRows as $_key=>&$_value) {
+      $_arr_search = array(
+        'posi_id'   => $arr_search['posi_id'],
+        'year'      => $arr_search['year'],
+        'month'     => $_value['stat_month'],
+        'type'      => 'show',
+      );
+      $_value['stat_count_show'] = $this->sum($_arr_search);
+      $_arr_search['type']                      = 'hit';
+      $_value['stat_count_hit']  = $this->sum($_arr_search);
     }
 
+    return $_arr_monthRows;
+  }
 
-    function statMonth($arr_search) {
-        $_arr_monthRows = $this->month($arr_search);
 
-        foreach ($_arr_monthRows as $_key=>$_value) {
-            $_arr_search = array(
-                'posi_id'   => $arr_search['posi_id'],
-                'year'      => $arr_search['year'],
-                'month'     => $_value['stat_month'],
-                'type'      => 'show',
-            );
-            $_arr_monthRows[$_key]['stat_count_show'] = $this->sum($_arr_search);
-            $_arr_search['type']                      = 'hit';
-            $_arr_monthRows[$_key]['stat_count_hit']  = $this->sum($_arr_search);
-        }
+  public function month($arr_search) {
+    $_arr_statSelect = array(
+      'DISTINCT DATE_FORMAT(`stat_date`, \'%m\') AS `stat_month`',
+    );
 
-        return $_arr_monthRows;
+    unset($arr_search['month']);
+
+    $_arr_where     = $this->queryProcess($arr_search);
+
+    return $this->where($_arr_where)->order('stat_date', 'DESC')->limit(100)->select($_arr_statSelect);
+  }
+
+
+  public function day($arr_search) {
+    $_arr_statSelect = array(
+      'stat_count_show',
+      'stat_count_hit',
+      'DATE_FORMAT(`stat_date`, \'%d\') AS `stat_day`',
+    );
+
+    $_arr_where   = $this->queryProcess($arr_search);
+
+    return $this->where($_arr_where)->order('stat_date', 'DESC')->limit(100)->select($_arr_statSelect);
+  }
+
+
+  public function sum($arr_search) {
+    if (isset($arr_search['type']) && $arr_search['type'] == 'show') {
+      $_str_sum = 'stat_count_show';
+    } else {
+      $_str_sum = 'stat_count_hit';
     }
 
+    $_arr_where   = $this->queryProcess($arr_search);
 
-    function month($arr_search) {
-        $_arr_statSelect = array(
-            'DISTINCT DATE_FORMAT(`stat_date`, \'%m\') AS `stat_month`',
-        );
-
-        unset($arr_search['month']);
-
-        $_arr_where     = $this->queryProcess($arr_search);
-
-        return $this->where($_arr_where)->order('stat_date', 'DESC')->limit(100)->select($_arr_statSelect);
-    }
-
-
-    function day($arr_search) {
-        $_arr_statSelect = array(
-            'stat_count_show',
-            'stat_count_hit',
-            'DATE_FORMAT(`stat_date`, \'%d\') AS `stat_day`',
-        );
-
-        $_arr_where   = $this->queryProcess($arr_search);
-
-        return $this->where($_arr_where)->order('stat_date', 'DESC')->limit(100)->select($_arr_statSelect);
-    }
-
-
-    function sum($arr_search) {
-        if (isset($arr_search['type']) && $arr_search['type'] == 'show') {
-            $_str_sum = 'stat_count_show';
-        } else {
-            $_str_sum = 'stat_count_hit';
-        }
-
-        $_arr_where   = $this->queryProcess($arr_search);
-
-        return $this->where($_arr_where)->sum($_str_sum);
-    }
+    return $this->where($_arr_where)->sum($_str_sum);
+  }
 }

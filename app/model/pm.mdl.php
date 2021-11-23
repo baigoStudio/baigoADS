@@ -10,16 +10,17 @@ use ginkgo\Request;
 
 //不能非法包含或直接执行
 if (!defined('IN_GINKGO')) {
-    return 'Access denied';
+  return 'Access denied';
 }
 
 /*-------------短消息模型-------------*/
 class Pm {
-    protected $obj_request;
 
-    function __construct() { //构造函数
-        $this->obj_request  = Request::instance();
-        $this->vld_pm       = Loader::validate('Pm');
-    }
+  protected $obj_request;
+  protected $vld_pm;
 
+  public function __construct() { //构造函数
+    $this->obj_request  = Request::instance();
+    $this->vld_pm       = Loader::validate('Pm');
+  }
 }

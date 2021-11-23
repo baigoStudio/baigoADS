@@ -2,15 +2,11 @@
     "name": "轮播",
     "require": [
         {
-            "url": "{:DIR_STATIC}lib/jquery/1.11.1/jquery.min.js",
+            "url": "{:DIR_STATIC}lib/jquery/1.12.4/jquery.min.js",
             "type": "js"
         },
         {
-            "url": "{:DIR_STATIC}lib/bootstrap/4.5.2/css/bootstrap.min.css",
-            "type": "css"
-        },
-        {
-            "url": "{:DIR_STATIC}lib/bootstrap/4.5.2/js/bootstrap.bundle.min.js",
+            "url": "{:DIR_STATIC}lib/bootstrap/4.6.0/js/bootstrap.bundle.min.js",
             "type": "js"
         }
     ],

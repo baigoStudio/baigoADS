@@ -1,72 +1,73 @@
 <?php $cfg = array(
-    'title'         => $lang->get('Advertisement', 'console.common') . ' &raquo; ' . $lang->get('Statistics'),
-    'menu_active'   => 'advert',
-    'sub_active'    => 'index',
-    'baigoQuery'    => 'true',
-    'pathInclude'   => $path_tpl . 'include' . DS,
+  'title'         => $lang->get('Advertisement', 'console.common') . ' &raquo; ' . $lang->get('Statistics'),
+  'menu_active'   => 'advert',
+  'sub_active'    => 'index',
+  'baigoQuery'    => 'true',
+  'pathInclude'   => $path_tpl . 'include' . DS,
 );
 
 include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL);
 
-    include($cfg['pathInclude'] . 'stat_advert_show' . GK_EXT_TPL); ?>
+  include($cfg['pathInclude'] . 'stat_advert_show' . GK_EXT_TPL); ?>
 
-    <div class="card">
-        <?php include($cfg['pathInclude'] . 'stat_advert_menu' . GK_EXT_TPL); ?>
+  <div class="card">
+    <?php include($cfg['pathInclude'] . 'stat_advert_menu' . GK_EXT_TPL); ?>
 
-        <div class="card-body">
-
-            <div class="dropdown">
-                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown">
-                    <?php echo $search['year']; ?>
-                </button>
-                <?php if (!empty($yearRows)) { ?>
-                    <div class="dropdown-menu">
-                        <?php foreach ($yearRows as $key=>$value) { ?>
-                            <a class="dropdown-item <?php if ($search['year'] == $value['stat_year']) { ?>active<?php } ?>" href="<?php echo $route_console; ?>stat_advert/month/id/<?php echo $advertRow['advert_id']; ?>/year/<?php echo $value['stat_year']; ?>/">
-                                <?php echo $value['stat_year']; ?>
-                            </a>
-                        <?php } ?>
-                    </div>
-                <?php } ?>
-            </div>
-        </div>
-
-        <div class="table-responsive">
-            <table class="table table-striped table-borderless">
-                <thead>
-                    <tr>
-                        <th><?php echo $lang->get('Month'); ?></th>
-                        <th><?php echo $lang->get('Display count'); ?></th>
-                        <th><?php echo $lang->get('Click count'); ?></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($monthRows as $key=>$value) { ?>
-                        <tr>
-                            <td>
-                                <?php echo $value['stat_month']; ?>
-                            </td>
-                            <td>
-                                <?php echo $value['stat_count_show']; ?>
-                            </td>
-                            <td>
-                                <?php echo $value['stat_count_hit']; ?>
-                            </td>
-                        </tr>
-                    <?php } ?>
-                </tbody>
-            </table>
-        </div>
+    <div class="card-body">
+      <div class="dropdown">
+        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown">
+          <?php echo $search['year']; ?>
+        </button>
+        <?php if (!empty($yearRows)) { ?>
+          <div class="dropdown-menu">
+            <?php foreach ($yearRows as $key=>$value) { ?>
+              <a class="dropdown-item <?php if ($search['year'] == $value['stat_year']) { ?>active<?php } ?>" href="<?php echo $route_console; ?>stat_advert/month/id/<?php echo $advertRow['advert_id']; ?>/year/<?php echo $value['stat_year']; ?>/">
+                <?php echo $value['stat_year']; ?>
+              </a>
+            <?php } ?>
+          </div>
+        <?php } ?>
+      </div>
     </div>
 
-<?php include($cfg['pathInclude'] . 'console_foot' . GK_EXT_TPL); ?>
-    <script type="text/javascript">
-    $(document).ready(function(){
-        var obj_query = $('#stat_search').baigoQuery();
+    <div class="table-responsive">
+      <table class="table table-striped table-borderless">
+        <thead>
+          <tr>
+            <th><?php echo $lang->get('Month'); ?></th>
+            <th><?php echo $lang->get('Display count'); ?></th>
+            <th><?php echo $lang->get('Click count'); ?></th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php foreach ($monthRows as $key=>$value) { ?>
+            <tr>
+              <td>
+                <?php echo $value['stat_month']; ?>
+              </td>
+              <td>
+                <?php echo $value['stat_count_show']; ?>
+              </td>
+              <td>
+                <?php echo $value['stat_count_hit']; ?>
+              </td>
+            </tr>
+          <?php } ?>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
-        $('#stat_search').submit(function(){
-            obj_query.formSubmit();
-        });
+<?php include($cfg['pathInclude'] . 'console_foot' . GK_EXT_TPL); ?>
+
+  <script type="text/javascript">
+  $(document).ready(function(){
+    var obj_query = $('#stat_search').baigoQuery();
+
+    $('#stat_search').submit(function(){
+      obj_query.formSubmit();
     });
-    </script>
+  });
+  </script>
+
 <?php include($cfg['pathInclude'] . 'html_foot' . GK_EXT_TPL);

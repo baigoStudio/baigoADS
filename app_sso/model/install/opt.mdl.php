@@ -10,35 +10,37 @@ use app\model\Opt as Opt_Base;
 
 // 不能非法包含或直接执行
 if (!defined('IN_GINKGO')) {
-    return 'Access denied';
+  return 'Access denied';
 }
 
 /*-------------设置项模型-------------*/
 class Opt extends Opt_Base {
 
-    function inputData() {
-        $_arr_inputParam = array(
-            'type'      => array('txt', ''),
-            'model'     => array('txt', ''),
-            '__token__' => array('txt', ''),
-        );
+  public $inputData = array();
 
-        $_arr_inputData = $this->obj_request->post($_arr_inputParam);
+  public function inputData() {
+    $_arr_inputParam = array(
+      'type'      => array('txt', ''),
+      'model'     => array('txt', ''),
+      '__token__' => array('txt', ''),
+    );
 
-        $_is_vld = $this->vld_opt->scene('data')->verify($_arr_inputData);
+    $_arr_inputData = $this->obj_request->post($_arr_inputParam);
 
-        if ($_is_vld !== true) {
-            $_arr_message = $this->vld_opt->getMessage();
-            return array(
-                'rcode' => 'x030201',
-                'msg'   => end($_arr_message),
-            );
-        }
+    $_is_vld = $this->vld_opt->scene('data')->verify($_arr_inputData);
 
-        $_arr_inputData['rcode'] = 'y030201';
-
-        $this->inputData = $_arr_inputData;
-
-        return $_arr_inputData;
+    if ($_is_vld !== true) {
+      $_arr_message = $this->vld_opt->getMessage();
+      return array(
+        'rcode' => 'x030201',
+        'msg'   => end($_arr_message),
+      );
     }
+
+    $_arr_inputData['rcode'] = 'y030201';
+
+    $this->inputData = $_arr_inputData;
+
+    return $_arr_inputData;
+  }
 }

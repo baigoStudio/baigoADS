@@ -11,18 +11,18 @@ use ginkgo\Plugin;
 
 //不能非法包含或直接执行
 if (!defined('IN_GINKGO')) {
-    return 'Access denied';
+  return 'Access denied';
 }
 
 
 /*-------------控制中心通用控制器-------------*/
 abstract class Ctrl extends Ctrl_Base {
 
-    protected function c_init($param = array()) { //构造函数
-        parent::c_init();
+  protected function c_init($param = array()) { //构造函数
+    parent::c_init();
 
-        Plugin::listen('action_pub_init'); //管理后台初始化时触发
+    Plugin::listen('action_pub_init'); //管理后台初始化时触发
 
-        $this->obj_view->setPath(BG_TPL_INDEX . $this->configBase['site_tpl']);
-    }
+    $this->obj_view->setPath(BG_TPL_INDEX . $this->configBase['site_tpl']);
+  }
 }

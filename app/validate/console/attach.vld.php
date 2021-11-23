@@ -10,125 +10,125 @@ use ginkgo\Validate;
 
 //不能非法包含或直接执行
 if (!defined('IN_GINKGO')) {
-    return 'Access denied';
+  return 'Access denied';
 }
 
 /*-------------管理员模型-------------*/
 class Attach extends Validate {
 
-    protected $rule     = array(
-        'attach_id' => array(
-            'require'   => true,
-            'format'    => 'int',
-        ),
-        'attach_name' => array(
-            'length'   => '1,1000',
-        ),
-        'attach_note' => array(
-            'max'   => 1000,
-        ),
-        'attach_ext' => array(
-            'length'   => '1,5',
-        ),
-        'attach_mime' => array(
-            'length'   => '1,100',
-        ),
-        'attach_ids' => array(
-            'require' => true,
-        ),
-        'act' => array(
-            'require' => true,
-        ),
-        'max_id' => array(
-            'require' => true,
-            'format'  => 'int',
-        ),
-        '__token__' => array(
-            'require' => true,
-            'token'   => true,
-        ),
+  protected $rule     = array(
+    'attach_id' => array(
+      'require'   => true,
+      'format'    => 'int',
+    ),
+    'attach_name' => array(
+      'length'   => '1,1000',
+    ),
+    'attach_note' => array(
+      'max'   => 1000,
+    ),
+    'attach_ext' => array(
+      'length'   => '1,5',
+    ),
+    'attach_mime' => array(
+      'length'   => '1,100',
+    ),
+    'attach_ids' => array(
+      'require' => true,
+    ),
+    'act' => array(
+      'require' => true,
+    ),
+    'max_id' => array(
+      'require' => true,
+      'format'  => 'int',
+    ),
+    '__token__' => array(
+      'require' => true,
+      'token'   => true,
+    ),
+  );
+
+  protected $scene    = array(
+    'submit_add' => array(
+      'attach_name',
+      'attach_note',
+      'attach_ext',
+      'attach_mime',
+    ),
+    'submit_edit' => array(
+      'attach_note',
+      'attach_ext',
+      'attach_mime',
+    ),
+    'submit_add_db' => array(
+      'attach_name',
+      'attach_note',
+      'attach_ext',
+      'attach_mime',
+    ),
+    'submit_edit_db' => array(
+      'attach_note',
+      'attach_ext',
+      'attach_mime',
+    ),
+    'move' => array(
+      'attach_ids',
+      'cate_id' => array(
+        '>' => 0,
+      ),
+      '__token__',
+    ),
+    'clear' => array(
+      'max_id',
+      '__token__',
+    ),
+    'fix' => array(
+      'attach_id' => array(
+        '>' => 0,
+      ),
+      '__token__',
+    ),
+    'delete' => array(
+      'attach_ids',
+      '__token__',
+    ),
+    'status' => array(
+      'attach_ids',
+      'act',
+      '__token__',
+    ),
+    'common' => array(
+      '__token__',
+    ),
+  );
+
+  protected function v_init() { //构造函数
+
+    $_arr_attrName = array(
+      'attach_id'     => $this->obj_lang->get('ID'),
+      'attach_name'   => $this->obj_lang->get('Original name'),
+      'attach_ext'    => $this->obj_lang->get('Extension'),
+      'attach_mime'   => $this->obj_lang->get('MIME'),
+      'attach_ids'    => $this->obj_lang->get('Attachment'),
+      'act'           => $this->obj_lang->get('Action'),
+      'max_id'        => $this->obj_lang->get('Max ID'),
+      '__token__'     => $this->obj_lang->get('Token'),
     );
 
-    protected $scene    = array(
-        'submit_add' => array(
-            'attach_name',
-            'attach_note',
-            'attach_ext',
-            'attach_mime',
-        ),
-        'submit_edit' => array(
-            'attach_note',
-            'attach_ext',
-            'attach_mime',
-        ),
-        'submit_add_db' => array(
-            'attach_name',
-            'attach_note',
-            'attach_ext',
-            'attach_mime',
-        ),
-        'submit_edit_db' => array(
-            'attach_note',
-            'attach_ext',
-            'attach_mime',
-        ),
-        'move' => array(
-            'attach_ids',
-            'cate_id' => array(
-                '>' => 0,
-            ),
-            '__token__',
-        ),
-        'clear' => array(
-            'max_id',
-            '__token__',
-        ),
-        'fix' => array(
-            'attach_id' => array(
-                '>' => 0,
-            ),
-            '__token__',
-        ),
-        'delete' => array(
-            'attach_ids',
-            '__token__',
-        ),
-        'status' => array(
-            'attach_ids',
-            'act',
-            '__token__',
-        ),
-        'common' => array(
-            '__token__',
-        ),
+    $_arr_typeMsg = array(
+      'require'   => $this->obj_lang->get('{:attr} require'),
+      'gt'        => $this->obj_lang->get('{:attr} require'),
+      'length'    => $this->obj_lang->get('Size of {:attr} must be {:rule}'),
+      'token'     => $this->obj_lang->get('Form token is incorrect'),
     );
 
-    function v_init() { //构造函数
+    $_arr_formatMsg = array(
+      'int' => $this->obj_lang->get('{:attr} must be integer'),
+    );
 
-        $_arr_attrName = array(
-            'attach_id'     => $this->obj_lang->get('ID'),
-            'attach_name'   => $this->obj_lang->get('Original name'),
-            'attach_ext'    => $this->obj_lang->get('Extension'),
-            'attach_mime'   => $this->obj_lang->get('MIME'),
-            'attach_ids'    => $this->obj_lang->get('Attachment'),
-            'act'           => $this->obj_lang->get('Action'),
-            'max_id'        => $this->obj_lang->get('Max ID'),
-            '__token__'     => $this->obj_lang->get('Token'),
-        );
-
-        $_arr_typeMsg = array(
-            'require'   => $this->obj_lang->get('{:attr} require'),
-            'gt'        => $this->obj_lang->get('{:attr} require'),
-            'length'    => $this->obj_lang->get('Size of {:attr} must be {:rule}'),
-            'token'     => $this->obj_lang->get('Form token is incorrect'),
-        );
-
-        $_arr_formatMsg = array(
-            'int' => $this->obj_lang->get('{:attr} must be integer'),
-        );
-
-        $this->setAttrName($_arr_attrName);
-        $this->setTypeMsg($_arr_typeMsg);
-        $this->setFormatMsg($_arr_formatMsg);
-    }
+    $this->setAttrName($_arr_attrName);
+    $this->setTypeMsg($_arr_typeMsg);
+    $this->setFormatMsg($_arr_formatMsg);
+  }
 }

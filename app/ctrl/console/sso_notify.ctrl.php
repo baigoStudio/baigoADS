@@ -11,72 +11,72 @@ use ginkgo\Loader;
 
 //不能非法包含或直接执行
 if (!defined('IN_GINKGO')) {
-    return 'Access denied';
+  return 'Access denied';
 }
 
 class Sso_Notify extends Ctrl_Sso {
 
-    protected function c_init($param = array()) { //构造函数
-        parent::c_init();
+  protected function c_init($param = array()) { //构造函数
+    parent::c_init();
 
-        $this->mdl_notify   = Loader::model('Sso_Notify');
+    $this->mdl_notify   = Loader::model('Sso_Notify');
+  }
+
+
+  public function index() {
+    $_mix_init = $this->init();
+
+    if ($_mix_init !== true) {
+      return $this->fetchJson($_mix_init['msg'], $_mix_init['rcode']);
     }
 
-
-    function index() {
-        $_mix_init = $this->init();
-
-        if ($_mix_init !== true) {
-            return $this->fetchJson($_mix_init['msg'], $_mix_init['rcode']);
-        }
-
-        if (!$this->isPost) {
-            return $this->fetchJson('Access denied', '', 405);
-        }
-
-        $_mixt_return = array();
-
-        switch ($this->inputRoute['a']) {
-            case 'test':
-                $_mixt_return = $this->test();
-            break;
-
-            case 'info':
-                $_mixt_return = $this->info();
-            break;
-
-            default:
-            break;
-        }
-
-        return $this->json($_mixt_return);
+    if (!$this->isPost) {
+      return $this->fetchJson('Access denied', '', 405);
     }
 
+    $_mixt_return = array();
 
-    private function info() {
-        $_arr_inputInfo = $this->mdl_notify->inputInfo($this->decryptRow);
+    switch ($this->inputRoute['a']) {
+        case 'test':
+          $_mixt_return = $this->test();
+        break;
 
-        if ($_arr_inputInfo['rcode'] != 'y100201') {
-            return $_arr_inputInfo;
-        }
+        case 'info':
+          $_mixt_return = $this->info();
+        break;
 
-        $_arr_return = array(
-            'msg' => 'success',
-        );
-
-        return $_arr_return;
+        default:
+        break;
     }
 
+    return $this->json($_mixt_return);
+  }
 
-    private function test() {
-        $_arr_inputTest = $this->mdl_notify->inputTest($this->decryptRow);
 
-        if ($_arr_inputTest['rcode'] != 'y100201') {
-            return $_arr_inputTest;
-        }
+  private function info() {
+    $_arr_inputInfo = $this->mdl_notify->inputInfo($this->decryptRow);
 
-        //print_r($_arr_inputTest);
-
-        return $_arr_inputTest;
+    if ($_arr_inputInfo['rcode'] != 'y100201') {
+      return $_arr_inputInfo;
     }
+
+    $_arr_return = array(
+      'msg' => 'success',
+    );
+
+    return $_arr_return;
+  }
+
+
+  private function test() {
+    $_arr_inputTest = $this->mdl_notify->inputTest($this->decryptRow);
+
+    if ($_arr_inputTest['rcode'] != 'y100201') {
+      return $_arr_inputTest;
+    }
+
+    //print_r($_arr_inputTest);
+
+    return $_arr_inputTest;
+  }
 }
