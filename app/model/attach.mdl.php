@@ -59,10 +59,6 @@ class Attach extends Model {
   public function read($mix_attach, $str_by = 'attach_id', $arr_select = array()) {
     $_arr_attachRow = $this->readProcess($mix_attach, $str_by, $arr_select);
 
-    if ($_arr_attachRow['rcode'] != 'y070102') {
-      return $_arr_attachRow;
-    }
-
     return $this->rowProcess($_arr_attachRow);
   }
 
@@ -94,14 +90,13 @@ class Attach extends Model {
     $_arr_attachRow  = $this->where($_arr_where)->find($arr_select);
 
     if (!$_arr_attachRow) {
-      return array(
-        'msg'   => 'Image not found',
-        'rcode' => 'x070102', //不存在记录
-      );
+      $_arr_attachRow          = $this->obj_request->fillParam(array(), $arr_select);
+      $_arr_attachRow['msg']   = 'Image not found';
+      $_arr_attachRow['rcode'] = 'x070102';
+    } else {
+      $_arr_attachRow['rcode'] = 'y070102';
+      $_arr_attachRow['msg']   = '';
     }
-
-    $_arr_attachRow['rcode'] = 'y070102';
-    $_arr_attachRow['msg']   = '';
 
     return $_arr_attachRow;
   }

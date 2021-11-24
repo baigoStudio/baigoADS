@@ -804,8 +804,8 @@ class Request {
    * @return 补全后的数据
    */
   public function fillParam($data, $param) {
-    //print_r($param);
-    $_arr_return    = array();
+    $_arr_return = array();
+    $data        = (array)$data;
 
     if (is_array($param) && Func::notEmpty($param)) {
       foreach ($param as $_key=>$_value) { // 遍历参数

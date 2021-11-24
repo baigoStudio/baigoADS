@@ -20,13 +20,12 @@ class Admin extends Model {
 
   public $arr_status   = array('enable', 'disabled'); //状态
   public $arr_type     = array('normal', 'super'); //类型
-  public $inputSubmit  = array();
   public $ip;
 
   protected function m_init() { //构造函数
     parent::m_init();
 
-    $this->ip           = $this->obj_request->ip();
+    $this->ip = $this->obj_request->ip();
   }
 
 
@@ -51,13 +50,8 @@ class Admin extends Model {
   public function read($mix_admin, $str_by = 'admin_id', $num_notId = 0, $arr_select = array()) {
     $_arr_adminRow = $this->readProcess($mix_admin, $str_by, $num_notId, $arr_select);
 
-    if ($_arr_adminRow['rcode'] != 'y020102') {
-      return $_arr_adminRow;
-    }
-
     return $this->rowProcess($_arr_adminRow);
   }
-
 
 
   public function readProcess($mix_admin, $str_by = 'admin_id', $num_notId = 0, $arr_select = array()) {
@@ -90,14 +84,13 @@ class Admin extends Model {
     $_arr_adminRow = $this->where($_arr_where)->find($arr_select);
 
     if (!$_arr_adminRow) {
-      return array(
-        'msg'   => 'Administrator not found',
-        'rcode' => 'x020102', //不存在记录
-      );
+      $_arr_adminRow          = $this->obj_request->fillParam(array(), $arr_select);
+      $_arr_adminRow['msg']   = 'Administrator not found';
+      $_arr_adminRow['rcode'] = 'x020102';
+    } else {
+      $_arr_adminRow['rcode'] = 'y020102';
+      $_arr_adminRow['msg']   = '';
     }
-
-    $_arr_adminRow['rcode']   = 'y020102';
-    $_arr_adminRow['msg']     = '';
 
     return $_arr_adminRow;
   }
@@ -130,7 +123,6 @@ class Admin extends Model {
   }
 
 
-
   /** 计数
    * mdl_count function.
    *
@@ -142,51 +134,6 @@ class Admin extends Model {
     $_arr_where = $this->queryProcess($arr_search);
 
     return $this->where($_arr_where)->count();
-  }
-
-
-  public function login() {
-    $_tm_timeLogin  = GK_NOW;
-    $_str_adminIp   = $this->ip;
-
-    $_arr_adminData = array(
-      'admin_time_login'  => $_tm_timeLogin,
-      'admin_ip'          => $_str_adminIp,
-    );
-
-    if ($this->inputSubmit['admin_access_token']) {
-      $_arr_adminData['admin_access_token'] = $this->inputSubmit['admin_access_token'];
-    }
-
-    if ($this->inputSubmit['admin_access_expire']) {
-      $_arr_adminData['admin_access_expire'] = $this->inputSubmit['admin_access_expire'];
-    }
-
-    if ($this->inputSubmit['admin_refresh_token']) {
-      $_arr_adminData['admin_refresh_token'] = $this->inputSubmit['admin_refresh_token'];
-    }
-
-    if ($this->inputSubmit['admin_refresh_expire']) {
-      $_arr_adminData['admin_refresh_expire'] = $this->inputSubmit['admin_refresh_expire'];
-    }
-
-    $_num_count = $this->where('admin_id', '=', $this->inputSubmit['admin_id'])->update($_arr_adminData); //更新数据
-
-    if ($_num_count > 0) {
-        $_str_rcode = 'y020103'; //更新成功
-    } else {
-      return array(
-        'rcode' => 'x020103', //更新失败
-      );
-    }
-
-    return array(
-      'admin_id'          => $this->inputSubmit['admin_id'],
-      //'admin_name'        => $arr_adminSubmit['admin_name'],
-      'admin_ip'          => $_str_adminIp,
-      'admin_time_login'  => $_tm_timeLogin,
-      'rcode'             => $_str_rcode, //成功
-    );
   }
 
 

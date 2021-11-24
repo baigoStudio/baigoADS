@@ -26,14 +26,6 @@ class Plugin extends Plugin_Base {
   public $inputOpts      = array();
   public $inputUninstall = array();
 
-  public function __construct() { //构造函数
-    parent::__construct();
-
-    $this->obj_request  = Request::instance();
-    $this->vld_plugin   = Loader::validate('plugin');
-  }
-
-
   /** 提交
    * submit function.
    *

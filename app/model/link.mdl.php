@@ -62,14 +62,13 @@ class Link extends Model {
     $_arr_linkRow = $this->where('link_id', '=', $num_linkId)->find($arr_select);
 
     if (!$_arr_linkRow) {
-      return array(
-        'msg'   => 'Link not found',
-        'rcode' => 'x240102', //不存在记录
-      );
+      $_arr_linkRow          = $this->obj_request->fillParam(array(), $arr_select);
+      $_arr_linkRow['msg']   = 'Link not found';
+      $_arr_linkRow['rcode'] = 'x240102';
+    } else {
+      $_arr_linkRow['rcode'] = 'y240102';
+      $_arr_linkRow['msg']   = '';
     }
-
-    $_arr_linkRow['rcode'] = 'y240102';
-    $_arr_linkRow['msg']   = '';
 
     return $_arr_linkRow;
   }

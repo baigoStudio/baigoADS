@@ -6,7 +6,7 @@
 
 namespace app\model\install;
 
-use app\model\Opt as Opt_Base;
+use app\model\modify\Opt as Opt_Modify;
 use ginkgo\Config;
 use ginkgo\Html;
 
@@ -16,7 +16,7 @@ if (!defined('IN_GINKGO')) {
 }
 
 /*-------------设置项模型-------------*/
-class Opt extends Opt_Base {
+class Opt extends Opt_Modify {
 
   public function __construct() { //构造函数
     parent::__construct();

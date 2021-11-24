@@ -21,8 +21,9 @@ class Admin extends Model {
   protected $pk = 'admin_id';
   protected $comment = '管理帐号';
 
-  public $arr_status = array();
-  public $arr_type   = array();
+  public $arr_status  = array();
+  public $arr_type    = array();
+  public $inputSubmit = array();
 
   protected function m_init() { //构造函数
     $this->mdl_adminBase    = Loader::model('Admin', '', false);

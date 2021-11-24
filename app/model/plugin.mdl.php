@@ -17,9 +17,14 @@ if (!defined('IN_GINKGO')) {
 /*-------------插件模型-------------*/
 class Plugin {
 
-  protected $configPlugin;
+  protected $configPlugin= array();
+  protected $obj_request;
+  protected $vld_plugin;
 
   public function __construct() { //构造函数
     $this->configPlugin = Config::get('plugin');
+
+    $this->obj_request  = Request::instance();
+    $this->vld_plugin   = Loader::validate('plugin');
   }
 }

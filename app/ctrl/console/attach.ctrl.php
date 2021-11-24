@@ -170,12 +170,13 @@ class Attach extends Ctrl {
       $_num_attachId = $this->obj_request->input($this->param['id'], 'int', 0);
     }
 
+    $_arr_attachRow = $this->mdl_attach->read($_num_attachId);
+    $_arr_adminRow  = array();
+
     if ($_num_attachId > 0) {
       if (!isset($this->adminAllow['attach']['edit']) && !$this->isSuper) { //判断权限
         return $this->error('You do not have permission', 'x070303');
       }
-
-      $_arr_attachRow = $this->mdl_attach->read($_num_attachId);
 
       if ($_arr_attachRow['rcode'] != 'y070102') {
         return $this->error($_arr_attachRow['msg'], $_arr_attachRow['rcode']);
@@ -192,12 +193,6 @@ class Attach extends Ctrl {
       if (!isset($this->adminAllow['attach']['add']) && !$this->isSuper) { //判断权限
         return $this->error('You do not have permission', 'x070302');
       }
-
-      $_arr_attachRow = array(
-        'attach_id' => 0,
-      );
-
-      $_arr_adminRow = array();
     }
 
     $_arr_tplData = array(

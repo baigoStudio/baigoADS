@@ -64,10 +64,6 @@ class Posi extends Model {
   public function read($mix_posi, $str_by = 'posi_id', $num_notId = 0, $arr_select = array()) {
     $_arr_posiRow = $this->readProcess($mix_posi, $str_by, $num_notId, $arr_select);
 
-    if ($_arr_posiRow['rcode'] != 'y040102') {
-      return $_arr_posiRow;
-    }
-
     return $this->rowProcess($_arr_posiRow);
   }
 
@@ -94,14 +90,13 @@ class Posi extends Model {
     $_arr_posiRow = $this->where($_arr_where)->find($arr_select);
 
     if (!$_arr_posiRow) {
-      return array(
-        'msg'   => 'Position not found',
-        'rcode' => 'x040102', //不存在记录
-      );
+      $_arr_posiRow          = $this->obj_request->fillParam(array(), $arr_select);
+      $_arr_posiRow['msg']   = 'Position not found';
+      $_arr_posiRow['rcode'] = 'x040102';
+    } else {
+      $_arr_posiRow['rcode'] = 'y040102';
+      $_arr_posiRow['msg']   = '';
     }
-
-    $_arr_posiRow['rcode'] = 'y040102';
-    $_arr_posiRow['msg']   = '';
 
     return $_arr_posiRow;
   }

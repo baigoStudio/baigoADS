@@ -174,11 +174,13 @@ class Advert extends Ctrl {
 
     $_arr_posiRow = array();
 
+    $_arr_advertRow = $this->mdl_advert->read($_num_advertId);
+
     if ($_num_advertId > 0) {
       if (!isset($this->adminAllow['advert']['edit']) && !$this->isSuper) {
         return $this->error('You do not have permission', 'x080303');
       }
-      $_arr_advertRow = $this->mdl_advert->read($_num_advertId);
+
       if ($_arr_advertRow['rcode'] != 'y080102') {
         return $this->error($_arr_advertRow['msg'], $_arr_advertRow['rcode']);
       }
@@ -192,21 +194,6 @@ class Advert extends Ctrl {
       if (!isset($this->adminAllow['advert']['add']) && !$this->isSuper) {
         return $this->error('You do not have permission', 'x080302');
       }
-      $_arr_advertRow = array(
-        'advert_id'                 => 0,
-        'advert_name'               => '',
-        'advert_posi_id'            => 0,
-        'advert_attach_id'          => 0,
-        'advert_content'            => '',
-        'advert_type'               => '',
-        'advert_opt'                => '',
-        'advert_opt_time_format'    => $this->mdl_advert->dateFormat(),
-        'advert_begin_format'       => $this->mdl_advert->dateFormat(),
-        'advert_percent'            => 0,
-        'advert_url'                => '',
-        'advert_note'               => '',
-        'advert_status'             => $this->mdl_advert->arr_status[0],
-      );
     }
 
     $_arr_search    = array(
@@ -253,6 +240,7 @@ class Advert extends Ctrl {
 
     return $this->fetch();
   }
+
 
   public function submit() {
     $_mix_init = $this->init();

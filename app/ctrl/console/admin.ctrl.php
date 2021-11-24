@@ -124,6 +124,9 @@ class Admin extends Ctrl {
       $_num_adminId = $this->obj_request->input($this->param['id'], 'int', 0);
     }
 
+    $_arr_userRow  = $this->obj_user->read($_num_adminId);
+    $_arr_adminRow = $this->mdl_admin->read($_num_adminId);
+
     if ($_num_adminId > 0) {
       if (!isset($this->adminAllow['admin']['edit']) && !$this->isSuper) { //判断权限
         return $this->error('You do not have permission', 'x020303');
@@ -132,13 +135,9 @@ class Admin extends Ctrl {
         return $this->error('Prohibit editing yourself', 'x020306');
       }
 
-      $_arr_userRow = $this->obj_user->read($_num_adminId);
-
       if ($_arr_userRow['rcode'] != 'y010102') {
         return $this->error($_arr_userRow['msg'], $_arr_userRow['rcode']);
       }
-
-      $_arr_adminRow = $this->mdl_admin->read($_num_adminId);
 
       if ($_arr_adminRow['rcode'] != 'y020102') {
         return $this->error($_arr_adminRow['msg'], $_arr_adminRow['rcode']);
@@ -147,19 +146,13 @@ class Admin extends Ctrl {
       if (!isset($this->adminAllow['admin']['add']) && !$this->isSuper) { //判断权限
         return $this->error('You do not have permission', 'x020302');
       }
-      $_arr_adminRow = array(
-        'admin_id'          => 0,
-        'admin_nick'        => '',
-        'admin_note'        => '',
-        'admin_status'      => $this->mdl_admin->arr_status[0],
-        'admin_type'        => $this->mdl_admin->arr_type[0],
-        'admin_allow'       => array(),
-      );
 
       $_arr_userRow = array(
         'user_mail' => '',
       );
     }
+
+    //print_r($_arr_adminRow);
 
 
     $_arr_tplData = array(

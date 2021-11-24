@@ -150,9 +150,8 @@ abstract class Ctrl extends Ctrl_Base {
   public function sessionLogin($arr_adminRow, $str_remember = '', $str_type = 'form') {
     $this->mdl_login->inputSubmit   = array_replace_recursive($this->mdl_login->inputSubmit, $arr_adminRow);
 
-    $_arr_loginResult               = $this->mdl_login->login();
-
-    $arr_adminRow = array_replace_recursive($arr_adminRow, $_arr_loginResult);
+    $_arr_loginResult = $this->mdl_login->login();
+    $arr_adminRow     = array_replace_recursive($arr_adminRow, $_arr_loginResult);
 
     $this->obj_auth->write($arr_adminRow, false, $str_type, $str_remember, $this->url['route_console']);
 

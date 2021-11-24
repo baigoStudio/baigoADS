@@ -193,11 +193,12 @@ class Posi extends Ctrl {
       'script_url' => '',
     );
 
+    $_arr_posiRow = $this->mdl_posi->read($_num_posiId);
+
     if ($_num_posiId > 0) {
       if (!isset($this->adminAllow['posi']['edit']) && !$this->isSuper) {
         return $this->error('You do not have permission', 'x040303');
       }
-      $_arr_posiRow = $this->mdl_posi->read($_num_posiId);
 
       if ($_arr_posiRow['rcode'] != 'y040102') {
         return $this->error($_arr_posiRow['msg'], $_arr_posiRow['rcode']);
@@ -228,19 +229,6 @@ class Posi extends Ctrl {
       if (isset($this->param['script'])) {
         $_str_dir = $this->obj_request->input($this->param['script'], 'str', '');
       }
-
-      $_arr_posiRow = array(
-        'posi_id'           => 0,
-        'posi_name'         => '',
-        'posi_count'        => 1,
-        'posi_status'       => $this->mdl_posi->arr_status[0],
-        'posi_script'       => $_str_dir,
-        'posi_box_perfix'   => '',
-        'posi_is_percent'   => $this->mdl_posi->arr_isPercent[0],
-        'posi_loading'      => '',
-        'posi_close'        => '',
-        'posi_note'         => '',
-      );
 
       if (Func::notEmpty($_str_dir)) {
         $_arr_scriptConfig = $this->mdl_posi->scriptConfigProcess($_str_dir);

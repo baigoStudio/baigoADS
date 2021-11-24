@@ -160,7 +160,7 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
     </div>
   </form>
 
-<?php include($cfg['pathInclude'] . 'console_foot' . GK_EXT_TPL); ?>a
+<?php include($cfg['pathInclude'] . 'console_foot' . GK_EXT_TPL); ?>
 
   <script type="text/javascript">
   var opts_validate_form = {

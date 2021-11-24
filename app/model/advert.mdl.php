@@ -47,7 +47,6 @@ class Advert extends Model {
   }
 
 
-
   /** 读取
    * mdl_read function.
    *
@@ -59,10 +58,6 @@ class Advert extends Model {
    */
   public function read($mix_advert, $str_by = 'advert_id', $num_notId = 0, $arr_select = array()) {
     $_arr_advertRow = $this->readProcess($mix_advert, $str_by = 'advert_id', $num_notId, $arr_select);
-
-    if ($_arr_advertRow['rcode'] != 'y080102') {
-      return $_arr_advertRow;
-    }
 
     return $this->rowProcess($_arr_advertRow);
   }
@@ -96,14 +91,13 @@ class Advert extends Model {
     $_arr_advertRow = $this->where($_arr_where)->find($arr_select); //检查本地表是否存在记录
 
     if (!$_arr_advertRow) {
-      return array(
-        'msg'   => 'Advertisement not found',
-        'rcode' => 'x080102', //不存在记录
-      );
+      $_arr_advertRow          = $this->obj_request->fillParam(array(), $arr_select);
+      $_arr_advertRow['msg']   = 'Advertisement not found';
+      $_arr_advertRow['rcode'] = 'x080102';
+    } else {
+      $_arr_advertRow['rcode'] = 'y080102';
+      $_arr_advertRow['msg']   = '';
     }
-
-    $_arr_advertRow['rcode'] = 'y080102';
-    $_arr_advertRow['msg']   = '';
 
     return $_arr_advertRow;
   }
@@ -114,7 +108,6 @@ class Advert extends Model {
 
     return $this->where($_arr_where)->sum('advert_percent');
   }
-
 
 
   /** 列出
@@ -239,11 +232,11 @@ class Advert extends Model {
 
 
   protected function rowProcess($arr_advertRow = array()) {
-    if (!isset($arr_advertRow['advert_time'])) {
+    if (!isset($arr_advertRow['advert_time']) || $arr_advertRow['advert_time'] < 1) {
       $arr_advertRow['advert_time'] = GK_NOW;
     }
 
-    if (!isset($arr_advertRow['advert_begin'])) {
+    if (!isset($arr_advertRow['advert_begin']) || $arr_advertRow['advert_begin'] < 1) {
       $arr_advertRow['advert_begin'] = GK_NOW;
     }
 

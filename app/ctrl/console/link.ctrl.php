@@ -116,12 +116,12 @@ class Link extends Ctrl {
       $_num_linkId = $this->obj_request->input($this->param['id'], 'int', 0);
     }
 
+    $_arr_linkRow = $this->mdl_link->read($_num_linkId);
+
     if ($_num_linkId > 0) {
       if (!isset($this->adminAllow['link']['edit']) && !$this->isSuper) { //判断权限
         return $this->error('You do not have permission', 'x240303');
       }
-
-      $_arr_linkRow = $this->mdl_link->read($_num_linkId);
 
       if ($_arr_linkRow['rcode'] != 'y240102') {
         return $this->error($_arr_linkRow['msg'], $_arr_linkRow['rcode']);
@@ -130,14 +130,6 @@ class Link extends Ctrl {
       if (!isset($this->adminAllow['link']['add']) && !$this->isSuper) { //判断权限
         return $this->error('You do not have permission', 'x240302');
       }
-
-      $_arr_linkRow = array(
-        'link_id'      => 0,
-        'link_name'    => '',
-        'link_status'  => $this->mdl_link->arr_status[0],
-        'link_url'     => '',
-        'link_blank'   => '',
-      );
     }
 
     $_arr_tplData = array(
