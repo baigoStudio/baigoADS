@@ -39,6 +39,10 @@ class Pm extends Ctrl {
 
     $_arr_inputLists = $this->mdl_pm->inputLists($this->decryptRow);
 
+    if ($_arr_inputLists['rcode'] != 'y110201') {
+      return $this->fetchJson($_arr_inputLists['msg'], $_arr_inputLists['rcode']);
+    }
+
     $_arr_userRow = $this->userCheck($_arr_inputLists);
 
     if ($_arr_userRow['rcode'] != 'y010102') {
@@ -124,6 +128,10 @@ class Pm extends Ctrl {
 
     $_arr_inputRead = $this->mdl_pm->inputRead($this->decryptRow);
 
+    if ($_arr_inputRead['rcode'] != 'y110201') {
+      return $this->fetchJson($_arr_inputRead['msg'], $_arr_inputRead['rcode']);
+    }
+
     $_arr_userRow = $this->userCheck($_arr_inputRead);
 
     if ($_arr_userRow['rcode'] != 'y010102') {
@@ -182,6 +190,10 @@ class Pm extends Ctrl {
     }
 
     $_arr_inputSend = $this->mdl_pm->inputSend($this->decryptRow);
+
+    if ($_arr_inputSend['rcode'] != 'y110201') {
+      return $this->fetchJson($_arr_inputSend['msg'], $_arr_inputSend['rcode']);
+    }
 
     $_arr_userRow = $this->userCheck($_arr_inputSend);
 
@@ -245,6 +257,10 @@ class Pm extends Ctrl {
 
     $_arr_inputStatus = $this->mdl_pm->inputStatus($this->decryptRow);
 
+    if ($_arr_inputStatus['rcode'] != 'y110201') {
+      return $this->fetchJson($_arr_inputStatus['msg'], $_arr_inputStatus['rcode']);
+    }
+
     $_arr_userRow = $this->userCheck($_arr_inputStatus);
 
     if ($_arr_userRow['rcode'] != 'y010102') {
@@ -288,21 +304,25 @@ class Pm extends Ctrl {
       return $this->fetchJson('Access denied', '', 405);
     }
 
-    $_arr_inputDelete = $this->mdl_pm->inputDelete($this->decryptRow);
+    $_arr_inputRevoke = $this->mdl_pm->inputDelete($this->decryptRow);
 
-    $_arr_userRow = $this->userCheck($_arr_inputDelete);
+    if ($_arr_inputRevoke['rcode'] != 'y110201') {
+      return $this->fetchJson($_arr_inputRevoke['msg'], $_arr_inputRevoke['rcode']);
+    }
+
+    $_arr_userRow = $this->userCheck($_arr_inputRevoke);
 
     if ($_arr_userRow['rcode'] != 'y010102') {
       return $this->fetchJson($_arr_userRow['msg'], $_arr_userRow['rcode']);
     }
 
     $_arr_return = array(
-      'pm_ids' => $_arr_inputDelete['pm_ids'],
+      'pm_ids' => $_arr_inputRevoke['pm_ids'],
     );
 
     Plugin::listen('action_api_pm_revoke', $_arr_return); //删除链接时触发
 
-    //$this->mdl_pm->inputDelete['pm_ids']      = $_arr_inputDelete['pm_ids'];
+    //$this->mdl_pm->inputDelete['pm_ids']      = $_arr_inputRevoke['pm_ids'];
     $this->mdl_pm->inputDelete['pm_from']     = $_arr_userRow['user_id'];
     $this->mdl_pm->inputDelete['pm_type']     = 'in';
     $this->mdl_pm->inputDelete['pm_status']   = 'wait';
@@ -333,6 +353,10 @@ class Pm extends Ctrl {
     }
 
     $_arr_inputDelete = $this->mdl_pm->inputDelete($this->decryptRow);
+
+    if ($_arr_inputDelete['rcode'] != 'y110201') {
+      return $this->fetchJson($_arr_inputDelete['msg'], $_arr_inputDelete['rcode']);
+    }
 
     $_arr_userRow = $this->userCheck($_arr_inputDelete);
 
@@ -370,6 +394,10 @@ class Pm extends Ctrl {
     }
 
     $_arr_inputCheck = $this->mdl_pm->inputCheck($this->decryptRow);
+
+    if ($_arr_inputCheck['rcode'] != 'y110201') {
+      return $this->fetchJson($_arr_inputCheck['msg'], $_arr_inputCheck['rcode']);
+    }
 
     $_arr_userRow = $this->userCheck($_arr_inputCheck);
 

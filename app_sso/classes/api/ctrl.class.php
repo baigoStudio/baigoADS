@@ -45,8 +45,6 @@ abstract class Ctrl extends Ctrl_Base {
 
     Plugin::listen('action_api_init'); //管理后台初始化时触发
 
-    $_arr_configMailtpl     = Config::get('mailtpl', 'var_extra');
-
     $this->configMailtpl    = Config::get('mailtpl', 'var_extra');
   }
 

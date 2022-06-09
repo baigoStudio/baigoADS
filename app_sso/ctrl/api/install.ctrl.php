@@ -481,7 +481,6 @@ class Install extends Ctrl {
     $_str_rcode = '';
 
     $_str_rcode     = '';
-    $_str_jump      = '';
     $_str_msg       = '';
 
     $_str_configInstalled   = GK_APP_CONFIG . 'installed' . GK_EXT_INC;

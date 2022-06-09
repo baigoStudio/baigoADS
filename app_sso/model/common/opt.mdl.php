@@ -23,7 +23,7 @@ class Opt extends Opt_Base {
   public function dbconfig() {
     $_arr_opt = array(
       'host'      => $this->inputDbconfig['host'],
-      'port'      => $this->inputDbconfig['port'],
+      'port'      => (int)$this->inputDbconfig['port'],
       'name'      => $this->inputDbconfig['name'],
       'user'      => $this->inputDbconfig['user'],
       'pass'      => $this->inputDbconfig['pass'],

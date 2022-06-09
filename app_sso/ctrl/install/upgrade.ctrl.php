@@ -216,8 +216,6 @@ class Upgrade extends Ctrl {
       return $this->fetchJson($_mix_init['msg'], $_mix_init['rcode']);
     }
 
-    $_arr_return = array();
-
     if (!$this->isAjaxPost) {
       return $this->fetchJson('Access denied', '', 405);
     }
@@ -276,8 +274,6 @@ class Upgrade extends Ctrl {
     if ($_mix_init !== true) {
       return $this->fetchJson($_mix_init['msg'], $_mix_init['rcode']);
     }
-
-    $_arr_return = array();
 
     if (!$this->isAjaxPost) {
       return $this->fetchJson('Access denied', '', 405);

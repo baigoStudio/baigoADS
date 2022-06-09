@@ -109,6 +109,8 @@ class Reg extends User_Common {
    * @return void
    */
   public function inputReg($arr_data) {
+    $_arr_configReg  = $this->configReg;
+
     $_arr_inputParam = array(
       'user_name'     => array('txt', ''),
       'user_mail'     => array('txt', ''),

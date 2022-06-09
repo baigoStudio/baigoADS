@@ -201,8 +201,6 @@ class Index extends Ctrl {
       return $this->fetchJson($_mix_init['msg'], $_mix_init['rcode']);
     }
 
-    $_arr_return = array();
-
     if (!$this->isAjaxPost) {
       return $this->fetchJson('Access denied', '', 405);
     }

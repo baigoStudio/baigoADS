@@ -45,6 +45,10 @@ class Sync extends Ctrl {
 
     $_arr_userRow   = $this->userCheck($_arr_inputCommon);
 
+    if ($_arr_userRow['rcode'] != 'y010102') {
+      return $this->fetchJson($_arr_userRow['msg'], $_arr_userRow['rcode']);
+    }
+
     $this->appLists();
 
     $_arr_urlRows = $this->syncProcess('login');
@@ -78,6 +82,10 @@ class Sync extends Ctrl {
     }
 
     $_arr_userRow   = $this->userCheck($_arr_inputCommon);
+
+    if ($_arr_userRow['rcode'] != 'y010102') {
+      return $this->fetchJson($_arr_userRow['msg'], $_arr_userRow['rcode']);
+    }
 
     $this->appLists();
 

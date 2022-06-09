@@ -243,7 +243,6 @@ abstract class Model extends Model_Base {
     if (is_array($this->create) && Func::notEmpty($this->create)) {
       foreach ($this->create as $_key=>$_value) {
         if (is_array($_value)) {
-          $this->typeProcess($_value);
           if (isset($_value['old']) && isset($_arr_col[$_value['old']]) && !isset($_arr_col[$_key])) {
             $_arr_alter[$_value['old']] = array('CHANGE', $_value, $_key); //如果有 old 参数, 且现表中有 old 字段, 且现表中没有该字段，则用 change (改名, 改结构)
           } else if (isset($_arr_col[$_key])) {
@@ -319,8 +318,6 @@ abstract class Model extends Model_Base {
         $_str_sql  .= $_obj_db->fetchSql()->select($this->create);
       } else {
         $_str_sql   = 'CREATE TABLE IF NOT EXISTS ' . $_table . ' (';
-
-        $_arr_field = array();
 
         foreach ($this->create as $_key => $_value) {
           $_value    = $this->fieldProcess($_value);
@@ -478,35 +475,6 @@ abstract class Model extends Model_Base {
 
       if (!isset($field['comment'])) {
         $field['comment'] = '';
-      }
-    }
-
-    return $field;
-  }
-
-  private function typeProcess($field = array()) {
-    if (isset($field['type']) && Func::notEmpty($field['type'])) {
-      if (strpos($field['type'], '(') === false) {
-
-        $_arr_types = array(
-          'tinyint'   => 'tinyint(4)',
-          'smallint'  => 'smallint(6)',
-          'mediumint' => 'mediumint(9)',
-          'int'       => 'int(11)',
-          'bigint'    => 'bigint(20)',
-          'decimal'   => 'decimal(11,2)',
-          'float'     => 'float(11,2)',
-          'double'    => 'double(11,2)',
-          'boolean'   => '',
-          'year'      => '',
-          'date'      => '',
-          'time'      => '',
-          'datetime'  => '',
-          'timestamp' => '',
-          'char'      => 'char(32)',
-          'varchar'   => 'varchar(32)',
-          'enum'      => 'enum(\'a\')',
-        );
       }
     }
 
