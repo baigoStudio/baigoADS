@@ -22,8 +22,17 @@ class Verify extends Ctrl {
     $this->mdl_user     = Loader::model('User');
     $this->mdl_verify   = Loader::model('Verify');
 
+    $_str_hrefBase = $this->hrefBase . 'verify/';
+
+    $_arr_hrefRow = array(
+      'show'     => $_str_hrefBase . 'show/id/',
+      'delete'   => $_str_hrefBase . 'delete/',
+      'status'   => $_str_hrefBase . 'status/',
+    );
+
     $this->generalData['status']    = $this->mdl_verify->arr_status;
     $this->generalData['type']      = $this->mdl_verify->arr_type;
+    $this->generalData['hrefRow']   = array_replace_recursive($this->generalData['hrefRow'], $_arr_hrefRow);
   }
 
 
@@ -133,7 +142,7 @@ class Verify extends Ctrl {
       'count' => $_arr_deleteResult['count'],
     );
 
-    return $this->fetchJson($_arr_deleteResult['msg'], $$_arr_deleteResult['rcode'], 200, $_arr_langReplace);
+    return $this->fetchJson($_arr_deleteResult['msg'], $_arr_deleteResult['rcode'], 200, $_arr_langReplace);
   }
 
 

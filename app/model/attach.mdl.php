@@ -89,7 +89,7 @@ class Attach extends Model {
 
     $_arr_attachRow  = $this->where($_arr_where)->find($arr_select);
 
-    if (!$_arr_attachRow) {
+    if ($_arr_attachRow === false) {
       $_arr_attachRow          = $this->obj_request->fillParam(array(), $arr_select);
       $_arr_attachRow['msg']   = 'Image not found';
       $_arr_attachRow['rcode'] = 'x070102';
@@ -197,9 +197,11 @@ class Attach extends Model {
     }
 
     if (isset($arr_search['attach_ids']) && Func::notEmpty($arr_search['attach_ids'])) {
-      $arr_search['attach_ids'] = Arrays::filter($arr_search['attach_ids']);
+      $arr_search['attach_ids'] = Arrays::unique($arr_search['attach_ids']);
 
-      $_arr_where[] = array('attach_id', 'IN', $arr_search['attach_ids'], 'attach_ids');
+      if (Func::notEmpty($arr_search['attach_ids'])) {
+        $_arr_where[] = array('attach_id', 'IN', $arr_search['attach_ids'], 'attach_ids');
+      }
     }
 
     if (isset($arr_search['admin_id']) && $arr_search['admin_id'] > 0) {
@@ -238,10 +240,6 @@ class Attach extends Model {
       $arr_attachRow['attach_type'] = 'file';
     }
 
-    $_str_attachNameUrl                 = $this->nameProcess($arr_attachRow);
-    $arr_attachRow['attach_url_name']   = $_str_attachNameUrl;
-    $arr_attachRow['attach_url']        = $this->urlPrefix . $_str_attachNameUrl;
-
     if (!isset($arr_attachRow['attach_time'])) {
       $arr_attachRow['attach_time'] = GK_NOW;
     }
@@ -249,6 +247,12 @@ class Attach extends Model {
     if (!isset($arr_attachRow['attach_size'])) {
       $arr_attachRow['attach_size'] = 0;
     }
+
+    $arr_attachRow['attach_time'] = (int)$arr_attachRow['attach_time'];
+
+    $_str_attachNameUrl                 = $this->nameProcess($arr_attachRow);
+    $arr_attachRow['attach_url_name']   = $_str_attachNameUrl;
+    $arr_attachRow['attach_url']        = $this->urlPrefix . $_str_attachNameUrl;
 
     $arr_attachRow['attach_time_format'] = $this->dateFormat($arr_attachRow['attach_time']);
     $arr_attachRow['attach_size_format'] = Strings::sizeFormat($arr_attachRow['attach_size']);

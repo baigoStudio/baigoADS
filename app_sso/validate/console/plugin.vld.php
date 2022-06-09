@@ -17,7 +17,7 @@ if (!defined('IN_GINKGO')) {
 /*-------------管理员模型-------------*/
 class Plugin extends Validate {
 
-  protected $rule     = array(
+  protected $rule = array(
     'plugin_dir' => array(
       'require' => true,
     ),

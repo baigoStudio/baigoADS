@@ -50,7 +50,7 @@
   <script type="text/javascript">
   <?php if (isset($adminLogged['rcode']) && $adminLogged['rcode'] == 'y020102' && !isset($cfg['no_token'])) { ?>
     function tokenReload() {
-      $.getJSON('<?php echo $route_console; ?>token/make/', function(result){
+      $.getJSON('<?php echo $hrefRow['token']; ?>', function(result){
         if (result.rcode == 'y020102') {
           $('#box_pm_new').text(result.pm_count);
         } else {
@@ -137,9 +137,10 @@
   <?php }
 
   if (isset($cfg['captchaReload'])) { ?>
-    function captchaReload() {
-      var imgSrc = '<?php echo $route_misc; ?>captcha/index/' + new Date().getTime() + '/' + Math.random() + '/';
-      $('.bg-captcha-img').attr('src', imgSrc);
+    function captchaReload(img_src) {
+      img_src += '?' + new Date().getTime() + '=' + Math.random();
+
+      $('.bg-captcha-img').attr('src', img_src);
     }
   <?php } ?>
 
@@ -166,8 +167,9 @@
     <?php }
 
     if (isset($cfg['captchaReload'])) { ?>
-      $('.bg-captcha-btn, .bg-captcha-img').click(function(){
-        captchaReload();
+      $('.bg-captcha-img').click(function(){
+        var _src = $(this).data('src');
+        captchaReload(_src);
       });
     <?php }
 

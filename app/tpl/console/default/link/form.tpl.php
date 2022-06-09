@@ -12,19 +12,18 @@ $cfg = array(
   'sub_active'        => $str_sub,
   'baigoValidate'     => 'true',
   'baigoSubmit'       => 'true',
-  'pathInclude'       => $path_tpl . 'include' . DS,
 );
 
-include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
+include($tpl_include . 'console_head' . GK_EXT_TPL); ?>
 
   <nav class="nav mb-3">
-    <a href="<?php echo $route_console; ?>link/" class="nav-link">
-      <span class="bg-icon"><?php include($cfg_global['pathIcon'] . 'chevron-left' . BG_EXT_SVG); ?></span>
+    <a href="<?php echo $hrefRow['index']; ?>" class="nav-link">
+      <span class="bg-icon"><?php include($tpl_icon . 'chevron-left' . BG_EXT_SVG); ?></span>
       <?php echo $lang->get('Back'); ?>
     </a>
   </nav>
 
-  <form name="link_form" id="link_form" action="<?php echo $route_console; ?>link/submit/">
+  <form name="link_form" id="link_form" action="<?php echo $hrefRow['submit']; ?>">
     <input type="hidden" name="<?php echo $token['name']; ?>" value="<?php echo $token['value']; ?>">
     <input type="hidden" name="link_id" id="link_id" value="<?php echo $linkRow['link_id']; ?>">
 
@@ -96,7 +95,7 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
     </div>
   </form>
 
-<?php include($cfg['pathInclude'] . 'console_foot' . GK_EXT_TPL); ?>
+<?php include($tpl_include . 'console_foot' . GK_EXT_TPL); ?>
 
   <script type="text/javascript">
   var opts_validate_form = {
@@ -144,4 +143,4 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
   });
   </script>
 
-<?php include($cfg['pathInclude'] . 'html_foot' . GK_EXT_TPL);
+<?php include($tpl_include . 'html_foot' . GK_EXT_TPL);

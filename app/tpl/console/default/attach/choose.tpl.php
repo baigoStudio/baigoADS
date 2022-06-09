@@ -1,9 +1,5 @@
   <?php $cfg = array(
-    'js_choose' => 'true',
-  );
-
-  $cfg_global = array(
-    'pathIcon' => $path_tpl_common . 'icon' . DS,
+    'script_choose' => 'true',
   );
 
   $_lang_pageFirst    = $lang->get('First page', 'console.common');
@@ -34,7 +30,7 @@
           <input type="text" name="search_key" id="search_key" placeholder="<?php echo $lang->get('Keyword'); ?>" class="form-control">
           <span class="input-group-append">
             <button class="btn btn-outline-secondary" type="button" id="search_btn">
-              <span class="bg-icon"><?php include($cfg_global['pathIcon'] . 'search' . BG_EXT_SVG); ?></span>
+              <span class="bg-icon"><?php include($tpl_icon . 'search' . BG_EXT_SVG); ?></span>
             </button>
             <button class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" type="button" data-toggle="collapse" data-target="#bg-search-more">
               <span class="sr-only">Dropdown</span>
@@ -77,7 +73,7 @@
       </div>
 
       <div class="tab-pane" id="pane_upload">
-        <?php include($path_tpl . 'include' . DS . 'upload' . GK_EXT_TPL); ?>
+        <?php include($tpl_ctrl . 'upload_form' . GK_EXT_TPL); ?>
       </div>
     </div>
 
@@ -90,27 +86,28 @@
     <button type="button" class="btn btn-outline-secondary btn-sm" data-dismiss="modal"><?php echo $lang->get('Close', 'console.common'); ?></button>
   </div>
 
+  <?php include($tpl_ctrl . 'upload_script' . GK_EXT_TPL); ?>
 
   <script type="text/javascript">
   function pageTpl(result, page, year, month, ext, key) {
     if (typeof page == 'undefined') {
-      page = '';
+      page = 1;
     }
 
     if (typeof year == 'undefined') {
-      year = '';
+      year = 0;
     }
 
     if (typeof month == 'undefined') {
-      month = '';
+      month = 0;
     }
 
     if (typeof ext == 'undefined') {
-      ext = '';
+      ext = 0;
     }
 
     if (typeof key == 'undefined') {
-      key = '';
+      key = 0;
     }
 
     result.pageRow.page     = parseInt(result.pageRow.page);
@@ -135,9 +132,9 @@
       }
       _str_page += '">';
         if (result.pageRow.page <= 1) {
-          _str_page += '<span title="<?php echo $_lang_pagePrev; ?>" class="page-link"><span class="bg-icon"><?php include($cfg_global['pathIcon'] . 'chevron-left' . BG_EXT_SVG); ?></span></span>';
+          _str_page += '<span title="<?php echo $_lang_pagePrev; ?>" class="page-link"><span class="bg-icon"><?php include($tpl_icon . 'chevron-left' . BG_EXT_SVG); ?></span></span>';
         } else {
-          _str_page += '<a href="javascript:void(0);" data-page="' + (result.pageRow.page - 1) + '" data-year="' + year + '" data-month="' + month + '" data-ext="' + ext + '" data-key="' + key + '" title="<?php echo $_lang_pagePrev; ?>" class="page-link"><span class="bg-icon"><?php include($cfg_global['pathIcon'] . 'chevron-left' . BG_EXT_SVG); ?></span></a>';
+          _str_page += '<a href="javascript:void(0);" data-page="' + (result.pageRow.page - 1) + '" data-year="' + year + '" data-month="' + month + '" data-ext="' + ext + '" data-key="' + key + '" title="<?php echo $_lang_pagePrev; ?>" class="page-link"><span class="bg-icon"><?php include($tpl_icon . 'chevron-left' . BG_EXT_SVG); ?></span></a>';
         }
       _str_page += '</li>';
 
@@ -161,9 +158,9 @@
       }
       _str_page += '">';
         if (result.pageRow.page >= result.pageRow.total) {
-          _str_page += '<span title="<?php echo $_lang_pageNext; ?>" class="page-link"><span class="bg-icon"><?php include($cfg_global['pathIcon'] . 'chevron-right' . BG_EXT_SVG); ?></span></span>';
+          _str_page += '<span title="<?php echo $_lang_pageNext; ?>" class="page-link"><span class="bg-icon"><?php include($tpl_icon . 'chevron-right' . BG_EXT_SVG); ?></span></span>';
         } else {
-          _str_page += '<a href="javascript:void(0);" data-page="' + (result.pageRow.page + 1) + '" data-year="' + year + '" data-month="' + month + '" data-ext="' + ext + '" data-key="' + key + '" title="<?php echo $_lang_pageNext; ?>" class="page-link"><span class="bg-icon"><?php include($cfg_global['pathIcon'] . 'chevron-right' . BG_EXT_SVG); ?></span></a>';
+          _str_page += '<a href="javascript:void(0);" data-page="' + (result.pageRow.page + 1) + '" data-year="' + year + '" data-month="' + month + '" data-ext="' + ext + '" data-key="' + key + '" title="<?php echo $_lang_pageNext; ?>" class="page-link"><span class="bg-icon"><?php include($tpl_icon . 'chevron-right' . BG_EXT_SVG); ?></span></a>';
         }
       _str_page += '</li>';
 
@@ -205,27 +202,33 @@
   function reloadAttach(page, year, month, ext, key) {
     var _str_appent_page    = '';
     var _str_appent_attach  = '';
-    var _url                = '<?php echo $route_console; ?>attach/lists/';
+    var _url                = '<?php echo $hrefRow['lists']; ?>';
 
-    if (typeof page != 'undefined' && page > 0) {
-      _url += 'page/' + page + '/';
+    if (typeof page == 'undefined' || page < 1) {
+      page = 1;
     }
 
-    if (typeof year != 'undefined' && year.length > 0) {
-      _url += 'year/' + year + '/';
+    if (typeof year == 'undefined' || year.length < 1) {
+      year = 0;
     }
 
-    if (typeof month != 'undefined' && month.length > 0) {
-      _url += 'month/' + month + '/';
+    if (typeof month == 'undefined' || month.length < 1) {
+      month = 0;
     }
 
-    if (typeof ext != 'undefined' && ext.length > 0) {
-      _url += 'ext/' + ext + '/';
+    if (typeof ext == 'undefined' || ext.length < 1) {
+      ext = 0;
     }
 
-    if (typeof key != 'undefined' && key.length > 0) {
-      _url += 'key/' + key + '/';
+    if (typeof key == 'undefined' || key.length < 1) {
+      key = 0;
     }
+
+    _url = _url.replace('{:page}', page);
+    _url = _url.replace('{:year}', year);
+    _url = _url.replace('{:month}', month);
+    _url = _url.replace('{:ext}', ext);
+    _url = _url.replace('{:key}', key);
 
     $.getJSON(_url, function(result){
       _str_appent_page = pageTpl(result, page, year, month, ext, key);

@@ -62,7 +62,7 @@ class Php extends Driver {
   public function display($content = '', $data = '') {
 
     if (Func::notEmpty($data)) {
-        extract($data, EXTR_OVERWRITE);
+      extract($data, EXTR_OVERWRITE);
     }
 
     eval('?>' . $content);

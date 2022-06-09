@@ -27,7 +27,7 @@ class Login extends Validate {
     'captcha' => array(
       'length'    => '4,4',
       'format'    => 'alpha_number',
-      'captcha'   => true,
+      'captcha'   => 'console_login',
     ),
     '__token__' => array(
       'require' => true,

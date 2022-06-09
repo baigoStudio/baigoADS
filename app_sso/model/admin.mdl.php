@@ -42,10 +42,6 @@ class Admin extends Model {
   public function read($mix_admin, $str_by = 'admin_id', $num_notId = 0, $arr_select = array()) {
     $_arr_adminRow = $this->readProcess($mix_admin, $str_by, $num_notId, $arr_select);
 
-    if ($_arr_adminRow['rcode'] != 'y020102') {
-      return $_arr_adminRow;
-    }
-
     return $this->rowProcess($_arr_adminRow);
   }
 
@@ -72,15 +68,14 @@ class Admin extends Model {
 
     $_arr_adminRow = $this->where($_arr_where)->find($arr_select);
 
-    if (!$_arr_adminRow) {
-      return array(
-        'msg'   => 'Administrator not found',
-        'rcode' => 'x020102', //不存在记录
-      );
+    if ($_arr_adminRow === false) {
+      $_arr_adminRow          = $this->obj_request->fillParam(array(), $arr_select);
+      $_arr_adminRow['msg']   = 'Administrator not found';
+      $_arr_adminRow['rcode'] = 'x020102';
+    } else {
+      $_arr_adminRow['rcode'] = 'y020102';
+      $_arr_adminRow['msg']   = '';
     }
-
-    $_arr_adminRow['rcode']   = 'y020102';
-    $_arr_adminRow['msg']     = '';
 
     return $_arr_adminRow;
   }

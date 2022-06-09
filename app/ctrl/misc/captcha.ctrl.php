@@ -32,7 +32,7 @@ class Captcha {
   }
 
   public function index() {
-    return $this->obj_captcha->create($param['id']);
+    return $this->obj_captcha->create($this->param['id']);
   }
 
   public function check() {

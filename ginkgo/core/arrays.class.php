@@ -172,8 +172,8 @@ class Arrays {
   }
 
 
-  /** 过滤数组重复项目
-   * arrayFilter function.
+  /** 兼容用
+   * filter function.
    *
    * @access public
    * @static
@@ -182,6 +182,19 @@ class Arrays {
    * @return void
    */
   public static function filter($arr, $pop_false = true) {
+    return self::unique($arr, $pop_false);
+  }
+
+  /** 过滤数组重复项目
+   * unique function.
+   *
+   * @access public
+   * @static
+   * @param array $arr 数组
+   * @param bool $pop_false (default: true) 是否剔除 false 元素
+   * @return void
+   */
+  public static function unique($arr, $pop_false = true) {
     if (Func::notEmpty($arr)) {
       $arr = array_unique($arr);
 

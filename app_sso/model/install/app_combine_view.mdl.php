@@ -29,7 +29,6 @@ class App_Combine_View extends Model {
     array('app.app_url_sync'),
     array('app.app_sync'),
     array('app.app_time'),
-    'IFNULL(' . $this->obj_builder->table('combine_belong') . '.`belong_combine_id`, 0) AS `belong_combine_id`',
   );
 
   /** 创建视图
@@ -39,6 +38,8 @@ class App_Combine_View extends Model {
    * @return void
    */
   public function createView() {
+    $this->create[] = 'IFNULL(' . $this->obj_builder->table('combine_belong') . '.`belong_combine_id`, 0) AS `belong_combine_id`';
+
     $_arr_join = array(
       'combine_belong',
       array('app.app_id', '=', 'combine_belong.belong_app_id'),

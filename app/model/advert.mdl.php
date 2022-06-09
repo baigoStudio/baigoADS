@@ -90,7 +90,7 @@ class Advert extends Model {
 
     $_arr_advertRow = $this->where($_arr_where)->find($arr_select); //检查本地表是否存在记录
 
-    if (!$_arr_advertRow) {
+    if ($_arr_advertRow === false) {
       $_arr_advertRow          = $this->obj_request->fillParam(array(), $arr_select);
       $_arr_advertRow['msg']   = 'Advertisement not found';
       $_arr_advertRow['rcode'] = 'x080102';
@@ -211,9 +211,11 @@ class Advert extends Model {
     }
 
     if (isset($arr_search['not_ids']) && Func::notEmpty($arr_search['not_ids'])) {
-      $arr_search['not_ids'] = Arrays::filter($arr_search['not_ids']);
+      $arr_search['not_ids'] = Arrays::unique($arr_search['not_ids']);
 
-      $_arr_where[] = array('advert_id', 'NOT IN', $arr_search['not_ids'], 'not_ids');
+      if (Func::notEmpty($arr_search['not_ids'])) {
+        $_arr_where[] = array('advert_id', 'NOT IN', $arr_search['not_ids'], 'not_ids');
+      }
     }
 
     return $_arr_where;

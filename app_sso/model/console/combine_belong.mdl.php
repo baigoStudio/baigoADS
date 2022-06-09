@@ -187,25 +187,25 @@ class Combine_Belong extends Combine_Belong_Base {
     }
 
     if (Func::notEmpty($arr_combineIds)) {
-      $arr_combineIds = Arrays::filter($arr_combineIds);
+      $arr_combineIds = Arrays::unique($arr_combineIds);
 
       $_arr_where[] = array('belong_combine_id', 'IN', $arr_combineIds, 'combine_ids');
     }
 
     if (Func::notEmpty($arr_appIds)) {
-      $arr_appIds = Arrays::filter($arr_appIds);
+      $arr_appIds = Arrays::unique($arr_appIds);
 
       $_arr_where[] = array('belong_app_id', 'IN', $arr_appIds, 'app_ids');
     }
 
     if (Func::notEmpty($arr_notCombineIds)) {
-      $arr_notCombineIds = Arrays::filter($arr_notCombineIds);
+      $arr_notCombineIds = Arrays::unique($arr_notCombineIds);
 
       $_arr_where[] = array('belong_combine_id', 'NOT IN', $arr_notCombineIds, 'not_combine_ids');
     }
 
     if (Func::notEmpty($arr_notUserIds)) {
-      $arr_notUserIds = Arrays::filter($arr_notUserIds);
+      $arr_notUserIds = Arrays::unique($arr_notUserIds);
 
       $_arr_where[] = array('belong_app_id', 'NOT IN', $arr_notUserIds, 'not_app_ids');
     }

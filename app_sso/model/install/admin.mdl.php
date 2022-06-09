@@ -121,12 +121,12 @@ class Admin extends Model {
   public function createTable() {
     $_num_count  = $this->create();
 
-    if ($_num_count === false) {
-      $_str_rcode = 'x020105'; //更新成功
-      $_str_msg   = 'Create table failed';
-    } else if ($_num_count > 0) {
+    if ($_num_count !== false) {
       $_str_rcode = 'y020105'; //更新成功
       $_str_msg   = 'Create table successfully';
+    } else {
+      $_str_rcode = 'x020105'; //更新成功
+      $_str_msg   = 'Create table failed';
     }
 
     return array(
@@ -151,7 +151,7 @@ class Admin extends Model {
     if ($_num_count === false) {
       $_str_rcode = 'y020106';
       $_str_msg   = 'Update table successfully';
-    } else {
+    } else if ($_num_count > 0) {
       $_str_rcode = 'x020106';
       $_str_msg   = 'Update table failed';
     }

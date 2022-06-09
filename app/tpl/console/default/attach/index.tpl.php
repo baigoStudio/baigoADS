@@ -12,37 +12,36 @@
   'tooltip'        => 'true',
   'popover'        => 'true',
   'imageAsync'     => 'true',
-  'pathInclude'    => $path_tpl . 'include' . DS,
 );
 
-include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
+include($tpl_include . 'console_head' . GK_EXT_TPL); ?>
 
   <div class="d-flex justify-content-between">
     <nav class="nav mb-3">
-      <a href="<?php echo $route_console; ?>attach/" class="nav-link<?php if ($search['box'] == 'normal') { ?> disabled<?php } ?>">
+      <a href="<?php echo $hrefRow['index']; ?>" class="nav-link<?php if ($search['box'] == 'normal') { ?> disabled<?php } ?>">
         <?php echo $lang->get('All'); ?>
         <span class="badge badge-pill badge-<?php if ($search['box'] == 'normal') { ?>secondary<?php } else { ?>primary<?php } ?>"><?php echo $attachCount['all']; ?></span>
       </a>
       <?php if ($attachCount['recycle'] > 0) { ?>
-        <a href="<?php echo $route_console; ?>attach/index/box/recycle/" class="nav-link<?php if ($search['box'] == 'recycle') { ?> disabled<?php } ?>">
+        <a href="<?php echo $hrefRow['index-box']; ?>recycle" class="nav-link<?php if ($search['box'] == 'recycle') { ?> disabled<?php } ?>">
           <?php echo $lang->get('Recycle'); ?>
           <span class="badge badge-pill badge-<?php if ($search['box'] == 'recycle') { ?>secondary<?php } else { ?>primary<?php } ?>"><?php echo $attachCount['recycle']; ?></span>
         </a>
       <?php }
 
       if ($adminLogged['admin_type'] == 'super') { ?>
-        <a href="<?php echo $route_console; ?>attach/index/box/reserve/" class="nav-link<?php if ($search['box'] == 'reserve') { ?> disabled<?php } ?>">
+        <a href="<?php echo $hrefRow['index-box']; ?>reserve" class="nav-link<?php if ($search['box'] == 'reserve') { ?> disabled<?php } ?>">
           <?php echo $lang->get('Reserve data'); ?>
           <span class="badge badge-pill badge-<?php if ($search['box'] == 'reserve') { ?>secondary<?php } else { ?>primary<?php } ?>"><?php echo $attachCount['reserve']; ?></span>
         </a>
       <?php } ?>
     </nav>
-    <form name="attach_search" id="attach_search" class="d-none d-lg-inline-block" action="<?php echo $route_console; ?>attach/index/">
+    <form name="attach_search" id="attach_search" class="d-none d-lg-inline-block" action="<?php echo $hrefRow['index']; ?>">
       <div class="input-group mb-3">
         <input type="text" name="key" class="form-control" value="<?php echo $search['key']; ?>" placeholder="<?php echo $lang->get('Keyword'); ?>">
         <span class="input-group-append">
           <button class="btn btn-outline-secondary" type="submit">
-            <span class="bg-icon"><?php include($cfg_global['pathIcon'] . 'search' . BG_EXT_SVG); ?></span>
+            <span class="bg-icon"><?php include($tpl_icon . 'search' . BG_EXT_SVG); ?></span>
           </button>
           <button class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" type="button" data-toggle="collapse" data-target="#bg-search-more" >
             <span class="sr-only">Dropdown</span>
@@ -116,8 +115,8 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
           </span>
         <?php } ?>
 
-        <a href="<?php echo $route_console; ?>attach/index/" class="badge badge-danger badge-pill">
-          <span class="bg-icon"><?php include($cfg_global['pathIcon'] . 'times-circle' . BG_EXT_SVG); ?></span>
+        <a href="<?php echo $hrefRow['index']; ?>" class="badge badge-danger badge-pill">
+          <span class="bg-icon"><?php include($tpl_icon . 'times-circle' . BG_EXT_SVG); ?></span>
           <?php echo $lang->get('Reset'); ?>
         </a>
     </div>
@@ -127,7 +126,7 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
     <?php if ($search['box'] != 'recycle') { ?>
       <div class="card">
         <div class="card-body">
-          <?php include($cfg['pathInclude'] . 'upload' . GK_EXT_TPL); ?>
+          <?php include($tpl_ctrl . 'upload_form' . GK_EXT_TPL); ?>
         </div>
       </div>
     <?php } ?>
@@ -136,28 +135,28 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
       <div class="card-body">
         <?php if ($search['box'] == 'recycle') { ?>
           <div class="alert alert-danger">
-            <span class="bg-icon"><?php include($cfg_global['pathIcon'] . 'exclamation-triangle' . BG_EXT_SVG); ?></span>
+            <span class="bg-icon"><?php include($tpl_icon . 'exclamation-triangle' . BG_EXT_SVG); ?></span>
             <?php echo $lang->get('Warning! This operation is not recoverable!'); ?>
           </div>
 
-          <form name="attach_empty" id="attach_empty" action="<?php echo $route_console; ?>attach/empty-recycle/">
+          <form name="attach_empty" id="attach_empty" action="<?php echo $hrefRow['empty-recycle']; ?>">
             <input type="hidden" name="<?php echo $token['name']; ?>" value="<?php echo $token['value']; ?>">
             <button type="submit" class="btn btn-danger">
-              <span class="bg-icon"><?php include($cfg_global['pathIcon'] . 'trash-alt' . BG_EXT_SVG); ?></span>
+              <span class="bg-icon"><?php include($tpl_icon . 'trash-alt' . BG_EXT_SVG); ?></span>
               <?php echo $lang->get('Empty'); ?>
             </button>
           </form>
         <?php } else { ?>
           <div class="alert alert-warning">
-            <span class="bg-icon"><?php include($cfg_global['pathIcon'] . 'exclamation-triangle' . BG_EXT_SVG); ?></span>
+            <span class="bg-icon"><?php include($tpl_icon . 'exclamation-triangle' . BG_EXT_SVG); ?></span>
             <?php echo $lang->get('Warning! This operation will take a long time!'); ?>
           </div>
 
-          <form name="attach_clear" id="attach_clear" action="<?php echo $route_console; ?>attach/clear/">
+          <form name="attach_clear" id="attach_clear" action="<?php echo $hrefRow['clear']; ?>">
             <input type="hidden" name="<?php echo $token['name']; ?>" value="<?php echo $token['value']; ?>">
             <input type="hidden" name="act_clear" id="act_clear" value="clear">
             <button type="submit" class="btn btn-warning">
-              <span class="bg-icon"><?php include($cfg_global['pathIcon'] . 'trash-alt' . BG_EXT_SVG); ?></span>
+              <span class="bg-icon"><?php include($tpl_icon . 'trash-alt' . BG_EXT_SVG); ?></span>
               <?php echo $lang->get('Clean up attachments'); ?>
             </button>
           </form>
@@ -166,7 +165,7 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
     </div>
   </div>
 
-  <form name="attach_list" id="attach_list" action="<?php echo $route_console; ?>attach/box/">
+  <form name="attach_list" id="attach_list" action="<?php echo $hrefRow['box']; ?>">
     <input type="hidden" name="<?php echo $token['name']; ?>" value="<?php echo $token['value']; ?>">
 
     <div class="table-responsive">
@@ -220,32 +219,32 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
                 </div>
                 <div class="bg-manage-menu">
                   <div class="d-flex flex-wrap">
-                    <a href="<?php echo $route_console; ?>attach/show/id/<?php echo $value['attach_id']; ?>/" class="mr-2">
-                      <span class="bg-icon"><?php include($cfg_global['pathIcon'] . 'eye' . BG_EXT_SVG); ?></span>
+                    <a href="<?php echo $hrefRow['show'], $value['attach_id']; ?>" class="mr-2">
+                      <span class="bg-icon"><?php include($tpl_icon . 'eye' . BG_EXT_SVG); ?></span>
                       <?php echo $lang->get('Show'); ?>
                     </a>
                     <?php if ($search['box'] == 'recycle') { ?>
                       <a href="javascript:void(0);" data-id="<?php echo $value['attach_id']; ?>" class="attach_revert mr-2">
-                        <span class="bg-icon"><?php include($cfg_global['pathIcon'] . 'redo-alt' . BG_EXT_SVG); ?></span>
+                        <span class="bg-icon"><?php include($tpl_icon . 'redo-alt' . BG_EXT_SVG); ?></span>
                         <?php echo $lang->get('Restore'); ?>
                       </a>
                       <a href="javascript:void(0);" data-id="<?php echo $value['attach_id']; ?>" class="text-danger attach_delete mr-2">
-                        <span class="bg-icon"><?php include($cfg_global['pathIcon'] . 'trash-alt' . BG_EXT_SVG); ?></span>
+                        <span class="bg-icon"><?php include($tpl_icon . 'trash-alt' . BG_EXT_SVG); ?></span>
                         <?php echo $lang->get('Delete'); ?>
                       </a>
                     <?php } else { ?>
-                      <a href="<?php echo $route_console; ?>attach/form/id/<?php echo $value['attach_id']; ?>/" class="mr-2">
-                        <span class="bg-icon"><?php include($cfg_global['pathIcon'] . 'edit' . BG_EXT_SVG); ?></span>
+                      <a href="<?php echo $hrefRow['edit'], $value['attach_id']; ?>" class="mr-2">
+                        <span class="bg-icon"><?php include($tpl_icon . 'edit' . BG_EXT_SVG); ?></span>
                         <?php echo $lang->get('Edit'); ?>
                       </a>
                       <?php if ($value['attach_type'] == 'image') { ?>
                         <a href="javascript:void(0);" data-toggle="tooltip" data-placement="right" title="<?php echo $lang->get('Use when the image cannot be displayed'); ?>" data-id="<?php echo $value['attach_id']; ?>" class="mr-2 attach_fix">
-                          <span class="bg-icon"><?php include($cfg_global['pathIcon'] . 'redo-alt' . BG_EXT_SVG); ?></span>
+                          <span class="bg-icon"><?php include($tpl_icon . 'redo-alt' . BG_EXT_SVG); ?></span>
                           <?php echo $lang->get('Fix it'); ?>
                         </a>
                       <?php } ?>
                       <a href="javascript:void(0);" data-id="<?php echo $value['attach_id']; ?>" class="text-danger attach_recycle">
-                        <span class="bg-icon"><?php include($cfg_global['pathIcon'] . 'trash' . BG_EXT_SVG); ?></span>
+                        <span class="bg-icon"><?php include($tpl_icon . 'trash' . BG_EXT_SVG); ?></span>
                         <?php echo $lang->get('Recycle'); ?>
                       </a>
                     <?php } ?>
@@ -258,7 +257,7 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
                   <dd class="col-9">
                     <small>
                       <?php if (isset($value['adminRow']['admin_name'])) { ?>
-                        <a href="<?php echo $route_console; ?>attach/index/admin/<?php echo $value['attach_admin_id']; ?>/"><?php echo $value['adminRow']['admin_name']; ?></a>
+                        <a href="<?php echo $hrefRow['index-admin'], $value['attach_admin_id']; ?>"><?php echo $value['adminRow']['admin_name']; ?></a>
                       <?php } else {
                         echo $lang->get('Unknown');
                       } ?>
@@ -288,7 +287,7 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
                 <small>
                   <div class="mb-2">
                     <?php if (isset($value['adminRow']['admin_name'])) { ?>
-                      <a href="<?php echo $route_console; ?>attach/index/admin/<?php echo $value['attach_admin_id']; ?>/"><?php echo $value['adminRow']['admin_name']; ?></a>
+                      <a href="<?php echo $hrefRow['index-admin'], $value['attach_admin_id']; ?>"><?php echo $value['adminRow']['admin_name']; ?></a>
                     <?php } else {
                       echo $lang->get('Unknown');
                     } ?>
@@ -333,17 +332,21 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
         <small id="msg_act" class="form-text"></small>
       </div>
       <div class="float-right">
-        <?php include($cfg['pathInclude'] . 'pagination' . GK_EXT_TPL); ?>
+        <?php include($tpl_include . 'pagination' . GK_EXT_TPL); ?>
       </div>
     </div>
   </form>
 
-  <form name="attach_fix" id="attach_fix" action="<?php echo $route_console; ?>attach/fix/">
+  <form name="attach_fix" id="attach_fix" action="<?php echo $hrefRow['fix']; ?>">
     <input type="hidden" name="<?php echo $token['name']; ?>" value="<?php echo $token['value']; ?>">
     <input type="hidden" name="attach_id" id="attach_id" value="0">
   </form>
 
-<?php include($cfg['pathInclude'] . 'console_foot' . GK_EXT_TPL); ?>
+<?php include($tpl_include . 'console_foot' . GK_EXT_TPL);
+
+  if ($search['box'] != 'recycle') {
+    include($tpl_ctrl . 'upload_script' . GK_EXT_TPL);
+  } ?>
 
   <script type="text/javascript">
   var opts_validate_list = {
@@ -368,7 +371,6 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
     }
   };
 
-
   $(document).ready(function(){
     var obj_dialog          = $.baigoDialog(opts_dialog);
     var obj_validate_list   = $('#attach_list').baigoValidate(opts_validate_list);
@@ -381,7 +383,7 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
           case 'delete':
             obj_dialog.confirm('<?php echo $lang->get('Are you sure to delete?'); ?>', function(result){
               if (result) {
-                obj_submit_list.formSubmit('<?php echo $route_console; ?>attach/delete/');
+                obj_submit_list.formSubmit('<?php echo $hrefRow['delete']; ?>');
               }
             });
           break;
@@ -389,13 +391,13 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
           case 'recycle':
             obj_dialog.confirm('<?php echo $lang->get('Are you sure move to recycle?'); ?>', function(result){
               if (result) {
-                obj_submit_list.formSubmit('<?php echo $route_console; ?>attach/box/');
+                obj_submit_list.formSubmit('<?php echo $hrefRow['box']; ?>');
               }
             });
           break;
 
           default:
-            obj_submit_list.formSubmit('<?php echo $route_console; ?>attach/box/');
+            obj_submit_list.formSubmit('<?php echo $hrefRow['box']; ?>');
           break;
         }
       }
@@ -460,4 +462,4 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
   });
   </script>
 
-<?php include($cfg['pathInclude'] . 'html_foot' . GK_EXT_TPL);
+<?php include($tpl_include . 'html_foot' . GK_EXT_TPL);

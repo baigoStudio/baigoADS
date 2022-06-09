@@ -854,7 +854,7 @@ class Request {
   }
 
 
-  /** 取得分页参数
+  /** 取得分页参数(即将废弃, 兼容用)
    * pagination function.
    *
    * @access public

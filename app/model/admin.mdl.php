@@ -83,7 +83,7 @@ class Admin extends Model {
 
     $_arr_adminRow = $this->where($_arr_where)->find($arr_select);
 
-    if (!$_arr_adminRow) {
+    if ($_arr_adminRow === false) {
       $_arr_adminRow          = $this->obj_request->fillParam(array(), $arr_select);
       $_arr_adminRow['msg']   = 'Administrator not found';
       $_arr_adminRow['rcode'] = 'x020102';

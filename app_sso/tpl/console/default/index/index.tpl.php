@@ -28,24 +28,23 @@ if (!function_exists('status_process')) {
 $cfg = array(
   'title'             => $lang->get('Dashboard', 'console.common'),
   'menu_active'       => 'dashboard',
-  'pathInclude'       => $path_tpl . 'include' . DS,
 );
 
-include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
+include($tpl_include . 'console_head' . GK_EXT_TPL); ?>
 
   <div class="card mb-3">
     <div class="card-header d-flex justify-content-between align-items-center">
       <span><?php echo $lang->get('Shortcut', 'console.common'); ?></span>
       <span>
-        <a href="<?php echo $route_console; ?>index/setting/">
-          <span class="bg-icon"><?php include($cfg_global['pathIcon'] . 'wrench' . BG_EXT_SVG); ?></span>
+        <a href="<?php echo $hrefRow['setting']; ?>">
+          <span class="bg-icon"><?php include($tpl_icon . 'wrench' . BG_EXT_SVG); ?></span>
           <?php echo $lang->get('Settings'); ?>
         </a>
       </span>
     </div>
     <div class="card-body">
       <?php foreach ($adminLogged['admin_shortcut'] as $key_m=>$value_m) { ?>
-        <a class="btn btn-primary m-2" href="<?php echo $route_console, $value_m['ctrl']; ?>/<?php echo $value_m['act']; ?>/">
+        <a class="btn btn-primary m-2" href="<?php echo $value_m['href']; ?>">
           <?php echo $value_m['title']; ?>
         </a>
       <?php } ?>
@@ -78,5 +77,5 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
     <?php } ?>
   </div>
 
-<?php include($cfg['pathInclude'] . 'console_foot' . GK_EXT_TPL);
-include($cfg['pathInclude'] . 'html_foot' . GK_EXT_TPL);
+<?php include($tpl_include . 'console_foot' . GK_EXT_TPL);
+include($tpl_include . 'html_foot' . GK_EXT_TPL);

@@ -16,7 +16,7 @@
 | [action_console_link_status](#action_console_link_status) | action | 更改链接状态时触发 | 控制器 |
 | [action_console_link_delete](#action_console_link_delete) | action | 删除链接时触发 | 控制器 |
 | action_console_head_before | action | 后台界面头部之前 | 模板 |
-| action_console_head_after | action | 后台界面头部之后  | 模板 |
+| action_console_head_after | action | 后台界面头部之后 | 模板 |
 | action_console_navbar_before | action | 后台界面导航条之前 | 模板 |
 | action_console_navbar_after | action | 后台界面导航条之后 | 模板 |
 | action_console_menu_before | action | 后台界面菜单之前 | 模板 |
@@ -34,7 +34,7 @@
 
 * 返回、回传参数
 
-    详情请参考 [广告脚本 -> 广告数据](../advert/data.md#posiRow)
+  详情请参考 [广告脚本 -> 广告数据](../advert/data.md#posiRow)
 
 ----------
 
@@ -44,7 +44,7 @@
 
 * 返回、回传参数
 
-    详情请参考 [广告脚本 -> 广告数据](../advert/data.md#posiRow)
+  详情请参考 [广告脚本 -> 广告数据](../advert/data.md#posiRow)
 
 ----------
 
@@ -54,11 +54,11 @@
 
 * 返回
 
-    | 参数 | 类型 | 描述 |
-    | - | - | - |
-    | posi_ids | array | 被变更的广告位 ID |
-    | posi_status | array | 状态 |
-    
+  | 参数 | 类型 | 描述 |
+  | - | - | - |
+  | posi_ids | array | 被变更的广告位 ID |
+  | posi_status | array | 状态 |
+
 ----------
 
 <span id="action_console_posi_delete"></span>
@@ -67,9 +67,9 @@
 
 * 返回
 
-    | 参数 | 类型 | 描述 |
-    | - | - | - |
-    | posi_ids | array | 被删除的广告位 ID |
+  | 参数 | 类型 | 描述 |
+  | - | - | - |
+  | posi_ids | array | 被删除的广告位 ID |
 
 ----------
 
@@ -79,28 +79,27 @@
 
 * 返回、回传参数
 
-    | 参数 | 类型 | 描述 |
-    | - | - | - |
-    | advert_name | string | 广告名称 |
-    | advert_posi_id | int | 广告位 ID |
-    | advert_attach_id | int | 附件 ID |
-    | advert_content | string | 文字广告内容 |
-    | advert_url | string | 链接地址 |
-    | advert_percent | int | 投放几率（1-10） |
-    | advert_note | string | 备注 |
-    | advert_status | string | 状态 |
-    | advert_begin | int | 开始时间（UNIX 时间戳） |
-    | advert_type | string | 广告类型 |
-    | advert_opt | mix | 广告参数（根据 advert_type 不同变化） |
-    
+  | 参数 | 类型 | 描述 |
+  | - | - | - |
+  | advert_name | string | 广告名称 |
+  | advert_posi_id | int | 广告位 ID |
+  | advert_attach_id | int | 附件 ID |
+  | advert_content | string | 文字广告内容 |
+  | advert_url | string | 链接地址 |
+  | advert_percent | int | 投放几率（1-10） |
+  | advert_note | string | 备注 |
+  | advert_status | string | 状态 |
+  | advert_begin | int | 开始时间（UNIX 时间戳） |
+  | advert_type | string | 广告类型 |
+  | advert_opt | mix | 广告参数（根据 advert_type 不同变化） |
+
 * advert_opt 类型
 
-    | advert_type 值 | 类型 | 描述 |
-    | - | - | - |
-    | date | int | 结束时间（UNIX 时间戳） |
-    | show | int | 显示数 |
-    | hit | int | 点击数 |
-
+  | advert_type 值 | 类型 | 描述 |
+  | - | - | - |
+  | date | int | 结束时间（UNIX 时间戳） |
+  | show | int | 显示数 |
+  | hit | int | 点击数 |
 
 ----------
 
@@ -110,28 +109,28 @@
 
 * 返回、回传参数
 
-    | 参数 | 类型 | 描述 |
-    | - | - | - |
-    | advert_id | int | 广告 ID |
-    | advert_name | string | 广告名称 |
-    | advert_posi_id | int | 广告位 ID |
-    | advert_attach_id | int | 附件 ID |
-    | advert_content | string | 文字广告内容 |
-    | advert_url | string | 链接地址 |
-    | advert_percent | int | 投放几率（1-10） |
-    | advert_note | string | 备注 |
-    | advert_status | string | 状态 |
-    | advert_begin | int | 开始时间（UNIX 时间戳） |
-    | advert_type | string | 广告类型 |
-    | advert_opt | mix | 广告参数（根据 advert_type 不同变化） |
-    
+  | 参数 | 类型 | 描述 |
+  | - | - | - |
+  | advert_id | int | 广告 ID |
+  | advert_name | string | 广告名称 |
+  | advert_posi_id | int | 广告位 ID |
+  | advert_attach_id | int | 附件 ID |
+  | advert_content | string | 文字广告内容 |
+  | advert_url | string | 链接地址 |
+  | advert_percent | int | 投放几率（1-10） |
+  | advert_note | string | 备注 |
+  | advert_status | string | 状态 |
+  | advert_begin | int | 开始时间（UNIX 时间戳） |
+  | advert_type | string | 广告类型 |
+  | advert_opt | mix | 广告参数（根据 advert_type 不同变化） |
+
 * advert_opt 类型
 
-    | advert_type 值 | 类型 | 描述 |
-    | - | - | - |
-    | date | int | 结束时间（UNIX 时间戳） |
-    | show | int | 显示数 |
-    | hit | int | 点击数 |
+  | advert_type 值 | 类型 | 描述 |
+  | - | - | - |
+  | date | int | 结束时间（UNIX 时间戳） |
+  | show | int | 显示数 |
+  | hit | int | 点击数 |
 
 ----------
 
@@ -141,11 +140,11 @@
 
 * 返回
 
-    | 参数 | 类型 | 描述 |
-    | - | - | - |
-    | advert_ids | array | 被变更的广告 ID |
-    | advert_status | array | 状态 |
-    
+  | 参数 | 类型 | 描述 |
+  | - | - | - |
+  | advert_ids | array | 被变更的广告 ID |
+  | advert_status | array | 状态 |
+
 ----------
 
 <span id="action_console_advert_delete"></span>
@@ -154,9 +153,9 @@
 
 * 返回
 
-    | 参数 | 类型 | 描述 |
-    | - | - | - |
-    | advert_ids | array | 被删除的广告 ID |
+  | 参数 | 类型 | 描述 |
+  | - | - | - |
+  | advert_ids | array | 被删除的广告 ID |
 
 ----------
 
@@ -166,13 +165,13 @@
 
 * 返回、回传参数
 
-    | 参数 | 类型 | 描述 |
-    | - | - | - |
-    | link_name | string | 链接名称 |
-    | link_url | string | 链接地址 |
-    | link_status | string | 状态 |
-    | link_blank | bool | 是否新窗口打开 |
-    
+  | 参数 | 类型 | 描述 |
+  | - | - | - |
+  | link_name | string | 链接名称 |
+  | link_url | string | 链接地址 |
+  | link_status | string | 状态 |
+  | link_blank | bool | 是否新窗口打开 |
+
 ----------
 
 <span id="action_console_link_edit"></span>
@@ -181,13 +180,13 @@
 
 * 返回、回传参数
 
-    | 参数 | 类型 | 描述 |
-    | - | - | - |
-    | link_id | int | 链接 ID |
-    | link_name | string | 链接名称 |
-    | link_url | string | 链接地址 |
-    | link_status | string | 状态 |
-    | link_blank | bool | 是否新窗口打开 |
+  | 参数 | 类型 | 描述 |
+  | - | - | - |
+  | link_id | int | 链接 ID |
+  | link_name | string | 链接名称 |
+  | link_url | string | 链接地址 |
+  | link_status | string | 状态 |
+  | link_blank | bool | 是否新窗口打开 |
 
 ----------
 
@@ -197,11 +196,11 @@
 
 * 返回
 
-    | 参数 | 类型 | 描述 |
-    | - | - | - |
-    | link_ids | array | 被更改的链接 ID |
-    | link_status | array | 状态 |
-    
+  | 参数 | 类型 | 描述 |
+  | - | - | - |
+  | link_ids | array | 被更改的链接 ID |
+  | link_status | array | 状态 |
+
 ----------
 
 <span id="action_console_link_delete"></span>
@@ -210,6 +209,6 @@
 
 * 返回
 
-    | 参数 | 类型 | 描述 |
-    | - | - | - |
-    | link_ids | array | 被删除的链接 ID |
+  | 参数 | 类型 | 描述 |
+  | - | - | - |
+  | link_ids | array | 被删除的链接 ID |

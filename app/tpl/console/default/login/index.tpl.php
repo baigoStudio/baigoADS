@@ -5,12 +5,11 @@
   'baigoSubmit'       => 'true',
   'captchaReload'     => 'true',
   'tooltip'           => 'true',
-  'pathInclude'       => $path_tpl . 'include' . DS,
 );
 
-include($cfg['pathInclude'] . 'login_head' . GK_EXT_TPL); ?>
+include($tpl_ctrl . 'head' . GK_EXT_TPL); ?>
 
-  <form name="login_form" id="login_form" action="<?php echo $route_console; ?>login/submit/">
+  <form name="login_form" id="login_form" action="<?php echo $hrefRow['submit']; ?>">
     <input type="hidden" name="<?php echo $token['name']; ?>" value="<?php echo $token['value']; ?>">
 
     <div class="form-group">
@@ -30,7 +29,7 @@ include($cfg['pathInclude'] . 'login_head' . GK_EXT_TPL); ?>
       <div class="input-group">
         <input type="text" name="captcha" id="captcha" class="form-control">
         <div class="input-group-append">
-          <img src="<?php echo $route_misc; ?>captcha/" class="bg-captcha-img" alt="<?php echo $lang->get('Refresh'); ?>">
+          <img src="<?php echo $hrefRow['captcha']; ?>" data-src="<?php echo $hrefRow['captcha']; ?>" class="bg-captcha-img" alt="<?php echo $lang->get('Refresh'); ?>">
         </div>
       </div>
 
@@ -53,9 +52,9 @@ include($cfg['pathInclude'] . 'login_head' . GK_EXT_TPL); ?>
     </button>
   </form>
 
-<?php include($cfg['pathInclude'] . 'login_foot' . GK_EXT_TPL); ?>
+<?php include($tpl_ctrl . 'foot' . GK_EXT_TPL); ?>
 
-  <form name="clear_form" id="clear_form" action="<?php echo $route_console; ?>cookie/clear/" class="my-3 text-center">
+  <form name="clear_form" id="clear_form" action="<?php echo $hrefRow['cookie']; ?>" class="my-3 text-center">
     <input type="hidden" name="<?php echo $token['name']; ?>" value="<?php echo $token['value']; ?>">
     <button type="submit" class="btn btn-link">
       <?php echo $lang->get('Clear cookie'); ?>
@@ -76,7 +75,7 @@ include($cfg['pathInclude'] . 'login_head' . GK_EXT_TPL); ?>
         length: '4,4',
         format: 'alpha_number',
         ajax: {
-          url: '<?php echo $route_misc; ?>captcha/check/'
+          url: '<?php echo $hrefRow['captcha-check']; ?>'
         }
       }
     },
@@ -116,7 +115,7 @@ include($cfg['pathInclude'] . 'login_head' . GK_EXT_TPL); ?>
       if (obj_validate_form.verify()) {
         obj_submit_form.formSubmit(false, function(result){
           if (typeof result.rcode == 'undefined' || result.rcode != 'y020401') {
-            captchaReload();
+            captchaReload('<?php echo $hrefRow['captcha']; ?>');
           }
         });
       }
@@ -132,4 +131,4 @@ include($cfg['pathInclude'] . 'login_head' . GK_EXT_TPL); ?>
   });
   </script>
 
-<?php include($cfg['pathInclude'] . 'html_foot' . GK_EXT_TPL);
+<?php include($tpl_include . 'html_foot' . GK_EXT_TPL);

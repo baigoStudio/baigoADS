@@ -3,17 +3,16 @@
   'btn'           => $lang->get('Add'),
   'sub_title'     => $lang->get('Add administrator'),
   'active'        => 'admin',
-  'pathInclude'   => $path_tpl . 'include' . DS,
 );
 
-include($cfg['pathInclude'] . 'index_head' . GK_EXT_TPL);
+include($tpl_ctrl . 'head' . GK_EXT_TPL);;
 
-  include($cfg['pathInclude'] . 'admin_menu' . GK_EXT_TPL); ?>
+  include($tpl_include . 'admin_menu' . GK_EXT_TPL); ?>
 
-  <form name="admin_form" id="admin_form" autocomplete="off" action="<?php echo $route_install; ?>index/admin-submit/">
+  <form name="admin_form" id="admin_form" autocomplete="off" action="<?php echo $hrefRow['admin-submit']; ?>">
     <input type="hidden" name="<?php echo $token['name']; ?>" value="<?php echo $token['value']; ?>">
     <div class="alert alert-warning">
-      <span class="bg-icon"><?php include($cfg_global['pathIcon'] . 'exclamation-triangle' . BG_EXT_SVG); ?></span>
+      <span class="bg-icon"><?php include($tpl_icon . 'exclamation-triangle' . BG_EXT_SVG); ?></span>
       <?php echo $lang->get('This step will add a new user as a super administrator with all permissions.'); ?>
     </div>
 
@@ -47,10 +46,10 @@ include($cfg['pathInclude'] . 'index_head' . GK_EXT_TPL);
       <small class="form-text" id="msg_admin_nick"></small>
     </div>
 
-    <?php include($cfg['pathInclude'] . 'install_btn' . GK_EXT_TPL) ?>
+    <?php include($tpl_include . 'install_btn' . GK_EXT_TPL) ?>
   </form>
 
-<?php include($cfg['pathInclude'] . 'install_foot' . GK_EXT_TPL); ?>
+<?php include($tpl_include . 'install_foot' . GK_EXT_TPL); ?>
 
   <script type="text/javascript">
   var opts_validate_form = {
@@ -59,7 +58,7 @@ include($cfg['pathInclude'] . 'index_head' . GK_EXT_TPL);
         length: '1,30',
         format: 'alpha_dash',
         ajax: {
-          url: '<?php echo $route_install; ?>index/admin-check/'
+          url: '<?php echo $hrefRow['admin-check']; ?>'
         }
       },
       admin_pass: {
@@ -99,7 +98,7 @@ include($cfg['pathInclude'] . 'index_head' . GK_EXT_TPL);
   };
 
   opts_submit.jump = {
-    url: '<?php echo $route_install; ?>index/over/',
+    url: '<?php echo $step['next']['href']; ?>',
     text: '<?php echo $lang->get('Redirecting'); ?>'
   };
 
@@ -114,4 +113,4 @@ include($cfg['pathInclude'] . 'index_head' . GK_EXT_TPL);
   });
   </script>
 
-<?php include($cfg['pathInclude'] . 'html_foot' . GK_EXT_TPL);
+<?php include($tpl_include . 'html_foot' . GK_EXT_TPL);

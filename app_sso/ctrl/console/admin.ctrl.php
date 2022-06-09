@@ -24,8 +24,23 @@ class Admin extends Ctrl {
     $this->mdl_user     = Loader::model('User');
     $this->mdl_admin    = Loader::model('Admin');
 
+    $_str_hrefBase = $this->hrefBase . 'admin/';
+
+    $_arr_hrefRow = array(
+      'index'  => $_str_hrefBase . 'index/',
+      'add'    => $_str_hrefBase . 'form/',
+      'show'   => $_str_hrefBase . 'show/id/',
+      'edit'   => $_str_hrefBase . 'form/id/',
+      'submit' => $_str_hrefBase . 'submit/',
+      'check'  => $_str_hrefBase . 'check/',
+      'delete' => $_str_hrefBase . 'delete/',
+      'status' => $_str_hrefBase . 'status/',
+      'auth'   => $this->url['route_console'] . 'auth/form/',
+    );
+
     $this->generalData['status']    = $this->mdl_admin->arr_status;
     $this->generalData['type']      = $this->mdl_admin->arr_type;
+    $this->generalData['hrefRow']   = array_replace_recursive($this->generalData['hrefRow'], $_arr_hrefRow);
   }
 
   public function index() {
@@ -45,9 +60,8 @@ class Admin extends Ctrl {
       'type'      => array('txt', ''),
     );
 
-    $_arr_search = $this->obj_request->param($_arr_searchParam);
-
-    $_arr_getData   = $this->mdl_admin->lists($this->config['var_default']['perpage'], $_arr_search); //列出
+    $_arr_search  = $this->obj_request->param($_arr_searchParam);
+    $_arr_getData = $this->mdl_admin->lists($this->config['var_default']['perpage'], $_arr_search); //列出
 
     $_arr_tplData = array(
       'search'     => $_arr_search,
@@ -124,6 +138,9 @@ class Admin extends Ctrl {
       $_num_adminId = $this->obj_request->input($this->param['id'], 'int', 0);
     }
 
+    $_arr_adminRow = $this->mdl_admin->read($_num_adminId);
+    $_arr_userRow  = $this->mdl_user->read($_num_adminId);
+
     if ($_num_adminId > 0) {
       if (!isset($this->adminAllow['admin']['edit']) && !$this->isSuper) { //判断权限
         return $this->error('You do not have permission', 'x020303');
@@ -133,13 +150,9 @@ class Admin extends Ctrl {
         return $this->error('Prohibit editing yourself', 'x020306');
       }
 
-      $_arr_userRow = $this->mdl_user->read($_num_adminId);
-
       if ($_arr_userRow['rcode'] != 'y010102') {
         return $this->error($_arr_userRow['msg'], $_arr_userRow['rcode']);
       }
-
-      $_arr_adminRow = $this->mdl_admin->read($_num_adminId);
 
       if ($_arr_adminRow['rcode'] != 'y020102') {
         return $this->error($_arr_adminRow['msg'], $_arr_adminRow['rcode']);
@@ -148,19 +161,11 @@ class Admin extends Ctrl {
       if (!isset($this->adminAllow['admin']['add']) && !$this->isSuper) { //判断权限
         return $this->error('You do not have permission', 'x020302');
       }
-
-      $_arr_adminRow = array(
-        'admin_id'      => 0,
-        'admin_nick'    => '',
-        'admin_note'    => '',
-        'admin_status'  => $this->mdl_admin->arr_status[0],
-        'admin_type'    => $this->mdl_admin->arr_type[0],
-        'admin_allow'   => array(),
-      );
     }
 
     $_arr_tplData = array(
       'adminRow'  => $_arr_adminRow,
+      'userRow'   => $_arr_userRow,
       'token'     => $this->obj_request->token(),
     );
 

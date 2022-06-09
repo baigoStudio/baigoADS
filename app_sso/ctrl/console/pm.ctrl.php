@@ -27,8 +27,25 @@ class Pm extends Ctrl {
     $this->mdl_user       = Loader::model('User');
     $this->mdl_pm         = Loader::model('Pm');
 
+    $_str_hrefBase = $this->hrefBase . 'pm/';
+
+    $_arr_hrefRow   = array(
+      'index'       => $_str_hrefBase . 'index/',
+      'index-from'  => $_str_hrefBase . 'index/from/',
+      'index-to'    => $_str_hrefBase . 'index/to/',
+      'show'        => $_str_hrefBase . 'show/id/',
+      'edit'        => $_str_hrefBase . 'form/dir/',
+      'bulk'        => $_str_hrefBase . 'bulk/',
+      'bulk-submit' => $_str_hrefBase . 'bulk-submit/',
+      'submit'      => $_str_hrefBase . 'submit/',
+      'status'      => $_str_hrefBase . 'status/',
+      'delete'      => $_str_hrefBase . 'delete/',
+      'user-show'   => $this->url['route_console'] . 'user/show/id/',
+    );
+
     $this->generalData['status']    = $this->mdl_pm->arr_status;
     $this->generalData['type']      = $this->mdl_pm->arr_type;
+    $this->generalData['hrefRow']   = array_replace_recursive($this->generalData['hrefRow'], $_arr_hrefRow);
   }
 
 

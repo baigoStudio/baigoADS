@@ -17,6 +17,22 @@ if (!defined('IN_GINKGO')) {
 
 class Login extends Ctrl {
 
+  protected function c_init($param = array()) {
+    parent::c_init();
+
+    $_str_hrefBase = $this->hrefBase . 'login/';
+
+    $_arr_hrefRow = array(
+      'login'         => $_str_hrefBase,
+      'submit'        => $_str_hrefBase . 'submit/',
+      'cookie'        => $this->url['route_console'] . 'cookie/clear/',
+      'captcha'       => $this->url['route_misc'] . 'captcha/index/id/console_login/',
+      'captcha-check' => $this->url['route_misc'] . 'captcha/check/id/console_login/',
+    );
+
+    $this->generalData['hrefRow']   = array_replace_recursive($this->generalData['hrefRow'], $_arr_hrefRow);
+  }
+
   public function index() {
     $_mix_init = $this->init(false);
 

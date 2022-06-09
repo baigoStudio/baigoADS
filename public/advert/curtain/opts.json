@@ -1,19 +1,19 @@
 {
-    "remain": {
-        "title": "停留时间",
-        "note": "毫秒",
-        "var_default": "5000",
-        "type": "text"
-    },
-    "speed": {
-        "title": "收起速度",
-        "var_default": "slow",
-        "type": "select_input",
-        "note": "选择或输入毫秒",
-        "option": {
-            "slow": "慢",
-            "normal": "普通",
-            "fast": "快"
-        }
+  "remain": {
+    "title": "停留时间",
+    "note": "毫秒",
+    "var_default": "5000",
+    "type": "text"
+  },
+  "speed": {
+    "title": "收起速度",
+    "var_default": "slow",
+    "type": "select_input",
+    "note": "选择或输入毫秒",
+    "option": {
+      "slow": "慢",
+      "normal": "普通",
+      "fast": "快"
     }
+  }
 }

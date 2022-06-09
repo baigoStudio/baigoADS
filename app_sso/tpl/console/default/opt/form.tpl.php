@@ -5,12 +5,11 @@
   'baigoValidate'     => 'true',
   'baigoSubmit'       => 'true',
   'selectInput'       => 'true',
-  'pathInclude'       => $path_tpl . 'include' . DS,
 );
 
-include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
+include($tpl_include . 'console_head' . GK_EXT_TPL); ?>
 
-  <form name="opt_form" id="opt_form" action="<?php echo $route_console; ?>opt/submit/">
+  <form name="opt_form" id="opt_form" action="<?php echo $hrefRow['submit']; ?>">
     <input type="hidden" name="<?php echo $token['name']; ?>" value="<?php echo $token['value']; ?>">
     <input type="hidden" name="act" value="<?php echo $route_orig['act']; ?>">
 
@@ -168,7 +167,7 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
     </div>
   </form>
 
-<?php include($cfg['pathInclude'] . 'console_foot' . GK_EXT_TPL); ?>
+<?php include($tpl_include . 'console_foot' . GK_EXT_TPL); ?>
 
   <script type="text/javascript">
   var opts_validate_form = {
@@ -223,4 +222,4 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
   });
   </script>
 
-<?php include($cfg['pathInclude'] . 'html_foot' . GK_EXT_TPL);
+<?php include($tpl_include . 'html_foot' . GK_EXT_TPL);

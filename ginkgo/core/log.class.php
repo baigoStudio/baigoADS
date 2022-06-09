@@ -141,8 +141,6 @@ class Log {
             }
           }
 
-          $_str_content = '';
-
           foreach ($_value as $_key_row=>$_value_row) {
             $_obj_file->fileWrite($_str_logPath, $_value_row . PHP_EOL, true); // 写入
           }

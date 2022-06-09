@@ -3,15 +3,14 @@
   'menu_active'   => 'advert',
   'sub_active'    => 'index',
   'baigoQuery'    => 'true',
-  'pathInclude'   => $path_tpl . 'include' . DS,
 );
 
-include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL);
+include($tpl_include . 'console_head' . GK_EXT_TPL);
 
-  include($cfg['pathInclude'] . 'stat_advert_show' . GK_EXT_TPL); ?>
+  include($tpl_ctrl . 'show' . GK_EXT_TPL); ?>
 
   <div class="card">
-    <?php include($cfg['pathInclude'] . 'stat_advert_menu' . GK_EXT_TPL); ?>
+    <?php include($tpl_ctrl . 'menu' . GK_EXT_TPL); ?>
 
     <div class="card-body">
       <div class="dropdown">
@@ -20,8 +19,12 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL);
         </button>
         <?php if (!empty($yearRows)) { ?>
           <div class="dropdown-menu">
-            <?php foreach ($yearRows as $key=>$value) { ?>
-              <a class="dropdown-item <?php if ($search['year'] == $value['stat_year']) { ?>active<?php } ?>" href="<?php echo $route_console; ?>stat_advert/month/id/<?php echo $advertRow['advert_id']; ?>/year/<?php echo $value['stat_year']; ?>/">
+            <?php foreach ($yearRows as $key=>$value) {
+
+              $_arr_src = array('{:id}', '{:year}');
+              $_arr_dst = array($advertRow['advert_id'], $value['stat_year']); ?>
+
+              <a class="dropdown-item <?php if ($search['year'] == $value['stat_year']) { ?>active<?php } ?>" href="<?php echo str_replace($_arr_src, $_arr_dst, $hrefRow['month']); ?>">
                 <?php echo $value['stat_year']; ?>
               </a>
             <?php } ?>
@@ -58,7 +61,7 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL);
     </div>
   </div>
 
-<?php include($cfg['pathInclude'] . 'console_foot' . GK_EXT_TPL); ?>
+<?php include($tpl_include . 'console_foot' . GK_EXT_TPL); ?>
 
   <script type="text/javascript">
   $(document).ready(function(){
@@ -70,4 +73,4 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL);
   });
   </script>
 
-<?php include($cfg['pathInclude'] . 'html_foot' . GK_EXT_TPL);
+<?php include($tpl_include . 'html_foot' . GK_EXT_TPL);

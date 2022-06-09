@@ -24,6 +24,18 @@ class Profile extends Ctrl {
     $this->obj_user     = Loader::classes('User', 'sso');
     $this->obj_profile  = Loader::classes('Profile', 'sso');
     $this->mdl_profile  = Loader::model('Profile');
+
+    $_str_hrefBase = $this->hrefBase . 'profile/';
+
+    $_arr_hrefRow = array(
+      'secqa-submit'   => $_str_hrefBase . 'secqa-submit/',
+      'prefer-submit'  => $_str_hrefBase . 'prefer-submit/',
+      'info-submit'    => $_str_hrefBase . 'info-submit/',
+      'mailbox-submit' => $_str_hrefBase . 'mailbox-submit/',
+      'pass-submit'    => $_str_hrefBase . 'pass-submit/',
+    );
+
+    $this->generalData['hrefRow']   = array_replace_recursive($this->generalData['hrefRow'], $_arr_hrefRow);
   }
 
 
@@ -84,7 +96,7 @@ class Profile extends Ctrl {
     );
     $_arr_infoResult = $this->obj_profile->info($this->adminLogged['admin_id'], $_arr_userSubmit);
 
-    if ($_arr_infoResult['rcode'] != 'y010103') {
+    if ($_arr_infoResult['rcode'] != 'y010103' && $_arr_infoResult['rcode'] != 'x010103') {
       return $this->fetchJson($_arr_infoResult['msg'], $_arr_infoResult['rcode']);
     }
 

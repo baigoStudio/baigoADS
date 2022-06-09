@@ -29,14 +29,29 @@ class Advert extends Ctrl {
 
     $this->configBase    = $this->config['var_extra']['base'];
 
-    $this->generalData['status']    = $this->mdl_advert->arr_status;
-    $this->generalData['type']      = $this->mdl_advert->arr_type;
+     $_str_hrefBase = $this->hrefBase . 'advert/';
+
+    $_arr_hrefRow = array(
+      'index'         => $_str_hrefBase . 'index/',
+      'add'           => $_str_hrefBase . 'form/',
+      'show'          => $_str_hrefBase . 'show/id/',
+      'edit'          => $_str_hrefBase . 'form/id/',
+      'submit'        => $_str_hrefBase . 'submit/',
+      'delete'        => $_str_hrefBase . 'delete/',
+      'status'        => $_str_hrefBase . 'status/',
+      'stat'          => $this->url['route_console'] . 'stat_advert/index/id/',
+      'posi-show'     => $this->url['route_console'] . 'posi/show/id/',
+      'attach-choose' => $this->url['route_console'] . 'attach/choose/',
+    );
 
     for ($_iii=1;$_iii<=10;++$_iii) {
       $_arr_percent[$_iii] = $_iii * 10 . '%';
     }
 
+    $this->generalData['status']    = $this->mdl_advert->arr_status;
+    $this->generalData['type']      = $this->mdl_advert->arr_type;
     $this->generalData['percent']   = $_arr_percent;
+    $this->generalData['hrefRow']   = array_replace_recursive($this->generalData['hrefRow'], $_arr_hrefRow);
   }
 
 

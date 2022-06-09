@@ -31,8 +31,28 @@ class Posi extends Ctrl {
 
     $this->mdl_posi    = Loader::model('Posi');
 
+    $_str_hrefBase = $this->hrefBase . 'posi/';
+
+    $_arr_hrefRow = array(
+      'index'        => $_str_hrefBase . 'index/',
+      'add'          => $_str_hrefBase . 'form/',
+      'add-from'     => $_str_hrefBase . 'form/script/',
+      'show'         => $_str_hrefBase . 'show/id/',
+      'edit'         => $_str_hrefBase . 'form/id/',
+      'opts'         => $_str_hrefBase . 'opts/id/',
+      'opts-submit'  => $_str_hrefBase . 'opts-submit/',
+      'submit'       => $_str_hrefBase . 'submit/',
+      'duplicate'    => $_str_hrefBase . 'duplicate/',
+      'delete'       => $_str_hrefBase . 'delete/',
+      'status'       => $_str_hrefBase . 'status/',
+      'cache'        => $_str_hrefBase . 'cache/',
+      'stat'         => $this->url['route_console'] . 'stat_posi/index/id/',
+      'advert-index' => $this->url['route_console'] . 'advert/index/posi/',
+    );
+
     $this->generalData['status']        = $this->mdl_posi->arr_status;
     $this->generalData['is_percent']    = $this->mdl_posi->arr_isPercent;
+    $this->generalData['hrefRow']       = array_replace_recursive($this->generalData['hrefRow'], $_arr_hrefRow);
   }
 
 
@@ -562,54 +582,54 @@ class Posi extends Ctrl {
 
     $_str_code .= '<html lang="' . $this->obj_lang->getCurrent() . '">' . PHP_EOL;
       $_str_code .= '<head>' . PHP_EOL;
-        $_str_code .= '    <title>' . $posiRow['posi_name'] . '</title>' . PHP_EOL;
+        $_str_code .= '  <title>' . $posiRow['posi_name'] . '</title>' . PHP_EOL;
         $_str_code .= PHP_EOL;
 
         foreach ($scriptConfig['require'] as $_key=>$_value) {
 
-          $_str_code .= '    <!-- ' . $this->obj_lang->get('Dependent') . ' - ' . $_key . ' begin -->' . PHP_EOL;
+          $_str_code .= '  <!-- ' . $this->obj_lang->get('Dependent') . ' - ' . $_key . ' begin -->' . PHP_EOL;
             switch ($_value['type']) {
               case 'js':
-                $_str_code .= '    <script src="' . $_value['url'] . '" type="text/javascript"></script>' . PHP_EOL;
+                $_str_code .= '  <script src="' . $_value['url'] . '" type="text/javascript"></script>' . PHP_EOL;
               break;
 
               default:
-                $_str_code .= '    <link href="' . $_value['url'] . '" type="text/css" rel="stylesheet">' . PHP_EOL;
+                $_str_code .= '  <link href="' . $_value['url'] . '" type="text/css" rel="stylesheet">' . PHP_EOL;
               break;
             }
 
-          $_str_code .= '    <!-- ' . $this->obj_lang->get('Dependent'). ' - ' . $_key . ' end -->' . PHP_EOL;
+          $_str_code .= '  <!-- ' . $this->obj_lang->get('Dependent'). ' - ' . $_key . ' end -->' . PHP_EOL;
           $_str_code .= PHP_EOL;
 
         }
 
-        $_str_code .= '    <!-- ' . $this->obj_lang->get('Ad CSS') . ' begin -->' . PHP_EOL;
-        $_str_code .= '    <link href="' . $scriptConfig['css_url'] . '" type="text/css" rel="stylesheet">' . PHP_EOL;
-        $_str_code .= '    <!-- ' . $this->obj_lang->get('Ad CSS') . ' end -->' . PHP_EOL;
+        $_str_code .= '  <!-- ' . $this->obj_lang->get('Ad CSS') . ' begin -->' . PHP_EOL;
+        $_str_code .= '  <link href="' . $scriptConfig['css_url'] . '" type="text/css" rel="stylesheet">' . PHP_EOL;
+        $_str_code .= '  <!-- ' . $this->obj_lang->get('Ad CSS') . ' end -->' . PHP_EOL;
         $_str_code .= PHP_EOL;
 
-        $_str_code .= '    <!-- ' . $this->obj_lang->get('Ad script') . ' begin -->' . PHP_EOL;
-        $_str_code .= '    <script src="' . $scriptConfig['script_url'] . '" type="text/javascript"></script>' . PHP_EOL;
-        $_str_code .= '    <!-- ' . $this->obj_lang->get('Ad script') . ' end -->' . PHP_EOL;
+        $_str_code .= '  <!-- ' . $this->obj_lang->get('Ad script') . ' begin -->' . PHP_EOL;
+        $_str_code .= '  <script src="' . $scriptConfig['script_url'] . '" type="text/javascript"></script>' . PHP_EOL;
+        $_str_code .= '  <!-- ' . $this->obj_lang->get('Ad script') . ' end -->' . PHP_EOL;
 
       $_str_code .= '</head>' . PHP_EOL;
       $_str_code .= '<body>' . PHP_EOL;
 
-        $_str_code .= '    <!-- ' . $this->obj_lang->get('Ad container') . ' begin -->' . PHP_EOL;
-        $_str_code .= '    <div ' . $posiRow['posi_box_attr'] . '></div>' . PHP_EOL;
-        $_str_code .= '    <!-- ' . $this->obj_lang->get('Ad container') . ' end -->' . PHP_EOL;
+        $_str_code .= '  <!-- ' . $this->obj_lang->get('Ad container') . ' begin -->' . PHP_EOL;
+        $_str_code .= '  <div ' . $posiRow['posi_box_attr'] . '></div>' . PHP_EOL;
+        $_str_code .= '  <!-- ' . $this->obj_lang->get('Ad container') . ' end -->' . PHP_EOL;
         $_str_code .= PHP_EOL;
 
-        $_str_code .= '    <!-- ' . $this->obj_lang->get('Initialization') . ' begin -->' . PHP_EOL;
-        $_str_code .= '    <script type="text/javascript">' . PHP_EOL;
-        $_str_code .= '    opts_ad_' . $posiRow['posi_id'] . ' = ' . Arrays::toJson($posiOpts) . ';' . PHP_EOL;
+        $_str_code .= '  <!-- ' . $this->obj_lang->get('Initialization') . ' begin -->' . PHP_EOL;
+        $_str_code .= '  <script type="text/javascript">' . PHP_EOL;
+        $_str_code .= '  opts_ad_' . $posiRow['posi_id'] . ' = ' . Arrays::toJson($posiOpts) . ';' . PHP_EOL;
         $_str_code .= PHP_EOL;
 
-        $_str_code .= '    $(document).ready(function(){' . PHP_EOL;
-          $_str_code .= '        $(\'' . $posiRow['posi_selector'] . '\').' . $scriptConfig['func_init'] . '(opts_ad_' . $posiRow['posi_id'] . ');' . PHP_EOL;
-        $_str_code .= '    });' . PHP_EOL;
-        $_str_code .= '    </script>' . PHP_EOL;
-        $_str_code .= '    <!-- ' . $this->obj_lang->get('Initialization') . ' end -->' . PHP_EOL;
+        $_str_code .= '  $(document).ready(function(){' . PHP_EOL;
+          $_str_code .= '    $(\'' . $posiRow['posi_selector'] . '\').' . $scriptConfig['func_init'] . '(opts_ad_' . $posiRow['posi_id'] . ');' . PHP_EOL;
+        $_str_code .= '  });' . PHP_EOL;
+        $_str_code .= '  </script>' . PHP_EOL;
+        $_str_code .= '  <!-- ' . $this->obj_lang->get('Initialization') . ' end -->' . PHP_EOL;
 
       $_str_code .= '</body>' . PHP_EOL;
     $_str_code .= '</html>' . PHP_EOL;

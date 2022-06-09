@@ -6,7 +6,7 @@
 
 namespace app\model\console;
 
-use app\model\User;
+use app\model\common\User as User_Common;
 use ginkgo\Func;
 use ginkgo\Crypt;
 use ginkgo\Html;
@@ -18,9 +18,8 @@ if (!defined('IN_GINKGO')) {
 }
 
 /*-------------用户模型-------------*/
-class Import extends User {
+class Import extends User_Common {
 
-  public $inputSubmit = array();
   public $inputCommon = array();
 
   public $charsetKeys = array();

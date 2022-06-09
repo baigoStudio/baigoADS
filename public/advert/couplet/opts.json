@@ -1,35 +1,35 @@
 {
-    "position": {
-        "title": "定位",
-        "var_default": "top",
-        "type": "select",
-        "option": {
-            "top": "上部",
-            "bottom": "底部"
-        }
-    },
-    "top": {
-        "title": "上边距",
-        "var_default": "50px",
-        "type": "text",
-        "note": "定位为 上部 时有效"
-    },
-    "bottom": {
-        "title": "下边距",
-        "var_default": "50px",
-        "type": "text",
-        "note": "定位为 底部 时有效"
-    },
-    "left": {
-        "title": "左边距",
-        "var_default": "10px",
-        "type": "text",
-        "note": "左联"
-    },
-    "right": {
-        "title": "右边距",
-        "var_default": "10px",
-        "type": "text",
-        "note": "右联"
+  "position": {
+    "title": "定位",
+    "var_default": "top",
+    "type": "select",
+    "option": {
+      "top": "上部",
+      "bottom": "底部"
     }
+  },
+  "top": {
+    "title": "上边距",
+    "var_default": "50px",
+    "type": "text",
+    "note": "定位为 上部 时有效"
+  },
+  "bottom": {
+    "title": "下边距",
+    "var_default": "50px",
+    "type": "text",
+    "note": "定位为 底部 时有效"
+  },
+  "left": {
+    "title": "左边距",
+    "var_default": "10px",
+    "type": "text",
+    "note": "左联"
+  },
+  "right": {
+    "title": "右边距",
+    "var_default": "10px",
+    "type": "text",
+    "note": "右联"
+  }
 }

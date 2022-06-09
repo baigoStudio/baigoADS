@@ -61,7 +61,7 @@ class Link extends Model {
 
     $_arr_linkRow = $this->where('link_id', '=', $num_linkId)->find($arr_select);
 
-    if (!$_arr_linkRow) {
+    if ($_arr_linkRow === false) {
       $_arr_linkRow          = $this->obj_request->fillParam(array(), $arr_select);
       $_arr_linkRow['msg']   = 'Link not found';
       $_arr_linkRow['rcode'] = 'x240102';

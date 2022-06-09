@@ -6,7 +6,7 @@
 
 namespace app\model\console;
 
-use app\model\modify\Opt as Opt_Modify;
+use app\model\common\Opt as Opt_Common;
 use ginkgo\Loader;
 use ginkgo\Config;
 use ginkgo\Func;
@@ -20,7 +20,7 @@ if (!defined('IN_GINKGO')) {
 }
 
 /*-------------设置项模型-------------*/
-class Opt extends Opt_Modify {
+class Opt extends Opt_Common {
 
   public $inputSubmit    = array();
   public $inputUpload    = array();

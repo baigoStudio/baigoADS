@@ -6,9 +6,10 @@
 
 namespace app\validate\console;
 
+use app\validate\common\Opt as Opt_Common;
 use ginkgo\Config;
 use ginkgo\Func;
-use app\validate\Opt as Opt_Base;
+
 
 //不能非法包含或直接执行
 if (!defined('IN_GINKGO')) {
@@ -16,7 +17,7 @@ if (!defined('IN_GINKGO')) {
 }
 
 /*-------------设置项模型-------------*/
-class Opt extends Opt_Base {
+class Opt extends Opt_Common {
 
   protected function v_init() { //构造函数
     parent::v_init();

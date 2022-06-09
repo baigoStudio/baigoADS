@@ -5,7 +5,7 @@
 -----------------------------------------------------------------*/
 namespace app\model\api;
 
-use app\model\Pm as Pm_Base;
+use app\model\common\Pm as Pm_Common;
 use ginkgo\Func;
 use ginkgo\Plugin;
 
@@ -15,14 +15,12 @@ if (!defined('IN_GINKGO')) {
 }
 
 /*-------------用户模型-------------*/
-class Pm extends Pm_Base {
+class Pm extends Pm_Common {
 
   public $inputRead   = array();
   public $inputCheck  = array();
   public $inputLists  = array();
   public $inputSend   = array();
-  public $inputStatus = array();
-  public $inputDelete = array();
 
   public function send() {
     $_arr_pmData = array(

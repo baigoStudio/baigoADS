@@ -5,7 +5,7 @@
 -----------------------------------------------------------------*/
 namespace app\model\api;
 
-use app\model\User as User_Base;
+use app\model\common\User as User_Common;
 use ginkgo\Arrays;
 use ginkgo\Func;
 
@@ -15,9 +15,10 @@ if (!defined('IN_GINKGO')) {
 }
 
 /*-------------用户模型-------------*/
-class User extends User_Base {
+class User extends User_Common {
 
   public $inputEdit = array();
+  public $inputRead = array();
 
   public function readBase($mix_user, $str_by = 'user_id', $num_notId = 0) {
     $_arr_select = array(

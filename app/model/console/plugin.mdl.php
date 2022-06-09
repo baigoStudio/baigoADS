@@ -7,11 +7,9 @@
 namespace app\model\console;
 
 use app\model\Plugin as Plugin_Base;
-use ginkgo\Func;
 use ginkgo\File;
 use ginkgo\Arrays;
 use ginkgo\Config;
-use ginkgo\Request;
 use ginkgo\Loader;
 
 //不能非法包含或直接执行
@@ -102,7 +100,7 @@ class Plugin extends Plugin_Base {
 
     $_str_outPut = Arrays::toJson($this->inputOpts);
 
-    $_num_size   = File::instance()->fileWrite($_str_optsPath, $_str_outPut);
+    $_num_size   = $this->obj_file->fileWrite($_str_optsPath, $_str_outPut);
 
     if ($_num_size > 0) {
       $_str_rcode = 'y190108'; //成功
@@ -130,10 +128,12 @@ class Plugin extends Plugin_Base {
     $_str_optsPath  = GK_PATH_PLUGIN . $_str_pluginDir . DS . 'opts.json';
 
     if (File::fileHas($_str_optsPath)) {
-      $_arr_pluginOpts = Loader::load($_str_optsPath);
+      $_arr_pluginOpts = Arrays::fromJson($_str_pluginOpts);
 
-      foreach ($_arr_pluginOpts as $_key=>$_value) {
-        $_arr_inputParam[$_key] = array('txt', '');
+      if (is_array($_arr_pluginOpts) && Func::notEmpty($_arr_pluginOpts)) {
+        foreach ($_arr_pluginOpts as $_key=>$_value) {
+          $_arr_inputParam[$_key] = array('txt', '');
+        }
       }
     }
 
@@ -205,7 +205,7 @@ class Plugin extends Plugin_Base {
 
     //print_r($_arr_inputUninstall);
 
-    $_arr_inputUninstall['plugin_dirs'] = Arrays::filter($_arr_inputUninstall['plugin_dirs']);
+    $_arr_inputUninstall['plugin_dirs'] = Arrays::unique($_arr_inputUninstall['plugin_dirs']);
 
     $_is_vld = $this->vld_plugin->scene('uninstall')->verify($_arr_inputUninstall);
 

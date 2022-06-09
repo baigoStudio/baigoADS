@@ -1,9 +1,8 @@
 <?php $cfg = array(
   'title'             => $lang->get('Login'),
-  'pathInclude'       => $path_tpl . 'include' . DS,
 );
 
-include($cfg['pathInclude'] . 'login_head' . GK_EXT_TPL); ?>
+include($tpl_ctrl . 'head' . GK_EXT_TPL); ?>
 
   <h4>
     <span class="spinner-grow"></span>
@@ -16,7 +15,7 @@ include($cfg['pathInclude'] . 'login_head' . GK_EXT_TPL); ?>
     <a href="<?php echo $forward; ?>" class="btn btn-primary"><?php echo $lang->get('Redirect immediately'); ?></a>
   </div>
 
-<?php include($cfg['pathInclude'] . 'login_foot' . GK_EXT_TPL); ?>
+<?php include($tpl_ctrl . 'foot' . GK_EXT_TPL); ?>
 
   <script type="text/javascript">
   $(document).ready(function(){
@@ -41,4 +40,4 @@ include($cfg['pathInclude'] . 'login_head' . GK_EXT_TPL); ?>
   });
   </script>
 
-<?php include($cfg['pathInclude'] . 'html_foot' . GK_EXT_TPL);
+<?php include($tpl_include . 'html_foot' . GK_EXT_TPL);

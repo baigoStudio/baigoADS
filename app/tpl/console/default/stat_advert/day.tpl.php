@@ -3,15 +3,14 @@
   'menu_active'   => 'advert',
   'sub_active'    => 'index',
   'baigoQuery'    => 'true',
-  'pathInclude'   => $path_tpl . 'include' . DS,
 );
 
-include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL);
+include($tpl_include . 'console_head' . GK_EXT_TPL);
 
-  include($cfg['pathInclude'] . 'stat_advert_show' . GK_EXT_TPL); ?>
+  include($tpl_ctrl . 'show' . GK_EXT_TPL); ?>
 
   <div class="card">
-    <?php include($cfg['pathInclude'] . 'stat_advert_menu' . GK_EXT_TPL); ?>
+    <?php include($tpl_ctrl . 'menu' . GK_EXT_TPL); ?>
 
     <div class="card-body">
       <div class="btn-group">
@@ -21,8 +20,12 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL);
           </button>
           <?php if (!empty($yearRows)) { ?>
             <div class="dropdown-menu">
-              <?php foreach ($yearRows as $key=>$value) { ?>
-                <a class="dropdown-item <?php if ($search['year'] == $value['stat_year']) { ?>active<?php } ?>" href="<?php echo $route_console; ?>stat_advert/day/id/<?php echo $advertRow['advert_id']; ?>/year/<?php echo $value['stat_year']; ?>/">
+              <?php foreach ($yearRows as $key=>$value) {
+
+                $_arr_src = array('{:id}', '{:year}', '{:month}');
+                $_arr_dst = array($advertRow['advert_id'], $value['stat_year'], 0); ?>
+
+                <a class="dropdown-item <?php if ($search['year'] == $value['stat_year']) { ?>active<?php } ?>" href="<?php echo str_replace($_arr_src, $_arr_dst, $hrefRow['day']); ?>">
                   <?php echo $value['stat_year']; ?>
                 </a>
               <?php } ?>
@@ -35,8 +38,12 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL);
           </button>
           <?php if (!empty($monthRows)) { ?>
             <div class="dropdown-menu">
-              <?php foreach ($monthRows as $key=>$value) { ?>
-                <a class="dropdown-item <?php if ($search['month'] == $value['stat_month']) { ?>active<?php } ?>" href="<?php echo $route_console; ?>stat_advert/day/id/<?php echo $advertRow['advert_id']; ?>/year/<?php echo $search['year']; ?>/month/<?php echo $value['stat_month']; ?>/">
+              <?php foreach ($monthRows as $key=>$value) {
+
+                $_arr_src = array('{:id}', '{:year}', '{:month}');
+                $_arr_dst = array($advertRow['advert_id'], $value['stat_year'], $value['stat_month']); ?>
+
+                <a class="dropdown-item <?php if ($search['month'] == $value['stat_month']) { ?>active<?php } ?>" href="<?php echo str_replace($_arr_src, $_arr_dst, $hrefRow['day']); ?>">
                   <?php echo $value['stat_month']; ?>
                 </a>
               <?php } ?>
@@ -74,7 +81,7 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL);
     </div>
   </div>
 
-<?php include($cfg['pathInclude'] . 'console_foot' . GK_EXT_TPL); ?>
+<?php include($tpl_include . 'console_foot' . GK_EXT_TPL); ?>
 
   <script type="text/javascript">
   $(document).ready(function(){
@@ -86,4 +93,4 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL);
   });
   </script>
 
-<?php include($cfg['pathInclude'] . 'html_foot' . GK_EXT_TPL);
+<?php include($tpl_include . 'html_foot' . GK_EXT_TPL);

@@ -6,7 +6,7 @@
 
 namespace app\model\console;
 
-use app\model\User as User_Base;
+use app\model\common\User as User_Common;
 use ginkgo\Func;
 use ginkgo\Arrays;
 
@@ -16,9 +16,8 @@ if (!defined('IN_GINKGO')) {
 }
 
 /*-------------用户模型-------------*/
-class User extends User_Base {
+class User extends User_Common {
 
-  public $inputSubmit = array();
   public $inputDelete = array();
   public $inputStatus = array();
 
@@ -189,7 +188,7 @@ class User extends User_Base {
 
     $_arr_inputStatus = $this->obj_request->post($_arr_inputParam);
 
-    $_arr_inputStatus['user_ids'] = Arrays::filter($_arr_inputStatus['user_ids']);
+    $_arr_inputStatus['user_ids'] = Arrays::unique($_arr_inputStatus['user_ids']);
 
     $_mix_vld = $this->validate($_arr_inputStatus, '', 'status');
 
@@ -218,7 +217,7 @@ class User extends User_Base {
 
     $_arr_inputDelete = $this->obj_request->post($_arr_inputParam);
 
-    $_arr_inputDelete['user_ids'] = Arrays::filter($_arr_inputDelete['user_ids']);
+    $_arr_inputDelete['user_ids'] = Arrays::unique($_arr_inputDelete['user_ids']);
 
     $_mix_vld = $this->validate($_arr_inputDelete, '', 'delete');
 

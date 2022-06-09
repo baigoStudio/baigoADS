@@ -26,7 +26,18 @@ class App_Belong extends Ctrl {
     $this->mdl_app          = Loader::model('App');
     $this->mdl_appBelong    = Loader::model('App_Belong');
 
+    $_str_hrefBase = $this->hrefBase . 'app_belong/';
+
+    $_arr_hrefRow   = array(
+      'index'  => $_str_hrefBase . 'index/id/',
+      'submit' => $_str_hrefBase . 'submit/',
+      'remove' => $_str_hrefBase . 'remove/',
+      'back'   => $this->url['route_console'] . 'app/',
+      'show'   => $this->url['route_console'] . 'user/show/id/'
+    );
+
     $this->generalData['status']    = $this->mdl_user->arr_status;
+    $this->generalData['hrefRow']   = array_replace_recursive($this->generalData['hrefRow'], $_arr_hrefRow);
   }
 
 
@@ -59,30 +70,34 @@ class App_Belong extends Ctrl {
       return $this->error($_arr_appRow['msg'], $_arr_appRow['rcode']);
     }
 
-    $_arr_search['not_in'] = Db::table('app_belong')->where('belong_app_id', '=', $_arr_appRow['app_id'])->fetchSql()->select('belong_user_id');
-
-    //print_r($_arr_search);
-
-    $_arr_getData   = $this->mdl_user->lists($this->config['var_default']['perpage'], $_arr_search); //列出
-
     $_arr_searchBelong = array(
       'app_id' => $_arr_appRow['app_id'],
     );
 
     $_str_pageParamBelong   = 'page-belong';
 
-    $_arr_getDataBelong    = $this->mdl_userAppView->lists($this->config['var_default']['perpage'], $_arr_searchBelong); //列出
+    $_arr_pagination        = array($this->config['var_default']['perpage'], '', '', $_str_pageParamBelong);
+
+    $_arr_getDataBelong     = $this->mdl_userAppView->lists($_arr_pagination, $_arr_searchBelong); //列出
+
+    //print_r($_arr_getDataBelong);
+
+    $_arr_search['not_in'] = Db::table('app_belong')->where('belong_app_id', '=', $_arr_appRow['app_id'])->fetchSql()->select('belong_user_id');
+
+    //print_r($_arr_search);
+
+    $_arr_getData   = $this->mdl_user->lists($this->config['var_default']['perpage'], $_arr_search); //列出
 
     $_arr_tplData = array(
       'appRow'            => $_arr_appRow,
-
       'search'            => $_arr_search,
-      'pageRowUser'       => $_arr_getData['pageRow'],
-      'userRows'          => $_arr_getData['dataRows'],
 
       'pageParamBelong'   => $_str_pageParamBelong,
       'pageRowBelong'     => $_arr_getDataBelong['pageRow'],
       'userRowsBelong'    => $_arr_getDataBelong['dataRows'],
+
+      'pageRowUser'       => $_arr_getData['pageRow'],
+      'userRows'          => $_arr_getData['dataRows'],
 
       'token'             => $this->obj_request->token(),
     );

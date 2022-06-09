@@ -19,6 +19,7 @@
     } ?>
   </title>
 
+  <link href="{:DIR_STATIC}image/favicon.png" rel="shortcut icon">
   <link href="{:DIR_STATIC}lib/bootstrap/4.6.0/css/bootstrap.min.css" type="text/css" rel="stylesheet">
 
   <link href="{:DIR_STATIC}css/common.css" type="text/css" rel="stylesheet">

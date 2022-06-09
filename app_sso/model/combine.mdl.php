@@ -41,15 +41,14 @@ class Combine extends Model {
 
     $_arr_combineRow = $this->where($_arr_where)->find($arr_select);
 
-    if (!$_arr_combineRow) {
-      return array(
-        'msg'   => 'Combine not found',
-        'rcode' => 'x040102', //不存在记录
-      );
+    if ($_arr_combineRow === false) {
+      $_arr_combineRow          = $this->obj_request->fillParam(array(), $arr_select);
+      $_arr_combineRow['msg']   = 'Combine not found';
+      $_arr_combineRow['rcode'] = 'x040102';
+    } else {
+      $_arr_combineRow['rcode'] = 'y040102';
+      $_arr_combineRow['msg']   = '';
     }
-
-    $_arr_combineRow['rcode'] = 'y040102';
-    $_arr_combineRow['msg']   = '';
 
     return $_arr_combineRow;
   }
@@ -109,8 +108,11 @@ class Combine extends Model {
     }
 
     if (isset($arr_search['not_ids']) && Func::notEmpty($arr_search['not_ids'])) {
-      $arr_search['not_ids'] = Arrays::filter($arr_search['not_ids']);
-      $_arr_where[] = array('combine_id', 'NOT IN', $arr_search['not_ids'], 'not_ids');
+      $arr_search['not_ids'] = Arrays::unique($arr_search['not_ids']);
+
+      if (Func::notEmpty($arr_search['not_ids'])) {
+        $_arr_where[] = array('combine_id', 'NOT IN', $arr_search['not_ids'], 'not_ids');
+      }
     }
 
     return $_arr_where;

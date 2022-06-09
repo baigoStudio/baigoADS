@@ -22,7 +22,7 @@ http://server/index.php/console/
 
 # 在线帮助
 
-<http://doc.baigo.net/ads/>
+https://doc.baigo.net/ads/
 
 ----------
 

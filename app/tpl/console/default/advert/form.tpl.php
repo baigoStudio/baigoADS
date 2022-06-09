@@ -15,19 +15,18 @@ $cfg = array(
   'tooltip'           => 'true',
   'upload'            => 'true',
   'datetimepicker'    => 'true',
-  'pathInclude'       => $path_tpl . 'include' . DS,
 );
 
-include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
+include($tpl_include . 'console_head' . GK_EXT_TPL); ?>
 
   <nav class="nav mb-3">
-    <a href="<?php echo $route_console; ?>advert/" class="nav-link">
-      <span class="bg-icon"><?php include($cfg_global['pathIcon'] . 'chevron-left' . BG_EXT_SVG); ?></span>
+    <a href="<?php echo $hrefRow['index']; ?>" class="nav-link">
+      <span class="bg-icon"><?php include($tpl_icon . 'chevron-left' . BG_EXT_SVG); ?></span>
       <?php echo $lang->get('Back'); ?>
     </a>
   </nav>
 
-  <form name="advert_form" id="advert_form" action="<?php echo $route_console; ?>advert/submit/">
+  <form name="advert_form" id="advert_form" action="<?php echo $hrefRow['submit']; ?>">
     <input type="hidden" name="<?php echo $token['name']; ?>" value="<?php echo $token['value']; ?>">
     <input type="hidden" name="advert_id" id="advert_id" value="<?php echo $advertRow['advert_id']; ?>">
     <input type="hidden" name="advert_attach_id" id="advert_attach_id" value="<?php echo $advertRow['advert_attach_id']; ?>">
@@ -66,8 +65,8 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
               <div class="input-group mb-3">
                 <input type="text" id="advert_attach_src" readonly value="<?php echo $attachRow['attach_url']; ?>" class="form-control">
                 <div class="input-group-append" id="button-addon4">
-                  <button type="button" class="btn btn-outline-secondary" data-target="#attach_modal" data-toggle="modal">
-                    <span class="bg-icon"><?php include($cfg_global['pathIcon'] . 'image' . BG_EXT_SVG); ?></span>
+                  <button type="button" class="btn btn-outline-secondary" data-target="#modal_xl" data-toggle="modal" data-href="<?php echo $hrefRow['attach-choose']; ?>">
+                    <span class="bg-icon"><?php include($tpl_icon . 'image' . BG_EXT_SVG); ?></span>
                     <?php echo $lang->get('Select'); ?>
                   </button>
                 </div>
@@ -184,15 +183,9 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
     </div>
   </form>
 
-  <div class="modal fade" id="attach_modal">
-    <div class="modal-dialog modal-xl">
-      <div class="modal-content">
+<?php include($tpl_include . 'console_foot' . GK_EXT_TPL);
 
-      </div>
-    </div>
-  </div>
-
-<?php include($cfg['pathInclude'] . 'console_foot' . GK_EXT_TPL); ?>
+  include($tpl_include . 'modal_xl' . GK_EXT_TPL); ?>
 
   <script type="text/javascript">
   var opts_validate_form = {
@@ -277,7 +270,6 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
     }
   }
 
-
   function advertPosi(_posi_id) {
     var posiJson      = <?php echo $posiJson; ?>;
     var _this_posi    = posiJson[_posi_id];
@@ -292,12 +284,6 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
   }
 
   $(document).ready(function(){
-    $('#attach_modal').on('shown.bs.modal', function() {
-      $('#attach_modal .modal-content').load('<?php echo $route_console; ?>attach/choose/view/modal');
-    }).on('hidden.bs.modal', function(){
-      $('#attach_modal .modal-content').empty();
-    });
-
     var obj_validate_form   = $('#advert_form').baigoValidate(opts_validate_form);
     var obj_submit_form     = $('#advert_form').baigoSubmit(opts_submit);
 
@@ -318,4 +304,4 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
   });
   </script>
 
-<?php include($cfg['pathInclude'] . 'html_foot' . GK_EXT_TPL);
+<?php include($tpl_include . 'html_foot' . GK_EXT_TPL);

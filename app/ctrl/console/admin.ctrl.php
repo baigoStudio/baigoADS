@@ -25,8 +25,24 @@ class Admin extends Ctrl {
 
     $this->mdl_admin    = Loader::model('Admin');
 
+    $_str_hrefBase = $this->hrefBase . 'admin/';
+
+    $_arr_hrefRow = array(
+      'index'        => $_str_hrefBase . 'index/',
+      'add'          => $_str_hrefBase . 'form/',
+      'show'         => $_str_hrefBase . 'show/id/',
+      'edit'         => $_str_hrefBase . 'form/id/',
+      'submit'       => $_str_hrefBase . 'submit/',
+      'delete'       => $_str_hrefBase . 'delete/',
+      'status'       => $_str_hrefBase . 'status/',
+      'chkname'      => $_str_hrefBase . 'chkname/',
+      'chkmail'      => $_str_hrefBase . 'chkmail/',
+      'auth'         => $this->url['route_console'] . 'auth/form/',
+    );
+
     $this->generalData['status']    = $this->mdl_admin->arr_status;
     $this->generalData['type']      = $this->mdl_admin->arr_type;
+    $this->generalData['hrefRow']   = array_replace_recursive($this->generalData['hrefRow'], $_arr_hrefRow);
   }
 
 

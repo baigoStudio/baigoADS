@@ -5,7 +5,7 @@
 -----------------------------------------------------------------*/
 namespace app\model\console;
 
-use app\model\Verify as Verify_Base;
+use app\model\common\Verify as Verify_Common;
 use ginkgo\Func;
 use ginkgo\Arrays;
 
@@ -15,7 +15,7 @@ if (!defined('IN_GINKGO')) {
 }
 
 /*-------------验证模型-------------*/
-class Verify extends Verify_Base {
+class Verify extends Verify_Common {
 
   public $inputStatus = array();
   public $inputDelete = array();
@@ -94,7 +94,7 @@ class Verify extends Verify_Base {
 
     //print_r($_arr_inputStatus);
 
-    $_arr_inputStatus['verify_ids'] = Arrays::filter($_arr_inputStatus['verify_ids']);
+    $_arr_inputStatus['verify_ids'] = Arrays::unique($_arr_inputStatus['verify_ids']);
 
     $_mix_vld = $this->validate($_arr_inputStatus, '', 'status');
 
@@ -125,7 +125,7 @@ class Verify extends Verify_Base {
 
     //print_r($_arr_inputDelete);
 
-    $_arr_inputDelete['verify_ids'] = Arrays::filter($_arr_inputDelete['verify_ids']);
+    $_arr_inputDelete['verify_ids'] = Arrays::unique($_arr_inputDelete['verify_ids']);
 
     $_mix_vld = $this->validate($_arr_inputDelete, '', 'delete');
 

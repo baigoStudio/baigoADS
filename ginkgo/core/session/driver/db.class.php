@@ -125,7 +125,7 @@ class Db extends Driver {
     } else { // if no session-data was found,
       $_arr_sessionData['session_id'] = $session_id;
 
-      $_num_db  = $this->obj_db->table('session')->insert($_arr_sessionData);
+      $_num_sessionId  = $this->obj_db->table('session')->insert($_arr_sessionData);
 
       if ($_num_sessionId > 0) { //数据库插入是否成功
         $_status = true;

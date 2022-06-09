@@ -55,7 +55,29 @@ class Attach extends Ctrl {
     $this->mdl_admin     = Loader::model('Admin');
     $this->mdl_attach    = Loader::model('Attach');
 
+    $_str_hrefBase = $this->hrefBase . 'attach/';
+
+    $_arr_hrefRow   = array(
+      'index'           => $_str_hrefBase . 'index/',
+      'index-admin'     => $_str_hrefBase . 'index/admin/',
+      'index-box'       => $_str_hrefBase . 'index/box/',
+      'add'             => $_str_hrefBase . 'form/',
+      'show'            => $_str_hrefBase . 'show/id/',
+      'edit'            => $_str_hrefBase . 'form/id/',
+      'upload'          => $_str_hrefBase . 'upload',
+      'submit'          => $_str_hrefBase . 'submit/',
+      'delete'          => $_str_hrefBase . 'delete/',
+      'status'          => $_str_hrefBase . 'status/',
+      'fix'             => $_str_hrefBase . 'fix/',
+      'box'             => $_str_hrefBase . 'box/',
+      'clear'           => $_str_hrefBase . 'clear/',
+      'empty-recycle'   => $_str_hrefBase . 'empty-recycle/',
+      'lists'           => $_str_hrefBase . 'lists/page/{:page}/year/{:year}/month/{:month}/ext/{:ext}/key/{:key}/',
+      'admin-show'      => $this->url['route_console'] . 'admin/show/id/',
+    );
+
     $this->generalData['box']    = $this->mdl_attach->arr_box;
+    $this->generalData['hrefRow'] = array_replace_recursive($this->generalData['hrefRow'], $_arr_hrefRow);
   }
 
 
@@ -719,8 +741,8 @@ class Attach extends Ctrl {
     }
 
     $this->mimeRows      = $_arr_mimes;
-    $this->allowExts     = Arrays::filter($_arr_allowExts);
-    $this->allowMimes    = Arrays::filter($_arr_allowMimes);
+    $this->allowExts     = Arrays::unique($_arr_allowExts);
+    $this->allowMimes    = Arrays::unique($_arr_allowMimes);
 
     $this->generalData['allow_exts']    = implode(',', $this->allowExts);
     $this->generalData['allow_mimes']   = implode(',', $this->allowMimes);

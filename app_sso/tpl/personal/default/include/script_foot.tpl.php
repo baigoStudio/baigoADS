@@ -20,16 +20,10 @@
 
   <script type="text/javascript">
   <?php if (isset($cfg['captchaReload'])) { ?>
-    function captchaReload(id) {
-      var imgSrc = '<?php echo $route_misc; ?>captcha/index/';
+    function captchaReload(img_src) {
+      img_src += '?' + new Date().getTime() + '=' + Math.random();
 
-      if (typeof id != 'undefined') {
-        imgSrc += 'id/' + id + '/';
-      }
-
-      imgSrc += new Date().getTime() + '/' + Math.random() + '/';
-
-      $('.bg-captcha-img').attr('src', imgSrc);
+      $('.bg-captcha-img').attr('src', img_src);
     }
   <?php }
 
@@ -61,9 +55,9 @@
     <?php if (isset($cfg['captchaReload'])) { ?>
       /*重新载入图片 js*/
       $('.bg-captcha-img').click(function(){
-        var _id = $(this).data('id');
+        var _src = $(this).data('src');
 
-        captchaReload(_id);
+        captchaReload(_src);
       });
     <?php } ?>
 

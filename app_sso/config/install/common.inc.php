@@ -11,17 +11,35 @@ if (!defined('IN_GINKGO')) {
 
 return array(
   'index'     => array(
-    'index'     => 'PHP Extensions',
-    'dbconfig'  => 'Database settings',
-    'data'      => 'Create data',
-    'admin'     => 'Add administrator',
-    'over'      => 'Complete installation',
+    'index'     => array(
+      'title' => 'PHP Extensions'
+    ),
+    'dbconfig'  => array(
+      'title' => 'Database settings',
+    ),
+    'data'      => array(
+      'title' => 'Create data',
+    ),
+    'admin'     => array(
+      'title' => 'Add administrator',
+    ),
+    'over'      => array(
+      'title' => 'Complete installation',
+    ),
   ),
   'upgrade'   => array(
-    'index'     => 'PHP Extensions',
-    'data'      => 'Update data',
-    'admin'     => 'Add administrator',
-    'over'      => 'Complete upgrade',
+    'index'     => array(
+      'title' => 'PHP Extensions',
+    ),
+    'data'      => array(
+      'title' => 'Update data',
+    ),
+    'admin'     => array(
+      'title' => 'Add administrator',
+    ),
+    'over'      => array(
+      'title' => 'Complete upgrade',
+    ),
   ),
   'data' => array(
     'index' => array(

@@ -23,11 +23,24 @@ class Plugin extends Ctrl {
   protected function c_init($param = array()) {
     parent::c_init();
 
-    $this->obj_file         = File::instance();
-
-    $this->mdl_plugin  = Loader::model('Plugin');
-
     $this->configPlugin = Config::get('plugin');
+    $this->obj_file     = File::instance();
+
+    $this->mdl_plugin   = Loader::model('Plugin');
+
+    $_str_hrefBase  = $this->hrefBase . 'plugin/';
+
+    $_arr_hrefRow = array(
+      'index'        => $_str_hrefBase . 'index/status/',
+      'show'         => $_str_hrefBase . 'show/dir/',
+      'edit'         => $_str_hrefBase . 'form/dir/',
+      'submit'       => $_str_hrefBase . 'submit/',
+      'opts'         => $_str_hrefBase . 'opts/dir/',
+      'opts-submit'  => $_str_hrefBase . 'opts-submit/',
+      'uninstall'    => $_str_hrefBase . 'uninstall/',
+    );
+
+    $this->generalData['hrefRow']   = array_replace_recursive($this->generalData['hrefRow'], $_arr_hrefRow);
   }
 
 
@@ -482,7 +495,7 @@ class Plugin extends Ctrl {
   private function pluginDisable($arr_pluginDisable) {
       //print_r($arr_pluginDisable);
     if (Func::notEmpty($arr_pluginDisable)) {
-      $this->mdl_plugin->inputUninstall['plugin_dirs'] = Arrays::filter($arr_pluginDisable);
+      $this->mdl_plugin->inputUninstall['plugin_dirs'] = Arrays::unique($arr_pluginDisable);
       $this->mdl_plugin->uninstall();
     }
   }

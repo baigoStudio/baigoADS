@@ -10,11 +10,11 @@ if (!defined('IN_GINKGO')) {
 }
 
 define('PRD_ADS_NAME', 'baigo ADS');
-define('PRD_ADS_URL', 'http://www.baigo.net/ads/');
-define('PRD_ADS_VER', '3.0-beta-3');
-define('PRD_ADS_PUB', 20211123);
-define('PRD_ADS_HELP', 'http://doc.baigo.net/ads/');
-define('PRD_VER_CHECK', 'http://www.baigo.net/ver_check/check.php');
+define('PRD_ADS_URL', 'https://www.baigo.net/ads/');
+define('PRD_ADS_VER', '3.0');
+define('PRD_ADS_PUB', 20220609);
+define('PRD_ADS_HELP', 'https://doc.baigo.net/ads/');
+define('PRD_VER_CHECK', 'https://www.baigo.net/ver_check/check.php');
 
 defined('BG_EXT_SVG') || define('BG_EXT_SVG', '.svg'); //SVG
 defined('BG_TPL_INDEX') || define('BG_TPL_INDEX', GK_APP_TPL . 'index' . DS); //前台模板

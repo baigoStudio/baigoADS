@@ -3,22 +3,21 @@
   'btn'           => $lang->get('Save'),
   'sub_title'     => $lang->get('Database settings'),
   'active'        => 'dbconfig',
-  'pathInclude'   => $path_tpl . 'include' . DS,
 );
 
-include($cfg['pathInclude'] . 'index_head' . GK_EXT_TPL); ?>
+include($tpl_ctrl . 'head' . GK_EXT_TPL);; ?>
 
-  <form name="dbconfig_form" id="dbconfig_form" action="<?php echo $route_install; ?>index/dbconfig-submit/">
+  <form name="dbconfig_form" id="dbconfig_form" action="<?php echo $hrefRow['dbconfig-submit']; ?>">
     <input type="hidden" name="<?php echo $token['name']; ?>" value="<?php echo $token['value']; ?>">
-    <?php include($path_tpl_console . 'include' . DS . 'dbconfig' . GK_EXT_TPL);
-    include($cfg['pathInclude'] . 'install_btn' . GK_EXT_TPL); ?>
+    <?php include($tpl_console . 'dbconfig' . GK_EXT_TPL);
+    include($tpl_include . 'install_btn' . GK_EXT_TPL); ?>
   </form>
 
-<?php include($cfg['pathInclude'] . 'install_foot' . GK_EXT_TPL); ?>
+<?php include($tpl_include . 'install_foot' . GK_EXT_TPL); ?>
 
   <script type="text/javascript">
   opts_submit.jump = {
-    url: '<?php echo $route_install; ?>index/<?php echo $step['next']; ?>/',
+    url: '<?php echo $step['next']['href']; ?>',
     text: '<?php echo $lang->get('Redirecting'); ?>'
   };
 
@@ -33,4 +32,4 @@ include($cfg['pathInclude'] . 'index_head' . GK_EXT_TPL); ?>
   });
   </script>
 
-<?php include($cfg['pathInclude'] . 'html_foot' . GK_EXT_TPL);
+<?php include($tpl_include . 'html_foot' . GK_EXT_TPL);

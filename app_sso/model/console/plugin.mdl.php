@@ -8,11 +8,10 @@ namespace app\model\console;
 
 use app\model\Plugin as Plugin_Base;
 use ginkgo\Loader;
-use ginkgo\Func;
-use ginkgo\File;
-use ginkgo\Request;
 use ginkgo\Config;
 use ginkgo\Arrays;
+use ginkgo\Func;
+use ginkgo\File;
 
 // 不能非法包含或直接执行
 if (!defined('IN_GINKGO')) {
@@ -26,17 +25,6 @@ class Plugin extends Plugin_Base {
   public $inputUninstall = array();
   public $inputOpts      = array();
 
-  protected $obj_request;
-  protected $vld_plugin;
-
-  public function __construct() { //构造函数
-      parent::__construct();
-
-      $this->obj_request  = Request::instance();
-      $this->vld_plugin   = Loader::validate('plugin');
-  }
-
-
   /** 提交
    * submit function.
    *
@@ -44,28 +32,28 @@ class Plugin extends Plugin_Base {
    * @return void
    */
   public function submit() {
-      $_arr_data = $this->configPlugin;
+    $_arr_data = $this->configPlugin;
 
-      $_arr_pluginData = array(
-          'plugin_note' => $this->inputSubmit['plugin_note'],
-      );
+    $_arr_pluginData = array(
+      'plugin_note' => $this->inputSubmit['plugin_note'],
+    );
 
-      $_arr_data[$this->inputSubmit['plugin_dir']] = $_arr_pluginData;
+    $_arr_data[$this->inputSubmit['plugin_dir']] = $_arr_pluginData;
 
-      $_num_size = Config::write(GK_APP_CONFIG . 'plugin' . GK_EXT_INC, $_arr_data);
+    $_num_size = Config::write(GK_APP_CONFIG . 'plugin' . GK_EXT_INC, $_arr_data);
 
-      if ($_num_size > 0) {
-          $_str_rcode = 'y190101';
-          $_str_msg   = 'Install plugin successfully';
-      } else {
-          $_str_rcode = 'x190101';
-          $_str_msg   = 'Install plugin failed';
-      }
+    if ($_num_size > 0) {
+      $_str_rcode = 'y190101';
+      $_str_msg   = 'Install plugin successfully';
+    } else {
+      $_str_rcode = 'x190101';
+      $_str_msg   = 'Install plugin failed';
+    }
 
-      return array(
-          'rcode'     => $_str_rcode, //成功
-          'msg'       => $_str_msg,
-      );
+    return array(
+      'rcode'     => $_str_rcode, //成功
+      'msg'       => $_str_msg,
+    );
   }
 
 
@@ -76,33 +64,33 @@ class Plugin extends Plugin_Base {
    * @return void
    */
   public function uninstall() {
-      $_arr_data = $this->configPlugin;
+    $_arr_data = $this->configPlugin;
 
-      $_num_count = 0;
+    $_num_count = 0;
 
-      foreach ($this->inputUninstall['plugin_dirs'] as $_key=>$_value) {
-          if (isset($_arr_data[$_value])) {
-              unset($_arr_data[$_value]);
-              ++$_num_count;
-          }
+    foreach ($this->inputUninstall['plugin_dirs'] as $_key=>$_value) {
+      if (isset($_arr_data[$_value])) {
+        unset($_arr_data[$_value]);
+        ++$_num_count;
       }
+    }
 
-      $_num_size = Config::write(GK_APP_CONFIG . 'plugin' . GK_EXT_INC, $_arr_data);
+    $_num_size = Config::write(GK_APP_CONFIG . 'plugin' . GK_EXT_INC, $_arr_data);
 
-      if ($_num_size > 0) {
-          $_str_rcode = 'y190104'; //成功
-          $_str_msg   = 'Successfully uninstalled {:count} plugins';
-      } else {
-          $_str_rcode = 'x190104'; //失败
-          $_str_msg   = 'No plugin have been uninstalled';
-      }
+    if ($_num_size > 0) {
+      $_str_rcode = 'y190104'; //成功
+      $_str_msg   = 'Successfully uninstalled {:count} plugins';
+    } else {
+      $_str_rcode = 'x190104'; //失败
+      $_str_msg   = 'No plugin have been uninstalled';
+    }
 
 
-      return array(
-          'count' => $_num_count,
-          'rcode' => $_str_rcode,
-          'msg'   => $_str_msg,
-      );
+    return array(
+      'count' => $_num_count,
+      'rcode' => $_str_rcode,
+      'msg'   => $_str_msg,
+    );
   }
 
 
@@ -113,14 +101,14 @@ class Plugin extends Plugin_Base {
 
     $_str_outPut = Arrays::toJson($this->inputOpts);
 
-    $_num_size   = File::instance()->fileWrite($_str_optsPath, $_str_outPut);
+    $_num_size   = $this->obj_file->fileWrite($_str_optsPath, $_str_outPut);
 
     if ($_num_size > 0) {
-        $_str_rcode = 'y190108'; //成功
-        $_str_msg   = 'Update plugin successfully';
+      $_str_rcode = 'y190108'; //成功
+      $_str_msg   = 'Update plugin successfully';
     } else {
-        $_str_rcode = 'x190103'; //失败
-        $_str_msg   = 'Did not make any changes';
+      $_str_rcode = 'x190103'; //失败
+      $_str_msg   = 'Did not make any changes';
     }
 
     return array(
@@ -141,10 +129,13 @@ class Plugin extends Plugin_Base {
     $_str_optsPath  = GK_PATH_PLUGIN . $_str_pluginDir . DS . 'opts.json';
 
     if (File::fileHas($_str_optsPath)) {
-      $_arr_pluginOpts = Loader::load($_str_optsPath);
+      $_str_pluginOpts = $this->obj_file->fileRead($_str_optsPath);
+      $_arr_pluginOpts = Arrays::fromJson($_str_pluginOpts);
 
-      foreach ($_arr_pluginOpts as $_key=>$_value) {
-        $_arr_inputParam[$_key] = array('txt', '');
+      if (is_array($_arr_pluginOpts) && Func::notEmpty($_arr_pluginOpts)) {
+        foreach ($_arr_pluginOpts as $_key=>$_value) {
+          $_arr_inputParam[$_key] = array('txt', '');
+        }
       }
     }
 
@@ -216,7 +207,7 @@ class Plugin extends Plugin_Base {
 
     //print_r($_arr_inputUninstall);
 
-    $_arr_inputUninstall['plugin_dirs'] = Arrays::filter($_arr_inputUninstall['plugin_dirs']);
+    $_arr_inputUninstall['plugin_dirs'] = Arrays::unique($_arr_inputUninstall['plugin_dirs']);
 
     $_is_vld = $this->vld_plugin->scene('uninstall')->verify($_arr_inputUninstall);
 

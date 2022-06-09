@@ -5,7 +5,7 @@
 -----------------------------------------------------------------*/
 namespace app\model\api;
 
-use app\model\User;
+use app\model\common\User as User_Common;
 use ginkgo\Func;
 use ginkgo\Crypt;
 
@@ -15,9 +15,7 @@ if (!defined('IN_GINKGO')) {
 }
 
 /*-------------用户模型-------------*/
-class Login extends User {
-
-  public $inputSubmit = array();
+class Login extends User_Common {
 
   protected $table = 'user';
 

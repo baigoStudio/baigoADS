@@ -27,6 +27,19 @@ class Combine extends Ctrl {
     parent::c_init();
 
     $this->mdl_combine  = Loader::model('Combine');
+
+    $_str_hrefBase = $this->hrefBase . 'combine/';
+
+    $_arr_hrefRow   = array(
+      'index'          => $_str_hrefBase . 'index/',
+      'add'            => $_str_hrefBase . 'form/',
+      'edit'           => $_str_hrefBase . 'form/id/',
+      'submit'         => $_str_hrefBase . 'submit/',
+      'delete'         => $_str_hrefBase . 'delete/',
+      'combine_belong' => $this->url['route_console'] . 'combine_belong/index/id/',
+    );
+
+    $this->generalData['hrefRow']   = array_replace_recursive($this->generalData['hrefRow'], $_arr_hrefRow);
   }
 
 
@@ -68,48 +81,6 @@ class Combine extends Ctrl {
   }
 
 
-  public function show() {
-    $_mix_init = $this->init();
-
-    if ($_mix_init !== true) {
-      return $this->error($_mix_init['msg'], $_mix_init['rcode']);
-    }
-
-    if (!isset($this->adminAllow['app']['combine']) && !$this->isSuper) { //判断权限
-      return $this->error('You do not have permission', 'x040301');
-    }
-
-    $_num_combineId = 0;
-
-    if (isset($this->param['id'])) {
-      $_num_combineId = $this->obj_request->input($this->param['id'], 'int', 0);
-    }
-
-    if ($_num_combineId < 1) {
-      return $this->error('Missing ID', 'x040202');
-    }
-
-    $_arr_combineRow = $this->mdl_combine->read($_num_combineId);
-
-    if ($_arr_combineRow['rcode'] != 'y040102') {
-      return $this->error($_arr_combineRow['msg'], $_arr_combineRow['rcode']);
-    }
-
-    $_arr_tplData = array(
-      'combineRow'    => $_arr_combineRow,
-      'token'     => $this->obj_request->token(),
-    );
-
-    $_arr_tpl = array_replace_recursive($this->generalData, $_arr_tplData);
-
-    //print_r($_arr_combineRows);
-
-    $this->assign($_arr_tpl);
-
-    return $this->fetch();
-  }
-
-
   public function form() {
     $_mix_init = $this->init();
 
@@ -123,12 +94,12 @@ class Combine extends Ctrl {
       $_num_combineId = $this->obj_request->input($this->param['id'], 'int', 0);
     }
 
+    $_arr_combineRow = $this->mdl_combine->read($_num_combineId);
+
     if ($_num_combineId > 0) {
       if (!isset($this->adminAllow['app']['combine']) && !$this->isSuper) { //判断权限
         return $this->error('You do not have permission', 'x040303');
       }
-
-      $_arr_combineRow = $this->mdl_combine->read($_num_combineId);
 
       if ($_arr_combineRow['rcode'] != 'y040102') {
         return $this->error($_arr_combineRow['msg'], $_arr_combineRow['rcode']);
@@ -137,11 +108,6 @@ class Combine extends Ctrl {
       if (!isset($this->adminAllow['app']['combine']) && !$this->isSuper) { //判断权限
         return $this->error('You do not have permission', 'x040302');
       }
-
-      $_arr_combineRow = array(
-        'combine_id'            => 0,
-        'combine_name'          => '',
-      );
     }
 
     $_arr_tplData = array(

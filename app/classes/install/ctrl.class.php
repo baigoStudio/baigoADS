@@ -33,6 +33,19 @@ abstract class Ctrl extends Ctrl_Base {
     Plugin::listen('action_install_init'); //管理后台初始化时触发
 
     $this->mdl_opt     = Loader::model('Opt');
+
+    $this->generalData['hrefRow'] = array(
+      'type-submit'     => $this->hrefBase . 'type-submit/',
+      'admin'           => $this->hrefBase . 'admin/',
+      'admin-submit'    => $this->hrefBase . 'admin-submit/',
+      'admin-check'     => $this->hrefBase . 'admin-check/',
+      'auth'            => $this->hrefBase . 'auth/',
+      'auth-submit'     => $this->hrefBase . 'auth-submit/',
+      'auth-check'      => $this->hrefBase . 'auth-check/',
+      'dbconfig-submit' => $this->hrefBase . 'dbconfig-submit/',
+      'data-submit'     => $this->hrefBase . 'data-submit/',
+      'over-submit'     => $this->hrefBase . 'over-submit/',
+    );
   }
 
 
@@ -176,7 +189,7 @@ abstract class Ctrl extends Ctrl_Base {
     }
 
     $_arr_url = array(
-      'path_tpl_console'  => $_str_pathTplConsole,
+      'tpl_console'  => $_str_pathTplConsole . 'include' . DS,
     );
 
     $this->url = array_replace_recursive($this->url, $_arr_url);
@@ -188,8 +201,20 @@ abstract class Ctrl extends Ctrl_Base {
   protected function configProcess() {
     parent::configProcess();
 
+    $_str_hrefBase  = $this->url['route_install'] . $this->route['ctrl'] . '/';
+
+    $this->hrefBase = $_str_hrefBase;
+
+    $_arr_configInstall = Config::get($this->route['ctrl'], 'install');
+
     $_str_configPhplib  = BG_PATH_CONFIG . 'install' . DS . 'phplib' . GK_EXT_INC;
     $this->phplib       = Config::load($_str_configPhplib, 'phplib');
+
+    foreach ($_arr_configInstall as $_key_m=>&$_value_m) {
+      $_value_m['href'] = $_str_hrefBase . $_key_m . '/';
+    }
+
+    Config::set($this->route['ctrl'], $_arr_configInstall, 'install');
 
     $_str_configOpt     = BG_PATH_CONFIG . 'console' . DS . 'opt' . GK_EXT_INC;
     $_arr_consoleOpt    = Config::load($_str_configOpt, 'opt', 'console');
@@ -211,14 +236,14 @@ abstract class Ctrl extends Ctrl_Base {
 
     //print_r($_arr_install);
 
-    $_arr_prev     = array_slice($_arr_install, $_index - 1, -1);
+    $_arr_prev   = array_slice($_arr_install, $_index - 1, -1);
     if (Func::isEmpty($_arr_prev)) {
       $_key_prev = 'index';
     } else {
       $_key_prev = key($_arr_prev);
     }
 
-    $_arr_next     = array_slice($_arr_install, $_index + 1, 1);
+    $_arr_next   = array_slice($_arr_install, $_index + 1, 1);
     if (Func::isEmpty($_arr_next)) {
       $_key_next = 'over';
     } else {
@@ -226,8 +251,14 @@ abstract class Ctrl extends Ctrl_Base {
     }
 
     return array(
-      'prev' => $_key_prev,
-      'next' => $_key_next,
+      'prev' => array(
+        'act'  => $_key_prev,
+        'href' => $this->hrefBase . $_key_prev . '/',
+      ),
+      'next' => array(
+        'act'  => $_key_next,
+        'href' => $this->hrefBase . $_key_next . '/',
+      ),
     );
   }
 

@@ -4,25 +4,23 @@
   'sub_active'        => 'prefer',
   'baigoValidate'     => 'true',
   'baigoSubmit'       => 'true',
-  'pathInclude'       => $path_tpl . 'include' . DS,
 );
 
-include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
+include($tpl_include . 'console_head' . GK_EXT_TPL); ?>
 
-  <form name="profile_form" id="profile_form" action="<?php echo $route_console; ?>profile/prefer-submit/">
+  <form name="profile_form" id="profile_form" action="<?php echo $hrefRow['prefer-submit']; ?>">
     <input type="hidden" name="<?php echo $token['name']; ?>" value="<?php echo $token['value']; ?>">
 
     <div class="row">
       <div class="col-xl-9">
         <div class="card mb-3">
-          <div class="card-body">
-            <div class="form-group">
-              <label><?php echo $lang->get('Username'); ?></label>
-              <input type="text" value="<?php echo $adminLogged['admin_name']; ?>" readonly class="form-control">
-            </div>
-          </div>
-
           <ul class="list-group list-group-flush bg-list-group mb-3">
+            <li class="list-group-item">
+              <div class="form-group">
+                <label><?php echo $lang->get('Username'); ?></label>
+                <input type="text" value="<?php echo $adminLogged['admin_name']; ?>" readonly class="form-control">
+              </div>
+            </li>
             <?php
             $_arr_rule      = array();
             $_arr_attr      = array();
@@ -119,11 +117,11 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
         </div>
       </div>
 
-      <?php include($cfg['pathInclude'] . 'profile_side' . GK_EXT_TPL); ?>
+      <?php include($tpl_ctrl . 'side' . GK_EXT_TPL); ?>
     </div>
   </form>
 
-<?php include($cfg['pathInclude'] . 'console_foot' . GK_EXT_TPL); ?>
+<?php include($tpl_include . 'console_foot' . GK_EXT_TPL); ?>
 
   <script type="text/javascript">
   var opts_validate_form = {
@@ -154,4 +152,4 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
   });
   </script>
 
-<?php include($cfg['pathInclude'] . 'html_foot' . GK_EXT_TPL);
+<?php include($tpl_include . 'html_foot' . GK_EXT_TPL);

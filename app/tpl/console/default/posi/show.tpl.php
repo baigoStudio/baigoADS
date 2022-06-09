@@ -4,26 +4,25 @@
   'sub_active'        => 'index',
   'prism'             => 'true',
   'baigoSubmit'       => 'true',
-  'pathInclude'       => $path_tpl . 'include' . DS,
 );
 
-include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
+include($tpl_include . 'console_head' . GK_EXT_TPL); ?>
 
   <nav class="nav mb-3">
-    <a href="<?php echo $route_console; ?>posi/" class="nav-link">
-      <span class="bg-icon"><?php include($cfg_global['pathIcon'] . 'chevron-left' . BG_EXT_SVG); ?></span>
+    <a href="<?php echo $hrefRow['index']; ?>" class="nav-link">
+      <span class="bg-icon"><?php include($tpl_icon . 'chevron-left' . BG_EXT_SVG); ?></span>
       <?php echo $lang->get('Back'); ?>
     </a>
   </nav>
 
-  <form name="posi_form" id="posi_form" action="<?php echo $route_console; ?>posi/duplicate/">
+  <form name="posi_form" id="posi_form" action="<?php echo $hrefRow['duplicate']; ?>">
     <input type="hidden" name="<?php echo $token['name']; ?>" value="<?php echo $token['value']; ?>">
     <input type="hidden" name="posi_id" id="posi_id" value="<?php echo $posiRow['posi_id']; ?>">
 
     <div class="row">
       <div class="col-xl-9">
         <div class="card mb-3">
-          <?php include($cfg['pathInclude'] . 'posi_menu' . GK_EXT_TPL); ?>
+          <?php include($tpl_ctrl . 'menu' . GK_EXT_TPL); ?>
           <div class="card-body">
             <?php foreach ($advertRows as $key=>$value) { ?>
               <div class="form-group">
@@ -50,8 +49,8 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
                 <?php echo $lang->get('Duplicate'); ?>
               </button>
 
-              <a href="<?php echo $route_console; ?>posi/form/id/<?php echo $posiRow['posi_id']; ?>/">
-                <span class="bg-icon"><?php include($cfg_global['pathIcon'] . 'edit' . BG_EXT_SVG); ?></span>
+              <a href="<?php echo $hrefRow['edit'], $posiRow['posi_id']; ?>">
+                <span class="bg-icon"><?php include($tpl_icon . 'edit' . BG_EXT_SVG); ?></span>
                 <?php echo $lang->get('Edit'); ?>
               </a>
             </div>
@@ -68,11 +67,11 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
         <small><?php echo $lang->get('This code is used to display Ad, please use it according to the actual situation. It is recommended to place <mark>JavaScript</mark> and <mark>CSS</mark> between <code>&lt;head&gt;</code>, the <mark>Ad container</mark> where it needs to be displayed. Note: If the script is Depend on JS librarys such as jQuery, Bootstrap etc., you also need to import these librarys.'); ?></small>
       </div>
 
-      <?php include($cfg['pathInclude'] . 'posi_side' . GK_EXT_TPL); ?>
+      <?php include($tpl_ctrl . 'side' . GK_EXT_TPL); ?>
     </div>
   </form>
 
-<?php include($cfg['pathInclude'] . 'console_foot' . GK_EXT_TPL);  ?>
+<?php include($tpl_include . 'console_foot' . GK_EXT_TPL);  ?>
 
   <script type="text/javascript">
   $(document).ready(function(){
@@ -83,4 +82,4 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
   });
   </script>
 
-<?php include($cfg['pathInclude'] . 'html_foot' . GK_EXT_TPL);
+<?php include($tpl_include . 'html_foot' . GK_EXT_TPL);

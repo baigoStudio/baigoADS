@@ -10,7 +10,7 @@ if (!defined('IN_GINKGO')) {
 }
 
 return array(
-  'session_expire'    => 20 * GK_MINUTE,
-  'remember_expire'   => 30 * GK_DAY,
-  'opt_extra' => array( ),
+  'session_expire'  => 20 * GK_MINUTE,
+  'remember_expire' => 30 * GK_DAY,
+  'opt_extra'       => array( ),
 );

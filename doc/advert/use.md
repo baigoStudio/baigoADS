@@ -11,38 +11,37 @@
 ``` markup
 <!DOCTYPE html>
 <html lang="zh_CN">
-    <head>
-        <title>advert</title>
+  <head>
+    <title>advert</title>
 
-        <!-- 依赖 - 0 begin -->
-        <script src="/ads/public/static/lib/1.11.1/jquery.min.js" type="text/javascript"></script>
-        <!-- 依赖 - 0 end -->
+    <!-- 依赖 - 0 begin -->
+    <script src="/ads/public/static/lib/1.11.1/jquery.min.js" type="text/javascript"></script>
+    <!-- 依赖 - 0 end -->
 
-        <!-- 广告 CSS begin -->
-        <link href="/ads/public/install/couplet/couplet.css" type="text/css" rel="stylesheet">
-        <!-- 广告 CSS end -->
+    <!-- 广告 CSS begin -->
+    <link href="/ads/public/install/couplet/couplet.css" type="text/css" rel="stylesheet">
+    <!-- 广告 CSS end -->
 
-        <!-- 广告脚本 begin -->
-        <script src="/ads/public/install/couplet/couplet.min.js" type="text/javascript"></script>
-        <!-- 广告脚本 end -->
+    <!-- 广告脚本 begin -->
+    <script src="/ads/public/install/couplet/couplet.min.js" type="text/javascript"></script>
+    <!-- 广告脚本 end -->
+  </head>
+  <body>
 
-    </head>
-    <body>
+    <!-- 广告容器 begin -->
+    <div id="adsCouplet_12"></div>
+    <!-- 广告容器 end -->
 
-        <!-- 广告容器 begin -->
-        <div id="adsCouplet_12"></div>
-        <!-- 广告容器 end -->
+    <!-- 初始化 begin -->
+    <script type="text/javascript">
+    opts_ad_12 = {"data_url":"/ads/public/index.php/posi/12","remain":"top","top":"50px","bottom":"50px","left":"10px","right":"10px"};
 
-        <!-- 初始化 begin -->
-        <script type="text/javascript">
-        opts_ad_12 = {"data_url":"/ads/public/index.php/posi/12","remain":"top","top":"50px","bottom":"50px","left":"10px","right":"10px"};
+    $(document).ready(function(){
+      $('#adsCouplet_12').adsCouplet(opts_ad_12);
+    });
+    </script>
+    <!-- 初始化 end -->
 
-        $(document).ready(function(){
-            $('#adsCouplet_12').adsCouplet(opts_ad_12);
-        });
-        </script>
-        <!-- 初始化 end -->
-
-    </body>
+  </body>
 </html>
 ```

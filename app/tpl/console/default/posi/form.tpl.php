@@ -12,26 +12,25 @@ $cfg = array(
   'sub_active'        => $str_sub,
   'baigoValidate'     => 'true',
   'baigoSubmit'       => 'true',
-  'pathInclude'       => $path_tpl . 'include' . DS,
 );
 
-include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
+include($tpl_include . 'console_head' . GK_EXT_TPL); ?>
 
   <nav class="nav mb-3">
-    <a href="<?php echo $route_console; ?>posi/" class="nav-link">
-      <span class="bg-icon"><?php include($cfg_global['pathIcon'] . 'chevron-left' . BG_EXT_SVG); ?></span>
+    <a href="<?php echo $hrefRow['index']; ?>" class="nav-link">
+      <span class="bg-icon"><?php include($tpl_icon . 'chevron-left' . BG_EXT_SVG); ?></span>
       <?php echo $lang->get('Back'); ?>
     </a>
   </nav>
 
-  <form name="posi_form" id="posi_form" action="<?php echo $route_console; ?>posi/submit/">
+  <form name="posi_form" id="posi_form" action="<?php echo $hrefRow['submit']; ?>">
     <input type="hidden" name="<?php echo $token['name']; ?>" value="<?php echo $token['value']; ?>">
     <input type="hidden" name="posi_id" id="posi_id" value="<?php echo $posiRow['posi_id']; ?>">
 
     <div class="row">
       <div class="col-xl-9">
         <div class="card mb-3">
-          <?php include($cfg['pathInclude'] . 'posi_menu' . GK_EXT_TPL); ?>
+          <?php include($tpl_ctrl . 'menu' . GK_EXT_TPL); ?>
           <div class="card-body">
             <div class="form-group">
               <label><?php echo $lang->get('Ad script'); ?> <span class="text-danger">*</span></label>
@@ -49,7 +48,7 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
                     </button>
                     <div class="dropdown-menu">
                       <?php foreach ($scriptRows as $key=>$value) { ?>
-                        <a href="<?php echo $route_console; ?>posi/form/script/<?php echo $key; ?>" class="dropdown-item">
+                        <a href="<?php echo $hrefRow['add-from'], $key; ?>" class="dropdown-item">
                           <?php echo $key, ' [ ', $value['name'], ' ]'; ?>
                         </a>
                       <?php } ?>
@@ -139,11 +138,11 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
         </div>
       </div>
 
-      <?php include($cfg['pathInclude'] . 'posi_side' . GK_EXT_TPL); ?>
+      <?php include($tpl_ctrl . 'side' . GK_EXT_TPL); ?>
     </div>
   </form>
 
-<?php include($cfg['pathInclude'] . 'console_foot' . GK_EXT_TPL); ?>
+<?php include($tpl_include . 'console_foot' . GK_EXT_TPL); ?>
 
   <script type="text/javascript">
   var script_json = <?php echo $scriptJson; ?>
@@ -245,4 +244,4 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
   });
   </script>
 
-<?php include($cfg['pathInclude'] . 'html_foot' . GK_EXT_TPL);
+<?php include($tpl_include . 'html_foot' . GK_EXT_TPL);

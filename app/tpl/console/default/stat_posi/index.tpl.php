@@ -3,15 +3,14 @@
   'menu_active'   => 'posi',
   'sub_active'    => 'index',
   'baigoQuery'    => 'true',
-  'pathInclude'   => $path_tpl . 'include' . DS,
 );
 
-include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL);
+include($tpl_include . 'console_head' . GK_EXT_TPL);
 
-  include($cfg['pathInclude'] . 'stat_posi_show' . GK_EXT_TPL); ?>
+  include($tpl_ctrl . 'show' . GK_EXT_TPL); ?>
 
   <div class="card">
-    <?php include($cfg['pathInclude'] . 'stat_posi_menu' . GK_EXT_TPL); ?>
+    <?php include($tpl_ctrl . 'menu' . GK_EXT_TPL); ?>
 
     <div class="table-responsive">
       <table class="table table-striped table-borderless">
@@ -41,7 +40,7 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL);
     </div>
   </div>
 
-<?php include($cfg['pathInclude'] . 'console_foot' . GK_EXT_TPL); ?>
+<?php include($tpl_include . 'console_foot' . GK_EXT_TPL); ?>
 
   <script type="text/javascript">
   $(document).ready(function(){
@@ -53,4 +52,4 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL);
   });
   </script>
 
-<?php include($cfg['pathInclude'] . 'html_foot' . GK_EXT_TPL);
+<?php include($tpl_include . 'html_foot' . GK_EXT_TPL);

@@ -6,8 +6,10 @@
 
 namespace app\model;
 
-use ginkgo\Func;
+use ginkgo\Request;
+use ginkgo\Loader;
 use ginkgo\Config;
+use ginkgo\File;
 
 // 不能非法包含或直接执行
 if (!defined('IN_GINKGO')) {
@@ -18,8 +20,14 @@ if (!defined('IN_GINKGO')) {
 class Plugin {
 
   protected $configPlugin = array();
+  protected $obj_request;
+  protected $vld_plugin;
 
   public function __construct() { //构造函数
     $this->configPlugin = Config::get('plugin');
+
+    $this->obj_request  = Request::instance();
+    $this->obj_file     = File::instance();
+    $this->vld_plugin   = Loader::validate('plugin');
   }
 }

@@ -1,18 +1,18 @@
 {
-    "name": "轮播",
-    "require": [
-        {
-            "url": "{:DIR_STATIC}lib/jquery/1.12.4/jquery.min.js",
-            "type": "js"
-        },
-        {
-            "url": "{:DIR_STATIC}lib/bootstrap/4.6.0/js/bootstrap.bundle.min.js",
-            "type": "js"
-        }
-    ],
-    "is_percent": "disabled",
-    "count": 5,
-    "loading": "正在加载广告 ...",
-    "close": "关闭",
-    "note": "本脚本需要 Bootstrap 4 支持"
+  "name": "轮播",
+  "require": [
+    {
+      "url": "{:DIR_STATIC}lib/jquery/1.12.4/jquery.min.js",
+      "type": "js"
+    },
+    {
+      "url": "{:DIR_STATIC}lib/bootstrap/4.6.0/js/bootstrap.bundle.min.js",
+      "type": "js"
+    }
+  ],
+  "is_percent": "disabled",
+  "count": 5,
+  "loading": "正在加载广告 ...",
+  "close": "关闭",
+  "note": "本脚本需要 Bootstrap 4 支持"
 }

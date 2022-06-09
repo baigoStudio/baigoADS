@@ -18,6 +18,22 @@ if (!defined('IN_GINKGO')) {
 
 class Verify extends Ctrl {
 
+  protected function c_init($param = array()) {
+    parent::c_init();
+
+    $_str_hrefBase = $this->hrefBase . 'verify/';
+
+    $_arr_hrefRow = array(
+      'pass-submit'    => $_str_hrefBase . 'pass-submit/',
+      'mailbox-submit' => $_str_hrefBase . 'mailbox-submit/',
+      'confirm-submit' => $_str_hrefBase . 'confirm-submit/',
+      'captcha'        => $this->url['route_misc'] . 'captcha/index/id/captcha_verify/',
+      'captcha-check'  => $this->url['route_misc'] . 'captcha/check/id/captcha_verify/',
+    );
+
+    $this->generalData['hrefRow']   = array_replace_recursive($this->generalData['hrefRow'], $_arr_hrefRow);
+  }
+
   public function confirm() {
     $_arr_searchParam = array(
       'id'       => array('int', 0),

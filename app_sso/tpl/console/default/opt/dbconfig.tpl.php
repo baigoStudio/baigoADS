@@ -1,33 +1,33 @@
 <?php $cfg = array(
-    'title'             => $lang->get('System settings', 'console.common') . ' &raquo; ' . $lang->get('Database settings', 'console.common'),
-    'menu_active'       => 'opt',
-    'sub_active'        => 'dbconfig',
-    'baigoValidate'     => 'true',
-    'baigoSubmit'       => 'true',
-    'baigoDialog'       => 'true',
-    'pathInclude'       => $path_tpl . 'include' . DS,
+  'title'             => $lang->get('System settings', 'console.common') . ' &raquo; ' . $lang->get('Database settings', 'console.common'),
+  'menu_active'       => 'opt',
+  'sub_active'        => 'dbconfig',
+  'baigoValidate'     => 'true',
+  'baigoSubmit'       => 'true',
+  'baigoDialog'       => 'true',
 );
 
-include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
+include($tpl_include . 'console_head' . GK_EXT_TPL); ?>
 
   <div class="row">
     <div class="col-md-3">
       <h5><?php echo $lang->get('Upgrade data'); ?></h5>
       <div class="alert alert-warning">
+        <span class="bg-icon"><?php include($tpl_icon . 'exclamation-triangle' . BG_EXT_SVG); ?></span>
         <?php echo $lang->get('Warning! Please backup the data before upgrading.'); ?>
       </div>
       <a href="#upgrade_modal" class="btn btn-primary" data-toggle="modal">
-        <span class="bg-icon"><?php include($cfg_global['pathIcon'] . 'database' . BG_EXT_SVG); ?></span>
+        <span class="bg-icon"><?php include($tpl_icon . 'database' . BG_EXT_SVG); ?></span>
         <?php echo $lang->get('Upgrade'); ?>
       </a>
     </div>
     <div class="col-md-9">
-      <form name="opt_form" id="opt_form" action="<?php echo $route_console; ?>opt/dbconfig-submit/">
+      <form name="opt_form" id="opt_form" action="<?php echo $hrefRow['dbconfig-submit']; ?>">
         <input type="hidden" name="<?php echo $token['name']; ?>" value="<?php echo $token['value']; ?>">
 
         <div class="card">
           <div class="card-body">
-            <?php include($cfg['pathInclude'] . 'dbconfig' . GK_EXT_TPL); ?>
+            <?php include($tpl_include . 'dbconfig' . GK_EXT_TPL); ?>
 
             <div class="bg-validate-box"></div>
           </div>
@@ -51,6 +51,7 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
         </div>
         <div class="modal-body">
           <div class="alert alert-warning">
+            <span class="bg-icon"><?php include($tpl_icon . 'exclamation-triangle' . BG_EXT_SVG); ?></span>
             <?php echo $lang->get('Warning! Please backup the data before upgrading.'); ?>
           </div>
         </div>
@@ -72,7 +73,7 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
                     <td id="<?php echo $key; ?>_<?php echo $value_data; ?>" class="text-right text-nowrap">
                       <div class="text-info">
                         <span class="bg-icon">
-                          <?php include($cfg_global['pathIcon'] . 'clock' . BG_EXT_SVG); ?>
+                          <?php include($tpl_icon . 'clock' . BG_EXT_SVG); ?>
                         </span>
                         <small>
                           <?php echo $lang->get('Waiting'); ?>
@@ -97,14 +98,14 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
     </div>
   </div>
 
-<?php include($cfg['pathInclude'] . 'console_foot' . GK_EXT_TPL); ?>
+<?php include($tpl_include . 'console_foot' . GK_EXT_TPL); ?>
 
   <script type="text/javascript">
   function update_do() {
     <?php foreach ($config_upgrade as $key=>$value) {
       foreach ($value['lists'] as $key_data=>$value_data) { ?>
         $.ajax({
-          url: '<?php echo $route_console; ?>opt/data-upgrade/' + new Date().getTime() + '/' + Math.random() + '/', //url
+          url: '<?php echo $hrefRow['data-upgrade']; ?>' + new Date().getTime() + '/' + Math.random() + '/', //url
           //async: false, //设置为同步
           type: 'post',
           dataType: 'json',
@@ -116,7 +117,7 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
           timeout: 30000,
           error: function (result) {
             $('#<?php echo $key; ?>_<?php echo $value_data; ?> div').attr('class', 'text-danger');
-            $('#<?php echo $key; ?>_<?php echo $value_data; ?> .bg-icon').html('<?php include($cfg_global['pathIcon'] . 'times-circle' . BG_EXT_SVG); ?>');
+            $('#<?php echo $key; ?>_<?php echo $value_data; ?> .bg-icon').html('<?php include($tpl_icon . 'times-circle' . BG_EXT_SVG); ?>');
             $('#<?php echo $key; ?>_<?php echo $value_data; ?> small').text(result.statusText);
           },
           beforeSend: function(){
@@ -130,12 +131,12 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
             switch (_rcode_status) {
               case 'y':
                 _class  = 'text-success';
-                _icon   = '<?php include($cfg_global['pathIcon'] . 'check-circle' . BG_EXT_SVG); ?>';
+                _icon   = '<?php include($tpl_icon . 'check-circle' . BG_EXT_SVG); ?>';
               break;
 
               default:
                 _class  = 'text-danger';
-                _icon   = '<?php include($cfg_global['pathIcon'] . 'times-circle' . BG_EXT_SVG); ?>';
+                _icon   = '<?php include($tpl_icon . 'times-circle' . BG_EXT_SVG); ?>';
               break;
             }
 
@@ -157,11 +158,11 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
     var obj_submit_form     = $('#opt_form').baigoSubmit(opts_submit);
 
     $('#opt_form').submit(function(){
-        if (obj_validate_form.verify()) {
-            obj_submit_form.formSubmit();
-        }
+      if (obj_validate_form.verify()) {
+        obj_submit_form.formSubmit();
+      }
     });
   });
   </script>
 
-<?php include($cfg['pathInclude'] . 'html_foot' . GK_EXT_TPL);
+<?php include($tpl_include . 'html_foot' . GK_EXT_TPL);

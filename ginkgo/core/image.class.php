@@ -104,8 +104,22 @@ class Image {
 
   // 配置 since 0.2.0
   public function config($imageMimes = array()) {
-    $_arr_imageMimes    = Config::get('image'); // 取得图片配置
-    $_arr_imageMimesDo  = array_replace_recursive($this->imageMimesThis, $this->imageMimes, $imageMimes); // 合并配置
+    $_arr_imageMimesDo = $this->imageMimesThis;
+
+    $_arr_imageMimes   = Config::get('image'); // 取得图片配置
+
+    if (is_array($_arr_imageMimes) && Func::notEmpty($_arr_imageMimes)) {
+      $_arr_imageMimesDo = array_replace_recursive($_arr_imageMimesDo, $_arr_imageMimes);
+    }
+
+    if (is_array($this->imageMimes) && Func::notEmpty($this->imageMimes)) {
+      $_arr_imageMimesDo = array_replace_recursive($_arr_imageMimesDo, $this->imageMimes);
+    }
+
+    if (is_array($imageMimes) && Func::notEmpty($imageMimes)) {
+      $_arr_imageMimesDo = array_replace_recursive($_arr_imageMimesDo, $imageMimes);
+    }
+
     $this->imageMimes   = $_arr_imageMimesDo;
     $this->imageExts    = array_keys($_arr_imageMimesDo);
   }
@@ -144,7 +158,7 @@ class Image {
     } else if (is_resource($this->res_imgSrc)) {
       $_res_imgDst = $this->res_imgSrc;
     } else {
-      $this->error = 'Missing destination image resource';
+      $this->errRecord('Image::stamp(), Missing destination image resource');
 
       return false;
     }
@@ -245,7 +259,7 @@ class Image {
    */
   public function crop($width, $height, $x_src = 0, $y_src = 0, $width_src = false, $height_src = false) {
     if (!is_resource($this->res_imgSrc)) {
-      $this->error = 'Missing source image resource';
+      $this->errRecord('Image::crop(), Missing source image resource');
       return $this;
     }
 
@@ -268,7 +282,7 @@ class Image {
     print_r($height_src);*/
 
     if (!imagecopyresampled($_res_imgBg, $this->res_imgSrc, 0, 0, $x_src, $y_src, $width, $height, $width_src, $height_src)) { // 将源图片合并到背景并缩小
-      $this->error = 'Failed to resize';
+      $this->errRecord('Image::crop(), Failed to resize');
       return $this;
     }
 
@@ -322,7 +336,7 @@ class Image {
     } else if (is_resource($this->res_imgSrc)) {
       $_res_imgDst = $this->res_imgSrc;
     } else {
-      $this->error = 'Missing destination image resource';
+      $this->errRecord('Image::output(), Missing destination image resource');
 
       return false;
     }
@@ -332,7 +346,7 @@ class Image {
     }
 
     if (Func::isEmpty($mime)) {
-      $this->error = 'Missing destination extension';
+      $this->errRecord('Image::output(), Missing destination extension');
 
       return false;
     }
@@ -389,7 +403,7 @@ class Image {
       break;
 
       default: // 不支持的图片类型
-        $this->error = 'Unsupported image type';
+        $this->errRecord('Image::output(), Unsupported image type');
 
         return false;
       break;
@@ -402,7 +416,7 @@ class Image {
     imagedestroy($_res_imgDst); // 销毁目的图片资源
 
     if (!$_return) {
-      $this->error = 'Failed to output image';
+      $this->errRecord('Image::output(), Failed to output image');
 
       return false;
     }
@@ -429,26 +443,24 @@ class Image {
    * @return void
    */
   public function save($dir = false, $name = false, $quality = false, $interlace = 1) {
-    $_str_ext = false;
-
     if ($dir === false || Func::isEmpty($dir)) {
       if (isset($this->infoDst['path_dir'])) {
         $dir = $this->infoDst['path_dir']; // 采用当前图片目录
       } else {
-        $this->error = 'Missing destination path';
+        $this->errRecord('Image::save(), Missing destination path');
 
         return false;
       }
     }
 
     if (Func::isEmpty($dir)) {
-      $this->error = 'Missing destination path';
+      $this->errRecord('Image::save(), Missing destination path');
 
       return false;
     }
 
     if (!$this->obj_file->dirMk($dir)) { // 创建目的目录
-      $this->error = 'Failed to create directory';
+      $this->errRecord('Image::save(), Failed to create directory: ' . $dir);
 
       return false;
     }
@@ -462,7 +474,7 @@ class Image {
     }
 
     if (Func::isEmpty($name)) { // 如果没有文件名则报错
-      $this->error = 'Missing destination filename';
+      $this->errRecord('Image::save(), Missing destination filename');
 
       return false;
     }
@@ -471,7 +483,7 @@ class Image {
     $_str_mime  = $this->getMime($_str_path);
 
     if (Func::isEmpty($_str_mime)) {
-      $this->error = 'Missing destination mime';
+      $this->errRecord('Image::save(), Missing destination mime');
 
       return false;
     }
@@ -506,11 +518,7 @@ class Image {
           $_value['thumb_height'] = 100; // 默认高度
         }
 
-        if (isset($_value['thumb_type_value'])) {
-          $_value['thumb_type'] = $_value['thumb_type_value'];
-        } else if (isset($_value['thumb_type'])) {
-          $_value['thumb_type'] = $_value['thumb_type'];
-        } else {
+        if (!isset($_value['thumb_type'])) {
           $_value['thumb_type'] = 'ratio'; // 默认类型
         }
 
@@ -644,7 +652,7 @@ class Image {
   // 打开图片处理 since 0.2.0
   private function openProcess($path) {
     if (!File::fileHas($path)) { // 如果不是文件
-      $this->error = 'Source image not found';
+      $this->errRecord('Image::openProcess(), Source image not found: ' . $path);
 
       return false;
     }
@@ -667,7 +675,7 @@ class Image {
     $_res_image   = imagecreatefromstring($_img_content);
 
     if (!is_resource($_res_image)) {
-      $this->error = 'Faild to open source image'; // 打开失败
+      $this->errRecord('Image::openProcess(), Faild to open source image: ' . $path); // 打开失败
 
       return false;
     }
@@ -696,7 +704,7 @@ class Image {
     $_res_imgBg = imagecreatetruecolor($width, $height); // 创建目标图片资源
 
     if (!$_res_imgBg) {
-      $this->error = 'Failed to create a new true color image';
+      $this->errRecord('Image::createImgBg(), Failed to create a new true color image');
       return false;
     }
 
@@ -708,16 +716,16 @@ class Image {
       case 'image/gif':
         $_color_bg = imagecolorallocate($_res_imgBg, 255, 255, 255); // 为图片资源分配背景色
         if ($_color_bg === -1) {
-          $this->error = 'Failed to allocate a color';
+          $this->errRecord('Image::createImgBg(), Failed to allocate a color');
           return false;
         }
         if (!imagefill($_res_imgBg, 0, 0, $_color_bg)) { // 用背景色填充
-          $this->error = 'Failed to flood fill';
+          $this->errRecord('Image::createImgBg(), Failed to flood fill');
           return false;
         }
         if ($transparent) {
           if (imagecolortransparent($_res_imgBg, $_color_bg) === -1) { // 将背景色设为透明
-            $this->error = 'No transparent color';
+            $this->errRecord('Image::createImgBg(), No transparent color');
             return false;
           }
         }
@@ -727,26 +735,26 @@ class Image {
       case 'image/x-png':
         $_color_alpha = imagecolorallocatealpha($_res_imgBg, 255, 255, 255, 127); // 为图片资源分配背景色 (包含 alpha 通道), 并设为完全透明
         if (!$_color_alpha) {
-          $this->error = 'Failed to allocate a color + alpha';
+          $this->errRecord('Image::createImgBg(), Failed to allocate a color + alpha');
           return false;
         }
         if (!imagefill($_res_imgBg, 0, 0, $_color_alpha)) { // 用背景色填充
-          $this->error = 'Failed to flood fill';
+          $this->errRecord('Image::createImgBg(), Failed to flood fill');
           return false;
         }
         if ($transparent) {
           if (imagecolortransparent($_res_imgBg, $_color_alpha) === -1) { // 将背景色设为透明
-            $this->error = 'No transparent color';
+            $this->errRecord('Image::createImgBg(), No transparent color');
             return false;
           }
         }
         if ($savealpha) {
           if (!imagealphablending($_res_imgBg, false)) { // 关闭混色模式
-            $this->error = 'Failed to set the blending mode';
+            $this->errRecord('Image::createImgBg(), Failed to set the blending mode');
             return false;
           }
           if (!imagesavealpha($_res_imgBg, true)) { // 保存 PNG 图像时保存完整的 alpha 通道信息
-            $this->error = 'Failed to save full alpha';
+            $this->errRecord('Image::createImgBg(), Failed to save full alpha');
             return false;
           }
         }
@@ -755,11 +763,11 @@ class Image {
       default:
         $_color_bg = imagecolorallocate($_res_imgBg, 255, 255, 255); // 为图片资源分配背景色
         if ($_color_bg === -1) {
-          $this->error = 'Failed to allocate a color';
+          $this->errRecord('Image::createImgBg(), Failed to allocate a color');
           return false;
         }
         if (!imagefill($_res_imgBg, 0, 0, $_color_bg)) { // 用背景色填充
-          $this->error = 'Failed to flood fill';
+          $this->errRecord('Image::createImgBg(), Failed to flood fill');
           return false;
         }
       break;
@@ -780,20 +788,20 @@ class Image {
   private function verifyFile($ext, $mime = '') {
     if (Func::isEmpty($mime)) { // 如指定 mime 参数, 则直接验证扩展名
       if (!in_array($ext, $this->imageExts)) {
-        $this->error = 'Not an image';
+        $this->errRecord('Image::verifyFile(), Not an image: ' . $ext);
 
         return false;
       }
     } else { // 严格检验
       if (Func::notEmpty($this->imageMimes)) {
         if (!isset($this->imageMimes[$ext])) { // 该扩展名的 mime 数组是否存在
-          $this->error = 'MIME check failed';
+          $this->errRecord('Image::verifyFile(), MIME check failed: ' . $ext);
 
           return false;
         }
 
         if (!in_array($mime, $this->imageMimes[$ext])) { // 是否允许
-          $this->error = 'Not an image';
+          $this->errRecord('Image::verifyFile(), Not an image: ' . $mime);
 
           return false;
         }
@@ -1301,5 +1309,25 @@ class Image {
 
   public function __destruct() {
     empty($this->res_imgSrc) || imagedestroy($this->res_imgSrc) || empty($this->res_imgDst) || imagedestroy($this->res_imgDst);
+  }
+
+  private function errRecord($msg) {  // since 0.2.4
+    $this->error      = $msg;
+    $_bool_debugDump  = false;
+    $_mix_configDebug = Config::get('debug'); // 取得调试配置
+
+    if (is_array($_mix_configDebug)) {
+      if ($_mix_configDebug['dump'] === true || $_mix_configDebug['dump'] === 'true' || $_mix_configDebug['dump'] === 'trace') { // 假如配置为输出
+        $_bool_debugDump = true;
+      }
+    } else if (is_scalar($_mix_configDebug)) {
+      if ($_mix_configDebug === true || $_mix_configDebug === 'true' || $_mix_configDebug === 'trace') { // 假如配置为输出
+        $_bool_debugDump = true;
+      }
+    }
+
+    if ($_bool_debugDump) {
+      Log::record('type: ginkgo\Image, msg: ' . $msg, 'log');
+    }
   }
 }

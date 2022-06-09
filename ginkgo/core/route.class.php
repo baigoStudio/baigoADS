@@ -120,9 +120,6 @@ class Route {
       self::init();
     }
 
-    $_str_error     = '';
-    $_str_detail    = '';
-
     self::pathInfoProcess(); // 解析 pathInfo
     self::ruleProcess(); // 解析规则
     self::routeProcess(); // 解析路由
@@ -173,7 +170,7 @@ class Route {
       }
     }
 
-    $_arr_routeExclude = Arrays::filter($_arr_routeExclude);
+    $_arr_routeExclude = Arrays::unique($_arr_routeExclude);
 
     $_str_param = '';
 
@@ -211,7 +208,7 @@ class Route {
       }
     }
 
-    self::$routeExclude = Arrays::filter(self::$routeExclude);
+    self::$routeExclude = Arrays::unique(self::$routeExclude);
   }
 
 

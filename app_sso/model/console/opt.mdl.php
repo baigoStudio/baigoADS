@@ -6,7 +6,7 @@
 
 namespace app\model\console;
 
-use app\model\Opt as Opt_Base;
+use app\model\common\Opt as Opt_Common;
 use ginkgo\Config;
 use ginkgo\Func;
 use ginkgo\Http;
@@ -20,7 +20,7 @@ if (!defined('IN_GINKGO')) {
 }
 
 /*-------------设置项模型-------------*/
-class Opt extends Opt_Base {
+class Opt extends Opt_Common {
 
   public $inputSubmit  = array();
   public $inputMailtpl = array();

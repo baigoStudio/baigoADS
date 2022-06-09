@@ -22,6 +22,16 @@ class Stat_Posi extends Ctrl {
 
     $this->mdl_posi      = Loader::model('Posi');
     $this->mdl_stat      = Loader::model('Stat_Posi');
+
+     $_str_hrefBase = $this->hrefBase . 'stat_posi/';
+
+    $_arr_hrefRow = array(
+      'index'   => $_str_hrefBase . 'index/id/{:id}/',
+      'month'   => $_str_hrefBase . 'month/id/{:id}/year/{:year}/',
+      'day'     => $_str_hrefBase . 'day/id/{:id}/year/{:year}/month/{:month}/',
+    );
+
+    $this->generalData['hrefRow']   = array_replace_recursive($this->generalData['hrefRow'], $_arr_hrefRow);
   }
 
 

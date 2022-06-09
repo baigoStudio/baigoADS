@@ -36,13 +36,14 @@ class Combine_Belong extends Model {
 
     $_arr_belongRow = $this->where($_arr_where)->find($_arr_belongSelect);
 
-    if (!$_arr_belongRow) {
-      return array(
-        'rcode' => 'x060102', //不存在记录
-      );
+    if ($_arr_belongRow === false) {
+      $_arr_belongRow          = $this->obj_request->fillParam(array(), $arr_select);
+      $_arr_belongRow['msg']   = 'Data not found';
+      $_arr_belongRow['rcode'] = 'x060102';
+    } else {
+      $_arr_belongRow['msg']   = '';
+      $_arr_belongRow['rcode'] = 'y060102';
     }
-
-    $_arr_belongRow['rcode'] = 'y060102';
 
     return $_arr_belongRow;
   }
@@ -107,9 +108,11 @@ class Combine_Belong extends Model {
     }
 
     if (isset($arr_search['app_ids']) && Func::notEmpty($arr_search['app_ids'])) {
-      $arr_search['app_ids'] = Arrays::filter($arr_search['app_ids'], 'app_ids');
+      $arr_search['app_ids'] = Arrays::unique($arr_search['app_ids'], 'app_ids');
 
-      $_arr_where[] = array('belong_app_id', 'IN', $arr_search['app_ids'], 'app_ids');
+      if (Func::notEmpty($arr_search['app_ids'])) {
+        $_arr_where[] = array('belong_app_id', 'IN', $arr_search['app_ids'], 'app_ids');
+      }
     }
 
     if (isset($arr_search['min_id']) && $arr_search['min_id'] > 0) {

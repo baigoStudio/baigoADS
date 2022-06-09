@@ -22,7 +22,23 @@ class Link extends Ctrl {
 
     $this->mdl_link    = Loader::model('Link');
 
+    $_str_hrefBase = $this->hrefBase . 'link/';
+
+    $_arr_hrefRow = array(
+      'index'        => $_str_hrefBase . 'index/',
+      'add'          => $_str_hrefBase . 'form/',
+      'show'         => $_str_hrefBase . 'show/id/',
+      'edit'         => $_str_hrefBase . 'form/id/',
+      'order'        => $_str_hrefBase . 'order/',
+      'order-submit' => $_str_hrefBase . 'order-submit/',
+      'submit'       => $_str_hrefBase . 'submit/',
+      'delete'       => $_str_hrefBase . 'delete/',
+      'status'       => $_str_hrefBase . 'status/',
+      'cache'        => $_str_hrefBase . 'cache/',
+    );
+
     $this->generalData['status']    = $this->mdl_link->arr_status;
+    $this->generalData['hrefRow']   = array_replace_recursive($this->generalData['hrefRow'], $_arr_hrefRow);
   }
 
 

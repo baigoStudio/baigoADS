@@ -29,8 +29,24 @@ class App extends Ctrl {
 
     $this->mdl_app  = Loader::model('App');
 
+    $_str_hrefBase = $this->hrefBase . 'app/';
+
+    $_arr_hrefRow   = array(
+      'index'      => $_str_hrefBase . 'index/',
+      'add'        => $_str_hrefBase . 'form/',
+      'show'       => $_str_hrefBase . 'show/id/',
+      'notify'     => $_str_hrefBase . 'notify/id/',
+      'edit'       => $_str_hrefBase . 'form/id/',
+      'submit'     => $_str_hrefBase . 'submit/',
+      'delete'     => $_str_hrefBase . 'delete/',
+      'status'     => $_str_hrefBase . 'status/',
+      'reset'      => $_str_hrefBase . 'reset/',
+      'app_belong' => $this->url['route_console'] . 'app_belong/index/id/',
+    );
+
     $this->generalData['status']    = $this->mdl_app->arr_status;
     $this->generalData['sync']      = $this->mdl_app->arr_sync;
+    $this->generalData['hrefRow']   = array_replace_recursive($this->generalData['hrefRow'], $_arr_hrefRow);
   }
 
 
@@ -134,12 +150,12 @@ class App extends Ctrl {
       $_num_appId = $this->obj_request->input($this->param['id'], 'int', 0);
     }
 
+    $_arr_appRow = $this->mdl_app->read($_num_appId);
+
     if ($_num_appId > 0) {
       if (!isset($this->adminAllow['app']['edit']) && !$this->isSuper) { //判断权限
         return $this->error('You do not have permission', 'x050303');
       }
-
-      $_arr_appRow = $this->mdl_app->read($_num_appId);
 
       if ($_arr_appRow['rcode'] != 'y050102') {
         return $this->error($_arr_appRow['msg'], $_arr_appRow['rcode']);
@@ -148,20 +164,6 @@ class App extends Ctrl {
       if (!isset($this->adminAllow['app']['add']) && !$this->isSuper) { //判断权限
         return $this->error('You do not have permission', 'x050302');
       }
-
-      $_arr_appRow = array(
-        'app_id'            => 0,
-        'app_name'          => '',
-        'app_url_notify'    => '',
-        'app_url_sync'      => '',
-        'app_ip_allow'      => '',
-        'app_ip_bad'        => '',
-        'app_note'          => '',
-        'app_status'        => $this->mdl_app->arr_status[0],
-        'app_sync'          => $this->mdl_app->arr_sync[0],
-        'app_allow'         => array(),
-        'app_param'         => array(),
-      );
     }
 
     $_arr_allowRows     = Config::get('app', 'console');

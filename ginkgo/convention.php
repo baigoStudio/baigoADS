@@ -31,7 +31,7 @@ return array(
     'class' => 'container p-5', //调试信息包含标签的 css 类名
   ),
   'log' => array( //日志
-    'save'      => false, //是否保存日志
+    'save'      => true, //是否保存日志
     'file_size' => 2 * GK_MB, //日志大小限制
   ),
   'view' => array(
@@ -43,7 +43,7 @@ return array(
   'tpl_sys' => array( //系统模板
     'path'      => '', //默认模板路径
   ),
-  'exception_page' => array( ),
+  'except_page' => array( ),
   'session' => array( //会话
     'autostart'     => false, //自动开始
     'name'          => '', //Session ID 名称

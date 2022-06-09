@@ -21,7 +21,19 @@ class Opt extends Ctrl {
   protected function c_init($param = array()) {
     parent::c_init();
 
-    $this->mdl_opt    = Loader::model('Opt');
+    $this->mdl_opt  = Loader::model('Opt');
+
+    $_str_hrefBase  = $this->hrefBase . 'opt/';
+
+    $_arr_hrefRow = array(
+      'submit'          => $_str_hrefBase . 'submit/',
+      'upload-submit'   => $_str_hrefBase . 'upload-submit/',
+      'dbconfig-submit' => $_str_hrefBase . 'dbconfig-submit/',
+      'chkver-submit'   => $_str_hrefBase . 'chkver-submit/',
+      'data-upgrade'    => $_str_hrefBase . 'data-upgrade/',
+    );
+
+    $this->generalData['hrefRow']   = array_replace_recursive($this->generalData['hrefRow'], $_arr_hrefRow);
   }
 
 

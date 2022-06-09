@@ -380,7 +380,7 @@ class Attach extends Attach_Base {
 
     //print_r($_arr_inputBox);
 
-    $_arr_inputBox['attach_ids'] = Arrays::filter($_arr_inputBox['attach_ids']);
+    $_arr_inputBox['attach_ids'] = Arrays::unique($_arr_inputBox['attach_ids']);
 
     $_mix_vld = $this->validate($_arr_inputBox, '', 'status');
 
@@ -409,7 +409,7 @@ class Attach extends Attach_Base {
 
     //print_r($_arr_inputDelete);
 
-    $_arr_inputDelete['attach_ids'] = Arrays::filter($_arr_inputDelete['attach_ids']);
+    $_arr_inputDelete['attach_ids'] = Arrays::unique($_arr_inputDelete['attach_ids']);
 
     $_mix_vld = $this->validate($_arr_inputDelete, '', 'delete');
 

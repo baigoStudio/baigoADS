@@ -89,7 +89,7 @@ class Posi extends Model {
 
     $_arr_posiRow = $this->where($_arr_where)->find($arr_select);
 
-    if (!$_arr_posiRow) {
+    if ($_arr_posiRow === false) {
       $_arr_posiRow          = $this->obj_request->fillParam(array(), $arr_select);
       $_arr_posiRow['msg']   = 'Position not found';
       $_arr_posiRow['rcode'] = 'x040102';

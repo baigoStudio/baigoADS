@@ -43,10 +43,6 @@ class App extends Model {
   public function read($mix_app, $str_by = 'app_id', $num_notId = 0, $arr_select = array()) {
     $_arr_appRow = $this->readProcess($mix_app, $str_by, $num_notId, $arr_select);
 
-    if ($_arr_appRow['rcode'] != 'y050102') {
-      return $_arr_appRow;
-    }
-
     return $this->rowProcess($_arr_appRow);
   }
 
@@ -75,15 +71,14 @@ class App extends Model {
 
     $_arr_appRow = $this->where($_arr_where)->find($arr_select);
 
-    if (!$_arr_appRow) {
-      return array(
-        'msg'   => 'App not found',
-        'rcode' => 'x050102', //不存在记录
-      );
+    if ($_arr_appRow === false) {
+      $_arr_appRow          = $this->obj_request->fillParam(array(), $arr_select);
+      $_arr_appRow['msg']   = 'App not found';
+      $_arr_appRow['rcode'] = 'x050102';
+    } else {
+      $_arr_appRow['rcode'] = 'y050102';
+      $_arr_appRow['msg']   = '';
     }
-
-    $_arr_appRow['rcode'] = 'y050102';
-    $_arr_appRow['msg']   = '';
 
     return $_arr_appRow;
   }
@@ -115,7 +110,7 @@ class App extends Model {
 
     $_arr_where      = $this->queryProcess($arr_search);
     $_arr_pagination = $this->paginationProcess($pagination);
-    $_arr_eachData   = $this->where($_arr_where)->order('app_id', 'DESC')->limit($_arr_pagination['limit'], $_arr_pagination['length'])->paginate($_arr_pagination['perpage'], $_arr_pagination['current'])->select($_arr_appSelect);
+    $_arr_getData    = $this->where($_arr_where)->order('app_id', 'DESC')->limit($_arr_pagination['limit'], $_arr_pagination['length'])->paginate($_arr_pagination['perpage'], $_arr_pagination['current'])->select($_arr_appSelect);
 
     if (isset($_arr_getData['dataRows'])) {
       $_arr_eachData = &$_arr_getData['dataRows'];
@@ -129,7 +124,7 @@ class App extends Model {
       }
     }
 
-    return $_arr_eachData;
+    return $_arr_getData;
   }
 
 
@@ -180,8 +175,11 @@ class App extends Model {
     }
 
     if (isset($arr_search['not_ids']) && Func::notEmpty($arr_search['not_ids'])) {
-      $arr_search['not_ids'] = Arrays::filter($arr_search['not_ids']);
-      $_arr_where[] = array('app_id', 'NOT IN', $arr_search['not_ids'], 'not_ids');
+      $arr_search['not_ids'] = Arrays::unique($arr_search['not_ids']);
+
+      if (Func::notEmpty($arr_search['not_ids'])) {
+        $_arr_where[] = array('app_id', 'NOT IN', $arr_search['not_ids'], 'not_ids');
+      }
     }
 
     return $_arr_where;

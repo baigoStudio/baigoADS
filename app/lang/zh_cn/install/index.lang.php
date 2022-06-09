@@ -97,7 +97,7 @@ return array(
   'baigo SSO is an Single Sign On system, baigo ADS dependent on this system.' => 'baigo SSO 是一个单点登录系统，baigo ADS 依赖于此系统。',
   'This step will authorizes an existing user as a super administrator with all permissions.' => '此步骤将已存在的用户授权为超级管理员，拥有所有权限。',
   'This step will add a new user as a super administrator with all permissions.' => '此步骤将注册新用户作为超级管理员，拥有所有权限。',
-  'If you already have installed baigo SSO, you can set the parameters here. If you want to install baigo SSO yourself, please visit the <a href="http://www.baigo.net/sso/" target="_blank">official website</a>.' => '如果您已经安装了 baigo SSO，请设置以下参数。如果你想自行安装 baigo SSO，请查看 <a href="http://www.baigo.net/sso/" target="_blank">官方网站</a>。',
+  'If you already have installed baigo SSO, you can set the parameters here. If you want to install baigo SSO yourself, please visit the <a href="https://www.baigo.net/sso/" target="_blank">official website</a>.' => '如果您已经安装了 baigo SSO，请设置以下参数。如果你想自行安装 baigo SSO，请查看 <a href="https://www.baigo.net/sso/" target="_blank">官方网站</a>。',
   'You have chosen "Full installation", this is the installed information of baigo SSO, please confirm!' => '您选择了“全新安装”，以下是 baigo SSO 已安装信息，请确认！',
   'You have chosen "Full installation", this is the result of the data created by baigo SSO, please confirm!' => '您选择了“全新安装”，以下是 baigo SSO 创建数据的结果，请确认！',
   'Warning! This is the installed information of baigo SSO!'  => '注意！以上是 baigo SSO 已安装信息！',

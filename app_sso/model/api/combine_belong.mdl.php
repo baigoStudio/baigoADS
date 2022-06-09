@@ -32,6 +32,6 @@ class Combine_Belong extends Combine_Belong_Base {
       $_arr_belongIds[]   = $_value['belong_combine_id'];
     }
 
-    return Arrays::filter($_arr_belongIds);
+    return Arrays::unique($_arr_belongIds);
   }
 }

@@ -4,7 +4,7 @@
     $title_sub    = $lang->get('Add');
   } ?>
 
-  <form name="combine_form" id="combine_form" action="<?php echo $route_console; ?>combine/submit/">
+  <form name="combine_form" id="combine_form" action="<?php echo $hrefRow['submit']; ?>">
     <input type="hidden" name="<?php echo $token['name']; ?>" value="<?php echo $token['value']; ?>">
     <input type="hidden" name="combine_id" id="combine_id" value="<?php echo $combineRow['combine_id']; ?>">
 

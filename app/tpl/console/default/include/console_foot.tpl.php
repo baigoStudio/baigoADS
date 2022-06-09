@@ -38,4 +38,4 @@
     </div>
   <?php }
 
-include($cfg['pathInclude'] . 'script_foot' . GK_EXT_TPL);
+include($tpl_include . 'script_foot' . GK_EXT_TPL);

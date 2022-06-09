@@ -7,24 +7,23 @@
   'baigoCheckall'     => 'true',
   'baigoQuery'        => 'true',
   'baigoDialog'       => 'true',
-  'pathInclude'       => $path_tpl . 'include' . DS,
 );
 
-include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
+include($tpl_include . 'console_head' . GK_EXT_TPL); ?>
 
   <div class="d-flex justify-content-between">
     <nav class="nav mb-3">
-      <a href="<?php echo $route_console; ?>posi/form/" class="nav-link">
-        <span class="bg-icon"><?php include($cfg_global['pathIcon'] . 'plus' . BG_EXT_SVG); ?></span>
+      <a href="<?php echo $hrefRow['add']; ?>" class="nav-link">
+        <span class="bg-icon"><?php include($tpl_icon . 'plus' . BG_EXT_SVG); ?></span>
         <?php echo $lang->get('Add'); ?>
       </a>
     </nav>
-    <form name="posi_search" id="posi_search" class="d-none d-lg-block" action="<?php echo $route_console; ?>posi/index/">
+    <form name="posi_search" id="posi_search" class="d-none d-lg-block" action="<?php echo $hrefRow['index']; ?>">
       <div class="input-group mb-3">
         <input type="text" name="key" value="<?php echo $search['key']; ?>" placeholder="<?php echo $lang->get('Keyword'); ?>" class="form-control">
         <span class="input-group-append">
           <button class="btn btn-outline-secondary" type="submit">
-            <span class="bg-icon"><?php include($cfg_global['pathIcon'] . 'search' . BG_EXT_SVG); ?></span>
+            <span class="bg-icon"><?php include($tpl_icon . 'search' . BG_EXT_SVG); ?></span>
           </button>
           <button class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" type="button" data-toggle="collapse" data-target="#bg-search-more" >
             <span class="sr-only">Dropdown</span>
@@ -62,8 +61,8 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
         </span>
       <?php } ?>
 
-      <a href="<?php echo $route_console; ?>posi/index/" class="badge badge-danger badge-pill">
-        <span class="bg-icon"><?php include($cfg_global['pathIcon'] . 'times-circle' . BG_EXT_SVG); ?></span>
+      <a href="<?php echo $hrefRow['index']; ?>" class="badge badge-danger badge-pill">
+        <span class="bg-icon"><?php include($tpl_icon . 'times-circle' . BG_EXT_SVG); ?></span>
         <?php echo $lang->get('Reset'); ?>
       </a>
     </div>
@@ -71,17 +70,17 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
 
   <div class="card bg-light mb-3">
     <div class="card-body">
-      <form name="posi_cache" id="posi_cache" action="<?php echo $route_console; ?>posi/cache/">
+      <form name="posi_cache" id="posi_cache" action="<?php echo $hrefRow['cache']; ?>">
         <input type="hidden" name="<?php echo $token['name']; ?>" value="<?php echo $token['value']; ?>">
         <button type="submit" class="btn btn-primary">
-          <span class="bg-icon"><?php include($cfg_global['pathIcon'] . 'redo-alt' . BG_EXT_SVG); ?></span>
+          <span class="bg-icon"><?php include($tpl_icon . 'redo-alt' . BG_EXT_SVG); ?></span>
           <?php echo $lang->get('Refresh cache'); ?>
         </button>
       </form>
     </div>
   </div>
 
-  <form name="posi_list" id="posi_list" action="<?php echo $route_console; ?>posi/status/">
+  <form name="posi_list" id="posi_list" action="<?php echo $hrefRow['status']; ?>">
     <input type="hidden" name="<?php echo $token['name']; ?>" value="<?php echo $token['value']; ?>">
 
     <div class="table-responsive">
@@ -122,36 +121,36 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
                   <span class="sr-only">Dropdown</span>
                 </a>
                 <div class="mb-2 text-wrap text-break">
-                  <a href="<?php echo $route_console; ?>posi/form/id/<?php echo $value['posi_id']; ?>/">
+                  <a href="<?php echo $hrefRow['edit'], $value['posi_id']; ?>">
                     <?php echo $value['posi_name']; ?>
                   </a>
                 </div>
                 <div class="bg-manage-menu">
                   <div class="d-flex flex-wrap">
-                    <a href="<?php echo $route_console; ?>posi/show/id/<?php echo $value['posi_id']; ?>/" class="mr-2">
-                      <span class="bg-icon"><?php include($cfg_global['pathIcon'] . 'eye' . BG_EXT_SVG); ?></span>
+                    <a href="<?php echo $hrefRow['show'], $value['posi_id']; ?>" class="mr-2">
+                      <span class="bg-icon"><?php include($tpl_icon . 'eye' . BG_EXT_SVG); ?></span>
                       <?php echo $lang->get('Show'); ?>
                     </a>
-                    <a href="<?php echo $route_console; ?>posi/form/id/<?php echo $value['posi_id']; ?>/" class="mr-2">
-                      <span class="bg-icon"><?php include($cfg_global['pathIcon'] . 'edit' . BG_EXT_SVG); ?></span>
+                    <a href="<?php echo $hrefRow['edit'], $value['posi_id']; ?>" class="mr-2">
+                      <span class="bg-icon"><?php include($tpl_icon . 'edit' . BG_EXT_SVG); ?></span>
                       <?php echo $lang->get('Edit'); ?>
                     </a>
                     <?php if ($value['script_opts']) { ?>
-                      <a href="<?php echo $route_console; ?>posi/opts/id/<?php echo $value['posi_id']; ?>/" class="mr-2">
-                        <span class="bg-icon"><?php include($cfg_global['pathIcon'] . 'wrench' . BG_EXT_SVG); ?></span>
+                      <a href="<?php echo $hrefRow['opts'], $value['posi_id']; ?>" class="mr-2">
+                        <span class="bg-icon"><?php include($tpl_icon . 'wrench' . BG_EXT_SVG); ?></span>
                         <?php echo $lang->get('Option'); ?>
                       </a>
                     <?php } ?>
                     <a href="javascript:void(0);" data-id="<?php echo $value['posi_id']; ?>" class="posi_delete text-danger mr-2">
-                      <span class="bg-icon"><?php include($cfg_global['pathIcon'] . 'trash-alt' . BG_EXT_SVG); ?></span>
+                      <span class="bg-icon"><?php include($tpl_icon . 'trash-alt' . BG_EXT_SVG); ?></span>
                       <?php echo $lang->get('Delete'); ?>
                     </a>
-                    <a href="<?php echo $route_console; ?>advert/index/posi/<?php echo $value['posi_id']; ?>/" class="mr-2">
-                      <span class="bg-icon"><?php include($cfg_global['pathIcon'] . 'ad' . BG_EXT_SVG); ?></span>
+                    <a href="<?php echo $hrefRow['advert-index'], $value['posi_id']; ?>" class="mr-2">
+                      <span class="bg-icon"><?php include($tpl_icon . 'ad' . BG_EXT_SVG); ?></span>
                       <?php echo $lang->get('Ad management'); ?>
                     </a>
-                    <a href="<?php echo $route_console; ?>stat_posi/index/id/<?php echo $value['posi_id']; ?>/">
-                      <span class="bg-icon"><?php include($cfg_global['pathIcon'] . 'ad' . BG_EXT_SVG); ?></span>
+                    <a href="<?php echo $hrefRow['stat'], $value['posi_id']; ?>">
+                      <span class="bg-icon"><?php include($tpl_icon . 'ad' . BG_EXT_SVG); ?></span>
                       <?php echo $lang->get('Statistics'); ?>
                     </a>
                   </div>
@@ -162,13 +161,13 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
                   </dt>
                   <dd class="col-9">
                     <?php $str_status = $value['posi_status'];
-                    include($cfg['pathInclude'] . 'status_process' . GK_EXT_TPL); ?>
+                    include($tpl_include . 'status_process' . GK_EXT_TPL); ?>
                   </dd>
                 </dl>
               </td>
               <td class="d-none d-lg-table-cell bg-td-md text-right">
                 <?php $str_status = $value['posi_status'];
-                include($cfg['pathInclude'] . 'status_process' . GK_EXT_TPL); ?>
+                include($tpl_include . 'status_process' . GK_EXT_TPL); ?>
               </td>
             </tr>
           <?php } ?>
@@ -201,12 +200,12 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
         <small id="msg_act" class="form-text"></small>
       </div>
       <div class="float-right">
-        <?php include($cfg['pathInclude'] . 'pagination' . GK_EXT_TPL); ?>
+        <?php include($tpl_include . 'pagination' . GK_EXT_TPL); ?>
       </div>
     </div>
   </form>
 
-<?php include($cfg['pathInclude'] . 'console_foot' . GK_EXT_TPL); ?>
+<?php include($tpl_include . 'console_foot' . GK_EXT_TPL); ?>
 
   <script type="text/javascript">
   var opts_validate_list = {
@@ -243,13 +242,13 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
           case 'delete':
             obj_dialog.confirm('<?php echo $lang->get('Are you sure to delete?'); ?>', function(result){
               if (result) {
-                obj_submit_list.formSubmit('<?php echo $route_console; ?>posi/delete/');
+                obj_submit_list.formSubmit('<?php echo $hrefRow['delete']; ?>');
               }
             });
           break;
 
           default:
-            obj_submit_list.formSubmit('<?php echo $route_console; ?>posi/status/');
+            obj_submit_list.formSubmit('<?php echo $hrefRow['status']; ?>');
           break;
         }
       }
@@ -278,4 +277,4 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
   });
   </script>
 
-<?php include($cfg['pathInclude'] . 'html_foot' . GK_EXT_TPL);
+<?php include($tpl_include . 'html_foot' . GK_EXT_TPL);

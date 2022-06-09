@@ -28,6 +28,19 @@ class Reg extends Ctrl {
     $this->mdl_reg          = Loader::model('Reg');
     $this->mdl_verify       = Loader::model('Verify');
 
+    $_str_hrefBase = $this->hrefBase . 'reg/';
+
+    $_arr_hrefRow = array(
+      'submit'         => $_str_hrefBase . 'submit/',
+      'chkname'        => $_str_hrefBase . 'chkname/',
+      'chkmail'        => $_str_hrefBase . 'chkmail/',
+      'nomail-submit'  => $_str_hrefBase . 'nomail-submit/',
+      'captcha'        => $this->url['route_misc'] . 'captcha/index/id/captcha_reg/',
+      'captcha-check'  => $this->url['route_misc'] . 'captcha/check/id/captcha_reg/',
+    );
+
+    $this->generalData['hrefRow']   = array_replace_recursive($this->generalData['hrefRow'], $_arr_hrefRow);
+
     $this->configReg        = Config::get('reg', 'var_extra');
   }
 

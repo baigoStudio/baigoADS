@@ -27,7 +27,6 @@ class User_App_View extends Model {
     array('user.user_time'),
     array('user.user_time_login'),
     array('user.user_ip'),
-    array('app_belong.belong_app_id'),
   );
 
 
@@ -38,6 +37,8 @@ class User_App_View extends Model {
    * @return void
    */
   public function createView() {
+    $this->create[] = 'IFNULL(' . $this->obj_builder->table('app_belong') . '.`belong_app_id`, 0) AS `belong_app_id`';
+
     $_arr_join = array(
       'app_belong',
       array('user.user_id', '=', 'app_belong.belong_user_id'),

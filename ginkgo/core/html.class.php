@@ -160,8 +160,8 @@ class Html {
       print_r($_arr_urlDst);
       print_r('<br>');*/
 
-      $_arr_urlSrc = Arrays::filter($_arr_urlSrc); // 剔除重复项目
-      $_arr_urlDst = Arrays::filter($_arr_urlDst);
+      $_arr_urlSrc = Arrays::unique($_arr_urlSrc); // 剔除重复项目
+      $_arr_urlDst = Arrays::unique($_arr_urlDst);
 
       $content = str_replace($_arr_urlSrc, $_arr_urlDst, $content); // 替换
     }

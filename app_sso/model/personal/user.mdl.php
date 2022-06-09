@@ -6,7 +6,7 @@
 
 namespace app\model\personal;
 
-use app\model\User as User_Base;
+use app\model\common\User as User_Common;
 
 // 不能非法包含或直接执行
 if (!defined('IN_GINKGO')) {
@@ -14,7 +14,7 @@ if (!defined('IN_GINKGO')) {
 }
 
 /*-------------用户模型-------------*/
-class User extends User_Base {
+class User extends User_Common {
 
   public function confirm($num_userId) {
     $_arr_userData['user_status'] = 'enable';

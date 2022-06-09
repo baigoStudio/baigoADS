@@ -5,7 +5,7 @@
 -----------------------------------------------------------------*/
 namespace app\model\api;
 
-use app\model\User as User_Base;
+use app\model\common\User as User_Common;
 use ginkgo\Config;
 use ginkgo\Arrays;
 use ginkgo\Func;
@@ -16,7 +16,7 @@ if (!defined('IN_GINKGO')) {
 }
 
 /*-------------用户模型-------------*/
-class Reg extends User_Base {
+class Reg extends User_Common {
 
   public $inputReg     = array();
   public $inputChkname = array();

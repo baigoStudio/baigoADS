@@ -5,7 +5,7 @@
 -----------------------------------------------------------------*/
 namespace app\model\personal;
 
-use app\model\Verify as Verify_Base;
+use app\model\common\Verify as Verify_Common;
 
 // 不能非法包含或直接执行
 if (!defined('IN_GINKGO')) {
@@ -13,7 +13,7 @@ if (!defined('IN_GINKGO')) {
 }
 
 /*-------------验证模型-------------*/
-class Verify extends Verify_Base {
+class Verify extends Verify_Common {
 
   public $inputVerify = array();
 

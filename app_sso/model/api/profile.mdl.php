@@ -5,7 +5,7 @@
 -----------------------------------------------------------------*/
 namespace app\model\api;
 
-use app\model\User;
+use app\model\common\User as User_Common;
 use ginkgo\Arrays;
 use ginkgo\Func;
 use ginkgo\Crypt;
@@ -16,15 +16,13 @@ if (!defined('IN_GINKGO')) {
 }
 
 /*-------------用户模型-------------*/
-class Profile extends User {
+class Profile extends User_Common {
 
   public $inputInfo    = array();
   public $inputPass    = array();
-  public $inputMailbox = array();
   public $inputToken   = array();
 
   protected $table = 'user';
-
 
   public function token($num_userId, $str_userName) {
     $_str_accessToken   = Func::rand();

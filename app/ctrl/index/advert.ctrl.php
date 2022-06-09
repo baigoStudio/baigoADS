@@ -8,6 +8,7 @@ namespace app\ctrl\index;
 
 use app\classes\index\Ctrl;
 use ginkgo\Loader;
+use ginkgo\Func;
 
 //不能非法包含或直接执行
 if (!defined('IN_GINKGO')) {

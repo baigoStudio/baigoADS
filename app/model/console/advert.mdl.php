@@ -245,7 +245,7 @@ class Advert extends Advert_Base {
 
     //print_r($_arr_inputStatus);
 
-    $_arr_inputStatus['advert_ids'] = Arrays::filter($_arr_inputStatus['advert_ids']);
+    $_arr_inputStatus['advert_ids'] = Arrays::unique($_arr_inputStatus['advert_ids']);
 
     $_mix_vld = $this->validate($_arr_inputStatus, '', 'status');
 
@@ -272,7 +272,7 @@ class Advert extends Advert_Base {
 
     $_arr_inputDelete = $this->obj_request->post($_arr_inputParam);
 
-    $_arr_inputDelete['advert_ids'] = Arrays::filter($_arr_inputDelete['advert_ids']);
+    $_arr_inputDelete['advert_ids'] = Arrays::unique($_arr_inputDelete['advert_ids']);
 
     $_mix_vld = $this->validate($_arr_inputDelete, '', 'delete');
 

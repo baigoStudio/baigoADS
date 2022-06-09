@@ -288,7 +288,7 @@ class Link extends Link_Base {
 
     $_arr_inputStatus = $this->obj_request->post($_arr_inputParam);
 
-    $_arr_inputStatus['link_ids'] = Arrays::filter($_arr_inputStatus['link_ids']);
+    $_arr_inputStatus['link_ids'] = Arrays::unique($_arr_inputStatus['link_ids']);
 
     $_mix_vld = $this->validate($_arr_inputStatus, '', 'status');
 
@@ -315,7 +315,7 @@ class Link extends Link_Base {
 
     $_arr_inputDelete = $this->obj_request->post($_arr_inputParam);
 
-    $_arr_inputDelete['link_ids'] = Arrays::filter($_arr_inputDelete['link_ids']);
+    $_arr_inputDelete['link_ids'] = Arrays::unique($_arr_inputDelete['link_ids']);
 
     $_mix_vld = $this->validate($_arr_inputDelete, '', 'delete');
 

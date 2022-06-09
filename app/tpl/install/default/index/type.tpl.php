@@ -3,14 +3,12 @@
   'btn'           => $lang->get('Save'),
   'sub_title'     => $lang->get('Choose installation type'),
   'active'        => 'type',
-  'pathInclude'   => $path_tpl . 'include' . DS,
 );
 
+include($tpl_ctrl . 'head' . GK_EXT_TPL);; ?>
 
-include($cfg['pathInclude'] . 'index_head' . GK_EXT_TPL); ?>
-
-  <form name="type_form" id="type_form" action="<?php echo $route_install; ?>index/type-submit/">
-      <input type="hidden" name="act" value="sso">
+  <form name="type_form" id="type_form" action="<?php echo $hrefRow['type-submit']; ?>">
+    <input type="hidden" name="act" value="sso">
     <input type="hidden" name="<?php echo $token['name']; ?>" value="<?php echo $token['value']; ?>">
 
     <div class="alert alert-info">
@@ -34,17 +32,17 @@ include($cfg['pathInclude'] . 'index_head' . GK_EXT_TPL); ?>
 
     <div class="collapse <?php if ($type == 'manually') { ?>show<?php } ?>">
       <div class="alert alert-warning">
-        <span class="bg-icon"><?php include($cfg_global['pathIcon'] . 'exclamation-triangle' . BG_EXT_SVG); ?></span>
-        <?php echo $lang->get('If you already have installed baigo SSO, you can set the parameters here. If you want to install baigo SSO yourself, please visit the <a href="http://www.baigo.net/sso/" target="_blank">official website</a>.'); ?>
+        <span class="bg-icon"><?php include($tpl_icon . 'exclamation-triangle' . BG_EXT_SVG); ?></span>
+        <?php echo $lang->get('If you already have installed baigo SSO, you can set the parameters here. If you want to install baigo SSO yourself, please visit the <a href="https://www.baigo.net/sso/" target="_blank">official website</a>.'); ?>
       </div>
 
-      <?php include($path_tpl_console . 'include' . DS . 'opt_form' . GK_EXT_TPL); ?>
+      <?php include($tpl_console . 'opt_form' . GK_EXT_TPL); ?>
     </div>
 
-    <?php include($cfg['pathInclude'] . 'install_btn' . GK_EXT_TPL);?>
+    <?php include($tpl_include . 'install_btn' . GK_EXT_TPL);?>
   </form>
 
-<?php include($cfg['pathInclude'] . 'install_foot' . GK_EXT_TPL); ?>
+<?php include($tpl_include . 'install_foot' . GK_EXT_TPL); ?>
 
   <script type="text/javascript">
   var opts_validate_form = {
@@ -63,7 +61,7 @@ include($cfg['pathInclude'] . 'index_head' . GK_EXT_TPL); ?>
   };
 
   opts_submit.jump = {
-    url: '<?php echo $route_install; ?>index/dbconfig/',
+    url: '<?php echo $step['next']['href']; ?>',
     text: '<?php echo $lang->get('Redirecting'); ?>'
   };
 
@@ -90,4 +88,4 @@ include($cfg['pathInclude'] . 'index_head' . GK_EXT_TPL); ?>
   });
   </script>
 
-<?php include($cfg['pathInclude'] . 'html_foot' . GK_EXT_TPL);
+<?php include($tpl_include . 'html_foot' . GK_EXT_TPL);

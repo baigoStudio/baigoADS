@@ -18,14 +18,13 @@ $cfg = array(
   'upload'            => 'true',
   'typeahead'         => 'true',
   'imageAsync'        => 'true',
-  'pathInclude'       => $path_tpl . 'include' . DS,
 );
 
-include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
+include($tpl_include . 'console_head' . GK_EXT_TPL); ?>
 
   <nav class="nav mb-3">
-    <a href="<?php echo $route_console; ?>attach/" class="nav-link">
-      <span class="bg-icon"><?php include($cfg_global['pathIcon'] . 'chevron-left' . BG_EXT_SVG); ?></span>
+    <a href="<?php echo $hrefRow['index']; ?>" class="nav-link">
+      <span class="bg-icon"><?php include($tpl_icon . 'chevron-left' . BG_EXT_SVG); ?></span>
       <?php echo $lang->get('Back'); ?>
     </a>
   </nav>
@@ -35,9 +34,9 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
       <div class="card mb-3">
         <div class="card-body">
           <?php if ($attachRow['attach_id'] > 0) {
-            include($cfg['pathInclude'] . 'attach_show' . GK_EXT_TPL);
+            include($tpl_ctrl . 'head' . GK_EXT_TPL);
           } else {
-            include($cfg['pathInclude'] . 'upload' . GK_EXT_TPL);
+            include($tpl_ctrl . 'upload_form' . GK_EXT_TPL);
           } ?>
         </div>
       </div>
@@ -45,7 +44,7 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
 
     <div class="col-xl-3">
       <?php if ($attachRow['attach_id'] > 0) { ?>
-        <form name="attach_form" id="attach_form" action="<?php echo $route_console; ?>attach/submit/">
+        <form name="attach_form" id="attach_form" action="<?php echo $hrefRow['submit']; ?>">
           <input type="hidden" name="<?php echo $token['name']; ?>" value="<?php echo $token['value']; ?>">
           <input type="hidden" name="attach_id" id="attach_id" value="<?php echo $attachRow['attach_id']; ?>">
 
@@ -105,7 +104,13 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
     </div>
   </div>
 
-<?php include($cfg['pathInclude'] . 'console_foot' . GK_EXT_TPL); ?>
+<?php include($tpl_include . 'console_foot' . GK_EXT_TPL);
+
+  if ($attachRow['attach_id'] > 0) {
+    include($tpl_ctrl . 'script' . GK_EXT_TPL);
+  } else {
+    include($tpl_ctrl . 'upload_script' . GK_EXT_TPL);
+  } ?>
 
   <script type="text/javascript">
   var opts_validate_form = {
@@ -154,4 +159,4 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
   });
   </script>
 
-<?php include($cfg['pathInclude'] . 'html_foot' . GK_EXT_TPL);
+<?php include($tpl_include . 'html_foot' . GK_EXT_TPL);

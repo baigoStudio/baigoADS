@@ -155,7 +155,7 @@ class Combine extends Combine_Base {
 
     $_arr_inputDelete = $this->obj_request->post($_arr_inputParam);
 
-    $_arr_inputDelete['combine_ids'] = Arrays::filter($_arr_inputDelete['combine_ids']);
+    $_arr_inputDelete['combine_ids'] = Arrays::unique($_arr_inputDelete['combine_ids']);
 
     $_mix_vld = $this->validate($_arr_inputDelete, '', 'delete');
 

@@ -25,7 +25,15 @@ class Index extends Ctrl {
 
     $this->mdl_profile  = Loader::model('Profile');
 
+    $_str_hrefBase = $this->hrefBase . 'index/';
+
+    $_arr_hrefRow = array(
+      'setting' => $_str_hrefBase . 'setting/',
+      'submit'  => $_str_hrefBase . 'submit/',
+    );
+
     $this->generalData['countLists'] = $this->countLists;
+    $this->generalData['hrefRow']    = array_replace_recursive($this->generalData['hrefRow'], $_arr_hrefRow);
 
     foreach ($this->countLists as $_key=>$_value) {
       $this->mdlRows[$_key]  = Loader::model(Strings::ucwords($_key));

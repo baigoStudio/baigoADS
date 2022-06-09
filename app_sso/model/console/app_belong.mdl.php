@@ -187,25 +187,25 @@ class App_Belong extends App_Belong_Base {
     }
 
     if (Func::notEmpty($arr_appIds)) {
-      $arr_appIds = Arrays::filter($arr_appIds);
+      $arr_appIds = Arrays::unique($arr_appIds);
 
       $_arr_where[] = array('belong_app_id', 'IN', $arr_appIds, 'app_ids');
     }
 
     if (Func::notEmpty($arr_userIds)) {
-      $arr_userIds = Arrays::filter($arr_userIds);
+      $arr_userIds = Arrays::unique($arr_userIds);
 
       $_arr_where[] = array('belong_user_id', 'IN', $arr_userIds, 'user_ids');
     }
 
     if (Func::notEmpty($arr_notAppIds)) {
-      $arr_notAppIds = Arrays::filter($arr_notAppIds);
+      $arr_notAppIds = Arrays::unique($arr_notAppIds);
 
       $_arr_where[] = array('belong_app_id', 'NOT IN', $arr_notAppIds, 'not_app_ids');
     }
 
     if (Func::notEmpty($arr_notUserIds)) {
-      $arr_notUserIds = Arrays::filter($arr_notUserIds);
+      $arr_notUserIds = Arrays::unique($arr_notUserIds);
 
       $_arr_where[] = array('belong_user_id', 'NOT IN', $arr_notUserIds, 'not_user_ids');
     }

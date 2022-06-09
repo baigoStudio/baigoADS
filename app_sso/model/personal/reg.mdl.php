@@ -6,7 +6,7 @@
 
 namespace app\model\personal;
 
-use app\model\User as User_Base;
+use app\model\common\User as User_Common;
 use ginkgo\Loader;
 use ginkgo\Config;
 use ginkgo\Func;
@@ -17,7 +17,7 @@ if (!defined('IN_GINKGO')) {
 }
 
 /*-------------管理员模型-------------*/
-class Reg extends User_Base {
+class Reg extends User_Common {
 
   public $inputReg     = array();
   public $inputNomail  = array();
@@ -25,6 +25,7 @@ class Reg extends User_Base {
   public $inputChkmail = array();
 
   protected $table = 'user';
+
   protected $configReg;
 
   protected function m_init() {

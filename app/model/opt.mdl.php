@@ -6,6 +6,9 @@
 
 namespace app\model;
 
+use ginkgo\Request;
+use ginkgo\Loader;
+
 //不能非法包含或直接执行
 if (!defined('IN_GINKGO')) {
   return 'Access denied';

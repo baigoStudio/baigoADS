@@ -2,14 +2,13 @@
   'title'             => $lang->get('Advertisement', 'console.common') . ' &raquo; ' . $lang->get('Show'),
   'menu_active'       => 'advert',
   'sub_active'        => 'index',
-  'pathInclude'       => $path_tpl . 'include' . DS,
 );
 
-include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
+include($tpl_include . 'console_head' . GK_EXT_TPL); ?>
 
   <nav class="nav mb-3">
-    <a href="<?php echo $route_console; ?>advert/" class="nav-link">
-      <span class="bg-icon"><?php include($cfg_global['pathIcon'] . 'chevron-left' . BG_EXT_SVG); ?></span>
+    <a href="<?php echo $hrefRow['index']; ?>" class="nav-link">
+      <span class="bg-icon"><?php include($tpl_icon . 'chevron-left' . BG_EXT_SVG); ?></span>
       <?php echo $lang->get('Back'); ?>
     </a>
   </nav>
@@ -31,7 +30,7 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
           <div class="form-group">
             <label class="text-muted font-weight-light"><?php echo $lang->get('Ad position'); ?></label>
             <div class="form-text font-weight-bolder">
-              <a href="<?php echo $route_console; ?>posi/show/id/<?php echo $posiRow['posi_id']; ?>/">
+              <a href="<?php echo $hrefRow['posi-show'], $posiRow['posi_id']; ?>">
                 <?php echo $posiRow['posi_name']; ?>
               </a>
             </div>
@@ -55,8 +54,8 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
           </div>
         </div>
         <div class="card-footer text-right">
-          <a href="<?php echo $route_console; ?>advert/form/id/<?php echo $advertRow['advert_id']; ?>/">
-            <span class="bg-icon"><?php include($cfg_global['pathIcon'] . 'edit' . BG_EXT_SVG); ?></span>
+          <a href="<?php echo $hrefRow['edit'], $advertRow['advert_id']; ?>">
+            <span class="bg-icon"><?php include($tpl_icon . 'edit' . BG_EXT_SVG); ?></span>
             <?php echo $lang->get('Edit'); ?>
           </a>
         </div>
@@ -75,7 +74,7 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
             <label class="text-muted font-weight-light"><?php echo $lang->get('Status'); ?></label>
             <div class="form-text font-weight-bolder">
               <?php $str_status = $advertRow['advert_status'];
-              include($cfg['pathInclude'] . 'status_process' . GK_EXT_TPL); ?>
+              include($tpl_include . 'status_process' . GK_EXT_TPL); ?>
             </div>
           </div>
 
@@ -126,8 +125,8 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
           </div>
         </div>
         <div class="card-footer text-right">
-          <a href="<?php echo $route_console; ?>advert/form/id/<?php echo $advertRow['advert_id']; ?>/">
-            <span class="bg-icon"><?php include($cfg_global['pathIcon'] . 'edit' . BG_EXT_SVG); ?></span>
+          <a href="<?php echo $hrefRow['edit'], $advertRow['advert_id']; ?>">
+            <span class="bg-icon"><?php include($tpl_icon . 'edit' . BG_EXT_SVG); ?></span>
             <?php echo $lang->get('Edit'); ?>
           </a>
         </div>
@@ -135,5 +134,5 @@ include($cfg['pathInclude'] . 'console_head' . GK_EXT_TPL); ?>
     </div>
   </div>
 
-<?php include($cfg['pathInclude'] . 'console_foot' . GK_EXT_TPL);
-include($cfg['pathInclude'] . 'html_foot' . GK_EXT_TPL);
+<?php include($tpl_include . 'console_foot' . GK_EXT_TPL);
+include($tpl_include . 'html_foot' . GK_EXT_TPL);

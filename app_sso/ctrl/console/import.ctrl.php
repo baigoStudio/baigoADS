@@ -28,6 +28,19 @@ class Import extends Ctrl {
     $this->obj_upload       = Upload::instance();
     $this->mdl_import       = Loader::model('Import');
 
+    $_str_hrefBase = $this->hrefBase . 'import/';
+
+    $_arr_hrefRow   = array(
+      'index'   => $_str_hrefBase . 'index/',
+      'charset' => $_str_hrefBase . 'charset/',
+      'submit'  => $_str_hrefBase . 'submit/',
+      'preview' => $_str_hrefBase . 'preview/',
+      'delete'  => $_str_hrefBase . 'delete/',
+      'upload'  => $_str_hrefBase . 'upload/',
+    );
+
+    $this->generalData['hrefRow']   = array_replace_recursive($this->generalData['hrefRow'], $_arr_hrefRow);
+
     $_str_configCharset = BG_PATH_CONFIG . 'console' . DS . 'charset' . GK_EXT_INC;
     $this->charsetRows  = Config::load($_str_configCharset, 'charset', 'console');
 
@@ -39,7 +52,7 @@ class Import extends Ctrl {
     $_arr_charsetOften              = array_keys($this->charsetRows['often']['lists']);
     $_arr_charsetList               = array_keys($this->charsetRows['lists']['lists']);
 
-    $this->mdl_import->charsetKeys  = Arrays::filter(array_replace_recursive($_arr_charsetOften, $_arr_charsetList));
+    $this->mdl_import->charsetKeys  = Arrays::unique(array_replace_recursive($_arr_charsetOften, $_arr_charsetList));
 
     $this->csvPath = $this->mdl_import->csvPath;
   }
@@ -56,10 +69,15 @@ class Import extends Ctrl {
       return $this->error('You do not have permission', 'x010305');
     }
 
-    $_str_charset = $this->obj_request->get('charset', 'txt', 'UTF-8');
-    $_str_charset = Html::decode($_str_charset, 'url');
+    $_str_charset = '';
 
-    //print_r($_str_charset);
+    if (isset($this->param['charset'])) {
+      $_str_charset = $this->obj_request->input($this->param['charset'], 'txt', '');
+    }
+
+    if (Func::isEmpty($_str_charset)) {
+      $_str_charset = 'UTF-8';
+    }
 
     $_arr_csvRows = $this->mdl_import->preview($_str_charset);
 
