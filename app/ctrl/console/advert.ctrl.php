@@ -223,17 +223,17 @@ class Advert extends Ctrl {
 
     //print_r($_arr_posiRows);
 
-    foreach ($_arr_posiRows as $key=>$value) {
-      $_arr_posiJson[$value['posi_id']] = $value;
+    foreach ($_arr_posiRows as $_key=>$_value) {
+      $_arr_posiJson[$_value['posi_id']] = $_value;
 
       $_arr_searchSum = array(
-        'posi_id'   => $value['posi_id'],
+        'posi_id'   => $_value['posi_id'],
         'status'    => 'enable',
         'is_enable' => true,
         'not_ids'   => array($_arr_advertRow['advert_id']),
       );
 
-      $_arr_posiJson[$value['posi_id']]['percent_sum'] = $this->mdl_advert->sum($_arr_searchSum);
+      $_arr_posiJson[$_value['posi_id']]['percent_sum'] = $this->mdl_advert->sum($_arr_searchSum);
     }
 
     if (!isset($_arr_attachRow['attach_url'])) {

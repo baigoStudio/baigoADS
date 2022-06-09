@@ -5,7 +5,7 @@
   'active'        => 'type',
 );
 
-include($tpl_ctrl . 'head' . GK_EXT_TPL);; ?>
+include($tpl_ctrl . 'head' . GK_EXT_TPL); ?>
 
   <form name="type_form" id="type_form" action="<?php echo $hrefRow['type-submit']; ?>">
     <input type="hidden" name="act" value="sso">

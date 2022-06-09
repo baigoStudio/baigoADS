@@ -135,8 +135,8 @@ class Posi extends Ctrl {
       $_arr_adverts           = $this->mdl_advert->lists(array(1000, 'limit'), $_arr_search);
     } else {
       if ($_arr_posiRow['posi_is_percent'] == 'enable') {
-        foreach ($_arr_advertRows as $key=>$value) {
-          $arr_adverts[$value['advert_id']] = $value['advert_percent'];
+        foreach ($_arr_advertRows as $_key=>$_value) {
+          $arr_adverts[$_value['advert_id']] = $_value['advert_percent'];
         }
 
         for ($_iii = 1; $_iii<=$_arr_posiRow['posi_count']; $_iii++) {

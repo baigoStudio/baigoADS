@@ -5,7 +5,7 @@
   'active'        => 'dbconfig',
 );
 
-include($tpl_ctrl . 'head' . GK_EXT_TPL);; ?>
+include($tpl_ctrl . 'head' . GK_EXT_TPL); ?>
 
   <form name="dbconfig_form" id="dbconfig_form" action="<?php echo $hrefRow['dbconfig-submit']; ?>">
     <input type="hidden" name="<?php echo $token['name']; ?>" value="<?php echo $token['value']; ?>">

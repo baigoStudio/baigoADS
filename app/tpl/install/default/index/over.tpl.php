@@ -5,7 +5,7 @@
   'active'        => 'over',
 );
 
-include($tpl_ctrl . 'head' . GK_EXT_TPL);; ?>
+include($tpl_ctrl . 'head' . GK_EXT_TPL); ?>
 
   <form name="over_form" id="over_form" action="<?php echo $hrefRow['over-submit']; ?>">
     <input type="hidden" name="<?php echo $token['name']; ?>" value="<?php echo $token['value']; ?>">

@@ -143,6 +143,6 @@ class Link extends Model {
     $_arr_getData = $this->lists(array(1000, 'limit'), $_arr_search);
 
 
-    return $this->obj_cache->write('link_lists', $_arr_linkRows);
+    return $this->obj_cache->write('link_lists', $_arr_getData);
   }
 }

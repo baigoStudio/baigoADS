@@ -7,7 +7,7 @@
   'no_loading'    => 'true',
 );
 
-include($tpl_ctrl . 'head' . GK_EXT_TPL);;
+include($tpl_ctrl . 'head' . GK_EXT_TPL);
 
   include($tpl_include . 'phplib' . GK_EXT_TPL);
 

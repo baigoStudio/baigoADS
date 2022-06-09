@@ -214,7 +214,7 @@ class Attach extends Attach_Base {
       'attach_box' => 'reserve',
     );
 
-    $_num_count = $this->where('attach_id', '=', $this->inputReserve['attach_id'])->update($_arr_attachData);
+    $_num_count = $this->where('attach_id', '=', $this->inputReserve['attach_id'])->update($_arr_attachUpdate);
 
     //如影响行数大于0则返回成功
     if ($_num_count > 0) {

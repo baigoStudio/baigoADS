@@ -5,7 +5,7 @@
   'sub_title'     => $lang->get('Authorize as administrator'),
 );
 
-include($tpl_ctrl . 'head' . GK_EXT_TPL);;
+include($tpl_ctrl . 'head' . GK_EXT_TPL);
 
   include($tpl_include . 'admin_menu' . GK_EXT_TPL); ?>
 

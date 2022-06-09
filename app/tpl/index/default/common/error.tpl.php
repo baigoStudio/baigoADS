@@ -2,7 +2,7 @@
   'title'         => $lang->get('Error', 'index.common'),
 );
 
-include($tpl_ctrl . 'head' . GK_EXT_TPL);; ?>
+include($tpl_ctrl . 'head' . GK_EXT_TPL); ?>
 
   <nav class="nav mb-3">
     <a href="javascript:history.go(-1);" class="nav-link">

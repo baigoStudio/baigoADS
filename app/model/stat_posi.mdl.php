@@ -60,7 +60,7 @@ class Stat_Posi extends Model {
 
     $_arr_where = $this->queryProcess($arr_search);
 
-    return $$this->where($_arr_where)->count();
+    return $this->where($_arr_where)->count();
   }
 
 

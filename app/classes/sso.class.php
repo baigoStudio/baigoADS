@@ -26,8 +26,6 @@ abstract class Sso {
   protected $obj_request;
 
   public function __construct() { //构造函数
-    $_arr_config  = Config::get();
-
     $this->config       = Config::get('sso', 'var_extra');
 
     $this->dataCommon = array(

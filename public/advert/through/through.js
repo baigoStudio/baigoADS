@@ -28,6 +28,8 @@ License: http://www.opensource.org/licenses/mit-license.php
     var opts = $.extend(defaults, options);
 
     var adPosition = function(posiOpts) {
+      var _css_posi;
+
       switch (opts.position) {
         case 'bottom':
           _css_posi = { bottom: 0, left: 0 };

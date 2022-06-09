@@ -319,8 +319,6 @@ abstract class Model extends Model_Base {
       } else {
         $_str_sql   = 'CREATE TABLE IF NOT EXISTS ' . $_table . ' (';
 
-        $_arr_field = array();
-
         foreach ($this->create as $_key => $_value) {
           $_value    = $this->fieldProcess($_value);
           $_str_sql .= $this->buildField($_key, $_value) . ',';

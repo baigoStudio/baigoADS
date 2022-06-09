@@ -93,8 +93,6 @@ class File extends Driver {
   public function write($name, $content, $life_time = 0) {
     $_str_path = $this->getPath($name); // 取得路径
 
-    $_str_content = '';
-
     if (is_string($content)) {
       $_str_content = '\'' . $content . '\''; // 如果是字符串, 进行转义
     } else {

@@ -20,7 +20,7 @@ if (!empty($sso_data)) {
   }
 }
 
-include($tpl_ctrl . 'head' . GK_EXT_TPL);;
+include($tpl_ctrl . 'head' . GK_EXT_TPL);
 
   include($tpl_include . 'data_form' . GK_EXT_TPL);
 

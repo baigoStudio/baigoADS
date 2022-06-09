@@ -5,7 +5,7 @@
   'active'        => 'admin',
 );
 
-include($tpl_ctrl . 'head' . GK_EXT_TPL);;
+include($tpl_ctrl . 'head' . GK_EXT_TPL);
 
   include($tpl_include . 'upgrade_admin' . GK_EXT_TPL); ?>
 

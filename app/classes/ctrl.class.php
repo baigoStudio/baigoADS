@@ -178,7 +178,7 @@ abstract class Ctrl extends Gk_Ctrl {
 
     Route::setExclude('page_belong');
 
-    $_arr_configRoute  = Config::get('route', 'index');
+    //$_arr_configRoute  = Config::get('route', 'index');
 
     $this->tplPath = Config::get('path', 'tpl');
 

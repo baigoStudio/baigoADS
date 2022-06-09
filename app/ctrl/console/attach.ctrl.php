@@ -524,10 +524,6 @@ class Attach extends Ctrl {
 
     $_num_maxId = $_arr_inputClear['max_id'];
 
-    $_arr_searchCount = array(
-      'box'   => 'normal',
-    );
-
     $_arr_searchList = array(
       'box'       => 'normal',
       'max_id'    => $_num_maxId,
@@ -656,7 +652,7 @@ class Attach extends Ctrl {
 
     $_arr_return = array(
       'msg'    => $this->obj_lang->get($_str_msg, 'console.common'),
-      'count'  => $_arr_pageRow['total'],
+      'count'  => $_arr_getData['pageRow']['total'],
       'status' => $_str_status,
     );
 
@@ -732,7 +728,7 @@ class Attach extends Ctrl {
       $_arr_allowExts[] = strtolower($_key);
       if (is_array($_value)) {
         if (Func::isEmpty($_arr_allowMimes)) {
-          $_arr_allowMimes  = $_arr_allowMimes;
+          $_arr_allowMimes  = $_value;
         } else {
           $_arr_allowMimes  = array_merge($_arr_allowMimes, $_value);
         }
